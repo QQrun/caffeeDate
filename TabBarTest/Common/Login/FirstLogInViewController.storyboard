@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="FUp-e5-Hpz">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--First Log In View Controller-->
+        <scene sceneID="dsm-Fd-LXp">
+            <objects>
+                <viewController storyboardIdentifier="FirstLogInViewController" id="FUp-e5-Hpz" customClass="FirstLogInViewController" customModule="面交人" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="JHg-hI-lWv" customClass="FBLoginButton">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="58L-Uy-IVO">
+                                <rect key="frame" x="41" y="268.5" width="332" height="45"/>
+                                <color key="backgroundColor" red="0.68235294117647061" green="0.66274509803921566" blue="0.62745098039215685" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="e0w-q2-pza"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                <state key="normal" title="Sign in with Facebook">
+                                    <color key="titleColor" red="0.12941176470588234" green="0.13725490196078433" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="fbLogInBtnAct:" destination="FUp-e5-Hpz" eventType="touchUpInside" id="RrN-j4-1Pt"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="v5D-yg-Z7h">
+                                <rect key="frame" x="40" y="323.5" width="334" height="45"/>
+                                <color key="backgroundColor" red="0.23897854540050756" green="0.2344625337864871" blue="0.2272639108220513" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="QE8-Ry-0aU"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="18"/>
+                                <state key="normal" title="Sign in with Google">
+                                    <color key="titleColor" red="0.65569479695431476" green="0.64330403897503308" blue="0.62355289514282874" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                </state>
+                                <connections>
+                                    <action selector="googleLogInBtnAct:" destination="FUp-e5-Hpz" eventType="touchUpInside" id="V95-m7-xDl"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Travel Trader" translatesAutoresizingMaskIntoConstraints="NO" id="WaQ-Qk-HfZ">
+                                <rect key="frame" x="40" y="144" width="282" height="37"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QPH-FS-d4D">
+                                <rect key="frame" x="41" y="198" width="328.5" height="50.5"/>
+                                <string key="text">在中世紀，曾經有一種人。
+他們四處流浪，以星空為帳，以大地為床，
+與形形色色的人們當面交易，追求著金幣與葡萄酒。</string>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="使用及登入FaceTrader，即代表同意我們的" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="1lu-of-YJa">
+                                <rect key="frame" x="81" y="786" width="252.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" alpha="0.0" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="及" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="OKg-G5-rHF">
+                                <rect key="frame" x="200.5" y="805" width="13.5" height="16"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="3tc-bu-f5n">
+                                <rect key="frame" x="40" y="377.5" width="334" height="47"/>
+                                <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="47" id="mkS-fS-riH"/>
+                                </constraints>
+                            </view>
+                            <button opaque="NO" alpha="0.0" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="YHn-P0-TyV">
+                                <rect key="frame" x="143.5" y="799" width="54" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="服務條款">
+                                    <color key="titleColor" red="0.14117647058823529" green="0.67843137254901964" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="servicePolicyBtnAct:" destination="FUp-e5-Hpz" eventType="touchUpInside" id="AoB-vO-lup"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" alpha="0.80000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="IVu-Jb-2pk">
+                                <rect key="frame" x="173.5" y="799" width="67" height="28"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <state key="normal" title="隱私權政策">
+                                    <color key="titleColor" red="0.14117647058823529" green="0.67843137254901964" blue="0.96470588235294119" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="privacyPolicyBtnAct:" destination="FUp-e5-Hpz" eventType="touchUpInside" id="qpl-ws-cyI"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="Hhg-Au-KUX"/>
+                        <color key="backgroundColor" red="0.1178194955" green="0.12919247149999999" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="WaQ-Qk-HfZ" firstAttribute="leading" secondItem="Hhg-Au-KUX" secondAttribute="leading" constant="40" id="6oF-Wc-IYW"/>
+                            <constraint firstItem="YHn-P0-TyV" firstAttribute="top" secondItem="1lu-of-YJa" secondAttribute="bottom" constant="-3" id="91r-FB-vHk"/>
+                            <constraint firstItem="QPH-FS-d4D" firstAttribute="leading" secondItem="Hhg-Au-KUX" secondAttribute="leading" constant="41" id="CZe-nH-8x1"/>
+                            <constraint firstItem="v5D-yg-Z7h" firstAttribute="leading" secondItem="Hhg-Au-KUX" secondAttribute="leading" constant="40" id="IXa-7M-6xR"/>
+                            <constraint firstItem="IVu-Jb-2pk" firstAttribute="centerX" secondItem="JHg-hI-lWv" secondAttribute="centerX" id="J1W-cv-97W"/>
+                            <constraint firstItem="58L-Uy-IVO" firstAttribute="leading" secondItem="Hhg-Au-KUX" secondAttribute="leading" constant="41" id="Jng-0S-R7l"/>
+                            <constraint firstItem="Hhg-Au-KUX" firstAttribute="bottom" secondItem="1lu-of-YJa" secondAttribute="bottom" constant="60" id="N5S-a8-l2e"/>
+                            <constraint firstItem="3tc-bu-f5n" firstAttribute="leading" secondItem="Hhg-Au-KUX" secondAttribute="leading" constant="40" id="ONC-HS-99W"/>
+                            <constraint firstItem="Hhg-Au-KUX" firstAttribute="trailing" secondItem="58L-Uy-IVO" secondAttribute="trailing" constant="41" id="XIO-vV-jkK"/>
+                            <constraint firstItem="Hhg-Au-KUX" firstAttribute="trailing" secondItem="v5D-yg-Z7h" secondAttribute="trailing" constant="40" id="XQJ-aE-TfT"/>
+                            <constraint firstItem="IVu-Jb-2pk" firstAttribute="top" secondItem="1lu-of-YJa" secondAttribute="bottom" constant="-3" id="e7R-wV-LsJ"/>
+                            <constraint firstItem="v5D-yg-Z7h" firstAttribute="top" secondItem="58L-Uy-IVO" secondAttribute="bottom" constant="10" id="fuM-1D-jaB"/>
+                            <constraint firstItem="3tc-bu-f5n" firstAttribute="top" secondItem="v5D-yg-Z7h" secondAttribute="bottom" constant="9" id="hFA-Zx-hxa"/>
+                            <constraint firstItem="1lu-of-YJa" firstAttribute="centerX" secondItem="JHg-hI-lWv" secondAttribute="centerX" id="hcy-Ae-beK"/>
+                            <constraint firstItem="WaQ-Qk-HfZ" firstAttribute="top" secondItem="Hhg-Au-KUX" secondAttribute="top" constant="100" id="pQ6-DN-ubr"/>
+                            <constraint firstItem="QPH-FS-d4D" firstAttribute="top" secondItem="WaQ-Qk-HfZ" secondAttribute="bottom" constant="17" id="peu-fT-p2O"/>
+                            <constraint firstItem="OKg-G5-rHF" firstAttribute="centerX" secondItem="1lu-of-YJa" secondAttribute="centerX" id="qHE-s3-Vui"/>
+                            <constraint firstItem="OKg-G5-rHF" firstAttribute="top" secondItem="1lu-of-YJa" secondAttribute="bottom" constant="3" id="qiM-ar-aph"/>
+                            <constraint firstItem="v5D-yg-Z7h" firstAttribute="centerX" secondItem="JHg-hI-lWv" secondAttribute="centerX" id="rPe-bx-5TL"/>
+                            <constraint firstItem="58L-Uy-IVO" firstAttribute="top" secondItem="QPH-FS-d4D" secondAttribute="bottom" constant="20" id="w5I-qX-zwa"/>
+                            <constraint firstItem="Hhg-Au-KUX" firstAttribute="trailing" secondItem="3tc-bu-f5n" secondAttribute="trailing" constant="40" id="wKU-F6-p53"/>
+                            <constraint firstItem="OKg-G5-rHF" firstAttribute="leading" secondItem="YHn-P0-TyV" secondAttribute="trailing" constant="3" id="wQU-ko-xuB"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="appleLogInBtnContainer" destination="3tc-bu-f5n" id="QGL-xf-MmY"/>
+                        <outlet property="fbLogInBtn" destination="58L-Uy-IVO" id="tc0-1f-5C9"/>
+                        <outlet property="googleLogInBtn" destination="v5D-yg-Z7h" id="PMU-79-Fsx"/>
+                        <outlet property="privacyPolicyBtn" destination="IVu-Jb-2pk" id="HiT-2j-XfV"/>
+                        <outlet property="servicePolicyBtn" destination="YHn-P0-TyV" id="7dQ-kN-1tk"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="Go4-QJ-4QZ" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="89.732142857142847"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="Travel Trader" width="282" height="37"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
+    </resources>
+</document>

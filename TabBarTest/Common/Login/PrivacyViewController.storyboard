@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Mk0-Os-pxv">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Image references" minToolsVersion="12.0"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Privacy View Controller-->
+        <scene sceneID="tsX-rx-fyF">
+            <objects>
+                <viewController storyboardIdentifier="PrivacyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mk0-Os-pxv" customClass="PrivacyViewController" customModule="TravelTrader" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="wbf-9Z-uxq">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="隱私權政策" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="RdH-XP-B3e">
+                                <rect key="frame" x="156" y="54" width="102" height="24"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdZ-2p-ZPf">
+                                <rect key="frame" x="6" y="92" width="402" height="760"/>
+                                <mutableString key="text">	非常歡迎您光臨「面交人應用服務」（以下簡稱本應用服務），為了讓您能夠安心的使用本應用服務的各項服務與資訊，特此向您說明本應用服務的隱私權保護政策，以保障您的權益，請您詳閱下列內容： 
+
+一、隱私權保護政策的適用範圍 
+
+	隱私權保護政策內容，包括本應用服務如何處理在您使用應用服務服務時收集到的個人識別資料。隱私權保護政策不適用於本應用服務以外的相關連結應用服務，也不適用於非本應用服務所委託或參與管理的人員。 
+
+二、個人資料的蒐集、處理及利用方式 
+
+•	當您造訪本應用服務或使用本應用服務所提供之功能服務時，我們將視該服務功能性質，請您提供必要的個人資料，並在該特定目的範圍內處理及利用您的個人資料；非經您書面同意，本應用服務不會將個人資料用於其他用途。
+•	本應用服務在您使用服務信箱、問卷調查等互動性功能時，會保留您所提供的姓名、電子郵件地址、聯絡方式及使用時間等。
+•	於一般瀏覽時，伺服器會自行記錄相關行徑，包括您使用連線設備的IP位址、使用時間、使用的瀏覽器、瀏覽及點選資料記錄等，做為我們增進應用服務服務的參考依據，此記錄為內部應用，決不對外公佈。
+•	為提供精確的服務，我們會將收集的問卷調查內容進行統計與分析，分析結果之統計數據或說明文字呈現，除供內部研究外，我們會視需要公佈統計數據及說明文字，但不涉及特定個人之資料。
+
+三、資料之保護 
+
+•	本應用服務主機均設有防火牆、防毒系統等相關的各項資訊安全設備及必要的安全防護措施，加以保護應用服務及您的個人資料採用嚴格的保護措施，只由經過授權的人員才能接觸您的個人資料，相關處理人員皆簽有保密合約，如有違反保密義務者，將會受到相關的法律處分。
+•	如因業務需要有必要委託其他單位提供服務時，本應用服務亦會嚴格要求其遵守保密義務，並且採取必要檢查程序以確定其將確實遵守。
+
+四、應用服務對外的相關連結 
+
+	本應用服務的網頁提供其他應用服務的網路連結，您也可經由本應用服務所提供的連結，點選進入其他應用服務。但該連結應用服務不適用本應用服務的隱私權保護政策，您必須參考該連結應用服務中的隱私權保護政策。 
+
+五、與第三人共用個人資料之政策 
+
+	本應用服務絕不會提供、交換、出租或出售任何您的個人資料給其他個人、團體、私人企業或公務機關，但有法律依據或合約義務者，不在此限。 
+前項但書之情形包括不限於： 
+•	經由您書面同意。
+•	法律明文規定。
+•	為免除您生命、身體、自由或財產上之危險。
+•	與公務機關或學術研究機構合作，基於公共利益為統計或學術研究而有必要，且資料經過提供者處理或蒐集者依其揭露方式無從識別特定之當事人。
+•	當您在應用服務的行為，違反服務條款或可能損害或妨礙應用服務與其他使用者權益或導致任何人遭受損害時，經應用服務管理單位研析揭露您的個人資料是為了辨識、聯絡或採取法律行動所必要者。
+•	有利於您的權益。
+•	本應用服務委託廠商協助蒐集、處理或利用您的個人資料時，將對委外廠商或個人善盡監督管理之責。
+
+七、隱私權保護政策之修正 
+
+	本應用服務隱私權保護政策將因應需求隨時進行修正，修正後的條款將刊登於應用服務上。
+
+</mutableString>
+                                <color key="textColor" red="0.66670191290000003" green="0.67056965830000004" blue="0.67058920860000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                            </textView>
+                            <button opaque="NO" alpha="0.55000000000000004" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" adjustsImageSizeForAccessibilityContentSizeCategory="YES" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="dLm-7V-GVe">
+                                <rect key="frame" x="376" y="50" width="30" height="33"/>
+                                <constraints>
+                                    <constraint firstAttribute="width" constant="30" id="CkP-oX-d5H"/>
+                                    <constraint firstAttribute="height" constant="33" id="ECK-hj-Id2"/>
+                                </constraints>
+                                <color key="tintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <state key="normal">
+                                    <imageReference key="image" image="multiply.circle" catalog="system" symbolScale="large"/>
+                                </state>
+                                <connections>
+                                    <action selector="gobackBtnAct:" destination="Mk0-Os-pxv" eventType="touchUpInside" id="P0p-ad-ulu"/>
+                                </connections>
+                            </button>
+                            <view alpha="0.40000000000000002" contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="14v-38-yEn">
+                                <rect key="frame" x="9" y="86" width="396" height="1"/>
+                                <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="1" id="HVm-dp-FD3"/>
+                                </constraints>
+                            </view>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="XSP-wa-fkR"/>
+                        <color key="backgroundColor" red="0.11764705882352941" green="0.12941176470588234" blue="0.14117647058823529" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
+                        <constraints>
+                            <constraint firstItem="14v-38-yEn" firstAttribute="top" secondItem="dLm-7V-GVe" secondAttribute="bottom" constant="3" id="3eA-CN-PBH"/>
+                            <constraint firstItem="RdH-XP-B3e" firstAttribute="centerX" secondItem="wbf-9Z-uxq" secondAttribute="centerX" id="9i9-JY-T2u"/>
+                            <constraint firstItem="XSP-wa-fkR" firstAttribute="trailing" secondItem="jdZ-2p-ZPf" secondAttribute="trailing" constant="6" id="GsI-Sd-B8h"/>
+                            <constraint firstItem="XSP-wa-fkR" firstAttribute="bottom" secondItem="jdZ-2p-ZPf" secondAttribute="bottom" constant="10" id="UbL-rD-Xzx"/>
+                            <constraint firstItem="dLm-7V-GVe" firstAttribute="top" secondItem="XSP-wa-fkR" secondAttribute="top" constant="6" id="XQS-us-QpG"/>
+                            <constraint firstItem="XSP-wa-fkR" firstAttribute="trailing" secondItem="dLm-7V-GVe" secondAttribute="trailing" constant="8" id="Y9a-fp-tb1"/>
+                            <constraint firstItem="jdZ-2p-ZPf" firstAttribute="top" secondItem="RdH-XP-B3e" secondAttribute="bottom" constant="14" id="Ygt-h7-fP6"/>
+                            <constraint firstItem="14v-38-yEn" firstAttribute="leading" secondItem="XSP-wa-fkR" secondAttribute="leading" constant="9" id="aTu-MP-Ht7"/>
+                            <constraint firstItem="XSP-wa-fkR" firstAttribute="trailing" secondItem="14v-38-yEn" secondAttribute="trailing" constant="9" id="hwb-C9-NgK"/>
+                            <constraint firstItem="jdZ-2p-ZPf" firstAttribute="leading" secondItem="XSP-wa-fkR" secondAttribute="leading" constant="6" id="rlp-fD-hI6"/>
+                            <constraint firstItem="RdH-XP-B3e" firstAttribute="top" secondItem="XSP-wa-fkR" secondAttribute="top" constant="10" id="vHo-PA-ufD"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="gobackBtn" destination="dLm-7V-GVe" id="xs7-yS-W6f"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="d9d-bg-oik" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="36.830357142857139"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="multiply.circle" catalog="system" width="128" height="121"/>
+    </resources>
+</document>

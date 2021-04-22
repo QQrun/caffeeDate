@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="TS4-zo-LL1">
+    <device id="retina5_5" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Setting View Controller-->
+        <scene sceneID="Lqa-zO-6Si">
+            <objects>
+                <viewController id="TS4-zo-LL1" userLabel="Setting View Controller" customClass="SettingViewController" customModule="面交人" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="RST-ab-y0a">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="736"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="baA-1d-Hkc">
+                                <rect key="frame" x="87" y="35" width="240" height="240"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="在地圖上優先被顯示為：" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="SyF-me-ciS">
+                                <rect key="frame" x="34" y="299" width="180" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="lZw-rh-aIc">
+                                <rect key="frame" x="20" y="364" width="358" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="r3U-0A-5Pf">
+                                <rect key="frame" x="20" y="415" width="358" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="8Aj-yi-tZq">
+                                <rect key="frame" x="20" y="466" width="358" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="3BY-UU-RLX">
+                                <rect key="frame" x="20" y="518" width="358" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="我的攤販" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hg3-wJ-s90">
+                                <rect key="frame" x="34" y="380" width="66" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="關於作者" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jrv-RA-orn">
+                                <rect key="frame" x="32" y="481" width="66" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="右箭頭擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="h8d-ML-FeH">
+                                <rect key="frame" x="370" y="378.66666666666669" width="10" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="右箭頭擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="dov-D0-HwZ">
+                                <rect key="frame" x="370" y="429.66666666666669" width="10" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="右箭頭擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="awy-rq-hdm">
+                                <rect key="frame" x="368" y="485" width="10" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="wNF-Og-u0u">
+                                <rect key="frame" x="0.0" y="365" width="30" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="goProfileBtnAct:" destination="TS4-zo-LL1" eventType="touchUpInside" id="AlH-ao-zwL"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="avb-Yi-Y1r">
+                                <rect key="frame" x="170" y="415" width="30" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="goReportBtnAct:" destination="TS4-zo-LL1" eventType="touchUpInside" id="ORu-la-Sl3"/>
+                                </connections>
+                            </button>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="uFa-Ik-zGM">
+                                <rect key="frame" x="87" y="35" width="240" height="30"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="photoBtnAct:" destination="TS4-zo-LL1" eventType="touchUpInside" id="qnY-Dz-R6s"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="CameraIcon" translatesAutoresizingMaskIntoConstraints="NO" id="f0s-JB-sEY" userLabel="photoIconImage">
+                                <rect key="frame" x="218" y="251" width="20" height="15"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="編輯個人檔案" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="IU2-pw-dnI">
+                                <rect key="frame" x="241" y="252" width="80" height="16"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" weight="medium" pointSize="13"/>
+                                <color key="textColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="建議或錯誤回報" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="06h-DO-g4X">
+                                <rect key="frame" x="33" y="430" width="115" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XtE-qL-Dtw">
+                                <rect key="frame" x="382" y="466" width="30" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="goAuthorPageBtnAct:" destination="TS4-zo-LL1" eventType="touchUpInside" id="lNV-gw-V79"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="999：99：99" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Kof-GX-Vfg" userLabel="RemainingTimeLabel">
+                                <rect key="frame" x="245" y="379" width="102" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="pfZ-Bo-359">
+                                <rect key="frame" x="17" y="566" width="358" height="1"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="登出" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="GQc-YI-PBK">
+                                <rect key="frame" x="30" y="533" width="33" height="20"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                                <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="右箭頭擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="75d-Y2-8uS">
+                                <rect key="frame" x="366" y="532" width="10" height="22"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                            </imageView>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AC9-o5-Uxk">
+                                <rect key="frame" x="380" y="518" width="30" height="50"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <connections>
+                                    <action selector="goLogOutBtnAct:" destination="TS4-zo-LL1" eventType="touchUpInside" id="eMv-n1-Qse"/>
+                                </connections>
+                            </button>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="rLK-wI-bdQ"/>
+                    </view>
+                    <connections>
+                        <outlet property="aboutAuthorLabel" destination="jrv-RA-orn" id="DL1-Og-J0B"/>
+                        <outlet property="goAuthorPageBtn" destination="XtE-qL-Dtw" id="NcM-bJ-cZG"/>
+                        <outlet property="goLogOutBtn" destination="AC9-o5-Uxk" id="Ae7-xI-hjh"/>
+                        <outlet property="goProfileViewBtn" destination="wNF-Og-u0u" id="eOz-6A-ULz"/>
+                        <outlet property="goReportBtn" destination="avb-Yi-Y1r" id="YIR-oQ-ZL0"/>
+                        <outlet property="logOutLabel" destination="GQc-YI-PBK" id="DFo-gM-saV"/>
+                        <outlet property="myStoreLabel" destination="Hg3-wJ-s90" id="f7P-0l-YFX"/>
+                        <outlet property="perferMarkLabel" destination="SyF-me-ciS" id="x0c-gy-77E"/>
+                        <outlet property="photo" destination="baA-1d-Hkc" id="Yhy-NG-66j"/>
+                        <outlet property="photoBtn" destination="uFa-Ik-zGM" id="5gG-Lk-DtB"/>
+                        <outlet property="photoEditLabel" destination="IU2-pw-dnI" id="nJz-S7-hWL"/>
+                        <outlet property="photoIconImage" destination="f0s-JB-sEY" id="hZx-WW-apY"/>
+                        <outlet property="remainingTimeLabel" destination="Kof-GX-Vfg" id="vNA-h2-jsA"/>
+                        <outlet property="reportLabel" destination="06h-DO-g4X" id="jbG-BK-q2w"/>
+                        <outlet property="rightArrow1" destination="h8d-ML-FeH" id="cvG-bs-fbe"/>
+                        <outlet property="rightArrow2" destination="dov-D0-HwZ" id="fnc-xg-fFV"/>
+                        <outlet property="rightArrow3" destination="75d-Y2-8uS" id="KIL-9Q-hiQ"/>
+                        <outlet property="rightArrow4" destination="awy-rq-hdm" id="F8N-Tg-KrG"/>
+                        <outlet property="seperator1" destination="lZw-rh-aIc" id="vCl-Rp-ehh"/>
+                        <outlet property="seperator2" destination="r3U-0A-5Pf" id="PuE-c4-kJY"/>
+                        <outlet property="seperator3" destination="8Aj-yi-tZq" id="2NB-fK-4Qn"/>
+                        <outlet property="seperator4" destination="pfZ-Bo-359" id="Ev9-5A-FhT"/>
+                        <outlet property="seperator5" destination="3BY-UU-RLX" id="TfZ-cc-ch8"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="3gP-98-p6V" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="137.68115942028987" y="93.750000000000014"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="CameraIcon" width="20" height="15"/>
+        <image name="分隔線擦痕" width="358" height="1"/>
+        <image name="右箭頭擦痕" width="7" height="21"/>
+    </resources>
+</document>

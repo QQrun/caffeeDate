@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17125"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" reuseIdentifier="commentTableViewCell" id="KGk-i7-Jjw" customClass="CommentTableViewCell" customModule="TravelTrader" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
+                <rect key="frame" x="0.0" y="0.0" width="320" height="54"/>
+                <autoresizingMask key="autoresizingMask"/>
+                <subviews>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="zyO-Wg-IeR">
+                        <rect key="frame" x="9" y="9" width="36" height="36"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="36" id="EiC-dD-9xc"/>
+                            <constraint firstAttribute="height" constant="36" id="bk2-iU-Ee4"/>
+                        </constraints>
+                    </imageView>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Rum - 1個月前" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="nRY-o9-s0B">
+                        <rect key="frame" x="54" y="9" width="257" height="17"/>
+                        <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="99+" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Cdy-M5-zTE">
+                        <rect key="frame" x="283" y="26" width="27" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" red="0.45882352939999999" green="0.062745098040000002" blue="0.062745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="dBb-9h-Rae" userLabel="Comment Label">
+                        <rect key="frame" x="54" y="28" width="230" height="17"/>
+                        <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                        <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                        <nil key="highlightedColor"/>
+                    </label>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="T33-vH-ihC">
+                        <rect key="frame" x="6" y="0.0" width="308" height="1"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="L5G-bh-XFO"/>
+                        </constraints>
+                    </imageView>
+                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="空愛心" translatesAutoresizingMaskIntoConstraints="NO" id="NA1-0I-LDU">
+                        <rect key="frame" x="256" y="26" width="22" height="20"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="22" id="8o3-cv-pS5"/>
+                            <constraint firstAttribute="height" constant="20" id="lGr-j9-pww"/>
+                        </constraints>
+                    </imageView>
+                    <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="sSW-uK-6Ls">
+                        <rect key="frame" x="254" y="14" width="60" height="40"/>
+                        <constraints>
+                            <constraint firstAttribute="width" constant="60" id="NvP-UY-Qy4"/>
+                            <constraint firstAttribute="height" constant="40" id="uYy-HG-PY0"/>
+                        </constraints>
+                        <state key="normal" title=" "/>
+                        <connections>
+                            <action selector="heartBtnAct:" destination="KGk-i7-Jjw" eventType="touchUpInside" id="4yy-XN-Onv"/>
+                        </connections>
+                    </button>
+                </subviews>
+                <constraints>
+                    <constraint firstItem="dBb-9h-Rae" firstAttribute="top" secondItem="nRY-o9-s0B" secondAttribute="bottom" constant="2" id="2D4-o4-cAx"/>
+                    <constraint firstItem="nRY-o9-s0B" firstAttribute="leading" secondItem="zyO-Wg-IeR" secondAttribute="trailing" constant="9" id="8dF-pX-uNa"/>
+                    <constraint firstItem="zyO-Wg-IeR" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="9" id="D3e-8u-ERr"/>
+                    <constraint firstItem="Cdy-M5-zTE" firstAttribute="leading" secondItem="NA1-0I-LDU" secondAttribute="trailing" constant="5" id="I5e-Us-X7t"/>
+                    <constraint firstItem="dBb-9h-Rae" firstAttribute="leading" secondItem="zyO-Wg-IeR" secondAttribute="trailing" constant="9" id="Kag-IA-cP5"/>
+                    <constraint firstAttribute="bottom" secondItem="dBb-9h-Rae" secondAttribute="bottom" constant="9" id="WCu-Qi-5oG"/>
+                    <constraint firstAttribute="trailing" secondItem="nRY-o9-s0B" secondAttribute="trailing" constant="9" id="ZBS-4s-lNT"/>
+                    <constraint firstAttribute="bottom" secondItem="Cdy-M5-zTE" secondAttribute="bottom" constant="11" id="ZU8-Ry-HXF"/>
+                    <constraint firstItem="T33-vH-ihC" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="6" id="Za1-m8-QHQ"/>
+                    <constraint firstAttribute="bottom" secondItem="NA1-0I-LDU" secondAttribute="bottom" constant="8" id="bYr-mF-49K"/>
+                    <constraint firstItem="nRY-o9-s0B" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="dX4-6H-slr"/>
+                    <constraint firstItem="zyO-Wg-IeR" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="9" id="fUu-1H-6Ls"/>
+                    <constraint firstAttribute="trailing" secondItem="dBb-9h-Rae" secondAttribute="trailing" constant="36" id="gvw-Kn-1YO"/>
+                    <constraint firstAttribute="trailing" secondItem="sSW-uK-6Ls" secondAttribute="trailing" constant="6" id="nD3-Pg-ebX"/>
+                    <constraint firstItem="T33-vH-ihC" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" id="p6H-wF-bwQ"/>
+                    <constraint firstAttribute="trailing" secondItem="Cdy-M5-zTE" secondAttribute="trailing" constant="10" id="suS-Jv-qtD"/>
+                    <constraint firstAttribute="bottom" secondItem="sSW-uK-6Ls" secondAttribute="bottom" id="yK2-EF-G6P"/>
+                    <constraint firstAttribute="trailing" secondItem="T33-vH-ihC" secondAttribute="trailing" constant="6" id="yl0-LE-ec3"/>
+                </constraints>
+            </tableViewCellContentView>
+            <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
+            <color key="backgroundColor" red="1" green="1" blue="1" alpha="0.0" colorSpace="calibratedRGB"/>
+            <connections>
+                <outlet property="commentLabel" destination="dBb-9h-Rae" id="Emn-AU-BA6"/>
+                <outlet property="heartBtn" destination="sSW-uK-6Ls" id="ydv-3W-Zox"/>
+                <outlet property="heartImage" destination="NA1-0I-LDU" id="3VW-dE-gUs"/>
+                <outlet property="heartNumberLabel" destination="Cdy-M5-zTE" id="lHD-mT-Wig"/>
+                <outlet property="nameLabel" destination="nRY-o9-s0B" id="8dU-dY-g7e"/>
+                <outlet property="photo" destination="zyO-Wg-IeR" id="pKF-Py-CUk"/>
+                <outlet property="separator" destination="T33-vH-ihC" id="Yat-ug-8xV"/>
+            </connections>
+            <point key="canvasLocation" x="137.68115942028987" y="99.776785714285708"/>
+        </tableViewCell>
+    </objects>
+    <resources>
+        <image name="分隔線擦痕" width="358" height="1"/>
+        <image name="空愛心" width="22" height="20"/>
+    </resources>
+</document>

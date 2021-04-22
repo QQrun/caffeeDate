@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17156" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17126"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <scenes>
+        <!--Open Notification View Controller-->
+        <scene sceneID="Wyz-G3-1fV">
+            <objects>
+                <viewController storyboardIdentifier="OpenNotificationViewController" id="FqE-Aw-Qp7" customClass="OpenNotificationViewController" customModule="TravelTrader" customModuleProvider="target" sceneMemberID="viewController">
+                    <view key="view" contentMode="scaleToFill" id="mL2-y1-Yl2">
+                        <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <subviews>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="iu0-MV-kjB">
+                                <rect key="frame" x="41" y="329" width="332" height="45"/>
+                                <color key="backgroundColor" red="0.68235294120000001" green="0.66274509800000003" blue="0.62745098040000002" alpha="1" colorSpace="calibratedRGB"/>
+                                <constraints>
+                                    <constraint firstAttribute="height" constant="45" id="aVK-LS-W2y"/>
+                                </constraints>
+                                <fontDescription key="fontDescription" type="system" pointSize="18"/>
+                                <state key="normal" title="確定">
+                                    <color key="titleColor" red="0.12941176469999999" green="0.13725490200000001" blue="0.1450980392" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="continueBtnAct:" destination="FqE-Aw-Qp7" eventType="touchUpInside" id="tGs-vh-mVy"/>
+                                </connections>
+                            </button>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="即時通知您朋友們傳來的訊息" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="a5E-CI-KJw">
+                                <rect key="frame" x="41" y="292" width="186" height="17"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="b8K-Hu-cXf">
+                                <rect key="frame" x="207" y="772" width="0.0" height="0.0"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="13"/>
+                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="開啟通知" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g6t-0I-otH">
+                                <rect key="frame" x="40" y="239" width="146" height="43"/>
+                                <fontDescription key="fontDescription" type="system" weight="semibold" pointSize="36"/>
+                                <color key="textColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                <nil key="highlightedColor"/>
+                            </label>
+                            <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="fgJ-sh-t9y">
+                                <rect key="frame" x="176" y="772" width="62" height="30"/>
+                                <state key="normal" title="稍後再說">
+                                    <color key="titleColor" red="0.60784313729999995" green="0.60784313729999995" blue="0.60784313729999995" alpha="1" colorSpace="calibratedRGB"/>
+                                </state>
+                                <connections>
+                                    <action selector="laterBtnAct:" destination="FqE-Aw-Qp7" eventType="touchUpInside" id="Yjq-Ic-ciG"/>
+                                </connections>
+                            </button>
+                            <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="飛鴿傳書icon" translatesAutoresizingMaskIntoConstraints="NO" id="WZV-5L-Sfv">
+                                <rect key="frame" x="190" y="246" width="41" height="34"/>
+                            </imageView>
+                        </subviews>
+                        <viewLayoutGuide key="safeArea" id="X1X-XI-ya1"/>
+                        <color key="backgroundColor" red="0.12941176470588234" green="0.13725490196078433" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="iu0-MV-kjB" firstAttribute="top" secondItem="a5E-CI-KJw" secondAttribute="bottom" constant="20" id="5QY-kn-tjk"/>
+                            <constraint firstItem="b8K-Hu-cXf" firstAttribute="centerX" secondItem="mL2-y1-Yl2" secondAttribute="centerX" id="Aco-da-mxq"/>
+                            <constraint firstItem="g6t-0I-otH" firstAttribute="top" secondItem="X1X-XI-ya1" secondAttribute="top" constant="195" id="DGR-so-47h"/>
+                            <constraint firstItem="X1X-XI-ya1" firstAttribute="trailing" secondItem="iu0-MV-kjB" secondAttribute="trailing" constant="41" id="Gws-NY-mNj"/>
+                            <constraint firstItem="a5E-CI-KJw" firstAttribute="top" secondItem="g6t-0I-otH" secondAttribute="bottom" constant="10" id="HP4-BN-fiu"/>
+                            <constraint firstItem="fgJ-sh-t9y" firstAttribute="centerX" secondItem="mL2-y1-Yl2" secondAttribute="centerX" id="aTq-kR-Ncx"/>
+                            <constraint firstItem="g6t-0I-otH" firstAttribute="leading" secondItem="X1X-XI-ya1" secondAttribute="leading" constant="40" id="bYI-15-kfR"/>
+                            <constraint firstItem="a5E-CI-KJw" firstAttribute="leading" secondItem="X1X-XI-ya1" secondAttribute="leading" constant="41" id="beI-mn-C38"/>
+                            <constraint firstItem="X1X-XI-ya1" firstAttribute="bottom" secondItem="b8K-Hu-cXf" secondAttribute="bottom" constant="90" id="g0f-Ga-5Wx"/>
+                            <constraint firstItem="X1X-XI-ya1" firstAttribute="bottom" secondItem="fgJ-sh-t9y" secondAttribute="bottom" constant="60" id="hlp-Aq-mim"/>
+                            <constraint firstItem="iu0-MV-kjB" firstAttribute="leading" secondItem="X1X-XI-ya1" secondAttribute="leading" constant="41" id="iJI-vS-6lC"/>
+                            <constraint firstItem="WZV-5L-Sfv" firstAttribute="top" secondItem="X1X-XI-ya1" secondAttribute="top" constant="202" id="mIk-Jh-4eH"/>
+                            <constraint firstItem="WZV-5L-Sfv" firstAttribute="leading" secondItem="g6t-0I-otH" secondAttribute="trailing" constant="4" id="owk-4J-Iar"/>
+                        </constraints>
+                    </view>
+                    <connections>
+                        <outlet property="birdAndMailImageView" destination="WZV-5L-Sfv" id="77G-nD-JfB"/>
+                        <outlet property="continueBtn" destination="iu0-MV-kjB" id="Hdk-fZ-4Yc"/>
+                        <outlet property="laterBtn" destination="fgJ-sh-t9y" id="XwV-Qt-u8Y"/>
+                    </connections>
+                </viewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="xS9-lO-7fj" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="139" y="90"/>
+        </scene>
+    </scenes>
+    <resources>
+        <image name="飛鴿傳書icon" width="41" height="34"/>
+    </resources>
+</document>

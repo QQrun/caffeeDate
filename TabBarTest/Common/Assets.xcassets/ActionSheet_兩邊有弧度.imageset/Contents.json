@@ -1,0 +1,23 @@
+{
+  "images" : [
+    {
+      "filename" : "ActionSheet_兩邊有弧度.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "filename" : "ActionSheet_兩邊有弧度@2x.png",
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "filename" : "ActionSheet_兩邊有弧度@3x.png",
+      "idiom" : "universal",
+      "scale" : "3x"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}
