@@ -13,6 +13,7 @@ target 'TabBarTest' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod 'Firebase/Crashlytics'
+  pod 'SwifterSwift'
   pod 'Firebase/Analytics'
 #  pod 'GoogleSignIn'
 #  pod 'FBSDKCoreKit/Swift'
