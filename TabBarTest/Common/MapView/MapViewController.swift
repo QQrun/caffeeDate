@@ -2161,7 +2161,7 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         
-        let markColor = UIColor(red: 184/255, green: 190/255, blue: 236/255, alpha: 1)
+        let markColor = UIColor(red: 34/255, green: 113/255, blue: 234/255, alpha: 1)
         
         if annotation is CoffeeAnnotation{
             
