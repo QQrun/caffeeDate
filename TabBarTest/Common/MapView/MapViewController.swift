@@ -90,8 +90,6 @@ class MapViewController: UIViewController {
     
     let iWantSayHiBtn = UIButton()
     
-    var hiddeningTapBar = false
-    
     private var storeRemainingTimeTimer = Timer()
     
     private let actionSheetKit = ActionSheetKit()
@@ -132,18 +130,7 @@ class MapViewController: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         centerMapOnUserLocation(shouldLoadAnnotations: true)
-        hiddenTabBarOrNot()
     }
-    
-    fileprivate func hiddenTabBarOrNot(){
-        if hiddeningTapBar{
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.hiddenTabBar()
-        }else{
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
-        }
-    }
-    
-    
     
     fileprivate func configureIWantActionSheet() {
         
@@ -2022,10 +2009,6 @@ extension MapViewController: MKMapViewDelegate {
     }
     
     func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView){
-        
-        hiddeningTapBar = false
-        hiddenTabBarOrNot()
-        
         if view.annotation is CustomPointAnnotation{
             view.subviews[0].alpha = 0
         }
@@ -2051,10 +2034,6 @@ extension MapViewController: MKMapViewDelegate {
     
     
     func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
-        
-        hiddeningTapBar = true
-        hiddenTabBarOrNot()
-        
         let zoomWidth = mapView.visibleMapRect.size.width
         var meter : Double = 500
         if zoomWidth < 3694{

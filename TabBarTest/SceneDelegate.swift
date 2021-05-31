@@ -30,14 +30,10 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.overrideUserInterfaceStyle = .light
         }
         window?.windowScene = windowScene
-        window?.rootViewController = RootTabBarController.initFromStoryboard()
+        let sb = UIStoryboard(name: "MapViewController", bundle: nil)
+        let vc = sb.instantiateViewController(withIdentifier: "MapViewController")
+        window?.rootViewController = vc
         window?.makeKeyAndVisible()
-        
-        appCoordinator = AppCoordinator(window: window)
-        DispatchQueue.main.async {
-            self.appCoordinator?.start()
-        }
-        
         
     }
     
