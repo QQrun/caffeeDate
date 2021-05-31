@@ -1609,7 +1609,7 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         mapView.userTrackingMode = .follow
         mapView.showsPointsOfInterest = false
-        mapView.tintColor = UIColor.hexStringToUIColor(hex: "6E7CE5") //這裡決定的是user那個點的顏色
+        mapView.tintColor = UIColor.hexStringToUIColor(hex: "F5A623") //這裡決定的是user那個點的顏色
         
         
         view.addSubview(mapView)
