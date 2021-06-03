@@ -11,8 +11,9 @@ import MapKit
 import CoreLocation
 import Firebase
 import Alamofire
+import SnapKit
 
-protocol MapViewControllerViewDelegate: class {
+protocol MapViewControllerViewDelegate: AnyObject {
     func gotoItemViewController_mapView(item:Item,personDetail:PersonDetailInfo)
     func gotoProfileViewController_mapView(personDetail:PersonDetailInfo)
     func gotoWantSellViewController_mapView(defaultItem:Item?)
@@ -1586,12 +1587,42 @@ class MapViewController: UIViewController {
         view.addSubview(circleButton_exclamation)
         circleButton_exclamation.addTarget(self, action: #selector(exclamationBtnAct), for: .touchUpInside)
         
-        let circleButton_add = UIButton(frame:CGRect(x: view.frame.width/2 - 53/2, y: view.frame.height - 53 - 63 - bottomPadding, width: 53, height: 53))
-        let addImage = UIImage(named: "開攤販button")
-        circleButton_add.setImage(addImage, for: [])
-        circleButton_add.isEnabled = true
+        let circleButton_add: UIButton = UIButton()
+        circleButton_add.setImage(UIImage(named: "icons24PlusFilledWt24"), for: .normal)
+        circleButton_add.backgroundColor = UIColor(red: 0, green: 202 / 255, blue: 199 / 255, alpha: 1)
         circleButton_add.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
+        circleButton_add.layer.cornerRadius = 26
         view.addSubview(circleButton_add)
+        circleButton_add.snp.makeConstraints { make in
+            make.height.width.equalTo(52)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-36)
+        }
+        
+        let acccountButton = UIButton()
+        acccountButton.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
+        acccountButton.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+//        acccountButton.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
+        acccountButton.layer.cornerRadius = 20
+        view.addSubview(acccountButton)
+        acccountButton.snp.makeConstraints { make in
+            make.height.width.equalTo(40)
+            make.centerY.equalTo(circleButton_add)
+            make.right.equalTo(circleButton_add.snp.left).offset(-48)
+        }
+        
+        let messageButton = UIButton()
+        messageButton.setImage(UIImage(named: "icons24MessageFilledGrey24"), for: .normal)
+        messageButton.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        //        messageButton.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
+        messageButton.layer.cornerRadius = 20
+        view.addSubview(messageButton)
+        messageButton.snp.makeConstraints { make in
+            make.height.width.equalTo(40)
+            make.centerY.equalTo(circleButton_add)
+            make.left.equalTo(circleButton_add.snp.right).offset(48)
+        }
+        
         
         let circleButton_reposition = UIButton(frame:CGRect(x: view.frame.width - 53 - 14, y: view.frame.height - 53 - 63 - bottomPadding, width: 53, height: 53))
         let repositionImage = UIImage(named: "再定位button")

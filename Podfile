@@ -15,6 +15,8 @@ target 'TabBarTest' do
   pod 'Firebase/Crashlytics'
   pod 'SwifterSwift'
   pod 'Firebase/Analytics'
+  pod 'SnapKit'
+
 #  pod 'GoogleSignIn'
 #  pod 'FBSDKCoreKit/Swift'
 #  pod 'FBSDKLoginKit/Swift'
