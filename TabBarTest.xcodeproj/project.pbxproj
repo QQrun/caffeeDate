@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		A039BB1F2669228400D2F661 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A039BB1E2669228400D2F661 /* HomeViewController.swift */; };
 		A711055B243BBD9A008E680D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055A243BBD9A008E680D /* AppDelegate.swift */; };
 		A711055D243BBD9A008E680D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055C243BBD9A008E680D /* SceneDelegate.swift */; };
 		A7110567243BBD9B008E680D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110565243BBD9B008E680D /* LaunchScreen.storyboard */; };
@@ -206,6 +207,7 @@
 
 /* Begin PBXFileReference section */
 		5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.release.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.release.xcconfig"; sourceTree = "<group>"; };
+		A039BB1E2669228400D2F661 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A7110557243BBD9A008E680D /* 面交人.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "面交人.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A711055A243BBD9A008E680D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A711055C243BBD9A008E680D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -454,6 +456,7 @@
 		A7110559243BBD9A008E680D /* TabBarTest */ = {
 			isa = PBXGroup;
 			children = (
+				A039BB1E2669228400D2F661 /* HomeViewController.swift */,
 				A774D76825DA9F9C00797BDB /* Common */,
 				A77BADED253DC1720071D346 /* GoogleService-Info.plist */,
 				A7FCE11624EB912700E79E96 /* MapWe.entitlements */,
@@ -1220,6 +1223,7 @@
 				A77BAD58253C7D190071D346 /* String+Extensions.swift in Sources */,
 				A747EE5725C9849B00766B66 /* SSPopoverPresentationController.swift in Sources */,
 				A77BAD52253C7D190071D346 /* KeyboardEvent.swift in Sources */,
+				A039BB1F2669228400D2F661 /* HomeViewController.swift in Sources */,
 				A7A474DA2524C0AA0038D75B /* ProfileButton.swift in Sources */,
 				A77BAC07253C76D80071D346 /* InsetLabel.swift in Sources */,
 				A77BABEA253C76A00071D346 /* MessagesDisplayDelegate.swift in Sources */,
@@ -1363,10 +1367,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2021021402;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3Q933PK69P;
+				DEVELOPMENT_TEAM = AF94M5UF46;
 				INFOPLIST_FILE = TabBarTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1376,6 +1381,7 @@
 				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1388,10 +1394,11 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
+				CODE_SIGN_IDENTITY = "Apple Development";
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 2021021402;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 3Q933PK69P;
+				DEVELOPMENT_TEAM = ATAU8J2UVL;
 				INFOPLIST_FILE = TabBarTest/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -1401,6 +1408,7 @@
 				MARKETING_VERSION = 1.0.8;
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;

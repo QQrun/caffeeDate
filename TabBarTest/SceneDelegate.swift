@@ -30,9 +30,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
             window?.overrideUserInterfaceStyle = .light
         }
         window?.windowScene = windowScene
-        let sb = UIStoryboard(name: "MapViewController", bundle: nil)
-        let vc = sb.instantiateViewController(withIdentifier: "MapViewController")
-        window?.rootViewController = vc
+        window?.rootViewController = HomeViewController()
         window?.makeKeyAndVisible()
         
     }
