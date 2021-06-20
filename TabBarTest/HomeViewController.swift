@@ -109,6 +109,7 @@ class HomeViewController: UIViewController {
         button.backgroundColor = .white
         button.layer.cornerRadius = 16
         button.addShadow()
+        button.addTarget(self, action: #selector(locationButtonTapped), for: .touchUpInside)
         view.addSubview(button)
         button.snp.makeConstraints { make in
             make.height.width.equalTo(32)
@@ -133,6 +134,7 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    var currentCoordinate: CLLocationCoordinate2D?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -144,7 +146,13 @@ class HomeViewController: UIViewController {
         locationButton.isHidden = false
         notificationButton.isHidden = false
         locationManager.startUpdatingLocation()
-        
+    }
+    
+    @objc func locationButtonTapped() {
+        if let currentCoordinate = currentCoordinate {
+            let region = MKCoordinateRegion(center: currentCoordinate, latitudinalMeters: 700, longitudinalMeters: 700)
+            mapView.setRegion(region, animated: true)
+        }
     }
 }
 
@@ -155,8 +163,11 @@ extension HomeViewController: MKMapViewDelegate {
 extension HomeViewController: CLLocationManagerDelegate {
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         guard let coordinate = locations.first?.coordinate else { return }
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 700, longitudinalMeters: 700)
-        mapView.setRegion(region, animated: true)
+        if currentCoordinate == nil {
+            let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 700, longitudinalMeters: 700)
+            mapView.setRegion(region, animated: true)
+        }
+        currentCoordinate = coordinate
     }
 }
 
