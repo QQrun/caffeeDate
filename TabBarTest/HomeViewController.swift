@@ -47,7 +47,6 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "icons24PlusFilledWt24"), for: .normal)
         button.backgroundColor = UIColor(red: 0, green: 202 / 255, blue: 199 / 255, alpha: 1)
-//        button.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         button.layer.cornerRadius = 26
         button.addShadow()
         view.addSubview(button)
@@ -63,7 +62,6 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
         button.backgroundColor = .white
-        //        button.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         button.layer.cornerRadius = 20
         button.addShadow()
         view.addSubview(button)
@@ -79,7 +77,6 @@ class HomeViewController: UIViewController {
         let button = UIButton()
         button.setImage(UIImage(named: "icons24MessageFilledGrey24"), for: .normal)
         button.backgroundColor = .white
-        //        button.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         button.layer.cornerRadius = 20
         button.addShadow()
         view.addSubview(button)
@@ -91,12 +88,61 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    lazy var filterButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "slider"), for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 16
+        button.addShadow()
+        view.addSubview(button)
+        button.snp.makeConstraints { make in
+            make.height.width.equalTo(32)
+            make.top.equalToSuperview().offset(60)
+            make.right.equalToSuperview().offset(-16)
+        }
+        return button
+    }()
+    
+    lazy var locationButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "icons24LocationGrey24"), for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 16
+        button.addShadow()
+        view.addSubview(button)
+        button.snp.makeConstraints { make in
+            make.height.width.equalTo(32)
+            make.top.equalToSuperview().offset(116)
+            make.right.equalToSuperview().offset(-16)
+        }
+        return button
+    }()
+    
+    lazy var notificationButton: UIButton = {
+        let button = UIButton()
+        button.setImage(UIImage(named: "icons24NotificationFilledGrey24"), for: .normal)
+        button.backgroundColor = .white
+        button.layer.cornerRadius = 16
+        button.addShadow()
+        view.addSubview(button)
+        button.snp.makeConstraints { make in
+            make.height.width.equalTo(32)
+            make.top.equalToSuperview().offset(172)
+            make.right.equalToSuperview().offset(-16)
+        }
+        return button
+    }()
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         mapView.isHidden = false
         addButton.isHidden = false
         acccountButton.isHidden = false
         messageButton.isHidden = false
+        filterButton.isHidden = false
+        locationButton.isHidden = false
+        notificationButton.isHidden = false
         locationManager.startUpdatingLocation()
         
     }
