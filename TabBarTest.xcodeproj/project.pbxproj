@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A039BB1F2669228400D2F661 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A039BB1E2669228400D2F661 /* HomeViewController.swift */; };
+		A063F570267F826B00136187 /* CoffeeMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */; };
 		A711055B243BBD9A008E680D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055A243BBD9A008E680D /* AppDelegate.swift */; };
 		A711055D243BBD9A008E680D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055C243BBD9A008E680D /* SceneDelegate.swift */; };
 		A7110567243BBD9B008E680D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110565243BBD9B008E680D /* LaunchScreen.storyboard */; };
@@ -208,6 +209,7 @@
 /* Begin PBXFileReference section */
 		5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.release.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.release.xcconfig"; sourceTree = "<group>"; };
 		A039BB1E2669228400D2F661 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		A7110557243BBD9A008E680D /* 面交人.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "面交人.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A711055A243BBD9A008E680D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A711055C243BBD9A008E680D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -435,6 +437,15 @@
 			path = Pods;
 			sourceTree = "<group>";
 		};
+		A063F56E267F824700136187 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				A039BB1E2669228400D2F661 /* HomeViewController.swift */,
+				A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */,
+			);
+			path = Home;
+			sourceTree = "<group>";
+		};
 		A711054E243BBD9A008E680D = {
 			isa = PBXGroup;
 			children = (
@@ -456,7 +467,7 @@
 		A7110559243BBD9A008E680D /* TabBarTest */ = {
 			isa = PBXGroup;
 			children = (
-				A039BB1E2669228400D2F661 /* HomeViewController.swift */,
+				A063F56E267F824700136187 /* Home */,
 				A774D76825DA9F9C00797BDB /* Common */,
 				A77BADED253DC1720071D346 /* GoogleService-Info.plist */,
 				A7FCE11624EB912700E79E96 /* MapWe.entitlements */,
@@ -1194,6 +1205,7 @@
 				A7CB15A324A8B96A00FDBC12 /* MailListTableViewCell.swift in Sources */,
 				A77BAD56253C7D190071D346 /* InputBarViewController.swift in Sources */,
 				A747EE5525C9849B00766B66 /* SSPopoverPresentationManager.swift in Sources */,
+				A063F570267F826B00136187 /* CoffeeMarkerAnnotationView.swift in Sources */,
 				A747EE1425C67C5900766B66 /* UIImage+.swift in Sources */,
 				A77BAB94253C75EF0071D346 /* MediaMessageSizeCalculator.swift in Sources */,
 				A77BAB92253C75EF0071D346 /* LocationMessageSizeCalculator.swift in Sources */,

@@ -13,7 +13,7 @@ target 'TabBarTest' do
   pod 'Firebase/Core'
   pod 'Firebase/Messaging'
   pod 'Firebase/Crashlytics'
-  pod 'SwifterSwift'
+  pod 'SwifterSwift/MapKit'
   pod 'Firebase/Analytics'
   pod 'SnapKit'
 
