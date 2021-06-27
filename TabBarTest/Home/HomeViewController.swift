@@ -30,6 +30,7 @@ class HomeViewController: UIViewController {
         mapView.userTrackingMode = .follow
         mapView.tintColor = UIColor(hexString: "#F5A623")
         mapView.register(annotationViewWithClass: CoffeeMarkerAnnotationView.self)
+        mapView.register(annotationViewWithClass: PersonAnnotationView.self)
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -167,120 +168,12 @@ class HomeViewController: UIViewController {
 extension HomeViewController: MKMapViewDelegate {
     
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
-        
-        // 創建一個重複使用的 AnnotationView
-        var mkMarker = mapView.dequeueReusableAnnotationView(withIdentifier: "Markers") as? MKMarkerAnnotationView
-       
-        
-        if mkMarker == nil {
-            mkMarker = MKMarkerAnnotationView(annotation: annotation, reuseIdentifier: "Markers")
-        }
-        
-        
-        let markColor = UIColor(red: 34/255, green: 113/255, blue: 234/255, alpha: 1)
-        
         if annotation is CoffeeAnnotation {
-           return mapView.dequeueReusableAnnotationView(withClass: CoffeeMarkerAnnotationView.self, for: annotation)
+            return mapView.dequeueReusableAnnotationView(withClass: CoffeeMarkerAnnotationView.self)
+        } else if annotation is PersonAnnotation {
+            return mapView.dequeueReusableAnnotationView(withClass: PersonAnnotationView.self)
         }
-        
-        if annotation is PersonAnnotation{
-            var decideWhichIcon = false
-            mkMarker?.titleVisibility = .adaptive
-            mkMarker?.displayPriority = .required
-            mkMarker?.tintColor = .clear
-            
-            //加上距離標籤
-            let userloc = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
-            let loc = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
-            var distance = userloc.distance(from: loc)
-            
-            let distanceLabel = UILabel()
-            distanceLabel.font = UIFont(name: "HelveticaNeue", size: 12)
-            
-            if Int(distance) >= 1000{
-                distance = distance/1000
-                distance = Double(Int(distance * 10))/10
-                distanceLabel.text = "\(distance)" + "km"
-            }else{
-                distanceLabel.text = "\(Int(distance))" + "m"
-            }
-            distanceLabel.frame = CGRect(x: mkMarker!.frame.width/2 - distanceLabel.intrinsicContentSize.width/2, y:  mkMarker!.frame.height - distanceLabel.intrinsicContentSize.height, width: distanceLabel.intrinsicContentSize.width, height: distanceLabel.intrinsicContentSize.height)
-            distanceLabel.alpha = 0
-            mkMarker?.addSubview(distanceLabel)
-            
-            mkMarker?.glyphTintColor = markColor
-            mkMarker?.titleVisibility = .adaptive
-            mkMarker?.displayPriority = .required
-            mkMarker?.viewWithTag(1)?.removeFromSuperview() //如果有加imageView，就刪除
-            switch (annotation as! PersonAnnotation).markTypeToShow {
-            case .openStore:
-                mkMarker?.glyphImage = UIImage(named: "天秤小icon_紫")
-                break
-            case .request:
-                mkMarker?.glyphImage = UIImage(named: "捲軸小icon_紫")
-                break
-            case .teamUp:
-                mkMarker?.glyphImage = UIImage(named: "旗子小icon_紫")
-                break
-            case .makeFriend:
-                if let headShot = (annotation as! PersonAnnotation).smallHeadShot{
-                    mkMarker?.glyphTintColor = .clear
-                    let imageView = UIImageView(frame: CGRect(x: 2, y: 0, width: 25, height: 25))
-                    imageView.tag = 1
-                    imageView.image = headShot
-                    imageView.contentMode = .scaleAspectFill
-                    imageView.layer.cornerRadius = 12
-                    imageView.clipsToBounds = true
-                    mkMarker?.addSubview(imageView)
-                }else{
-                    if (annotation as! PersonAnnotation).gender == .Girl{
-                        mkMarker?.glyphImage = UIImage(named: "girlIcon")
-                    }else{
-                        mkMarker?.glyphImage = UIImage(named: "boyIcon")
-                    }
-                }
-                break
-            case .none:
-                let imageView = UIImageView(frame: CGRect(x: 2, y: 0, width: 25, height: 25))
-                mkMarker?.markerTintColor = .clear
-                mkMarker?.tintColor = .clear
-                mkMarker?.glyphTintColor = .clear
-                if let headShot = (annotation as! PersonAnnotation).smallHeadShot{
-                    let imageView = UIImageView(frame: CGRect(x: 2, y: 0, width: 25, height: 25))
-                    imageView.tag = 1
-                    imageView.contentMode = .scaleAspectFill
-                    imageView.image = headShot
-                    imageView.layer.cornerRadius = 12
-                    imageView.clipsToBounds = true
-                    mkMarker?.addSubview(imageView)
-                }else{
-                    if (annotation as! PersonAnnotation).gender == .Girl{
-                        mkMarker?.glyphImage = UIImage(named: "girlIcon")
-                    }else{
-                        mkMarker?.glyphImage = UIImage(named: "boyIcon")
-                    }
-                }
-            }
-        }
-        
-        mkMarker?.markerTintColor = .clear
-        
-        // 判斷標記點是否與使用者相同，若為 true 就回傳 nil
-        if annotation is MKUserLocation {
-            (annotation as! MKUserLocation).title = "我想在這⋯⋯"
-            //            var mkPin = mapView.dequeueReusableAnnotationView(withIdentifier: "userPin") as? MKPinAnnotationView
-            //
-            //            if mkPin == nil{
-            //                mkPin = MKPinAnnotationView(annotation: annotation, reuseIdentifier: "userPin")
-            //                mkPin!.canShowCallout = true
-            //                mkPin!.image = UIImage(named: "魔法羽毛(紫)")
-            //            }
-            return nil
-        }else{
-            return mkMarker
-        }
-        
-        
+        return nil
     }
 }
 
