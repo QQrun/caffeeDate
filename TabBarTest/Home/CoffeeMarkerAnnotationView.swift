@@ -19,6 +19,8 @@ class CoffeeMarkerAnnotationView: MKMarkerAnnotationView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    override func prepareForReuse() {}
+    
     func setupUI() {
         tintColor = .clear
         markerTintColor = .clear
