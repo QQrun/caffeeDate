@@ -278,7 +278,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         if openingStore{
             actionSheetKit_wantCloseUpShop.allBtnSlideIn()
         }else{
-            FirebaseHelper.updatePersonAnnotation()
+            FirebaseHelper.updateTradeAnnotation()
             openingStore = true
         }
     }
@@ -312,7 +312,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     @objc private func iWantCloseStoreBtnAct(){
         Analytics.logEvent("編輯商店_收攤_確認要收攤", parameters:nil)
         openingStore = false
-        FirebaseHelper.deletePersonAnnotation()
+        FirebaseHelper.deleteTradeAnnotation()
     }
     
     //MARK:- ShopEditViewModelDelegate

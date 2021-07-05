@@ -15,15 +15,15 @@ class PresonAnnotationGetter{
     
     var mapView : MKMapView
     
-    var openShopAnnotations : [PersonAnnotation] = []
-    var requestAnnotations : [PersonAnnotation] = []
-    var teamUpAnnotations : [PersonAnnotation] = []
-    var boySayHiAnnotations : [PersonAnnotation] = []
-    var girlSayHiAnnotations : [PersonAnnotation] = []
+    var openShopAnnotations : [TradeAnnotation] = []
+    var requestAnnotations : [TradeAnnotation] = []
+    var teamUpAnnotations : [TradeAnnotation] = []
+    var boySayHiAnnotations : [TradeAnnotation] = []
+    var girlSayHiAnnotations : [TradeAnnotation] = []
     
     private let durationOfAuction = 60 * 60 * 24 * 7 //刊登持續時間（秒） 7天
     
-    var userAnnotation : PersonAnnotation?{
+    var userAnnotation : TradeAnnotation?{
         didSet{
             if userAnnotation != nil{
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.settingViewController.storeOpenTimeString = userAnnotation!.openTime
@@ -41,95 +41,95 @@ class PresonAnnotationGetter{
     
     
     
-    fileprivate func packagePersonAnnotation(_ user_child: NSEnumerator.Element) {
+    fileprivate func packageTradeAnnotation(_ user_child: NSEnumerator.Element) {
         let user_snap = user_child as! DataSnapshot
         
-        let personAnnotationData = PersonAnnotationData(snapshot: user_snap)
-        if(personAnnotationData.openTime == ""){ //這代表解包失敗
+        let TradeAnnotationData = TradeAnnotationData(snapshot: user_snap)
+        if(TradeAnnotationData.openTime == ""){ //這代表解包失敗
             return
         }
-        let personAnnotation = PersonAnnotation()
+        let TradeAnnotation = TradeAnnotation()
         
-        if personAnnotationData.preferMarkType == "openStore"{
-            personAnnotation.preferMarkType = .openStore
-        }else if personAnnotationData.preferMarkType == "request"{
-            personAnnotation.preferMarkType = .request
-        }else if  personAnnotationData.preferMarkType == "makeFriend"{
-            personAnnotation.preferMarkType = .makeFriend
-        }else if  personAnnotationData.preferMarkType == "teamUp"{
-            personAnnotation.preferMarkType = .teamUp
+        if TradeAnnotationData.preferMarkType == "openStore"{
+            TradeAnnotation.preferMarkType = .openStore
+        }else if TradeAnnotationData.preferMarkType == "request"{
+            TradeAnnotation.preferMarkType = .request
+        }else if  TradeAnnotationData.preferMarkType == "makeFriend"{
+            TradeAnnotation.preferMarkType = .makeFriend
+        }else if  TradeAnnotationData.preferMarkType == "teamUp"{
+            TradeAnnotation.preferMarkType = .teamUp
         }else{
-            personAnnotation.preferMarkType = .none
+            TradeAnnotation.preferMarkType = .none
         }
         
-        if personAnnotationData.gender == 0{
-            personAnnotation.gender = .Girl
-        }else if personAnnotationData.gender == 1{
-            personAnnotation.gender = .Boy
+        if TradeAnnotationData.gender == 0{
+            TradeAnnotation.gender = .Girl
+        }else if TradeAnnotationData.gender == 1{
+            TradeAnnotation.gender = .Boy
         }
-        personAnnotation.UID = user_snap.key
-        personAnnotation.title = personAnnotationData.title
-        personAnnotation.isOpenStore = personAnnotationData.isOpenStore
-        personAnnotation.isTeamUp = personAnnotationData.isTeamUp
-        personAnnotation.isRequest = personAnnotationData.isRequest
-        personAnnotation.wantMakeFriend = personAnnotationData.wantMakeFriend
-        personAnnotation.openTime = personAnnotationData.openTime
+        TradeAnnotation.UID = user_snap.key
+        TradeAnnotation.title = TradeAnnotationData.title
+        TradeAnnotation.isOpenStore = TradeAnnotationData.isOpenStore
+        TradeAnnotation.isTeamUp = TradeAnnotationData.isTeamUp
+        TradeAnnotation.isRequest = TradeAnnotationData.isRequest
+        TradeAnnotation.wantMakeFriend = TradeAnnotationData.wantMakeFriend
+        TradeAnnotation.openTime = TradeAnnotationData.openTime
         
         
         
         //確認那個地點是否有過期，如果有過期，不顯示
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMddHHmmss"
-        let seconds = Date().seconds(sinceDate: formatter.date(from: personAnnotationData.openTime)!)
+        let seconds = Date().seconds(sinceDate: formatter.date(from: TradeAnnotationData.openTime)!)
         let remainingHour = (self.durationOfAuction - seconds!) / (60 * 60)
         let remainingMin = ((self.durationOfAuction - seconds!) % (60 * 60)) / 60
         let remainingSecond = ((self.durationOfAuction - seconds!) % (60 * 60)) % 60
         if remainingHour < 0 || remainingMin < 0 || remainingSecond < 0{
-            if personAnnotation.UID == UserSetting.UID{
-                FirebaseHelper.deletePersonAnnotation()
+            if TradeAnnotation.UID == UserSetting.UID{
+                FirebaseHelper.deleteTradeAnnotation()
                 NotifyHelper.pushNewNoti(title: "擺攤時間到，已收攤", subTitle: "您可以在『我的攤販』設定內再度開啟攤販")
             }
             return
         }
         
-        if personAnnotation.UID == UserSetting.UID{
-            self.userAnnotation = personAnnotation
+        if TradeAnnotation.UID == UserSetting.UID{
+            self.userAnnotation = TradeAnnotation
         }
         
-        personAnnotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((personAnnotationData.latitude as NSString).floatValue), longitude: CLLocationDegrees((personAnnotationData.longitude as NSString).floatValue))
+        TradeAnnotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((TradeAnnotationData.latitude as NSString).floatValue), longitude: CLLocationDegrees((TradeAnnotationData.longitude as NSString).floatValue))
         
-//        if let smallIconUrl = personAnnotationData.smallHeadShotForMapIcon{
+//        if let smallIconUrl = TradeAnnotationData.smallHeadShotForMapIcon{
 //            AF.request(smallIconUrl).response { (response) in
 //                guard let data = response.data, let image = UIImage(data: data)
 //                    else {
 //                        print("讀取圖片url失敗")
 //                        return }
-//                personAnnotation.smallHeadShot = image
+//                TradeAnnotation.smallHeadShot = image
 //                var canShow = false
-//                canShow = self.decideCanShowOrNotAndWhichIcon(personAnnotation)
-//                self.classifyAnnotation(personAnnotation)
+//                canShow = self.decideCanShowOrNotAndWhichIcon(TradeAnnotation)
+//                self.classifyAnnotation(TradeAnnotation)
 //                if canShow{
-//                    self.mapView.addAnnotation(personAnnotation)
+//                    self.mapView.addAnnotation(TradeAnnotation)
 //                }
 //            }
 //
 //        }else{
 //            var canShow = false
-//            canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
-//            classifyAnnotation(personAnnotation)
+//            canShow = decideCanShowOrNotAndWhichIcon(TradeAnnotation)
+//            classifyAnnotation(TradeAnnotation)
 //            if canShow{
 //                print("canShow")
-//                self.mapView.addAnnotation(personAnnotation)
+//                self.mapView.addAnnotation(TradeAnnotation)
 //            }else{
 //                print("canNotShow")
 //            }
 //        }
         
         var canShow = false
-        canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
-        classifyAnnotation(personAnnotation)
+        canShow = decideCanShowOrNotAndWhichIcon(TradeAnnotation)
+        classifyAnnotation(TradeAnnotation)
         if canShow{
-            self.mapView.addAnnotation(personAnnotation)
+            self.mapView.addAnnotation(TradeAnnotation)
         }
 
     }
@@ -138,14 +138,14 @@ class PresonAnnotationGetter{
         
         let ref =  Database.database().reference(withPath: "PersonAnnotation")
         ref.queryOrdered(byChild: "openTime").observeSingleEvent(of: .value, with: { (snapshot) in
-            //先將personAnnotationData做成personAnnotation
+            //先將TradeAnnotationData做成TradeAnnotation
             for user_child in (snapshot.children){
-                self.packagePersonAnnotation(user_child)
+                self.packageTradeAnnotation(user_child)
             }})
     }
     
     
-    fileprivate func classifyAnnotation(_ annotation: PersonAnnotation) {
+    fileprivate func classifyAnnotation(_ annotation: TradeAnnotation) {
         if annotation.isOpenStore {
             openShopAnnotations.append(annotation)
         }
@@ -170,7 +170,7 @@ class PresonAnnotationGetter{
     
     
     
-    func decideCanShowOrNotAndWhichIcon(_ annotation:PersonAnnotation) -> Bool{
+    func decideCanShowOrNotAndWhichIcon(_ annotation:TradeAnnotation) -> Bool{
         
         var canShow = false
         annotation.markTypeToShow = .none
@@ -267,9 +267,9 @@ class PresonAnnotationGetter{
         return false
     }
     
-    func decideCanShowOrNotAndWhichIcon(_ annotations:[PersonAnnotation]) -> [PersonAnnotation]{
+    func decideCanShowOrNotAndWhichIcon(_ annotations:[TradeAnnotation]) -> [TradeAnnotation]{
         
-        var annotationsCanShow : [PersonAnnotation] = []
+        var annotationsCanShow : [TradeAnnotation] = []
         
         for annotation in annotations{
             var canShow = false
@@ -370,10 +370,10 @@ class PresonAnnotationGetter{
         return annotationsCanShow
     }
     
-    fileprivate func GetFakeAnnotations() -> [PersonAnnotation] {
+    fileprivate func GetFakeAnnotations() -> [TradeAnnotation] {
         
-        var annotations : [PersonAnnotation] = []
-        let annotation = PersonAnnotation()
+        var annotations : [TradeAnnotation] = []
+        let annotation = TradeAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude:  25.053227, longitude: 121.527007)
         annotation.title = "好難過，只求一醉⋯⋯"
         annotation.isRequest = true
@@ -382,7 +382,7 @@ class PresonAnnotationGetter{
         annotation.gender = .Boy
         annotations.append(annotation)
         
-        let annotation2 = PersonAnnotation()
+        let annotation2 = TradeAnnotation()
         annotation2.coordinate = CLLocationCoordinate2D(latitude:  25.054070, longitude: 121.523923)
         annotation2.title = "桌遊團 -2"
         annotation2.preferMarkType = .teamUp
@@ -390,7 +390,7 @@ class PresonAnnotationGetter{
         annotation2.wantMakeFriend = true
         annotations.append(annotation2)
         
-        let annotation3 = PersonAnnotation()
+        let annotation3 = TradeAnnotation()
         annotation3.coordinate = CLLocationCoordinate2D(latitude:  25.052722, longitude: 121.523527)
         annotation3.title = "童·叟·無·欺"
         annotation3.isOpenStore = true
@@ -399,7 +399,7 @@ class PresonAnnotationGetter{
         annotation3.preferMarkType = .openStore
         annotations.append(annotation3)
         
-        let annotation4 = PersonAnnotation()
+        let annotation4 = TradeAnnotation()
         annotation4.coordinate = CLLocationCoordinate2D(latitude:  25.052724, longitude: 121.526130)
         annotation4.title = "貂蟬"
         annotation4.isOpenStore = true
@@ -446,7 +446,7 @@ class PresonAnnotationGetter{
             }
         }else{
             
-            let annotation = PersonAnnotation()
+            let annotation = TradeAnnotation()
             if UserSetting.userGender == 0 {
                 annotation.gender = .Girl
             }else{

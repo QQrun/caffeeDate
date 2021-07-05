@@ -1916,7 +1916,7 @@ class MapViewController: UIViewController {
             UserSetting.storeName = "Hi!"
         }
         
-        //上傳personAnnotation
+        //上傳TradeAnnotation
         let currentTime = Date()
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMddHHmmss"
@@ -1925,11 +1925,11 @@ class MapViewController: UIViewController {
             UserSetting.storeName = bookMarkName_MakeFriend
         }
         UserSetting.isWantMakeFriend = true
-        let myAnnotation = PersonAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, preferMarkType: UserSetting.perferIconStyleToShowInMap, wantMakeFriend: UserSetting.isWantMakeFriend, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, isTeamUp: UserSetting.isWantTeamUp, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
+        let myAnnotation = TradeAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, preferMarkType: UserSetting.perferIconStyleToShowInMap, wantMakeFriend: UserSetting.isWantMakeFriend, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, isTeamUp: UserSetting.isWantTeamUp, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
         
         let ref = Database.database().reference()
-        let personAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
-        personAnnotationWithIDRef.setValue(myAnnotation.toAnyObject()){ (error, ref) -> Void in
+        let pradeAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
+        pradeAnnotationWithIDRef.setValue(myAnnotation.toAnyObject()){ (error, ref) -> Void in
             
             self.mapView.deselectAnnotation(self.mapView.userLocation, animated: true)
             loadingView.removeFromSuperview()
@@ -1937,7 +1937,7 @@ class MapViewController: UIViewController {
             self.presonAnnotationGetter.reFreshUserAnnotation()
             
             if error != nil{
-                print(error ?? "上傳PersonAnnotation失敗")
+                print(error ?? "上傳TradeAnnotation失敗")
             }
             
         }
@@ -2128,25 +2128,25 @@ extension MapViewController: MKMapViewDelegate {
             setBulletinBoard_coffeeData(coffeeAnnotation: view.annotation as! CoffeeAnnotation)
             return
         }
-        if view.annotation is PersonAnnotation {
+        if view.annotation is TradeAnnotation {
             
             Analytics.logEvent("地圖_點擊地標_人物", parameters:nil)
             
             var bookMarks : [String] = []
             bookMarks.append(bookMarkName_MakeFriend)
-            if (view.annotation as! PersonAnnotation).isOpenStore{
+            if (view.annotation as! TradeAnnotation).isOpenStore{
                 bookMarks.append(bookMarkName_Sell)
             }
-            if (view.annotation as! PersonAnnotation).isRequest{
+            if (view.annotation as! TradeAnnotation).isRequest{
                 bookMarks.append(bookMarkName_Buy)
             }
-            if (view.annotation as! PersonAnnotation).isTeamUp{
+            if (view.annotation as! TradeAnnotation).isTeamUp{
                 bookMarks.append(bookMarkName_TeamUp)
             }
             
             var selectedBookMark = ""
             
-            switch  (view.annotation as! PersonAnnotation).markTypeToShow {
+            switch  (view.annotation as! TradeAnnotation).markTypeToShow {
             
             case .makeFriend:
                 selectedBookMark = bookMarkName_MakeFriend
@@ -2165,9 +2165,9 @@ extension MapViewController: MKMapViewDelegate {
             let loadingView = UIView(frame: CGRect(x: view.frame.width/2 - 40, y: view.frame.height/2 - 40, width: 80, height: 80))
             loadingView.setupToLoadingView()
             view.addSubview(loadingView)
-            ref.child((view.annotation as! PersonAnnotation).UID).observeSingleEvent(of: .value, with: { (snapshot) in
+            ref.child((view.annotation as! TradeAnnotation).UID).observeSingleEvent(of: .value, with: { (snapshot) in
                 loadingView.removeFromSuperview()
-                self.setBulletinBoard(bookMarks: bookMarks,selectedbookMark:selectedBookMark,snapshot: snapshot,UID: (view.annotation as! PersonAnnotation).UID,distance:Int(distance),storeName: (view.annotation?.title!)!,openTimeString: (view.annotation as! PersonAnnotation).openTime)
+                self.setBulletinBoard(bookMarks: bookMarks,selectedbookMark:selectedBookMark,snapshot: snapshot,UID: (view.annotation as! TradeAnnotation).UID,distance:Int(distance),storeName: (view.annotation?.title!)!,openTimeString: (view.annotation as! TradeAnnotation).openTime)
             }) { (error) in
                 loadingView.removeFromSuperview()
                 print(error.localizedDescription)
@@ -2221,7 +2221,7 @@ extension MapViewController: MKMapViewDelegate {
             mkMarker?.glyphImage = UIImage(named: "咖啡小icon_紫")
         }
         
-        if annotation is PersonAnnotation{
+        if annotation is TradeAnnotation{
             var decideWhichIcon = false
             mkMarker?.titleVisibility = .adaptive
             mkMarker?.displayPriority = .required
@@ -2250,7 +2250,7 @@ extension MapViewController: MKMapViewDelegate {
             mkMarker?.titleVisibility = .adaptive
             mkMarker?.displayPriority = .required
             mkMarker?.viewWithTag(1)?.removeFromSuperview() //如果有加imageView，就刪除
-            switch (annotation as! PersonAnnotation).markTypeToShow {
+            switch (annotation as! TradeAnnotation).markTypeToShow {
             case .openStore:
                 mkMarker?.glyphImage = UIImage(named: "天秤小icon_紫")
                 break
@@ -2261,7 +2261,7 @@ extension MapViewController: MKMapViewDelegate {
                 mkMarker?.glyphImage = UIImage(named: "旗子小icon_紫")
                 break
             case .makeFriend:
-                if let headShot = (annotation as! PersonAnnotation).smallHeadShot{
+                if let headShot = (annotation as! TradeAnnotation).smallHeadShot{
                     mkMarker?.glyphTintColor = .clear
                     let imageView = UIImageView(frame: CGRect(x: 2, y: 0, width: 25, height: 25))
                     imageView.tag = 1
@@ -2271,7 +2271,7 @@ extension MapViewController: MKMapViewDelegate {
                     imageView.clipsToBounds = true
                     mkMarker?.addSubview(imageView)
                 }else{
-                    if (annotation as! PersonAnnotation).gender == .Girl{
+                    if (annotation as! TradeAnnotation).gender == .Girl{
                         mkMarker?.glyphImage = UIImage(named: "girlIcon")
                     }else{
                         mkMarker?.glyphImage = UIImage(named: "boyIcon")
@@ -2283,7 +2283,7 @@ extension MapViewController: MKMapViewDelegate {
                 mkMarker?.markerTintColor = .clear
                 mkMarker?.tintColor = .clear
                 mkMarker?.glyphTintColor = .clear
-                if let headShot = (annotation as! PersonAnnotation).smallHeadShot{
+                if let headShot = (annotation as! TradeAnnotation).smallHeadShot{
                     let imageView = UIImageView(frame: CGRect(x: 2, y: 0, width: 25, height: 25))
                     imageView.tag = 1
                     imageView.contentMode = .scaleAspectFill
@@ -2292,7 +2292,7 @@ extension MapViewController: MKMapViewDelegate {
                     imageView.clipsToBounds = true
                     mkMarker?.addSubview(imageView)
                 }else{
-                    if (annotation as! PersonAnnotation).gender == .Girl{
+                    if (annotation as! TradeAnnotation).gender == .Girl{
                         mkMarker?.glyphImage = UIImage(named: "girlIcon")
                     }else{
                         mkMarker?.glyphImage = UIImage(named: "boyIcon")

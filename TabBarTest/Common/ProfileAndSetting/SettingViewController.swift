@@ -120,7 +120,7 @@ class SettingViewController: UIViewController {
                         self.remainingTimeLabel.text = remainingTime
                     }else{
                         self.remainingTimeLabel.text = ""
-                        FirebaseHelper.deletePersonAnnotation()
+                        FirebaseHelper.deleteTradeAnnotation()
                         NotifyHelper.pushNewNoti(title: "擺攤時間到，已收攤", subTitle: "您可以在『我的攤販』設定內再度開啟攤販")
                         self.timer?.invalidate()
                     }

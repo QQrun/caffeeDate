@@ -30,7 +30,7 @@ class HomeViewController: UIViewController {
         mapView.userTrackingMode = .follow
         mapView.tintColor = UIColor(hexString: "#F5A623")
         mapView.register(annotationViewWithClass: CoffeeMarkerAnnotationView.self)
-        mapView.register(annotationViewWithClass: PersonAnnotationView.self)
+        mapView.register(annotationViewWithClass: TradeAnnotationView.self)
         view.addSubview(mapView)
         mapView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
@@ -170,8 +170,8 @@ extension HomeViewController: MKMapViewDelegate {
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         if annotation is CoffeeAnnotation {
             return mapView.dequeueReusableAnnotationView(withClass: CoffeeMarkerAnnotationView.self)
-        } else if annotation is PersonAnnotation {
-            return mapView.dequeueReusableAnnotationView(withClass: PersonAnnotationView.self)
+        } else if annotation is TradeAnnotation {
+            return mapView.dequeueReusableAnnotationView(withClass: TradeAnnotationView.self)
         }
         return nil
     }

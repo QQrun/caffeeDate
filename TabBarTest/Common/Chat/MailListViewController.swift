@@ -144,7 +144,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
             let chatRoomID = snapshot.key
             let targetUID = chatRoomID.replace(target: UserSetting.UID, withString: "").replace(target: "-", withString: "")
             
-            //第二步，取得PersonDetail與PersonAnnotation中的shopName
+            //第二步，取得PersonDetail與TradeAnnotation中的shopName
             var shopName = ""
             let shopNameRef = Database.database().reference(withPath: "PersonAnnotation/" + targetUID + "/title")
             shopNameRef.observeSingleEvent(of: .value, with: { (snapshot) in

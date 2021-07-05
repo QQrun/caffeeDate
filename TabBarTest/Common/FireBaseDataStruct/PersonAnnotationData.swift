@@ -1,5 +1,5 @@
 //
-//  PersonAnnotationData.swift
+//  TradeAnnotationData.swift
 //  TabBarTest
 //
 //  Created by 金融研發一部-邱冠倫 on 2020/04/24.
@@ -11,7 +11,7 @@ import Firebase
 
 
 //For 上傳
-class PersonAnnotationData {
+class TradeAnnotationData {
     
     var openTime : String
     var title: String

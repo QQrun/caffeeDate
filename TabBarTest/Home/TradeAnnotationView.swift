@@ -1,5 +1,5 @@
 //
-//  PersonAnnotationView.swift
+//  TradeAnnotationView.swift
 //  TabBarTest
 //
 //  Created by Howard Sun on 2021/6/27.
@@ -8,11 +8,11 @@
 
 import MapKit
 
-class PersonAnnotationView: MKMarkerAnnotationView {
+class TradeAnnotationView: MKMarkerAnnotationView {
     
     override var annotation: MKAnnotation? {
         didSet {
-            guard let annotation = annotation as? PersonAnnotation else { return }
+            guard let annotation = annotation as? TradeAnnotation else { return }
             switch annotation.markTypeToShow {
             case .openStore:
                 glyphImage = UIImage(named: "天秤小icon_紫")

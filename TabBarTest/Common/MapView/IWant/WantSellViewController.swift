@@ -813,8 +813,8 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         if UserSetting.storeName == ""{
             UserSetting.storeName = "Hi!"
         }
-        //上傳personAnnotation
-        FirebaseHelper.updatePersonAnnotation()
+        //上傳TradeAnnotation
+        FirebaseHelper.updateTradeAnnotation()
         
         var itemID : String!
         if defaultItem != nil {

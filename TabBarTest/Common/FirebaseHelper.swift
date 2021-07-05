@@ -145,8 +145,8 @@ class FirebaseHelper{
         }
     }
     
-    static func updatePersonAnnotation(){
-        //上傳personAnnotation
+    static func updateTradeAnnotation(){
+        //上傳TradeAnnotation
         let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
         if mapViewController != nil{
             UserSetting.userLatitude = String(format: "%f", (mapViewController!.mapView.userLocation.coordinate.latitude))
@@ -154,20 +154,20 @@ class FirebaseHelper{
         }
         
         let currentTimeString = Date().getCurrentTimeString()
-        let myAnnotation = PersonAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, preferMarkType: UserSetting.perferIconStyleToShowInMap, wantMakeFriend: UserSetting.isWantMakeFriend, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, isTeamUp: UserSetting.isWantTeamUp, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
+        let myAnnotation = TradeAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, preferMarkType: UserSetting.perferIconStyleToShowInMap, wantMakeFriend: UserSetting.isWantMakeFriend, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, isTeamUp: UserSetting.isWantTeamUp, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
         
         let ref = Database.database().reference()
         let personAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
         personAnnotationWithIDRef.setValue(myAnnotation.toAnyObject()){ (error, ref) -> Void in
             if error != nil{
-                print(error ?? "上傳PersonAnnotation失敗")
+                print(error ?? "上傳TradeAnnotation失敗")
                 
             }
             CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController?.presonAnnotationGetter.reFreshUserAnnotation()
         }
     }
     
-    static func deletePersonAnnotation(){
+    static func deleteTradeAnnotation(){
         //刪除雲端部分
         let ref = Database.database().reference()
         let personAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)

@@ -47,7 +47,7 @@ class CoffeeAnnotation : CustomPointAnnotation{
 
 }
 
-class PersonAnnotation : CustomPointAnnotation {
+class TradeAnnotation : CustomPointAnnotation {
     
     var preferMarkType : MarkType = .openStore
     var markTypeToShow : MarkType = .none

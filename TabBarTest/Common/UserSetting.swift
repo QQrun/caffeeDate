@@ -173,7 +173,7 @@ class UserSetting{
 
     
     
-    //For PersonAnnotation
+    //For TradeAnnotation
     
     
     static var storeName: String {
