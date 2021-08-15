@@ -9,6 +9,11 @@
 import Foundation
 import Firebase
 import Alamofire
+import PromiseKit
+
+enum FirebaseStorageError: Error {
+    case noData
+}
 
 class FirebaseHelper{
     
@@ -62,6 +67,29 @@ class FirebaseHelper{
                 }
             }
         )}
+    }
+    
+    static func uploadItemImage(_ image: UIImage) -> Promise<URL> {
+        return Promise<URL> { seal in
+            if let data = image.jpegData(compressionQuality: 1) {
+                let ref = Storage.storage().reference().child("itemPhoto/" + NSUUID().uuidString + ".jpg")
+                ref.putData(data, metadata: nil) { meta, error in
+                    if let error = error {
+                        seal.reject(error)
+                    } else {
+                        ref.downloadURL { url, error in
+                            if let error = error {
+                                seal.reject(error)
+                            } else if let url = url {
+                                seal.fulfill(url)
+                            }
+                        }
+                    }
+                }
+            } else {
+                seal.reject(FirebaseStorageError.noData)
+            }
+        }
     }
 
     
@@ -154,7 +182,7 @@ class FirebaseHelper{
         }
         
         let currentTimeString = Date().getCurrentTimeString()
-        let myAnnotation = TradeAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, preferMarkType: UserSetting.perferIconStyleToShowInMap, wantMakeFriend: UserSetting.isWantMakeFriend, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, isTeamUp: UserSetting.isWantTeamUp, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
+        let myAnnotation = TradeAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
         
         let ref = Database.database().reference()
         let personAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
@@ -164,6 +192,19 @@ class FirebaseHelper{
                 
             }
             CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController?.presonAnnotationGetter.reFreshUserAnnotation()
+        }
+    }
+    
+    static func uploadTradeAnnotation(_ annotation: TradeAnnotationData) -> Promise<Bool> {
+        return Promise<Bool> { seal in
+            let ref = Database.database().reference().child("PersonAnnotation/" +  UserSetting.UID)
+            ref.setValue(annotation.toAnyObject()) { error, ref in
+                if let error = error {
+                    seal.reject(error)
+                } else {
+                    seal.fulfill(true)
+                }
+            }
         }
     }
     

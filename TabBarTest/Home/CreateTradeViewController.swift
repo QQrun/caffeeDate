@@ -8,7 +8,9 @@
 
 import UIKit
 import FloatingPanel
-
+import PromiseKit
+import MapKit
+import Firebase
 
 class CreateTradeViewController: UIViewController {
     
@@ -34,10 +36,12 @@ class CreateTradeViewController: UIViewController {
     }
     
     let type: TradeType
+    let coordinate: CLLocationCoordinate2D
     let sections: [Section] = [.photos, .name, .price, .info]
     
-    init(type: TradeType) {
+    init(type: TradeType, coordinate: CLLocationCoordinate2D) {
         self.type = type
+        self.coordinate = coordinate
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -80,7 +84,6 @@ class CreateTradeViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         navigationItem.title = type.title
         view.backgroundColor = .white
         navigationController?.additionalSafeAreaInsets = UIEdgeInsets(top: 20, left: 8, bottom: 0, right: 8)
@@ -123,14 +126,41 @@ class CreateTradeViewController: UIViewController {
     }
     
     @objc func publishButtonTapped() {
+    
         guard let images = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddPhotosTableViewCell)?.images,
               let name = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TextViewTableViewCell)?.textView.text,
               let price = (tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TextViewTableViewCell)?.textView.text,
               let info = (tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TextViewTableViewCell)?.textView.text else { return }
-        print(images)
-        print(name)
-        print(price)
-        print(info)
+        let tasks = images.map { FirebaseHelper.uploadItemImage($0) }
+        when(fulfilled: tasks).then { urls -> Promise<[Bool]> in
+            let item = Item(itemID: NSUUID().uuidString, thumbnailUrl: urls.first?.absoluteString, photosUrl: urls.map({ $0.absoluteString }), name: name, price: price, descript: info, order: 0, done: false, likeUIDs: [], subscribedIDs: [], commentIDs: [], itemType: self.type == .supply ? .Sell : .Buy
+            )
+            let tradeAnnotation = TradeAnnotationData(openTime: Date().getCurrentTimeString(), title: name, gender: UserSetting.userGender, isOpenStore: self.type == .supply, isRequest: self.type == .demand, latitude: "\(self.coordinate.latitude)", longitude: "\(self.coordinate.longitude)")
+            return when(fulfilled: [self.uploadItem(item), FirebaseHelper.uploadTradeAnnotation(tradeAnnotation)])
+        }.done { _ in
+            self.closeButtonTapped()
+        }.catch { error in
+            print(error)
+        }
+    }
+    
+    func uploadItem(_ item: Item) -> Promise<Bool> {
+        return Promise<Bool> { seal in
+            var ref = Database.database().reference()
+            switch type {
+            case .supply:
+                ref = ref.child("PersonDetail/" +  UserSetting.UID + "/SellItems/" + (item.itemID ?? ""))
+            case .demand:
+                ref = ref.child("PersonDetail/" +  UserSetting.UID + "/BuyItems/" + (item.itemID ?? ""))
+            }
+            ref.setValue(item.toAnyObject()) { error, ref in
+                if let error = error {
+                    seal.reject(error)
+                } else {
+                    seal.fulfill(true)
+                }
+            }
+        }
     }
 }
 

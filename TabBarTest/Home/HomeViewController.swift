@@ -161,6 +161,7 @@ class HomeViewController: UIViewController {
         coffeeAnnotationGetter = CoffeeAnnotationGetter(mapView: mapView)
         coffeeAnnotationGetter.fetchCoffeeData()
         locationManager.startUpdatingLocation()
+        
     }
     
     @objc func locationButtonTapped() {
@@ -192,7 +193,8 @@ class HomeViewController: UIViewController {
     }
     
     func createTrade(type: CreateTradeViewController.TradeType) {
-        let vc = CreateTradeViewController(type: type)
+        guard let currentCoordinate = currentCoordinate else { return }
+        let vc = CreateTradeViewController(type: type, coordinate: currentCoordinate)
         let nav = UINavigationController(rootViewController: vc)
         floatingPanelController.set(contentViewController: nav)
         present(floatingPanelController, animated: true)
