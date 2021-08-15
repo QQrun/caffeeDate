@@ -1925,7 +1925,7 @@ class MapViewController: UIViewController {
             UserSetting.storeName = bookMarkName_MakeFriend
         }
         UserSetting.isWantMakeFriend = true
-        let myAnnotation = TradeAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, preferMarkType: UserSetting.perferIconStyleToShowInMap, wantMakeFriend: UserSetting.isWantMakeFriend, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, isTeamUp: UserSetting.isWantTeamUp, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
+        let myAnnotation = TradeAnnotationData(openTime: currentTimeString, title: UserSetting.storeName, gender: UserSetting.userGender, isOpenStore: UserSetting.isWantSellSomething, isRequest: UserSetting.isWantBuySomething, latitude: UserSetting.userLatitude, longitude: UserSetting.userLongitude)
         
         let ref = Database.database().reference()
         let pradeAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
@@ -2140,9 +2140,7 @@ extension MapViewController: MKMapViewDelegate {
             if (view.annotation as! TradeAnnotation).isRequest{
                 bookMarks.append(bookMarkName_Buy)
             }
-            if (view.annotation as! TradeAnnotation).isTeamUp{
-                bookMarks.append(bookMarkName_TeamUp)
-            }
+           
             
             var selectedBookMark = ""
             

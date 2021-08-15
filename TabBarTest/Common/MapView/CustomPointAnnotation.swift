@@ -49,15 +49,15 @@ class CoffeeAnnotation : CustomPointAnnotation{
 
 class TradeAnnotation : CustomPointAnnotation {
     
-    var preferMarkType : MarkType = .openStore
+//    var preferMarkType : MarkType = .openStore
     var markTypeToShow : MarkType = .none
     var UID = ""
     var userName = ""
     var openTime = ""
     var gender : Gender = .Boy
-    var wantMakeFriend = false
+//    var wantMakeFriend = false
     var isOpenStore = false
     var isRequest = false
-    var isTeamUp = false
+//    var isTeamUp = false
     var smallHeadShot :UIImage!
 }

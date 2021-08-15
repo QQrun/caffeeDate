@@ -49,19 +49,6 @@ class PresonAnnotationGetter{
             return
         }
         let TradeAnnotation = TradeAnnotation()
-        
-        if TradeAnnotationData.preferMarkType == "openStore"{
-            TradeAnnotation.preferMarkType = .openStore
-        }else if TradeAnnotationData.preferMarkType == "request"{
-            TradeAnnotation.preferMarkType = .request
-        }else if  TradeAnnotationData.preferMarkType == "makeFriend"{
-            TradeAnnotation.preferMarkType = .makeFriend
-        }else if  TradeAnnotationData.preferMarkType == "teamUp"{
-            TradeAnnotation.preferMarkType = .teamUp
-        }else{
-            TradeAnnotation.preferMarkType = .none
-        }
-        
         if TradeAnnotationData.gender == 0{
             TradeAnnotation.gender = .Girl
         }else if TradeAnnotationData.gender == 1{
@@ -70,9 +57,7 @@ class PresonAnnotationGetter{
         TradeAnnotation.UID = user_snap.key
         TradeAnnotation.title = TradeAnnotationData.title
         TradeAnnotation.isOpenStore = TradeAnnotationData.isOpenStore
-        TradeAnnotation.isTeamUp = TradeAnnotationData.isTeamUp
         TradeAnnotation.isRequest = TradeAnnotationData.isRequest
-        TradeAnnotation.wantMakeFriend = TradeAnnotationData.wantMakeFriend
         TradeAnnotation.openTime = TradeAnnotationData.openTime
         
         
@@ -152,20 +137,6 @@ class PresonAnnotationGetter{
         if annotation.isRequest {
             requestAnnotations.append(annotation)
         }
-        if annotation.isTeamUp {
-            teamUpAnnotations.append(annotation)
-        }
-        
-        if annotation.wantMakeFriend {
-            switch annotation.gender {
-            case .Boy:
-                boySayHiAnnotations.append(annotation)
-                break
-            case .Girl:
-                girlSayHiAnnotations.append(annotation)
-                break
-            }
-        }
     }
     
     
@@ -180,12 +151,6 @@ class PresonAnnotationGetter{
             //對方是男生
             if  annotation.gender == .Boy{
                 //對方想被認識
-                if annotation.wantMakeFriend{
-                    canShow = true
-                    if  annotation.preferMarkType == .makeFriend{
-                        annotation.markTypeToShow = .makeFriend
-                    }
-                }
             }
         }
         //使用者想要認識女生
@@ -193,37 +158,19 @@ class PresonAnnotationGetter{
             //對方是女生
             if  annotation.gender == .Girl{
                 //對方想被認識
-                if annotation.wantMakeFriend{
-                    canShow = true
-                    if annotation.preferMarkType == .makeFriend{
-                        annotation.markTypeToShow = .makeFriend
-                    }
-                }
             }
         }
         if UserSetting.isMapShowOpenStore{
             if annotation.isOpenStore{
                 canShow = true
-                if annotation.preferMarkType == .openStore{
-                    annotation.markTypeToShow = .openStore
-                }
             }
         }
         if UserSetting.isMapShowRequest{
             if annotation.isRequest{
                 canShow = true
-                if annotation.preferMarkType == .request{
-                    annotation.markTypeToShow = .request
-                }
             }
         }
         if UserSetting.isMapShowTeamUp{
-            if annotation.isTeamUp {
-                canShow = true
-                if annotation.preferMarkType == .teamUp{
-                    annotation.markTypeToShow = .teamUp
-                }
-            }
         }
         
         ////如果還未指派哪個icon，依照順序指派下去
@@ -231,16 +178,10 @@ class PresonAnnotationGetter{
             //                print("未指派")
             if UserSetting.isMapShowMakeFriend_Girl{
                 if  annotation.gender == .Girl{
-                    if annotation.wantMakeFriend{
-                        annotation.markTypeToShow = .makeFriend
-                    }
                 }
             }
             if UserSetting.isMapShowMakeFriend_Boy{
                 if  annotation.gender == .Boy{
-                    if annotation.wantMakeFriend{
-                        annotation.markTypeToShow = .makeFriend
-                    }
                 }
             }
             if UserSetting.isMapShowRequest{
@@ -254,9 +195,6 @@ class PresonAnnotationGetter{
                 }
             }
             if UserSetting.isMapShowTeamUp{
-                if annotation.isTeamUp{
-                    annotation.markTypeToShow = .openStore
-                }
             }
         }
         
@@ -280,12 +218,7 @@ class PresonAnnotationGetter{
                 //對方是男生
                 if  annotation.gender == .Boy{
                     //對方想被認識
-                    if annotation.wantMakeFriend{
-                        canShow = true
-                        if  annotation.preferMarkType == .makeFriend{
-                            annotation.markTypeToShow = .makeFriend
-                        }
-                    }
+                    
                 }
             }
             //使用者想要認識女生
@@ -293,37 +226,23 @@ class PresonAnnotationGetter{
                 //對方是女生
                 if  annotation.gender == .Girl{
                     //對方想被認識
-                    if annotation.wantMakeFriend{
-                        canShow = true
-                        if annotation.preferMarkType == .makeFriend{
-                            annotation.markTypeToShow = .makeFriend
-                        }
-                    }
+                    
                 }
             }
             if UserSetting.isMapShowOpenStore{
                 if annotation.isOpenStore{
                     canShow = true
-                    if annotation.preferMarkType == .openStore{
-                        annotation.markTypeToShow = .openStore
-                    }
+                    
                 }
             }
             if UserSetting.isMapShowRequest{
                 if annotation.isRequest{
                     canShow = true
-                    if annotation.preferMarkType == .request{
-                        annotation.markTypeToShow = .request
-                    }
+                    
                 }
             }
             if UserSetting.isMapShowTeamUp{
-                if annotation.isTeamUp {
-                    canShow = true
-                    if annotation.preferMarkType == .teamUp{
-                        annotation.markTypeToShow = .teamUp
-                    }
-                }
+                
             }
             
             if canShow{
@@ -336,20 +255,6 @@ class PresonAnnotationGetter{
             ////如果還未指派哪個icon，依照順序指派下去
             if annotation.markTypeToShow == .none{
                 //                print("未指派")
-                if UserSetting.isMapShowMakeFriend_Girl{
-                    if  annotation.gender == .Girl{
-                        if annotation.wantMakeFriend{
-                            annotation.markTypeToShow = .makeFriend
-                        }
-                    }
-                }
-                if UserSetting.isMapShowMakeFriend_Boy{
-                    if  annotation.gender == .Boy{
-                        if annotation.wantMakeFriend{
-                            annotation.markTypeToShow = .makeFriend
-                        }
-                    }
-                }
                 if UserSetting.isMapShowRequest{
                     if annotation.isRequest{
                         annotation.markTypeToShow = .request
@@ -358,11 +263,6 @@ class PresonAnnotationGetter{
                 if UserSetting.isMapShowOpenStore{
                     if annotation.isOpenStore{
                         annotation.markTypeToShow = .openStore
-                    }
-                }
-                if UserSetting.isMapShowTeamUp{
-                    if annotation.isTeamUp{
-                        annotation.markTypeToShow = .teamUp
                     }
                 }
             }
@@ -377,17 +277,12 @@ class PresonAnnotationGetter{
         annotation.coordinate = CLLocationCoordinate2D(latitude:  25.053227, longitude: 121.527007)
         annotation.title = "好難過，只求一醉⋯⋯"
         annotation.isRequest = true
-        annotation.preferMarkType = .request
-        annotation.wantMakeFriend = true
         annotation.gender = .Boy
         annotations.append(annotation)
         
         let annotation2 = TradeAnnotation()
         annotation2.coordinate = CLLocationCoordinate2D(latitude:  25.054070, longitude: 121.523923)
         annotation2.title = "桌遊團 -2"
-        annotation2.preferMarkType = .teamUp
-        annotation2.isTeamUp = true
-        annotation2.wantMakeFriend = true
         annotations.append(annotation2)
         
         let annotation3 = TradeAnnotation()
@@ -396,15 +291,12 @@ class PresonAnnotationGetter{
         annotation3.isOpenStore = true
         annotation3.isRequest = true
 //        annotation3.smallHeadShot = UIImage(named: "Thumbnail")
-        annotation3.preferMarkType = .openStore
         annotations.append(annotation3)
         
         let annotation4 = TradeAnnotation()
         annotation4.coordinate = CLLocationCoordinate2D(latitude:  25.052724, longitude: 121.526130)
         annotation4.title = "貂蟬"
         annotation4.isOpenStore = true
-        annotation4.preferMarkType = .makeFriend
-        annotation4.wantMakeFriend = true
         annotation4.gender = .Girl
         
         annotations.append(annotation4)
@@ -419,24 +311,10 @@ class PresonAnnotationGetter{
             
             annotation.isOpenStore = UserSetting.isWantSellSomething
             annotation.isRequest = UserSetting.isWantBuySomething
-            annotation.isTeamUp = UserSetting.isWantTeamUp
-            annotation.wantMakeFriend = UserSetting.isWantMakeFriend
             annotation.openTime = Date().getCurrentTimeString()
             annotation.title = UserSetting.storeName
             if refreshLocation{
                 annotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((UserSetting.userLatitude as NSString).floatValue), longitude: CLLocationDegrees((UserSetting.userLongitude as NSString).floatValue))
-            }
-            
-            if UserSetting.perferIconStyleToShowInMap == "openStore"{
-                annotation.preferMarkType = .openStore
-            }else if UserSetting.perferIconStyleToShowInMap == "request"{
-                annotation.preferMarkType = .request
-            }else if  UserSetting.perferIconStyleToShowInMap == "makeFriend"{
-                annotation.preferMarkType = .makeFriend
-            }else if  UserSetting.perferIconStyleToShowInMap == "teamUp"{
-                annotation.preferMarkType = .teamUp
-            }else{
-                annotation.preferMarkType = .none
             }
             
             let temp = decideCanShowOrNotAndWhichIcon([annotation])
@@ -456,25 +334,13 @@ class PresonAnnotationGetter{
             annotation.userName = UserSetting.userName
             annotation.isOpenStore = UserSetting.isWantSellSomething
             annotation.isRequest = UserSetting.isWantBuySomething
-            annotation.isTeamUp = UserSetting.isWantTeamUp
-            annotation.wantMakeFriend = UserSetting.isWantMakeFriend
             annotation.openTime = Date().getCurrentTimeString()
             annotation.title = UserSetting.storeName
             if refreshLocation{
                 annotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((UserSetting.userLatitude as NSString).floatValue), longitude: CLLocationDegrees((UserSetting.userLongitude as NSString).floatValue))
             }
             
-            if UserSetting.perferIconStyleToShowInMap == "openStore"{
-                annotation.preferMarkType = .openStore
-            }else if UserSetting.perferIconStyleToShowInMap == "request"{
-                annotation.preferMarkType = .request
-            }else if  UserSetting.perferIconStyleToShowInMap == "makeFriend"{
-                annotation.preferMarkType = .makeFriend
-            }else if  UserSetting.perferIconStyleToShowInMap == "teamUp"{
-                annotation.preferMarkType = .teamUp
-            }else{
-                annotation.preferMarkType = .none
-            }
+
             let temp = decideCanShowOrNotAndWhichIcon([annotation])
             if temp.count > 0{
                 userAnnotation = temp[0]

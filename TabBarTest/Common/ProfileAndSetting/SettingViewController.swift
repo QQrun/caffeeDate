@@ -409,8 +409,6 @@ class SettingViewController: UIViewController {
         preferMakeFriendMarkView.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
         UserSetting.perferIconStyleToShowInMap = "openStore"
         updatePreferMarkToFireBase()
-        
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.userAnnotation?.preferMarkType = .openStore
         CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.reFreshUserAnnotation(smallHeadShot: nil, refreshLocation: false)
     }
     
@@ -425,8 +423,6 @@ class SettingViewController: UIViewController {
         UserSetting.perferIconStyleToShowInMap = "request"
         
         updatePreferMarkToFireBase()
-        
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.userAnnotation?.preferMarkType = .request
         CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.reFreshUserAnnotation(smallHeadShot: nil, refreshLocation: false)
         
     }
@@ -442,8 +438,6 @@ class SettingViewController: UIViewController {
         UserSetting.perferIconStyleToShowInMap = "teamUp"
         
         updatePreferMarkToFireBase()
-        
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.userAnnotation?.preferMarkType = .teamUp
         CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.reFreshUserAnnotation(smallHeadShot: nil, refreshLocation: false)
         
     }
@@ -459,8 +453,6 @@ class SettingViewController: UIViewController {
         UserSetting.perferIconStyleToShowInMap = "makeFriend"
         
         updatePreferMarkToFireBase()
-        
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.userAnnotation?.preferMarkType = .makeFriend
         CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.presonAnnotationGetter.reFreshUserAnnotation(smallHeadShot: nil, refreshLocation: false)
     }
     
