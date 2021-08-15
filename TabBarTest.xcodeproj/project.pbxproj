@@ -9,7 +9,10 @@
 /* Begin PBXBuildFile section */
 		A039BB1F2669228400D2F661 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A039BB1E2669228400D2F661 /* HomeViewController.swift */; };
 		A063F570267F826B00136187 /* CoffeeMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */; };
+		A075E9A926ADB6D2000B43E5 /* CreateTradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A075E9A826ADB6D2000B43E5 /* CreateTradeViewController.swift */; };
 		A07D6D072688D34600C1786E /* TradeAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07D6D062688D34600C1786E /* TradeAnnotationView.swift */; };
+		A090D01E26B67C3100A4EFA3 /* AddPhotosTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A090D01D26B67C3100A4EFA3 /* AddPhotosTableViewCell.swift */; };
+		A0EA855726B596A2004526E2 /* TextViewTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A0EA855626B596A2004526E2 /* TextViewTableViewCell.swift */; };
 		A711055B243BBD9A008E680D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055A243BBD9A008E680D /* AppDelegate.swift */; };
 		A711055D243BBD9A008E680D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055C243BBD9A008E680D /* SceneDelegate.swift */; };
 		A7110567243BBD9B008E680D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110565243BBD9B008E680D /* LaunchScreen.storyboard */; };
@@ -211,7 +214,10 @@
 		5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.release.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.release.xcconfig"; sourceTree = "<group>"; };
 		A039BB1E2669228400D2F661 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
 		A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeMarkerAnnotationView.swift; sourceTree = "<group>"; };
+		A075E9A826ADB6D2000B43E5 /* CreateTradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTradeViewController.swift; sourceTree = "<group>"; };
 		A07D6D062688D34600C1786E /* TradeAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeAnnotationView.swift; sourceTree = "<group>"; };
+		A090D01D26B67C3100A4EFA3 /* AddPhotosTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddPhotosTableViewCell.swift; sourceTree = "<group>"; };
+		A0EA855626B596A2004526E2 /* TextViewTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TextViewTableViewCell.swift; sourceTree = "<group>"; };
 		A7110557243BBD9A008E680D /* 面交人.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "面交人.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A711055A243BBD9A008E680D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A711055C243BBD9A008E680D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -445,6 +451,9 @@
 				A039BB1E2669228400D2F661 /* HomeViewController.swift */,
 				A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */,
 				A07D6D062688D34600C1786E /* TradeAnnotationView.swift */,
+				A075E9A826ADB6D2000B43E5 /* CreateTradeViewController.swift */,
+				A0EA855626B596A2004526E2 /* TextViewTableViewCell.swift */,
+				A090D01D26B67C3100A4EFA3 /* AddPhotosTableViewCell.swift */,
 			);
 			path = Home;
 			sourceTree = "<group>";
@@ -1158,6 +1167,7 @@
 				A77BAD49253C7D190071D346 /* InputTextView.swift in Sources */,
 				A77BAC03253C76D80071D346 /* TypingBubble.swift in Sources */,
 				A7CB15A824A8C01B00FDBC12 /* MailListViewController.swift in Sources */,
+				A090D01E26B67C3100A4EFA3 /* AddPhotosTableViewCell.swift in Sources */,
 				A77BAD4D253C7D190071D346 /* InputBarAccessoryView.swift in Sources */,
 				A7D3096D251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift in Sources */,
 				A77BAD4F253C7D190071D346 /* AttachmentManagerDataSource.swift in Sources */,
@@ -1169,7 +1179,9 @@
 				A77BAB81253C75DF0071D346 /* UIColor+Extensions.swift in Sources */,
 				A77BABCD253C76680071D346 /* AccessoryPosition.swift in Sources */,
 				A7FDB7352481418E005BA294 /* CustomInputBoxKit.swift in Sources */,
+				A075E9A926ADB6D2000B43E5 /* CreateTradeViewController.swift in Sources */,
 				A766F1562554342000C9455C /* PrivacyViewController.swift in Sources */,
+				A0EA855726B596A2004526E2 /* TextViewTableViewCell.swift in Sources */,
 				A789E498244DCCAA00730053 /* FirstLogInViewController.swift in Sources */,
 				A7FDB73B24827EE2005BA294 /* CustomTopBarKit.swift in Sources */,
 				A77BABC6253C76680071D346 /* MessageKitDateFormatter.swift in Sources */,

@@ -9,17 +9,7 @@
 import UIKit
 import MapKit
 import SwifterSwift
-
-extension UIButton {
-    
-    func addShadow() {
-        layer.shadowOffset = CGSize(width: 0, height: 4)
-        layer.shadowRadius = 8
-        layer.shadowOpacity = 0.3
-        layer.masksToBounds = false
-        layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
-    }
-}
+import FloatingPanel
 
 class HomeViewController: UIViewController {
     
@@ -52,6 +42,7 @@ class HomeViewController: UIViewController {
         button.backgroundColor = UIColor(red: 0, green: 202 / 255, blue: 199 / 255, alpha: 1)
         button.layer.cornerRadius = 26
         button.addShadow()
+        button.addTarget(self, action: #selector(addButtonTapped), for: .touchUpInside)
         view.addSubview(button)
         button.snp.makeConstraints { make in
             make.height.width.equalTo(52)
@@ -137,6 +128,21 @@ class HomeViewController: UIViewController {
         return button
     }()
     
+    lazy var floatingPanelController: FloatingPanelController = {
+        let fpc = FloatingPanelController()
+        fpc.delegate = self
+        fpc.isRemovalInteractionEnabled = true
+        fpc.backdropView.dismissalTapGestureRecognizer.isEnabled = true
+        fpc.contentMode = .fitToBounds
+        fpc.contentInsetAdjustmentBehavior = .always
+        let appearance = SurfaceAppearance()
+        appearance.cornerRadius = 24
+        fpc.surfaceView.appearance = appearance
+        fpc.layout = TradePanelLayout()
+        return fpc
+    }()
+
+    
     var currentCoordinate: CLLocationCoordinate2D?
     var coffeeAnnotationGetter : CoffeeAnnotationGetter!
     var presonAnnotationGetter : PresonAnnotationGetter!
@@ -163,6 +169,34 @@ class HomeViewController: UIViewController {
             mapView.setRegion(region, animated: true)
         }
     }
+    
+    @objc func addButtonTapped() {
+        let alert = UIAlertController(title: nil, message: nil, preferredStyle: .actionSheet)
+        
+//        alert.addAction(UIAlertAction(title: "我想買東西", style: .default , handler: { _ in
+//            let wantBuyViewController = WantSellViewController(defaultItem: nil)
+//            wantBuyViewController.modalPresentationStyle = .overCurrentContext
+////            wantBuyViewController.shopEditViewController = shopEditViewController
+//            wantBuyViewController.iWantType = .Buy
+//            self.present(wantBuyViewController, animated: true)
+//        }))
+        for type in CreateTradeViewController.TradeType.allCases {
+            alert.addAction(UIAlertAction(title: type.title, style: .default) { _ in
+                self.createTrade(type: type)
+            })
+        }
+        alert.addAction(UIAlertAction(title: "取消", style: .cancel))
+        present(alert, animated: true) {
+            print("completion block")
+        }
+    }
+    
+    func createTrade(type: CreateTradeViewController.TradeType) {
+        let vc = CreateTradeViewController(type: type)
+        let nav = UINavigationController(rootViewController: vc)
+        floatingPanelController.set(contentViewController: nav)
+        present(floatingPanelController, animated: true)
+    }
 }
 
 extension HomeViewController: MKMapViewDelegate {
@@ -188,3 +222,35 @@ extension HomeViewController: CLLocationManagerDelegate {
     }
 }
 
+extension HomeViewController: FloatingPanelControllerDelegate {
+    
+    open func floatingPanel(_ fpc: FloatingPanelController, shouldRemoveAt location: CGPoint, with velocity: CGVector) -> Bool {
+        return velocity.dy > 3
+    }
+}
+
+extension UIButton {
+    
+    func addShadow() {
+        layer.shadowOffset = CGSize(width: 0, height: 4)
+        layer.shadowRadius = 8
+        layer.shadowOpacity = 0.3
+        layer.masksToBounds = false
+        layer.shadowColor = UIColor(red: 0, green: 0, blue: 0, alpha: 1).cgColor
+    }
+}
+
+class TradePanelLayout: FloatingPanelLayout {
+    let position: FloatingPanelPosition = .bottom
+    let initialState: FloatingPanelState = .full
+    
+    var anchors: [FloatingPanelState : FloatingPanelLayoutAnchoring] {
+        return [
+            .full: FloatingPanelLayoutAnchor(absoluteInset: 0.0, edge: .top, referenceGuide: .safeArea)
+        ]
+    }
+    
+    func backdropAlpha(for state: FloatingPanelState) -> CGFloat {
+        return 0.3
+    }
+}

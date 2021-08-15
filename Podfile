@@ -16,7 +16,7 @@ target 'TabBarTest' do
   pod 'SwifterSwift/MapKit'
   pod 'Firebase/Analytics'
   pod 'SnapKit'
-
+  pod 'FloatingPanel'
 #  pod 'GoogleSignIn'
 #  pod 'FBSDKCoreKit/Swift'
 #  pod 'FBSDKLoginKit/Swift'
