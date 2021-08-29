@@ -26,7 +26,6 @@ class PresonAnnotationGetter{
     var userAnnotation : TradeAnnotation?{
         didSet{
             if userAnnotation != nil{
-                CoordinatorAndControllerInstanceHelper.rootCoordinator.settingViewController.storeOpenTimeString = userAnnotation!.openTime
                 UserSetting.storeName = userAnnotation!.title!
             }else{
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.settingViewController.storeOpenTimeString = ""
