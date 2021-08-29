@@ -67,15 +67,11 @@ class CreateTradeViewController: UIViewController {
         return tableView
     }()
     
-    lazy var loadingView: UIView = {
-        let loadingView = UIView()
-        loadingView.setupToLoadingView()
-        view.addSubview(loadingView)
-        loadingView.snp.makeConstraints { make in
-            make.center.equalToSuperview()
-            make.width.height.equalTo(80)
-        }
-        return loadingView
+    lazy var loadingButton: UIBarButtonItem = {
+        let activityIndicator = UIActivityIndicatorView(frame: CGRect(x: 0, y: 0, width: 20, height: 20))
+        let barButton = UIBarButtonItem(customView: activityIndicator)
+        activityIndicator.startAnimating()
+        return barButton
     }()
     
     deinit {
@@ -98,11 +94,11 @@ class CreateTradeViewController: UIViewController {
         navigationController?.navigationBar.tintColor = UIColor(red: 1, green: 162, blue: 153)
         navigationItem.leftBarButtonItem = UIBarButtonItem(image: UIImage(named: "close-2")?.withRenderingMode(.alwaysOriginal), style: .plain, target: self, action: #selector(closeButtonTapped))
         navigationItem.rightBarButtonItem = UIBarButtonItem(title: "刊登", style: .plain, target: self, action: #selector(publishButtonTapped))
+        
         let tapGestureRecognizer = UITapGestureRecognizer(target: view, action: #selector(UIView.endEditing))
         tapGestureRecognizer.cancelsTouchesInView = false
         view.addGestureRecognizer(tapGestureRecognizer)
         tableView.isHidden = false
-        loadingView.isHidden = false
         NotificationCenter.default.addObserver(self, selector: #selector(keyboardWillChangeFrame), name: UIResponder.keyboardWillChangeFrameNotification, object: nil)
     }
     
@@ -126,11 +122,11 @@ class CreateTradeViewController: UIViewController {
     }
     
     @objc func publishButtonTapped() {
-    
         guard let images = (tableView.cellForRow(at: IndexPath(row: 0, section: 0)) as? AddPhotosTableViewCell)?.images,
               let name = (tableView.cellForRow(at: IndexPath(row: 1, section: 0)) as? TextViewTableViewCell)?.textView.text,
               let price = (tableView.cellForRow(at: IndexPath(row: 2, section: 0)) as? TextViewTableViewCell)?.textView.text,
               let info = (tableView.cellForRow(at: IndexPath(row: 3, section: 0)) as? TextViewTableViewCell)?.textView.text else { return }
+        navigationItem.rightBarButtonItem = loadingButton
         let tasks = images.map { FirebaseHelper.uploadItemImage($0) }
         when(fulfilled: tasks).then { urls -> Promise<[Bool]> in
             let item = Item(itemID: NSUUID().uuidString, thumbnailUrl: urls.first?.absoluteString, photosUrl: urls.map({ $0.absoluteString }), name: name, price: price, descript: info, order: 0, done: false, likeUIDs: [], subscribedIDs: [], commentIDs: [], itemType: self.type == .supply ? .Sell : .Buy
