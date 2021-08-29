@@ -134,6 +134,9 @@ class CreateTradeViewController: UIViewController {
             let tradeAnnotation = TradeAnnotationData(openTime: Date().getCurrentTimeString(), title: name, gender: UserSetting.userGender, isOpenStore: self.type == .supply, isRequest: self.type == .demand, latitude: "\(self.coordinate.latitude)", longitude: "\(self.coordinate.longitude)")
             return when(fulfilled: [self.uploadItem(item), FirebaseHelper.uploadTradeAnnotation(tradeAnnotation)])
         }.done { _ in
+            if let vc = (self.navigationController?.parent as? FloatingPanelController)?.presentingViewController as? HomeViewController {
+                vc.presonAnnotationGetter.getPersonData()
+            }
             self.closeButtonTapped()
         }.catch { error in
             print(error)
