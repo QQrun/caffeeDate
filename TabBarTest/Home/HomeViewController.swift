@@ -73,6 +73,7 @@ class HomeViewController: UIViewController {
         button.backgroundColor = .white
         button.layer.cornerRadius = 20
         button.addShadow()
+        button.addTarget(self, action: #selector(messageButtonTapped), for: .touchUpInside)
         view.addSubview(button)
         button.snp.makeConstraints { make in
             make.height.width.equalTo(40)
@@ -198,6 +199,16 @@ class HomeViewController: UIViewController {
         let nav = UINavigationController(rootViewController: vc)
         floatingPanelController.set(contentViewController: nav)
         present(floatingPanelController, animated: true)
+    }
+    
+    @objc func messageButtonTapped() {
+        let vc = MailListViewController.initFromStoryboard()
+        let nav = UINavigationController(rootViewController: vc)
+        nav.setNavigationBarHidden(true, animated: false)
+        nav.title = "訊息"
+        nav.tabBarItem.image = UIImage(named: "tapbar_email_unactive")?.withRenderingMode(.alwaysOriginal)
+        nav.tabBarItem.selectedImage = UIImage(named: "tapbar_email_active")?.withRenderingMode(.alwaysOriginal)
+        present(nav, animated: true)
     }
 }
 
