@@ -457,6 +457,7 @@ DEPENDENCIES:
   - Firebase/Storage
   - FirebaseUI
   - FloatingPanel
+  - GoogleSignIn
   - PromiseKit
   - SnapKit
   - SwifterSwift/MapKit
@@ -538,6 +539,6 @@ SPEC CHECKSUMS:
   SnapKit: 97b92857e3df3a0c71833cce143274bf6ef8e5eb
   SwifterSwift: 334181863c416882d97b7a60c05054d9e4d799e2
 
-PODFILE CHECKSUM: 18da5d9e88ec3d039cad82d99eae20716ce4b6f6
+PODFILE CHECKSUM: 1ca868e85a6e3969e4d2b44917d1fb773b2a7367
 
-COCOAPODS: 1.10.1
+COCOAPODS: 1.11.2

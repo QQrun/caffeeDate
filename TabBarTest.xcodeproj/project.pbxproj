@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		A039BB1F2669228400D2F661 /* HomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A039BB1E2669228400D2F661 /* HomeViewController.swift */; };
+		A045EA692700D5D9006E296C /* LoginViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A045EA682700D5D9006E296C /* LoginViewController.swift */; };
 		A063F570267F826B00136187 /* CoffeeMarkerAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */; };
 		A075E9A926ADB6D2000B43E5 /* CreateTradeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A075E9A826ADB6D2000B43E5 /* CreateTradeViewController.swift */; };
 		A07D6D072688D34600C1786E /* TradeAnnotationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A07D6D062688D34600C1786E /* TradeAnnotationView.swift */; };
@@ -213,6 +214,7 @@
 /* Begin PBXFileReference section */
 		5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.release.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.release.xcconfig"; sourceTree = "<group>"; };
 		A039BB1E2669228400D2F661 /* HomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeViewController.swift; sourceTree = "<group>"; };
+		A045EA682700D5D9006E296C /* LoginViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewController.swift; sourceTree = "<group>"; };
 		A063F56F267F826B00136187 /* CoffeeMarkerAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeMarkerAnnotationView.swift; sourceTree = "<group>"; };
 		A075E9A826ADB6D2000B43E5 /* CreateTradeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreateTradeViewController.swift; sourceTree = "<group>"; };
 		A07D6D062688D34600C1786E /* TradeAnnotationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TradeAnnotationView.swift; sourceTree = "<group>"; };
@@ -832,6 +834,7 @@
 				A789E4A5244DDCC600730053 /* OpenNotificationViewController.storyboard */,
 				A766F1542554342000C9455C /* PrivacyViewController.swift */,
 				A766F15A2554356900C9455C /* PrivacyViewController.storyboard */,
+				A045EA682700D5D9006E296C /* LoginViewController.swift */,
 			);
 			path = Login;
 			sourceTree = "<group>";
@@ -1097,6 +1100,7 @@
 				A77BAD60253C7D190071D346 /* InputBarSendButton.swift in Sources */,
 				A7FDB74E248D12FC005BA294 /* ChatUser.swift in Sources */,
 				A77BAB96253C75EF0071D346 /* MessageSizeCalculator.swift in Sources */,
+				A045EA692700D5D9006E296C /* LoginViewController.swift in Sources */,
 				A77BAB8F253C75EF0071D346 /* AudioMessageSizeCalculator.swift in Sources */,
 				A77BAB7A253C75DF0071D346 /* MessageKind+textMessageKind.swift in Sources */,
 				A71BD83424E0317700AA093A /* Device+.swift in Sources */,
