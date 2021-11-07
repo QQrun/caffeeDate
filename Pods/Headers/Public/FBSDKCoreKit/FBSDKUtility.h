@@ -1,1 +1,1 @@
-../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/FBSDKUtility.h
+../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/include/FBSDKUtility.h

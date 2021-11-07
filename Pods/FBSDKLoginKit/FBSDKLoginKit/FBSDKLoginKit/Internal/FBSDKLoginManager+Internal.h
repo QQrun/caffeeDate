@@ -28,10 +28,18 @@
 #import "FBSDKCoreKit+Internal.h"
 #endif
 
+#if SWIFT_PACKAGE
 #import "FBSDKLoginManager.h"
+#else
+#import <FBSDKLoginKit/FBSDKLoginManager.h>
+#endif
+
+#import "FBSDKLoginProviding.h"
 
 @class FBSDKAccessToken;
 @class FBSDKLoginCompletionParameters;
+@class FBSDKLoginManagerLogger;
+@class FBSDKPermission;
 
 /**
  Success Block
@@ -39,21 +47,34 @@
 typedef void (^FBSDKBrowserLoginSuccessBlock)(BOOL didOpen, NSError *error)
 NS_SWIFT_NAME(BrowserLoginSuccessBlock);
 
-@interface FBSDKLoginManager () <FBSDKURLOpening>
-@property (nonatomic, weak) UIViewController *fromViewController;
-@property (nonatomic, readonly) NSSet *requestedPermissions;
+typedef NS_ENUM(NSInteger, FBSDKLoginManagerState) {
+  FBSDKLoginManagerStateIdle,
+  // We received a call to start login.
+  FBSDKLoginManagerStateStart,
+  // We're calling out to the Facebook app or Safari to perform a log in
+  FBSDKLoginManagerStatePerformingLogin,
+};
 
-// for testing only
+@interface FBSDKLoginManager () <FBSDKURLOpening, FBSDKLoginProviding>
+@property (nonatomic, weak) UIViewController *fromViewController;
+@property (nonatomic, readonly) NSSet<FBSDKPermission *> *requestedPermissions;
+@property (nonatomic, strong) FBSDKLoginManagerLogger *logger;
+@property (nonatomic, strong) FBSDKLoginConfiguration *config;
+@property (nonatomic) FBSDKLoginManagerState state;
+@property (nonatomic) BOOL usedSFAuthSession;
+
 @property (nonatomic, readonly, copy) NSString *loadExpectedChallenge;
+@property (nonatomic, readonly, copy) NSString *loadExpectedNonce;
 
 - (void)completeAuthentication:(FBSDKLoginCompletionParameters *)parameters expectChallenge:(BOOL)expectChallenge;
 
-// available to internal types to trigger login without checking read/publish mixtures.
-- (void)logInWithPermissions:(NSSet *)permissions handler:(FBSDKLoginManagerLoginResultBlock)handler;
 - (void)logIn;
 
 // made available for testing only
-- (NSDictionary *)logInParametersWithPermissions:(NSSet *)permissions serverConfiguration:(FBSDKServerConfiguration *)serverConfiguration;
+- (NSDictionary *)logInParametersWithConfiguration:(FBSDKLoginConfiguration *)configuration
+                               serverConfiguration:(FBSDKServerConfiguration *)serverConfiguration
+                                            logger:(FBSDKLoginManagerLogger *)logger
+                                        authMethod:(NSString *)authMethod;
 // made available for testing only
 - (void)validateReauthentication:(FBSDKAccessToken *)currentToken withResult:(FBSDKLoginManagerLoginResult *)loginResult;
 
@@ -61,8 +82,14 @@ NS_SWIFT_NAME(BrowserLoginSuccessBlock);
 - (void)setHandler:(FBSDKLoginManagerLoginResultBlock)handler;
 // for testing only
 - (void)setRequestedPermissions:(NSSet *)requestedPermissions;
-// for testing only
-- (void)performBrowserLogInWithParameters:(NSDictionary *)loginParams handler:(FBSDKBrowserLoginSuccessBlock)handler;
+
+// available to internal modules
+- (void)handleImplicitCancelOfLogIn;
+- (void)invokeHandler:(FBSDKLoginManagerLoginResult *)result error:(NSError *)error;
+- (BOOL)validateLoginStartState;
+- (BOOL)isPerformingLogin;
++ (NSString *)stringForChallenge;
+- (void)storeExpectedChallenge:(NSString *)expectedChallenge;
 
 @end
 

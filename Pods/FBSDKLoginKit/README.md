@@ -11,34 +11,28 @@ This open-source library allows you to integrate Facebook into your iOS app.
 Learn more about the provided samples, documentation, integrating the SDK into your app, accessing source code, and more
 at https://developers.facebook.com/docs/ios
 
-NOTE: By default, the Facebook SDK for iOS is installed in ~/Documents/FacebookSDK
+Please take a moment and [subscribe to releases](https://docs.github.com/en/enterprise/2.15/user/articles/watching-and-unwatching-repositories) so that you can be notified about new features, deprecations, and critical fixes. To see information about the latest release, consult our [changelog](CHANGELOG.md).
+
 
 ## TRY IT OUT
 
-### Swift Package Manager (available Xcode 11.2 and forward)
+### Swift Package Manager
 
 1. In Xcode, select File > Swift Packages > Add Package Dependency.
-2. Follow the prompts using the URL for this repository and a minimum semantic version of v5.10.0
-3. Check-out the tutorials available online at: <https://developers.facebook.com/docs/ios/getting-started>
-4. Start coding! Visit <https://developers.facebook.com/docs/ios> for tutorials and reference documentation.
+1. Follow the prompts using the URL for this repository
+1. Select the `Facebook`-prefixed libraries you want to use
+1. Check-out the tutorials available online at: <https://developers.facebook.com/docs/ios/getting-started>
+1. Start coding! Visit <https://developers.facebook.com/docs/ios> for tutorials and reference documentation.
 
-**Note for Swift Package Manager Users:**
+## iOS 14 CHANGES
 
-If you explicitly **DO NOT** want to include Swift, import `FBSDKCoreKit` `FBSDKLoginKit` and `FBSDKShareKit`
+### Data Disclosure
 
-For projects that include Swift, use `FacebookCore`, `FacebookLogin`, and `FacebookShare`
+Due to the release of iOS 14, tracking events that your app collects and sends to Facebook may require you to disclosed these data types in the App Store Connect questionnaire. It is your responsibility to ensure this is reflected in your application’s privacy policy. Visit our blogpost for information on affected Facebook SDKs, APIs, and products and the Apple App Store Privacy Details article to learn more about the data types you will need to disclose.
 
-### CocoaPods
+link to FB blogpost https://developers.facebook.com/blog/post/2020/10/22/preparing-for-apple-app-store-data-disclosure-requirements/
 
-1. Add the following to your `Podfile`:
-
-        pod 'FBSDKCoreKit'
-        pod 'FBSDKLoginKit'
-        pod 'FBSDKShareKit'
-
-2. Test your install by adding `import FBSDKCoreKit` to your `AppDelegate`
-3. Check-out the tutorials available online at: <https://developers.facebook.com/docs/ios/getting-started>
-4. Start coding! Visit <https://developers.facebook.com/docs/ios> for tutorials and reference documentation.
+apple store details https://developer.apple.com/app-store/app-privacy-details/
 
 ## FEATURES
 
@@ -57,11 +51,15 @@ join the [Facebook Developers Group on Facebook](https://www.facebook.com/groups
 ask questions on [Stack Overflow](http://facebook.stackoverflow.com),
 or open an issue in this repository.
 
+## CONTRIBUTE
+
+Facebook welcomes contributions to our SDKs. Please see the [CONTRIBUTING](CONTRIBUTING) file.
+
 ## LICENSE
 
 See the [LICENSE](LICENSE) file.
 
-## Security Policy
+## SECURITY POLICY
 
 See the [SECURITY POLICY](SECURITY.md) for more info on our bug bounty program.
 
@@ -79,7 +77,7 @@ See the [SECURITY POLICY](SECURITY.md) for more info on our bug bounty program.
   regarding such collection, use, and disclosure (including, at a minimum, through your privacy policy). You further
   agree that you will not share information with us about children under the age of 13.
 - You agree to comply with all applicable laws and regulations and also agree to our Terms
-  <https://www.facebook.com/policies/>, including our Platform Policies <https://developers.facebook.com/policy/>.and
+  <https://www.facebook.com/policies/>, including our Platform Policies <https://developers.facebook.com/policy/> and
   Advertising Guidelines, as applicable <https://www.facebook.com/ad_guidelines.php>.
 
 By using the Facebook SDK for iOS you agree to these terms.

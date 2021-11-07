@@ -16,6 +16,12 @@
 // IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN
 // CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
+#if !TARGET_OS_TV
+
+#if BUCK
+import FacebookCore
+#endif
+
 import FBSDKCoreKit
 
 import UIKit
@@ -41,7 +47,9 @@ public extension FBLoginButton {
    - Parameter permissions: Array of read permissions to request when logging in.
    */
   convenience init(frame: CGRect = .zero, permissions: [Permission] = [.publicProfile]) {
-        self.init(frame: frame)
-        self.permissions = permissions.map { $0.name }
+    self.init(frame: frame)
+    self.permissions = permissions.map { $0.name }
   }
 }
+
+#endif

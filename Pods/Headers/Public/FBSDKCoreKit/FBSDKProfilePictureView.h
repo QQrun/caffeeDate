@@ -1,1 +1,1 @@
-../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/FBSDKProfilePictureView.h
+../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/include/FBSDKProfilePictureView.h

@@ -1,1 +1,1 @@
-../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit.h
+../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/include/FBSDKCoreKit.h

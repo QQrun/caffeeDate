@@ -136,13 +136,22 @@ class FirebaseHelper{
     
     static func updateToken(){
         let tokenRef = Database.database().reference().child("PersonDetail/" +  Auth.auth().currentUser!.uid + "/token")
-        InstanceID.instanceID().instanceID{(result, error) in
-            if let error = error {
-                print("Error fetching remote instange ID: \(error)")
-            } else if let result = result {
-                tokenRef.setValue(result.token)
-            }
+//        InstanceID.instanceID().instanceID{(result, error) in
+//            if let error = error {
+//                print("Error fetching remote instange ID: \(error)")
+//            } else if let result = result {
+//                tokenRef.setValue(result.token)
+//            }
+//        }
+        Messaging.messaging().token { token, error in
+          if let error = error {
+            print("Error fetching FCM registration token: \(error)")
+          } else if let token = token {
+            print("FCM registration token: \(token)")
+            tokenRef.setValue(token)
+          }
         }
+
     }
     
     static func updatePersonAnnotation(){

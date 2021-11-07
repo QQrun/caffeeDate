@@ -18,12 +18,6 @@
 
 #import <Foundation/Foundation.h>
 
-#if SWIFT_PACKAGE
-#import "FBSDKCopying.h"
-#else
-#import <FBSDKCoreKit/FBSDKCopying.h>
-#endif
-
 #import "FBSDKDialogConfiguration.h"
 #import "FBSDKErrorConfiguration.h"
 
@@ -34,9 +28,6 @@ FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameLogin;
 FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameAppInvite;
 FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameGameRequest;
 FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameGroup;
-FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameLike;
-FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameMessage;
-FOUNDATION_EXPORT NSString *const FBSDKDialogConfigurationNameShare;
 
 FOUNDATION_EXPORT const NSInteger FBSDKServerConfigurationVersion;
 
@@ -47,10 +38,8 @@ typedef NS_OPTIONS(NSUInteger, FBSDKServerConfigurationSmartLoginOptions)
   FBSDKServerConfigurationSmartLoginOptionsRequireConfirmation  = 1 << 1,
 };
 
-@class FBSDKMonitoringConfiguration;
-
 NS_SWIFT_NAME(ServerConfiguration)
-@interface FBSDKServerConfiguration : NSObject <FBSDKCopying, NSSecureCoding>
+@interface FBSDKServerConfiguration : NSObject <NSCopying, NSObject, NSSecureCoding>
 
 - (instancetype)init NS_UNAVAILABLE;
 + (instancetype)new NS_UNAVAILABLE;
@@ -80,7 +69,6 @@ implicitPurchaseLoggingEnabled:(BOOL)implicitPurchaseLoggingEnabled
             restrictiveParams:(NSDictionary<NSString *, id> *)restrictiveParams
                      AAMRules:(NSDictionary<NSString *, id> *)AAMRules
        suggestedEventsSetting:(NSDictionary<NSString *, id> *)suggestedEventsSetting
-      monitoringConfiguration:(FBSDKMonitoringConfiguration *)monitoringConfiguration
 NS_DESIGNATED_INITIALIZER;
 
 @property (nonatomic, assign, readonly, getter=isAdvertisingIDEnabled) BOOL advertisingIDEnabled;
@@ -106,7 +94,6 @@ NS_DESIGNATED_INITIALIZER;
 @property (nonatomic, copy, readonly) NSDictionary<NSString *, id> *restrictiveParams;
 @property (nonatomic, copy, readonly) NSDictionary<NSString *, id> *AAMRules;
 @property (nonatomic, copy, readonly) NSDictionary<NSString *, id> *suggestedEventsSetting;
-@property (nonatomic, copy, readonly) FBSDKMonitoringConfiguration *monitoringConfiguration;
 @property (nonatomic, readonly) NSInteger version;
 
 - (FBSDKDialogConfiguration *)dialogConfigurationForDialogName:(NSString *)dialogName;

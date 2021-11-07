@@ -45,10 +45,10 @@ class PersonDetailInfo {
         gender = snapshotValue["gender"] as! Int
         birthday = snapshotValue["birthday"] as! String
         lastSignInTime = snapshotValue["lastSignInTime"] as! String
-        selfIntroduction = snapshotValue["selfIntroduction"] as! String
+        selfIntroduction = snapshotValue["selfIntroduction"] as? String ?? ""
         photos = snapshotValue["photos"] as? [String]
         headShot = snapshotValue["headShot"] as? String
-        perferIconStyleToShowInMap = snapshotValue["perferIconStyleToShowInMap"] as! String
+        perferIconStyleToShowInMap = snapshotValue["perferIconStyleToShowInMap"] as? String ?? ""
         
         sellItems = []
         if let childSnapshots = snapshot.childSnapshot(forPath: "SellItems").children.allObjects as? [DataSnapshot] {

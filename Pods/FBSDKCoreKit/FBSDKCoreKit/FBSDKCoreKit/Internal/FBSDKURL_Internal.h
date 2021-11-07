@@ -20,10 +20,14 @@
 
 #if !TARGET_OS_TV
 
-#import "FBSDKURL.h"
+ #import "FBSDKURL.h"
+
+NS_ASSUME_NONNULL_BEGIN
 
 @interface FBSDKURL (Internal)
 + (FBSDKURL *)URLForRenderBackToReferrerBarURL:(NSURL *)url;
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

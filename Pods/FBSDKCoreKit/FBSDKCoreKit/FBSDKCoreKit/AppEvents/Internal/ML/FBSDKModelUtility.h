@@ -20,12 +20,17 @@
 
 #if !TARGET_OS_TV
 
-#import <Foundation/Foundation.h>
+ #import <Foundation/Foundation.h>
 
+NS_ASSUME_NONNULL_BEGIN
+
+NS_SWIFT_NAME(ModelUtility)
 @interface FBSDKModelUtility : NSObject
 
-+ (NSString *)normalizeText:(NSString *)text;
++ (NSString *)normalizedText:(NSString *)text;
 
 @end
+
+NS_ASSUME_NONNULL_END
 
 #endif

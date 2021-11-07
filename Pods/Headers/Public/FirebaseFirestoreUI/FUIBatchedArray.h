@@ -1,0 +1,1 @@
+../../../FirebaseFirestoreUI/FirebaseFirestoreUI/Sources/Public/FirebaseFirestoreUI/FUIBatchedArray.h

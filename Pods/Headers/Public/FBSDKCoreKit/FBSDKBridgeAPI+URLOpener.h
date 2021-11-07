@@ -1,0 +1,1 @@
+../../../FBSDKCoreKit/FBSDKCoreKit/FBSDKCoreKit/include/FBSDKBridgeAPI+URLOpener.h

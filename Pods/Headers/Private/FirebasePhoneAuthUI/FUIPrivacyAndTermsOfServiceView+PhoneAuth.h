@@ -1,0 +1,1 @@
+../../../FirebasePhoneAuthUI/FirebasePhoneAuthUI/Sources/FUIPrivacyAndTermsOfServiceView+PhoneAuth.h

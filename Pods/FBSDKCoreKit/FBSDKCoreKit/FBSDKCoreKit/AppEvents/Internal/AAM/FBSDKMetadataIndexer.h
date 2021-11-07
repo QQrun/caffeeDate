@@ -20,13 +20,15 @@
 
 #if !TARGET_OS_TV
 
-#import <Foundation/Foundation.h>
+ #import <Foundation/Foundation.h>
 
 NS_ASSUME_NONNULL_BEGIN
 
+NS_SWIFT_NAME(MetadataIndexer)
 @interface FBSDKMetadataIndexer : NSObject
+@property (class, nonatomic, readonly) FBSDKMetadataIndexer *shared;
 
-+ (void)enable;
+- (void)enable;
 
 @end
 
