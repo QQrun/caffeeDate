@@ -40,6 +40,7 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         
         //for google
         CoordinatorAndControllerInstanceHelper.logInPageViewController = logInPageViewController
+        
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         //for apple

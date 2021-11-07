@@ -18,7 +18,7 @@ target 'TabBarTest' do
   pod 'SnapKit'
   pod 'FloatingPanel'
   pod 'PromiseKit'
-  pod 'GoogleSignIn'
+  pod 'GoogleSignIn', '~> 5.0'
 #  pod 'FBSDKCoreKit/Swift'
 #  pod 'FBSDKLoginKit/Swift'
 #  pod 'FBSDKShareKit/Swift'
