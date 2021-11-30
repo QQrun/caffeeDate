@@ -1373,7 +1373,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
 				SWIFT_ENABLE_BATCH_MODE = NO;
@@ -1398,7 +1398,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.0.8;
+				MARKETING_VERSION = 1.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
 				SWIFT_ENABLE_BATCH_MODE = NO;
