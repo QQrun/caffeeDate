@@ -299,4 +299,36 @@ class UserSetting{
         }
     }
     
+    
+    // 背景
+    static var background: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "kBackground")
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "kBackground") ?? nil
+        }
+    }
+    
+    // 主色
+    static var primary: String? {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "kPrimary")
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "kPrimary") ?? nil
+        }
+    }
+    
+    // 深色模式
+    static var isNightMode: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "kNightMode")
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: "kNightMode")
+        }
+    }
+    
+    
 }

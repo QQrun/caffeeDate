@@ -80,7 +80,6 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     //loading動畫放在viewDidLoad不會動 但loading動畫我沒有很喜歡 省略
     override func viewDidLoad() {
         super.viewDidLoad()
-        //        overrideUserInterfaceStyle = .dark
         setBackground() //含scrollView InputBox
         configScrollContent()
         configTopbar()

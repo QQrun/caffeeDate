@@ -11,6 +11,7 @@ import MapKit
 import CoreLocation
 import Firebase
 import Alamofire
+import SnapKit
 
 protocol MapViewControllerViewDelegate: class {
     func gotoItemViewController_mapView(item:Item,personDetail:PersonDetailInfo)
@@ -136,11 +137,11 @@ class MapViewController: UIViewController {
     }
     
     fileprivate func hiddenTabBarOrNot(){
-        if hiddeningTapBar{
+//        if hiddeningTapBar{
             CoordinatorAndControllerInstanceHelper.rootCoordinator.hiddenTabBar()
-        }else{
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
-        }
+//        }else{
+//            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
+//        }
     }
     
     
@@ -1495,13 +1496,14 @@ class MapViewController: UIViewController {
         exclamationPopUpBGButton.backgroundColor = UIColor(red: 74/255, green: 74/255, blue: 74/255, alpha: 0.56)
         view.addSubview(exclamationPopUpBGButton)
         
-        exclamationPopUpContainerView.frame = CGRect(x: view.frame.width - 50 - 277.5, y: 35 + 37 + statusHeight, width:277.5, height: 123)
+        exclamationPopUpContainerView.frame = CGRect(x: view.frame.width - 50 - 277.5, y: 104 + statusHeight, width:277.5, height: 123)
         exclamationPopUpBGButton.addSubview(exclamationPopUpContainerView)
         exclamationPopUpBGButton.addTarget(self, action: #selector(exclamationPopUpBGBtnAct), for: .touchUpInside)
         
-        let exclamationPopUpImage = UIImage(named: "驚嘆號彈出方框")
+        let exclamationPopUpImage = UIImage(named: "驚嘆號彈出方框")?.withRenderingMode(.alwaysTemplate)
         let exclamationPopUpImageView = UIImageView(frame: CGRect(x: 0, y: 0, width: exclamationPopUpContainerView.frame.width, height: exclamationPopUpContainerView.frame.height))
         exclamationPopUpImageView.image = exclamationPopUpImage
+        exclamationPopUpImageView.tintColor = .white
         exclamationPopUpContainerView.addSubview(exclamationPopUpImageView)
         
         showOpenStoreButton.frame = CGRect(x: 6, y: 25, width: 44, height: 44)
@@ -1592,26 +1594,93 @@ class MapViewController: UIViewController {
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         
-        let circleButton_exclamation = UIButton(frame:CGRect(x: view.frame.width - 11 - 37, y: statusHeight + 11 + 37, width: 37, height: 37))
-        let exclamationImage = UIImage(named: "驚嘆號button")
+        let circleButton_add: UIButton = UIButton()
+        circleButton_add.setImage(UIImage(named: "icons24PlusFilledWt24"), for: .normal)
+        circleButton_add.backgroundColor = .primary()
+        circleButton_add.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
+        circleButton_add.layer.cornerRadius = 26
+        circleButton_add.layer.shadowColor = UIColor.black.cgColor
+        circleButton_add.layer.shadowRadius = 2
+        circleButton_add.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_add.layer.shadowOpacity = 0.3
+        view.addSubview(circleButton_add)
+        circleButton_add.snp.makeConstraints { make in
+            make.height.width.equalTo(52)
+            make.centerX.equalToSuperview()
+            make.bottom.equalTo(view.snp.bottomMargin).offset(-36)
+        }
+        
+        let acccountButton = UIButton()
+        acccountButton.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
+        acccountButton.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        acccountButton.layer.shadowColor = UIColor.black.cgColor
+        acccountButton.layer.shadowRadius = 2
+        acccountButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        acccountButton.layer.shadowOpacity = 0.3
+        acccountButton.layer.cornerRadius = 20
+        view.addSubview(acccountButton)
+        acccountButton.snp.makeConstraints { make in
+            make.height.width.equalTo(40)
+            make.centerY.equalTo(circleButton_add)
+            make.right.equalTo(circleButton_add.snp.left).offset(-48)
+        }
+        
+        let messageButton = UIButton()
+        messageButton.setImage(UIImage(named: "icons24MessageFilledGrey24"), for: .normal)
+        messageButton.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        messageButton.layer.shadowColor = UIColor.black.cgColor
+        messageButton.layer.shadowRadius = 2
+        messageButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        messageButton.layer.shadowOpacity = 0.3
+        messageButton.layer.cornerRadius = 20
+        view.addSubview(messageButton)
+        messageButton.snp.makeConstraints { make in
+            make.height.width.equalTo(40)
+            make.centerY.equalTo(circleButton_add)
+            make.left.equalTo(circleButton_add.snp.right).offset(48)
+        }
+        messageButton.addTarget(self, action: #selector(messageBtnAct), for: .touchUpInside)
+        
+        
+        let circleButton_exclamation = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90, width: 32, height: 32))
+        circleButton_exclamation.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        let exclamationImage = UIImage(named: "icons24FilterListBlack24Dp")
+        circleButton_exclamation.layer.cornerRadius = 16
+        circleButton_exclamation.layer.shadowColor = UIColor.black.cgColor
+        circleButton_exclamation.layer.shadowRadius = 2
+        circleButton_exclamation.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_exclamation.layer.shadowOpacity = 0.3
         circleButton_exclamation.setImage(exclamationImage, for: [])
         circleButton_exclamation.isEnabled = true
         view.addSubview(circleButton_exclamation)
         circleButton_exclamation.addTarget(self, action: #selector(exclamationBtnAct), for: .touchUpInside)
         
-        let circleButton_add = UIButton(frame:CGRect(x: view.frame.width/2 - 53/2, y: view.frame.height - 53 - 63 - bottomPadding, width: 53, height: 53))
-        let addImage = UIImage(named: "開攤販button")
-        circleButton_add.setImage(addImage, for: [])
-        circleButton_add.isEnabled = true
-        circleButton_add.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
-        view.addSubview(circleButton_add)
         
-        let circleButton_reposition = UIButton(frame:CGRect(x: view.frame.width - 53 - 14, y: view.frame.height - 53 - 63 - bottomPadding, width: 53, height: 53))
-        let repositionImage = UIImage(named: "再定位button")
+        let circleButton_reposition = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 32 + 16, width: 32, height: 32))
+        circleButton_reposition.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        let repositionImage = UIImage(named: "icons24LocationGrey24")
+        circleButton_reposition.layer.cornerRadius = 16
+        circleButton_reposition.layer.shadowColor = UIColor.black.cgColor
+        circleButton_reposition.layer.shadowRadius = 2
+        circleButton_reposition.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_reposition.layer.shadowOpacity = 0.3
         circleButton_reposition.setImage(repositionImage, for: [])
         circleButton_reposition.isEnabled = true
         view.addSubview(circleButton_reposition)
         circleButton_reposition.addTarget(self, action: #selector(repositionBtnAct), for: .touchUpInside)
+        
+        let circleButton_notification = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 64 + 32, width: 32, height: 32))
+        circleButton_notification.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        let notificationImage = UIImage(named: "icons24NotificationFilledGrey24")
+        circleButton_notification.layer.cornerRadius = 16
+        circleButton_notification.layer.shadowColor = UIColor.black.cgColor
+        circleButton_notification.layer.shadowRadius = 2
+        circleButton_notification.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_notification.layer.shadowOpacity = 0.3
+        circleButton_notification.setImage(notificationImage, for: [])
+        circleButton_notification.isEnabled = true
+        view.addSubview(circleButton_notification)
+        circleButton_notification.addTarget(self, action: #selector(notificationBtnAct), for: .touchUpInside)
         
     }
     
@@ -1622,11 +1691,20 @@ class MapViewController: UIViewController {
         mapView.delegate = self
         mapView.userTrackingMode = .follow
         mapView.showsPointsOfInterest = false
-        mapView.tintColor = UIColor.hexStringToUIColor(hex: "6E7CE5") //這裡決定的是user那個點的顏色
-        
+        mapView.tintColor = .primary() //這裡決定的是user那個點的顏色
         
         view.addSubview(mapView)
         mapView.addConstraintsToFillView(view: view)
+    }
+    
+    @objc private func messageBtnAct(){
+        Analytics.logEvent("地圖_訊息按鈕", parameters:nil)
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
+    }
+    
+    @objc private func notificationBtnAct(){
+        Analytics.logEvent("地圖_通知按鈕", parameters:nil)
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.notifyTab
     }
     
     @objc private func repositionBtnAct(){
@@ -2182,7 +2260,7 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         
-        let markColor = UIColor(red: 184/255, green: 190/255, blue: 236/255, alpha: 1)
+        let markColor = UIColor.sksBlue()
         
         if annotation is CoffeeAnnotation{
             

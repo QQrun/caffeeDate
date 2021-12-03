@@ -32,7 +32,7 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
     
     override func viewDidLoad() {
         super.viewDidLoad()
-//        overrideUserInterfaceStyle = .dark
+
         CustomBGKit().CreatDarkStyleBG(view: view)
         configNotifyListTableViewFrame()
     }

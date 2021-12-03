@@ -74,7 +74,6 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
         
         self.hidesBottomBarWhenPushed = true
-        overrideUserInterfaceStyle = .dark
         
         setBackground()
         configTopBar()

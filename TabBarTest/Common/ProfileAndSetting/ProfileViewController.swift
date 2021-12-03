@@ -59,7 +59,6 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     override func viewDidLoad() {
         super.viewDidLoad()
         self.hidesBottomBarWhenPushed = true
-        //        overrideUserInterfaceStyle = .dark
         setBackground()
         
         if personDetail != nil{

@@ -12,18 +12,19 @@ extension UIColor {
     //背景
     @objc
     class func baseBackground() -> UIColor {
-        return UIColor(hexString: StockSelectColorManagerModel.shared.baseBackground)
+        return isNightMode() ? UIColor.init(hexString: "#121212") : UIColor.init(hexString: "#F2F2F2")
     }
     //主色
     @objc
     class func primary() -> UIColor {
-        return UIColor(hexString: StockSelectColorManagerModel.shared.primary)
+        return UIColor(hexString: "03DAC5")
     }
     
     //Night mode
     class func isNightMode() -> Bool {
-        return StockSelectColorManagerModel.shared.isNightMode
+        return UserSetting.isNightMode
     }
+    
     //介面
     @objc
     class func surface() -> UIColor {
@@ -33,27 +34,16 @@ extension UIColor {
         return UIColor(hue: h / 360, saturation: s, brightness: b, alpha: 1)
     }
     //錯誤
-    static let error = UIColor(hexString: StockSelectColorManagerModel.shared.error)
+    static let error = UIColor(hexString: "c8003c")
     //強調
     @objc
-    static let accent = UIColor(hexString: StockSelectColorManagerModel.shared.accent)
+    static let accent = UIColor(hexString: "D9BD2B")
     //內容
     @objc
     class func on() -> UIColor {
         return UIColor.surface().hsba.brightness > 0.5 ? UIColor.black : UIColor.white
     }
-    //漲
-    static let rise = UIColor(hexString: StockSelectColorManagerModel.shared.rise)
-    @objc
-    static let riseRed = UIColor.surface().hsba.brightness > 0.8 ? UIColor(hue: UIColor.rise.hsba.hue/360 , saturation: UIColor.rise.hsba.saturation, brightness: UIColor.rise.hsba.brightness - 0.1, alpha: UIColor.rise.hsba.alpha) : .rise
-    //跌
-    static let fall = UIColor(hexString: StockSelectColorManagerModel.shared.fall)
-    @objc
-    static let fallGreen = UIColor.surface().hsba.brightness > 0.8 ? UIColor(hue: UIColor.fall.hsba.hue/360 , saturation: UIColor.fall.hsba.saturation, brightness: UIColor.fall.hsba.brightness - 0.1, alpha: UIColor.fall.hsba.alpha) : .fall
-    //平
-    static let unchaged = UIColor(hexString: StockSelectColorManagerModel.shared.unchaged)
-    @objc
-    static let unchagedOrange = UIColor.surface().hsba.brightness > 0.8 ? UIColor(hue: UIColor.unchaged.hsba.hue/360 , saturation: UIColor.unchaged.hsba.saturation, brightness: UIColor.unchaged.hsba.brightness - 0.1, alpha: UIColor.unchaged.hsba.alpha) : .unchaged
+    
     //色彩管理器內固定alpha
     enum StockSelectColorModel: CGFloat {
         case `default` = 0.9

@@ -26,7 +26,12 @@ class LogInPageViewController: UIPageViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        overrideUserInterfaceStyle = .dark
+        
+        if UserSetting.isNightMode {
+            overrideUserInterfaceStyle = .dark
+        }else{
+            overrideUserInterfaceStyle = .light
+        }
         
         self.viewControllerList.append(firstLogInPage)
         (firstLogInPage as! FirstLogInViewController).logInPageViewController = self
