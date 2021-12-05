@@ -165,20 +165,17 @@ class MapViewController: UIViewController {
         
         
         
-    
-    
-        
         let storeNameTextFieldContainer = {() -> UIView in
             let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 110, y: self.view.frame.height/2 - 144, width: 220, height: 80))
-            view.backgroundColor = .black.withAlphaComponent(0.6)
+            view.backgroundColor = .on().withAlphaComponent(0.6)
             view.layer.cornerRadius = 4
             return view
         }()
         iWantActionSheetContainer.addSubview(storeNameTextFieldContainer)
         
         let storeNameTextFieldInnerContainer = {() -> UIView in
-            let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 94, y: self.view.frame.height/2 - 124, width: 188, height: 40))
-            view.backgroundColor = .white.withAlphaComponent(0.2)
+            let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 94, y: self.view.frame.height/2 - 119, width: 188, height: 30))
+            view.backgroundColor = .baseBackground().withAlphaComponent(0.2)
             view.layer.cornerRadius = 2
             return view
         }()
@@ -188,10 +185,10 @@ class MapViewController: UIViewController {
         let explainLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "在這裡寫下店名或大聲想說的話"
-            label.textColor = .white
+            label.textColor = .baseBackground().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 12)
             label.textAlignment = .center
-            label.frame = CGRect(x:view.frame.width/2 - 120, y:self.view.frame.height/2 - 141, width: 240, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width/2 - 120, y:self.view.frame.height/2 - 140, width: 240, height: label.intrinsicContentSize.height)
             return label
         }()
         iWantActionSheetContainer.addSubview(explainLabel)
@@ -200,17 +197,17 @@ class MapViewController: UIViewController {
         storeNameTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "\(storeNameWordLimit - UserSetting.storeName.count)"
-            label.textColor = .primary()
+            label.textColor = .baseBackground().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 12)
             label.textAlignment = .left
-            label.frame = CGRect(x:view.frame.width/2 + 84, y:self.view.frame.height/2 - 82, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width/2 + 84, y:self.view.frame.height/2 - 83, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         iWantActionSheetContainer.addSubview(storeNameTextFieldCountLabel)
         
         storeNameTextField = {() -> UITextField in
             let textField = UITextField()
-            textField.tintColor = .white
+            textField.tintColor = .baseBackground()
             textField.frame = CGRect(x:self.view.frame.width/2 - 150, y: view.frame.height/2 - 135, width: 300, height: 60)
             textField.attributedPlaceholder = NSAttributedString(string:
                                                                     " ", attributes:
@@ -219,7 +216,7 @@ class MapViewController: UIViewController {
             textField.clearButtonMode = .whileEditing
             textField.textAlignment = .center
             textField.returnKeyType = .done
-            textField.textColor = .white
+            textField.textColor = .baseBackground()
             textField.font = UIFont(name: "HelveticaNeue-Light", size: 14)
             textField.backgroundColor = .clear
             storeNameTextFieldDelegate.wordLimitForTypeDelegate = self

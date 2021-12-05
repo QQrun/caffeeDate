@@ -38,6 +38,7 @@ extension UIColor {
     //強調
     @objc
     static let accent = UIColor(hexString: "D9BD2B")
+    
     //內容
     @objc
     class func on() -> UIColor {

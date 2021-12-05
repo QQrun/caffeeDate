@@ -27,7 +27,13 @@ class RootTabBarController: UITabBarController {
     
     
     override func viewDidLoad() {
-        UserSetting.isNightMode = false
+        
+        if(UserSetting.isNightMode){
+            UserSetting.isNightMode = false
+        }else{
+            UserSetting.isNightMode = true
+        }
+        
         if UserSetting.isNightMode {
             overrideUserInterfaceStyle = .dark
         }else{
