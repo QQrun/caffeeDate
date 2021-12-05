@@ -57,8 +57,8 @@ class MapViewController: UIViewController {
     var bookMarkClassificationNameBtns : [UIButton] = []
     var bookMarkClassificationNameLabels_ProfileBoard : [UILabel] = []
     
-    let smallIconUnactiveColor = UIColor(red: 74/255, green: 74/255, blue: 74/255, alpha: 0.2)
-    
+    let smallIconActiveColor = UIColor.sksBlue()
+    let smallIconUnactiveColor = UIColor.sksBlue().withAlphaComponent(0.2)
     var bulletinBoardExpansionState: BulletinBoardExpansionState = .NotExpanded
     var actionSheetExpansionState: ActionSheetExpansionState = .NotExpanded
     
@@ -163,31 +163,57 @@ class MapViewController: UIViewController {
         actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
         actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
         
+        
+        
+    
+    
+        
+        let storeNameTextFieldContainer = {() -> UIView in
+            let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 110, y: self.view.frame.height/2 - 144, width: 220, height: 80))
+            view.backgroundColor = .black.withAlphaComponent(0.6)
+            view.layer.cornerRadius = 4
+            return view
+        }()
+        iWantActionSheetContainer.addSubview(storeNameTextFieldContainer)
+        
+        let storeNameTextFieldInnerContainer = {() -> UIView in
+            let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 94, y: self.view.frame.height/2 - 124, width: 188, height: 40))
+            view.backgroundColor = .white.withAlphaComponent(0.2)
+            view.layer.cornerRadius = 2
+            return view
+        }()
+        iWantActionSheetContainer.addSubview(storeNameTextFieldInnerContainer)
+        
+        
+        let explainLabel  = { () -> UILabel in
+            let label = UILabel()
+            label.text = "在這裡寫下店名或大聲想說的話"
+            label.textColor = .white
+            label.font = UIFont(name: "HelveticaNeue", size: 12)
+            label.textAlignment = .center
+            label.frame = CGRect(x:view.frame.width/2 - 120, y:self.view.frame.height/2 - 141, width: 240, height: label.intrinsicContentSize.height)
+            return label
+        }()
+        iWantActionSheetContainer.addSubview(explainLabel)
+        
+        
         storeNameTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "\(storeNameWordLimit - UserSetting.storeName.count)"
-            label.textColor = UIColor.hexStringToUIColor(hex: "FFFFFF")
+            label.textColor = .primary()
             label.font = UIFont(name: "HelveticaNeue", size: 12)
             label.textAlignment = .left
-            label.frame = CGRect(x:view.frame.width/2 - 80, y:self.view.frame.height/2 - 90, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width/2 + 84, y:self.view.frame.height/2 - 82, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         iWantActionSheetContainer.addSubview(storeNameTextFieldCountLabel)
         
-        let separatorOfTextField = {() -> UIView in
-            let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 80, y: self.view.frame.height/2 - 94, width: 160, height: 1))
-            view.backgroundColor = .white
-            view.layer.cornerRadius = 2
-            return view
-        }()
-        iWantActionSheetContainer.addSubview(separatorOfTextField)
-        
         storeNameTextField = {() -> UITextField in
             let textField = UITextField()
             textField.tintColor = .white
-            textField.frame = CGRect(x:self.view.frame.width/2 - 120, y: view.frame.height/2 - 135, width: 240, height: 60)
+            textField.frame = CGRect(x:self.view.frame.width/2 - 150, y: view.frame.height/2 - 135, width: 300, height: 60)
             textField.attributedPlaceholder = NSAttributedString(string:
-                                                                    "在這寫下店名或想大聲說的話", attributes:
+                                                                    " ", attributes:
                                                                         [NSAttributedString.Key.foregroundColor:UIColor.hexStringToUIColor(hex: "B7B7B7")])
             textField.text = UserSetting.storeName
             textField.clearButtonMode = .whileEditing
@@ -203,6 +229,7 @@ class MapViewController: UIViewController {
             return textField
         }()
         iWantActionSheetContainer.addSubview(storeNameTextField)
+        
         iWantActionSheetContainer.alpha = 0
     }
     
@@ -766,7 +793,7 @@ class MapViewController: UIViewController {
         lbl.topInset = 2.0
         lbl.bottomInset = 2.0
         lbl.textColor = UIColor.hexStringToUIColor(hex: "#f2f2f2")
-        lbl.backgroundColor = UIColor.hexStringToUIColor(hex: "#472411")
+        lbl.backgroundColor = .primary()
         lbl.cornerRadius = 2
         lbl.font = .systemFont(ofSize: 14)
         
@@ -1511,7 +1538,7 @@ class MapViewController: UIViewController {
         let openStoreImage_tintedImage = openStoreImage?.withRenderingMode(.alwaysTemplate)
         
         if UserSetting.isMapShowOpenStore{
-            showOpenStoreButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showOpenStoreButton.tintColor = smallIconActiveColor
         }else{
             showOpenStoreButton.tintColor = smallIconUnactiveColor
         }
@@ -1525,7 +1552,7 @@ class MapViewController: UIViewController {
         let requestImage = UIImage(named: "捲軸小icon")
         let requestImage_tintedImage = requestImage?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowRequest{
-            showRequestButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showRequestButton.tintColor = smallIconActiveColor
         }else{
             showRequestButton.tintColor = smallIconUnactiveColor
         }
@@ -1539,7 +1566,7 @@ class MapViewController: UIViewController {
         let teamUpImage = UIImage(named: "旗子小icon")
         let teamUpImage_tintedImage = teamUpImage?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowTeamUp{
-            showTeamUpButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showTeamUpButton.tintColor = smallIconActiveColor
         }else{
             showTeamUpButton.tintColor = smallIconUnactiveColor
         }
@@ -1552,7 +1579,7 @@ class MapViewController: UIViewController {
         let coffeeShopImage = UIImage(named: "咖啡小icon")
         let coffeeShopImage_tintedImage = coffeeShopImage?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowCoffeeShop{
-            showCoffeeShopButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showCoffeeShopButton.tintColor = smallIconActiveColor
         }else{
             showCoffeeShopButton.tintColor = smallIconUnactiveColor
         }
@@ -1565,7 +1592,7 @@ class MapViewController: UIViewController {
         let showBoyImage = UIImage(named: "boyIcon")
         let showBoyImage_tintImage = showBoyImage?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowMakeFriend_Boy{
-            showBoyButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showBoyButton.tintColor = smallIconActiveColor
         }else{
             showBoyButton.tintColor = smallIconUnactiveColor
         }
@@ -1578,7 +1605,7 @@ class MapViewController: UIViewController {
         let showGirlImage = UIImage(named: "girlIcon")
         let showGirlImage_tintImage = showGirlImage?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowMakeFriend_Girl{
-            showGirlButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showGirlButton.tintColor = smallIconActiveColor
         }else{
             showGirlButton.tintColor = smallIconUnactiveColor
         }
@@ -1612,7 +1639,7 @@ class MapViewController: UIViewController {
         
         let acccountButton = UIButton()
         acccountButton.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
-        acccountButton.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        acccountButton.backgroundColor = .sksWhite()
         acccountButton.layer.shadowColor = UIColor.black.cgColor
         acccountButton.layer.shadowRadius = 2
         acccountButton.layer.shadowOffset = CGSize(width: 2, height: 2)
@@ -1627,7 +1654,7 @@ class MapViewController: UIViewController {
         
         let messageButton = UIButton()
         messageButton.setImage(UIImage(named: "icons24MessageFilledGrey24"), for: .normal)
-        messageButton.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        messageButton.backgroundColor = .sksWhite()
         messageButton.layer.shadowColor = UIColor.black.cgColor
         messageButton.layer.shadowRadius = 2
         messageButton.layer.shadowOffset = CGSize(width: 2, height: 2)
@@ -1643,7 +1670,7 @@ class MapViewController: UIViewController {
         
         
         let circleButton_exclamation = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90, width: 32, height: 32))
-        circleButton_exclamation.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        circleButton_exclamation.backgroundColor = .sksWhite()
         let exclamationImage = UIImage(named: "icons24FilterListBlack24Dp")
         circleButton_exclamation.layer.cornerRadius = 16
         circleButton_exclamation.layer.shadowColor = UIColor.black.cgColor
@@ -1657,7 +1684,7 @@ class MapViewController: UIViewController {
         
         
         let circleButton_reposition = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 32 + 16, width: 32, height: 32))
-        circleButton_reposition.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        circleButton_reposition.backgroundColor = .sksWhite()
         let repositionImage = UIImage(named: "icons24LocationGrey24")
         circleButton_reposition.layer.cornerRadius = 16
         circleButton_reposition.layer.shadowColor = UIColor.black.cgColor
@@ -1670,7 +1697,7 @@ class MapViewController: UIViewController {
         circleButton_reposition.addTarget(self, action: #selector(repositionBtnAct), for: .touchUpInside)
         
         let circleButton_notification = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 64 + 32, width: 32, height: 32))
-        circleButton_notification.backgroundColor = UIColor(red: 250 / 255, green: 250 / 255, blue: 250 / 255, alpha: 0.75)
+        circleButton_notification.backgroundColor = .sksWhite()
         let notificationImage = UIImage(named: "icons24NotificationFilledGrey24")
         circleButton_notification.layer.cornerRadius = 16
         circleButton_notification.layer.shadowColor = UIColor.black.cgColor
@@ -1739,7 +1766,7 @@ class MapViewController: UIViewController {
             showOpenStoreButton.tintColor = smallIconUnactiveColor
         }else{
             UserSetting.isMapShowOpenStore = true
-            showOpenStoreButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showOpenStoreButton.tintColor = smallIconActiveColor
         }
         mapView.removeAnnotations(presonAnnotationGetter.openShopAnnotations)
         mapView.addAnnotations(presonAnnotationGetter.decideCanShowOrNotAndWhichIcon(presonAnnotationGetter.openShopAnnotations))
@@ -1750,7 +1777,7 @@ class MapViewController: UIViewController {
             showRequestButton.tintColor = smallIconUnactiveColor
         }else{
             UserSetting.isMapShowRequest = true
-            showRequestButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showRequestButton.tintColor = smallIconActiveColor
         }
         mapView.removeAnnotations(presonAnnotationGetter.requestAnnotations)
         mapView.addAnnotations(presonAnnotationGetter.decideCanShowOrNotAndWhichIcon(presonAnnotationGetter.requestAnnotations))
@@ -1761,7 +1788,7 @@ class MapViewController: UIViewController {
             showTeamUpButton.tintColor = smallIconUnactiveColor
         }else{
             UserSetting.isMapShowTeamUp = true
-            showTeamUpButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showTeamUpButton.tintColor = smallIconActiveColor
         }
         mapView.removeAnnotations(presonAnnotationGetter.teamUpAnnotations)
         mapView.addAnnotations(presonAnnotationGetter.decideCanShowOrNotAndWhichIcon(presonAnnotationGetter.teamUpAnnotations))
@@ -1773,7 +1800,7 @@ class MapViewController: UIViewController {
             mapView.removeAnnotations(coffeeAnnotationGetter.coffeeAnnotations)
         }else{
             UserSetting.isMapShowCoffeeShop = true
-            showCoffeeShopButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showCoffeeShopButton.tintColor = smallIconActiveColor
             mapView.addAnnotations(coffeeAnnotationGetter.coffeeAnnotations)
         }
     }
@@ -1783,7 +1810,7 @@ class MapViewController: UIViewController {
             showBoyButton.tintColor = smallIconUnactiveColor
         }else{
             UserSetting.isMapShowMakeFriend_Boy = true
-            showBoyButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showBoyButton.tintColor = smallIconActiveColor
         }
         mapView.removeAnnotations(presonAnnotationGetter.boySayHiAnnotations)
         mapView.addAnnotations(presonAnnotationGetter.decideCanShowOrNotAndWhichIcon(presonAnnotationGetter.boySayHiAnnotations))
@@ -1795,7 +1822,7 @@ class MapViewController: UIViewController {
             showGirlButton.tintColor = smallIconUnactiveColor
         }else{
             UserSetting.isMapShowMakeFriend_Girl = true
-            showGirlButton.tintColor = UIColor.hexStringToUIColor(hex: "#472411")
+            showGirlButton.tintColor = smallIconActiveColor
         }
         mapView.removeAnnotations(presonAnnotationGetter.girlSayHiAnnotations)
         mapView.addAnnotations(presonAnnotationGetter.decideCanShowOrNotAndWhichIcon(presonAnnotationGetter.girlSayHiAnnotations))
@@ -2260,7 +2287,7 @@ extension MapViewController: MKMapViewDelegate {
         }
         
         
-        let markColor = UIColor.sksBlue()
+        let markColor = smallIconActiveColor
         
         if annotation is CoffeeAnnotation{
             
@@ -2449,7 +2476,6 @@ extension MapViewController : WordLimitForTypeDelegate{
         let ref = Database.database().reference().child("PersonAnnotation/" + UserSetting.UID + "/title")
         presonAnnotationGetter.userAnnotation?.title = UserSetting.storeName
         ref.setValue(UserSetting.storeName)
-        
     }
     
     

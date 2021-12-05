@@ -33,12 +33,14 @@ class ActionSheetKit{
         
         let iWantConcealBtn = UIButton()
         iWantConcealBtn.frame = CGRect(x: 6, y:containerView.frame.height - 53 - 9 - 40, width: containerView.frame.width - 12, height: 53)
-        iWantConcealBtn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"), for: .normal)
+//        iWantConcealBtn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"), for: .normal)
+        iWantConcealBtn.backgroundColor = .sksWhite()
+        iWantConcealBtn.layer.cornerRadius = 6
         iWantConcealBtn.imageView?.contentMode = .scaleToFill
         let iWantConcealLabel = UILabel()
         iWantConcealLabel.text = actionSheetText[0]
         iWantConcealLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        iWantConcealLabel.textColor = UIColor.hexStringToUIColor(hex: "6D6D6D")
+        iWantConcealLabel.textColor = .black
         iWantConcealLabel.frame = CGRect(x: iWantConcealBtn.frame.width/2 - iWantConcealLabel.intrinsicContentSize.width/2, y: iWantConcealBtn.frame.height/2 -  iWantConcealLabel.intrinsicContentSize.height/2, width: iWantConcealLabel.intrinsicContentSize.width, height: iWantConcealLabel.intrinsicContentSize.height)
         iWantConcealBtn.addSubview(iWantConcealLabel)
         containerView.addSubview(iWantConcealBtn)
@@ -60,22 +62,26 @@ class ActionSheetKit{
                 if i == actionSheetText.count - 1{
                     lastOne = true
                 }
+                btn.backgroundColor = .sksWhite()
                 if lastOne && firstOne{
-                    btn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"),for: .normal)
+                    btn.roundCorners(corners: [.bottomLeft,.bottomRight,.topRight,.topLeft], radius: 6,shadowRadius:6,shadowOffset: CGSize(width: 2, height: 2),shadowOpacity:0.3)
                 }else if firstOne{
-                    btn.setImage(UIImage(named: "ActionSheet_下方有弧度"),for: .normal)
+                    btn.roundCorners(corners: [.bottomLeft,.bottomRight], radius: 6,shadowRadius:6,shadowOffset: CGSize(width: 2, height: 2),shadowOpacity:0.3)
                 }else if lastOne{
-                    btn.setImage(UIImage(named: "ActionSheet_上方有弧度"),for: .normal)
+                    btn.roundCorners(corners: [.topLeft,.topRight], radius: 6,shadowRadius:6,shadowOffset: CGSize(width: 2, height: 2),shadowOpacity:0.3)
                 }else{
-                    btn.setImage(UIImage(named: "ActionSheet_長方形"),for: .normal)
+                    btn.roundCorners(corners: [.bottomLeft,.bottomRight,.topRight,.topLeft], radius: 0,shadowRadius:6,shadowOffset: CGSize(width: 2, height: 2),shadowOpacity:0.3)
                 }
-                btn.imageView?.contentMode = .scaleToFill
+                btn.layer.shadowColor = UIColor.black.cgColor
+                btn.layer.shadowRadius = 2
+                btn.layer.shadowOffset = CGSize(width: 2, height: 2)
+                btn.layer.shadowOpacity = 0.3
                 
                 let btnLabel = { () -> UILabel in
                     let label = UILabel()
                     label.text = actionSheetText[i]
                     label.font = UIFont(name: "HelveticaNeue", size: 18)
-                    label.textColor = UIColor.hexStringToUIColor(hex: "751010")
+                    label.textColor = .black
                     label.frame = CGRect(x: btn.frame.width/2 - label.intrinsicContentSize.width/2, y: btn.frame.height/2 -  label.intrinsicContentSize.height/2, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
                     return label
                 }()

@@ -110,6 +110,11 @@ extension UIColor {
     }
     
     @objc
+    class func sksWhite() -> UIColor{
+        return UIColor.init(hexString: "#F2F2F2")
+    }
+    
+    @objc
     class func sksPurple() -> UIColor {
         return isNightMode() ? UIColor.init(hexString: "#DA82FF") : UIColor.init(hexString: "#BB70DB")
     }

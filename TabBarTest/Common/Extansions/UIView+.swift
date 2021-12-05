@@ -414,4 +414,24 @@ extension UIView {
     func removeAllSubviews() {
         subviews.forEach { $0.removeFromSuperview() }
     }
+    
+    func roundCorners(corners: UIRectCorner, radius: CGFloat) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = path.cgPath
+        layer.mask = maskLayer
+    }
+    
+    func roundCorners(corners: UIRectCorner, radius: CGFloat,shadowRadius:CGFloat,shadowOffset:CGSize,shadowOpacity: Float) {
+        let path = UIBezierPath(roundedRect: bounds, byRoundingCorners: corners, cornerRadii: CGSize(width: radius, height: radius))
+        let maskLayer = CAShapeLayer()
+        maskLayer.frame = bounds
+        maskLayer.path = path.cgPath
+        maskLayer.shadowColor = UIColor.black.cgColor
+        maskLayer.shadowRadius = shadowRadius
+        maskLayer.shadowOffset = shadowOffset
+        maskLayer.shadowOpacity = shadowOpacity
+        layer.mask = maskLayer
+    }
 }

@@ -17,8 +17,10 @@ class WordLimitUITextFieldDelegate : NSObject, UITextFieldDelegate, UITextViewDe
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
+    
         let countOfWords = string.count + textField.text!.count -  range.length
         if countOfWords > wordLimit{
+
             return false
         }
         if let label = wordLimitLabel{
