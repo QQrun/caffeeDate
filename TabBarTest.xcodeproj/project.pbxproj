@@ -23,19 +23,27 @@
 		A714616B27574B5A00872E4E /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714616A27574B5A00872E4E /* Colors.swift */; };
 		A714616E27574B6E00872E4E /* SSSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714616C27574B6E00872E4E /* SSSegmentedControl.swift */; };
 		A714616F27574B6E00872E4E /* SSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714616D27574B6E00872E4E /* SSButton.swift */; };
+		A71461842761EA1000872E4E /* SSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714617D2761EA1000872E4E /* SSAlertController.swift */; };
+		A71461852761EA1000872E4E /* SSPopoverPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714617E2761EA1000872E4E /* SSPopoverPresentationManager.swift */; };
+		A71461862761EA1000872E4E /* SSPopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714617F2761EA1000872E4E /* SSPopoverPresentationController.swift */; };
+		A71461872761EA1000872E4E /* SSPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461802761EA1000872E4E /* SSPopoverViewController.swift */; };
+		A71461882761EA1000872E4E /* AppStoreRatingAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A71461812761EA1000872E4E /* AppStoreRatingAlertView.xib */; };
+		A71461892761EA1000872E4E /* AppStoreRatingAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461822761EA1000872E4E /* AppStoreRatingAlertView.swift */; };
+		A714618A2761EA1000872E4E /* SSPopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461832761EA1000872E4E /* SSPopoverAnimationController.swift */; };
+		A714618F2761EAED00872E4E /* ProfilePop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714618E2761EAED00872E4E /* ProfilePop.swift */; };
 		A71BD83424E0317700AA093A /* Device+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71BD83324E0317700AA093A /* Device+.swift */; };
 		A73F3797245EB5140082DF8E /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F3796245EB5140082DF8E /* Comment.swift */; };
 		A747EE0E25C678D400766B66 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE0D25C678D400766B66 /* PaddingLabel.swift */; };
 		A747EE1125C6795300766B66 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE1025C6795300766B66 /* UIView+.swift */; };
 		A747EE1425C67C5900766B66 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE1325C67C5900766B66 /* UIImage+.swift */; };
-		A747EE4C25C9829400766B66 /* AppStoreRatingAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A747EE4925C9829300766B66 /* AppStoreRatingAlertView.xib */; };
+		A747EE4C25C9829400766B66 /* ProfilePopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A747EE4925C9829300766B66 /* ProfilePopView.xib */; };
 		A747EE4D25C9829400766B66 /* AppStoreRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE4A25C9829400766B66 /* AppStoreRating.swift */; };
-		A747EE4E25C9829400766B66 /* AppStoreRatingAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE4B25C9829400766B66 /* AppStoreRatingAlertView.swift */; };
-		A747EE5525C9849B00766B66 /* SSPopoverPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5125C9849B00766B66 /* SSPopoverPresentationManager.swift */; };
-		A747EE5625C9849B00766B66 /* SSPopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5225C9849B00766B66 /* SSPopoverAnimationController.swift */; };
-		A747EE5725C9849B00766B66 /* SSPopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5325C9849B00766B66 /* SSPopoverPresentationController.swift */; };
-		A747EE5825C9849B00766B66 /* SSPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5425C9849B00766B66 /* SSPopoverViewController.swift */; };
-		A747EE5C25C984D100766B66 /* SSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5B25C984D100766B66 /* SSAlertController.swift */; };
+		A747EE4E25C9829400766B66 /* ProfilePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE4B25C9829400766B66 /* ProfilePopView.swift */; };
+		A747EE5525C9849B00766B66 /* ProfilePopoverPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5125C9849B00766B66 /* ProfilePopoverPresentationManager.swift */; };
+		A747EE5625C9849B00766B66 /* ProfilePopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */; };
+		A747EE5725C9849B00766B66 /* ProfilePopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */; };
+		A747EE5825C9849B00766B66 /* ProfilePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5425C9849B00766B66 /* ProfilePopoverViewController.swift */; };
+		A747EE5C25C984D100766B66 /* ProfileAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5B25C984D100766B66 /* ProfileAlertController.swift */; };
 		A75A3DEB243E3E6400E43D46 /* NotifyCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DEA243E3E6400E43D46 /* NotifyCenterViewController.swift */; };
 		A75A3DED243E3E6F00E43D46 /* NotifyCenterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A3DEC243E3E6F00E43D46 /* NotifyCenterViewController.storyboard */; };
 		A75A3DF1243E3E9900E43D46 /* SettingViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A3DF0243E3E9900E43D46 /* SettingViewController.storyboard */; };
@@ -227,19 +235,27 @@
 		A714616A27574B5A00872E4E /* Colors.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Colors.swift; sourceTree = "<group>"; };
 		A714616C27574B6E00872E4E /* SSSegmentedControl.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SSSegmentedControl.swift; path = "../../../../選股App ios版本/StockSelect/StockSelect/StockSelectUtility/SSSegmentedControl.swift"; sourceTree = "<group>"; };
 		A714616D27574B6E00872E4E /* SSButton.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = SSButton.swift; path = "../../../../選股App ios版本/StockSelect/StockSelect/StockSelectUtility/SSButton.swift"; sourceTree = "<group>"; };
+		A714617D2761EA1000872E4E /* SSAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSAlertController.swift; sourceTree = "<group>"; };
+		A714617E2761EA1000872E4E /* SSPopoverPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverPresentationManager.swift; sourceTree = "<group>"; };
+		A714617F2761EA1000872E4E /* SSPopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverPresentationController.swift; sourceTree = "<group>"; };
+		A71461802761EA1000872E4E /* SSPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverViewController.swift; sourceTree = "<group>"; };
+		A71461812761EA1000872E4E /* AppStoreRatingAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppStoreRatingAlertView.xib; sourceTree = "<group>"; };
+		A71461822761EA1000872E4E /* AppStoreRatingAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreRatingAlertView.swift; sourceTree = "<group>"; };
+		A71461832761EA1000872E4E /* SSPopoverAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverAnimationController.swift; sourceTree = "<group>"; };
+		A714618E2761EAED00872E4E /* ProfilePop.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePop.swift; sourceTree = "<group>"; };
 		A71BD83324E0317700AA093A /* Device+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Device+.swift"; sourceTree = "<group>"; };
 		A73F3796245EB5140082DF8E /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		A747EE0D25C678D400766B66 /* PaddingLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaddingLabel.swift; sourceTree = "<group>"; };
 		A747EE1025C6795300766B66 /* UIView+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIView+.swift"; sourceTree = "<group>"; };
 		A747EE1325C67C5900766B66 /* UIImage+.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIImage+.swift"; sourceTree = "<group>"; };
-		A747EE4925C9829300766B66 /* AppStoreRatingAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = AppStoreRatingAlertView.xib; sourceTree = "<group>"; };
+		A747EE4925C9829300766B66 /* ProfilePopView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ProfilePopView.xib; sourceTree = "<group>"; };
 		A747EE4A25C9829400766B66 /* AppStoreRating.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreRating.swift; sourceTree = "<group>"; };
-		A747EE4B25C9829400766B66 /* AppStoreRatingAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AppStoreRatingAlertView.swift; sourceTree = "<group>"; };
-		A747EE5125C9849B00766B66 /* SSPopoverPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverPresentationManager.swift; sourceTree = "<group>"; };
-		A747EE5225C9849B00766B66 /* SSPopoverAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverAnimationController.swift; sourceTree = "<group>"; };
-		A747EE5325C9849B00766B66 /* SSPopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverPresentationController.swift; sourceTree = "<group>"; };
-		A747EE5425C9849B00766B66 /* SSPopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSPopoverViewController.swift; sourceTree = "<group>"; };
-		A747EE5B25C984D100766B66 /* SSAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SSAlertController.swift; sourceTree = "<group>"; };
+		A747EE4B25C9829400766B66 /* ProfilePopView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopView.swift; sourceTree = "<group>"; };
+		A747EE5125C9849B00766B66 /* ProfilePopoverPresentationManager.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverPresentationManager.swift; sourceTree = "<group>"; };
+		A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverAnimationController.swift; sourceTree = "<group>"; };
+		A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverPresentationController.swift; sourceTree = "<group>"; };
+		A747EE5425C9849B00766B66 /* ProfilePopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverViewController.swift; sourceTree = "<group>"; };
+		A747EE5B25C984D100766B66 /* ProfileAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAlertController.swift; sourceTree = "<group>"; };
 		A75A3DEA243E3E6400E43D46 /* NotifyCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyCenterViewController.swift; sourceTree = "<group>"; };
 		A75A3DEC243E3E6F00E43D46 /* NotifyCenterViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotifyCenterViewController.storyboard; sourceTree = "<group>"; };
 		A75A3DF0243E3E9900E43D46 /* SettingViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingViewController.storyboard; sourceTree = "<group>"; };
@@ -497,24 +513,43 @@
 			path = Extansions;
 			sourceTree = "<group>";
 		};
+		A71461782761E96C00872E4E /* ProfileSetting */ = {
+			isa = PBXGroup;
+			children = (
+				A714618E2761EAED00872E4E /* ProfilePop.swift */,
+				A747EE4925C9829300766B66 /* ProfilePopView.xib */,
+				A747EE4B25C9829400766B66 /* ProfilePopView.swift */,
+				A747EE5B25C984D100766B66 /* ProfileAlertController.swift */,
+				A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */,
+				A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */,
+				A747EE5125C9849B00766B66 /* ProfilePopoverPresentationManager.swift */,
+				A747EE5425C9849B00766B66 /* ProfilePopoverViewController.swift */,
+			);
+			path = ProfileSetting;
+			sourceTree = "<group>";
+		};
+		A714618B2761EA1A00872E4E /* AppStoreRating */ = {
+			isa = PBXGroup;
+			children = (
+				A747EE4A25C9829400766B66 /* AppStoreRating.swift */,
+				A71461822761EA1000872E4E /* AppStoreRatingAlertView.swift */,
+				A71461812761EA1000872E4E /* AppStoreRatingAlertView.xib */,
+				A714617D2761EA1000872E4E /* SSAlertController.swift */,
+				A71461832761EA1000872E4E /* SSPopoverAnimationController.swift */,
+				A714617F2761EA1000872E4E /* SSPopoverPresentationController.swift */,
+				A714617E2761EA1000872E4E /* SSPopoverPresentationManager.swift */,
+				A71461802761EA1000872E4E /* SSPopoverViewController.swift */,
+			);
+			path = AppStoreRating;
+			sourceTree = "<group>";
+		};
 		A747EE5025C9846B00766B66 /* Popover */ = {
 			isa = PBXGroup;
 			children = (
-				A747EE5A25C984B400766B66 /* Alert */,
-				A747EE5225C9849B00766B66 /* SSPopoverAnimationController.swift */,
-				A747EE5325C9849B00766B66 /* SSPopoverPresentationController.swift */,
-				A747EE5125C9849B00766B66 /* SSPopoverPresentationManager.swift */,
-				A747EE5425C9849B00766B66 /* SSPopoverViewController.swift */,
+				A714618B2761EA1A00872E4E /* AppStoreRating */,
+				A71461782761E96C00872E4E /* ProfileSetting */,
 			);
 			path = Popover;
-			sourceTree = "<group>";
-		};
-		A747EE5A25C984B400766B66 /* Alert */ = {
-			isa = PBXGroup;
-			children = (
-				A747EE5B25C984D100766B66 /* SSAlertController.swift */,
-			);
-			path = Alert;
 			sourceTree = "<group>";
 		};
 		A75A3DF62444497300E43D46 /* MapView */ = {
@@ -886,9 +921,6 @@
 				A714616C27574B6E00872E4E /* SSSegmentedControl.swift */,
 				A714616A27574B5A00872E4E /* Colors.swift */,
 				A747EE5025C9846B00766B66 /* Popover */,
-				A747EE4A25C9829400766B66 /* AppStoreRating.swift */,
-				A747EE4B25C9829400766B66 /* AppStoreRatingAlertView.swift */,
-				A747EE4925C9829300766B66 /* AppStoreRatingAlertView.xib */,
 				A78DF1732466B2C600617AAF /* ActionSheetKit.swift */,
 				A7FDB73A24827EE2005BA294 /* CustomTopBarKit.swift */,
 				A7FDB7342481418E005BA294 /* CustomInputBoxKit.swift */,
@@ -976,7 +1008,7 @@
 				A75A3DF1243E3E9900E43D46 /* SettingViewController.storyboard in Resources */,
 				A7110591243E32CC008E680D /* MapViewController.storyboard in Resources */,
 				A7FCE11F24EE257500E79E96 /* NotifyTableViewCell.xib in Resources */,
-				A747EE4C25C9829400766B66 /* AppStoreRatingAlertView.xib in Resources */,
+				A747EE4C25C9829400766B66 /* ProfilePopView.xib in Resources */,
 				A789E4A6244DDCC600730053 /* OpenNotificationViewController.storyboard in Resources */,
 				A7F47BAA2453A0F90015A502 /* FillBasicInfoViewController.storyboard in Resources */,
 				A789E493244C80BF00730053 /* CommentTableViewCell.xib in Resources */,
@@ -988,6 +1020,7 @@
 				A7CB15A424A8B96A00FDBC12 /* MailListTableViewCell.xib in Resources */,
 				A766F15B2554356900C9455C /* PrivacyViewController.storyboard in Resources */,
 				A7110587243BC8FD008E680D /* RootTabBarController.storyboard in Resources */,
+				A71461882761EA1000872E4E /* AppStoreRatingAlertView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1057,7 +1090,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A75A3E0A2447588B00E43D46 /* PersonDetailInfo.swift in Sources */,
-				A747EE4E25C9829400766B66 /* AppStoreRatingAlertView.swift in Sources */,
+				A747EE4E25C9829400766B66 /* ProfilePopView.swift in Sources */,
 				A789E484244B093D00730053 /* ItemViewController.swift in Sources */,
 				A78DF168246648EA00617AAF /* ShopEditViewController.swift in Sources */,
 				A77BAD5E253C7D190071D346 /* NSMutableAttributedString+Extensions.swift in Sources */,
@@ -1065,9 +1098,11 @@
 				A77BAC21253C77110071D346 /* TypingIndicatorCell.swift in Sources */,
 				A7FDB727247D2F1B005BA294 /* CoordinatorAndControllerInstanceHelper.swift in Sources */,
 				A7FDB74A248D12FC005BA294 /* ChatMassage.swift in Sources */,
+				A71461852761EA1000872E4E /* SSPopoverPresentationManager.swift in Sources */,
 				A78DF17A246C312000617AAF /* FirebaseHelper.swift in Sources */,
 				A7FDB74D248D12FC005BA294 /* ChatViewController.swift in Sources */,
 				A7110577243BBE4E008E680D /* AppCoordinator.swift in Sources */,
+				A714618A2761EA1000872E4E /* SSPopoverAnimationController.swift in Sources */,
 				A77BAC08253C76D80071D346 /* LinkPreviewView.swift in Sources */,
 				A7FDB74B248D12FC005BA294 /* OneToOneChatViewController.swift in Sources */,
 				A77BAD59253C7D190071D346 /* AttachmentCell.swift in Sources */,
@@ -1098,6 +1133,7 @@
 				A747EE4D25C9829400766B66 /* AppStoreRating.swift in Sources */,
 				A77BABC9253C76680071D346 /* NSConstraintLayoutSet.swift in Sources */,
 				A77BABE0253C76A00071D346 /* LocationItem.swift in Sources */,
+				A71461862761EA1000872E4E /* SSPopoverPresentationController.swift in Sources */,
 				A77BAD43253C7D190071D346 /* AutocompleteManagerDataSource.swift in Sources */,
 				A77BAB8E253C75EF0071D346 /* LinkPreviewMessageSizeCalculator.swift in Sources */,
 				A75A3DF3243F7D3E00E43D46 /* UserSetting.swift in Sources */,
@@ -1108,7 +1144,7 @@
 				A7BDF52D2453200200180166 /* PersonAnnotationData.swift in Sources */,
 				A75A3DFC2444687A00E43D46 /* ItemTableViewDelegate.swift in Sources */,
 				A7FCE11E24EE257500E79E96 /* NotifyTableViewCell.swift in Sources */,
-				A747EE5C25C984D100766B66 /* SSAlertController.swift in Sources */,
+				A747EE5C25C984D100766B66 /* ProfileAlertController.swift in Sources */,
 				A77BAD48253C7D190071D346 /* InputBarButtonItem.swift in Sources */,
 				A77BAB6F253C75D50071D346 /* MessagesViewController+Keyboard.swift in Sources */,
 				A77BAD4E253C7D190071D346 /* AttachmentsView.swift in Sources */,
@@ -1137,7 +1173,7 @@
 				A789E5D92451878300730053 /* WantAddPhotoTableViewCell.swift in Sources */,
 				A77BAD46253C7D190071D346 /* KeyboardManager.swift in Sources */,
 				A77BAB80253C75DF0071D346 /* UIEdgeInsets+Extensions.swift in Sources */,
-				A747EE5625C9849B00766B66 /* SSPopoverAnimationController.swift in Sources */,
+				A747EE5625C9849B00766B66 /* ProfilePopoverAnimationController.swift in Sources */,
 				A77BAB7E253C75DF0071D346 /* UIView+Extensions.swift in Sources */,
 				A77BAD45253C7D190071D346 /* InputStackView.swift in Sources */,
 				A77BAD63253C7D190071D346 /* InputPlugin.swift in Sources */,
@@ -1156,6 +1192,7 @@
 				A77BAD47253C7D190071D346 /* AutocompleteCompletion.swift in Sources */,
 				A77BABCB253C76680071D346 /* LocationMessageSnapshotOptions.swift in Sources */,
 				A789E49C244DD39800730053 /* LogInPageViewController.swift in Sources */,
+				A71461842761EA1000872E4E /* SSAlertController.swift in Sources */,
 				A77BAB7F253C75DF0071D346 /* Bundle+Extensions.swift in Sources */,
 				A77BAB81253C75DF0071D346 /* UIColor+Extensions.swift in Sources */,
 				A77BABCD253C76680071D346 /* AccessoryPosition.swift in Sources */,
@@ -1192,6 +1229,7 @@
 				A789E5CB244E302700730053 /* CheckLocationAccessViewController.swift in Sources */,
 				A77BAC19253C77110071D346 /* LinkPreviewMessageCell.swift in Sources */,
 				A77BABC7253C76680071D346 /* AvatarPosition.swift in Sources */,
+				A71461872761EA1000872E4E /* SSPopoverViewController.swift in Sources */,
 				A77BAD54253C7D190071D346 /* ImageAttachmentCell.swift in Sources */,
 				A73F3797245EB5140082DF8E /* Comment.swift in Sources */,
 				A77BAC06253C76D80071D346 /* PlayButtonView.swift in Sources */,
@@ -1201,9 +1239,10 @@
 				A77BAB7D253C75DF0071D346 /* CGRect+Extensions.swift in Sources */,
 				A7CB15A324A8B96A00FDBC12 /* MailListTableViewCell.swift in Sources */,
 				A77BAD56253C7D190071D346 /* InputBarViewController.swift in Sources */,
-				A747EE5525C9849B00766B66 /* SSPopoverPresentationManager.swift in Sources */,
+				A747EE5525C9849B00766B66 /* ProfilePopoverPresentationManager.swift in Sources */,
 				A747EE1425C67C5900766B66 /* UIImage+.swift in Sources */,
 				A77BAB94253C75EF0071D346 /* MediaMessageSizeCalculator.swift in Sources */,
+				A714618F2761EAED00872E4E /* ProfilePop.swift in Sources */,
 				A77BAB92253C75EF0071D346 /* LocationMessageSizeCalculator.swift in Sources */,
 				A77BAC1F253C77110071D346 /* AudioMessageCell.swift in Sources */,
 				A77BAB93253C75EF0071D346 /* CellSizeCalculator.swift in Sources */,
@@ -1214,7 +1253,7 @@
 				A77BABE7253C76A00071D346 /* MessageLabelDelegate.swift in Sources */,
 				A78DF1642462EE5D00617AAF /* ProfileViewController.swift in Sources */,
 				A75A3DEB243E3E6400E43D46 /* NotifyCenterViewController.swift in Sources */,
-				A747EE5825C9849B00766B66 /* SSPopoverViewController.swift in Sources */,
+				A747EE5825C9849B00766B66 /* ProfilePopoverViewController.swift in Sources */,
 				A711055B243BBD9A008E680D /* AppDelegate.swift in Sources */,
 				A7A474FB252CA5810038D75B /* ShopModel.swift in Sources */,
 				A77BAD6C253C7D280071D346 /* InputBarAccessoryView-dummy.m in Sources */,
@@ -1226,10 +1265,11 @@
 				A711055D243BBD9A008E680D /* SceneDelegate.swift in Sources */,
 				A77BAD50253C7D190071D346 /* AttachmentManagerDelegate.swift in Sources */,
 				A77BABDF253C76A00071D346 /* MessageCellDelegate.swift in Sources */,
+				A71461892761EA1000872E4E /* AppStoreRatingAlertView.swift in Sources */,
 				A7110578243BBE4E008E680D /* RootCoordinator.swift in Sources */,
 				A77BAB7C253C75DF0071D346 /* NSAttributedString+Extensions.swift in Sources */,
 				A77BAD58253C7D190071D346 /* String+Extensions.swift in Sources */,
-				A747EE5725C9849B00766B66 /* SSPopoverPresentationController.swift in Sources */,
+				A747EE5725C9849B00766B66 /* ProfilePopoverPresentationController.swift in Sources */,
 				A714616F27574B6E00872E4E /* SSButton.swift in Sources */,
 				A77BAD52253C7D190071D346 /* KeyboardEvent.swift in Sources */,
 				A7A474DA2524C0AA0038D75B /* ProfileButton.swift in Sources */,
