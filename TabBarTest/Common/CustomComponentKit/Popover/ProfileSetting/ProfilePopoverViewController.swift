@@ -131,7 +131,7 @@ class ProfilePopoverViewController: UIViewController {
         button.setTitleColor(.init(hexString: "#ffffff"), for: .normal)
         button.titleLabel?.font = UIFont.systemFont(ofSize: 15)
         button.setTitle(action.title, for: .normal)
-        button.addTarget(action, action: #selector(ProfilePopoverAction.performAction), for: .touchUpInside)
+        button.addTarget(action, action: #selector(SSPopoverAction.performAction), for: .touchUpInside)
         
         switch action.style {
             case .default:

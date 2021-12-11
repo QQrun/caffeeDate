@@ -1634,20 +1634,21 @@ class MapViewController: UIViewController {
             make.bottom.equalTo(view.snp.bottomMargin).offset(-36)
         }
         
-        let acccountButton = UIButton()
-        acccountButton.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
-        acccountButton.backgroundColor = .sksWhite()
-        acccountButton.layer.shadowColor = UIColor.black.cgColor
-        acccountButton.layer.shadowRadius = 2
-        acccountButton.layer.shadowOffset = CGSize(width: 2, height: 2)
-        acccountButton.layer.shadowOpacity = 0.3
-        acccountButton.layer.cornerRadius = 20
-        view.addSubview(acccountButton)
-        acccountButton.snp.makeConstraints { make in
+        let accountButton = UIButton()
+        accountButton.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
+        accountButton.backgroundColor = .sksWhite()
+        accountButton.layer.shadowColor = UIColor.black.cgColor
+        accountButton.layer.shadowRadius = 2
+        accountButton.layer.shadowOffset = CGSize(width: 2, height: 2)
+        accountButton.layer.shadowOpacity = 0.3
+        accountButton.layer.cornerRadius = 20
+        view.addSubview(accountButton)
+        accountButton.snp.makeConstraints { make in
             make.height.width.equalTo(40)
             make.centerY.equalTo(circleButton_add)
             make.right.equalTo(circleButton_add.snp.left).offset(-48)
         }
+        accountButton.addTarget(self, action: #selector(accountBtnAct), for: .touchUpInside)
         
         let messageButton = UIButton()
         messageButton.setImage(UIImage(named: "icons24MessageFilledGrey24"), for: .normal)
@@ -1719,6 +1720,12 @@ class MapViewController: UIViewController {
         
         view.addSubview(mapView)
         mapView.addConstraintsToFillView(view: view)
+    }
+    
+    
+    @objc private func accountBtnAct(){
+        Analytics.logEvent("地圖_帳號按鈕", parameters:nil)
+        ProfilePop.share.popAlert()
     }
     
     @objc private func messageBtnAct(){

@@ -6,7 +6,7 @@
 
 import UIKit
 
-class SSAlertController: ProfilePopoverViewController {
+class SSAlertController: SSPopoverViewController {
     var alertTitle: String
     var alertMessage: String?
     var alertAttributedMessage: NSAttributedString?
