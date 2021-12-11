@@ -10,6 +10,11 @@ import UIKit
 
 class ProfilePopView: UIView {
     
+    
+    @IBOutlet weak var loadingView: UIImageView!
+    
+    @IBOutlet weak var photoView: UIImageView!
+    
     @IBOutlet weak var nameWithAge: UILabel!
     
     @IBOutlet weak var introduction: UILabel!

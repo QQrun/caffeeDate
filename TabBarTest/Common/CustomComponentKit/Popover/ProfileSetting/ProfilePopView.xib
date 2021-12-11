@@ -14,7 +14,7 @@
             <rect key="frame" x="0.0" y="0.0" width="361" height="277"/>
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
-                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="Profile pic(oval)" translatesAutoresizingMaskIntoConstraints="NO" id="esk-Hy-ika">
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="esk-Hy-ika">
                     <rect key="frame" x="16" y="16" width="34" height="34"/>
                     <constraints>
                         <constraint firstAttribute="width" constant="34" id="Dcb-8L-iii"/>
@@ -27,7 +27,7 @@
                     <color key="textColor" red="0.066666666666666666" green="0.078431372549019607" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
                 </label>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="面交人是由一位年輕認真的獨立開發者所開發的App，您的鼓勵是我進步最大的動力。" textAlignment="center" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Iw-jC-spn" customClass="ProfilePopVIew">
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Iw-jC-spn" customClass="ProfilePopVIew">
                     <rect key="frame" x="16" y="66" width="329" height="73"/>
                     <fontDescription key="fontDescription" type="system" pointSize="16"/>
                     <color key="textColor" red="0.10196078431372549" green="0.12941176470588234" blue="0.14509803921568626" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
@@ -94,6 +94,13 @@
                         <constraint firstAttribute="height" constant="48" id="T5Q-lM-5Ax"/>
                     </constraints>
                 </stackView>
+                <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="Diy-GU-R31">
+                    <rect key="frame" x="16" y="16" width="34" height="34"/>
+                    <constraints>
+                        <constraint firstAttribute="width" constant="34" id="WDC-Nt-zDq"/>
+                        <constraint firstAttribute="height" constant="34" id="oM4-Ql-0wi"/>
+                    </constraints>
+                </imageView>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -105,7 +112,9 @@
                 <constraint firstItem="5Iw-jC-spn" firstAttribute="top" secondItem="esk-Hy-ika" secondAttribute="bottom" constant="16" id="Cwr-tL-ItC"/>
                 <constraint firstItem="ixa-Ns-GIL" firstAttribute="leading" secondItem="esk-Hy-ika" secondAttribute="trailing" constant="16" id="P9T-fe-qiw"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="v0V-Z7-g9L" secondAttribute="bottom" constant="13" id="QLC-3b-e8m"/>
+                <constraint firstItem="Diy-GU-R31" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="br9-u8-Xvd"/>
                 <constraint firstItem="02r-C1-3Io" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="dka-hL-yo1"/>
+                <constraint firstItem="Diy-GU-R31" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="eJF-UP-tHw"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="02r-C1-3Io" secondAttribute="trailing" constant="16" id="ge1-XA-x2W"/>
                 <constraint firstItem="02r-C1-3Io" firstAttribute="top" secondItem="5Iw-jC-spn" secondAttribute="bottom" constant="17" id="irf-U8-O2c"/>
                 <constraint firstItem="esk-Hy-ika" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="j4N-F7-2gV"/>
@@ -118,15 +127,16 @@
                 <outlet property="editProfileBtn" destination="02r-C1-3Io" id="9fV-S2-Eox"/>
                 <outlet property="editShopBtn" destination="zYh-LS-SDe" id="YQy-c8-mRZ"/>
                 <outlet property="introduction" destination="5Iw-jC-spn" id="zZs-6E-Po3"/>
+                <outlet property="loadingView" destination="esk-Hy-ika" id="l4t-PY-Z5L"/>
                 <outlet property="logoutBtn" destination="mAK-tT-4v9" id="w3b-dh-dDE"/>
                 <outlet property="nameWithAge" destination="ixa-Ns-GIL" id="5Lu-MT-1ck"/>
+                <outlet property="photoView" destination="Diy-GU-R31" id="6Yy-nl-0og"/>
                 <outlet property="reportBtn" destination="gaw-e9-bNS" id="4Li-9e-aII"/>
             </connections>
             <point key="canvasLocation" x="99.275362318840592" y="143.63839285714286"/>
         </view>
     </objects>
     <resources>
-        <image name="Profile pic(oval)" width="64" height="62"/>
         <image name="icons24FaceRetouchingNaturalBlack24Dp" width="25" height="24"/>
         <image name="icons24LogoutBlack24Dp" width="24" height="24"/>
         <image name="icons24ReportOutline24" width="24" height="24"/>
