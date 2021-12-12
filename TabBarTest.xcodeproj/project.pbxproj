@@ -43,7 +43,6 @@
 		A747EE5625C9849B00766B66 /* ProfilePopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */; };
 		A747EE5725C9849B00766B66 /* ProfilePopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */; };
 		A747EE5825C9849B00766B66 /* ProfilePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5425C9849B00766B66 /* ProfilePopoverViewController.swift */; };
-		A747EE5C25C984D100766B66 /* ProfileAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5B25C984D100766B66 /* ProfileAlertController.swift */; };
 		A75A3DEB243E3E6400E43D46 /* NotifyCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DEA243E3E6400E43D46 /* NotifyCenterViewController.swift */; };
 		A75A3DED243E3E6F00E43D46 /* NotifyCenterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A3DEC243E3E6F00E43D46 /* NotifyCenterViewController.storyboard */; };
 		A75A3DF1243E3E9900E43D46 /* SettingViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A3DF0243E3E9900E43D46 /* SettingViewController.storyboard */; };
@@ -255,7 +254,6 @@
 		A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverAnimationController.swift; sourceTree = "<group>"; };
 		A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverPresentationController.swift; sourceTree = "<group>"; };
 		A747EE5425C9849B00766B66 /* ProfilePopoverViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfilePopoverViewController.swift; sourceTree = "<group>"; };
-		A747EE5B25C984D100766B66 /* ProfileAlertController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProfileAlertController.swift; sourceTree = "<group>"; };
 		A75A3DEA243E3E6400E43D46 /* NotifyCenterViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyCenterViewController.swift; sourceTree = "<group>"; };
 		A75A3DEC243E3E6F00E43D46 /* NotifyCenterViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = NotifyCenterViewController.storyboard; sourceTree = "<group>"; };
 		A75A3DF0243E3E9900E43D46 /* SettingViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = SettingViewController.storyboard; sourceTree = "<group>"; };
@@ -519,7 +517,6 @@
 				A714618E2761EAED00872E4E /* ProfilePop.swift */,
 				A747EE4925C9829300766B66 /* ProfilePopView.xib */,
 				A747EE4B25C9829400766B66 /* ProfilePopView.swift */,
-				A747EE5B25C984D100766B66 /* ProfileAlertController.swift */,
 				A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */,
 				A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */,
 				A747EE5125C9849B00766B66 /* ProfilePopoverPresentationManager.swift */,
@@ -1144,7 +1141,6 @@
 				A7BDF52D2453200200180166 /* PersonAnnotationData.swift in Sources */,
 				A75A3DFC2444687A00E43D46 /* ItemTableViewDelegate.swift in Sources */,
 				A7FCE11E24EE257500E79E96 /* NotifyTableViewCell.swift in Sources */,
-				A747EE5C25C984D100766B66 /* ProfileAlertController.swift in Sources */,
 				A77BAD48253C7D190071D346 /* InputBarButtonItem.swift in Sources */,
 				A77BAB6F253C75D50071D346 /* MessagesViewController+Keyboard.swift in Sources */,
 				A77BAD4E253C7D190071D346 /* AttachmentsView.swift in Sources */,

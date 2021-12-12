@@ -20,6 +20,8 @@ class ActionSheetKit{
         
         self.containerView = containerView
         
+        btns.removeAll()
+        
         bgBtn = { () -> UIButton in
             let btn = UIButton()
             btn.frame = CGRect(x: 0, y: 0, width: containerView.frame.width, height: containerView.frame.height)
@@ -131,6 +133,7 @@ class ActionSheetKit{
     }
     
     func getActionSheetBtn(i:Int) -> UIButton?{
+        print("btns.count:" + "\(btns.count)")
         if btns.count >= i + 1{
             return btns[i]
         }else{

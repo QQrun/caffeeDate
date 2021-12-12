@@ -28,5 +28,4 @@ class ProfilePopView: UIView {
     @IBOutlet weak var logoutBtn: UIButton!
     
     
-    
 }

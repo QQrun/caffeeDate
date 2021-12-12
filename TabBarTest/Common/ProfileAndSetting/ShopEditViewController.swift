@@ -26,7 +26,6 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     
     
     weak var viewDelegate: ShopEditViewControllerViewDelegate?
-    weak var settingViewController : SettingViewController?
     weak var mapViewController : MapViewController?
     
     var bigItemTableView = UITableView()

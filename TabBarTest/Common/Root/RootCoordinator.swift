@@ -235,14 +235,14 @@ extension RootCoordinator: SettingViewDelegate{
         
         if MFMailComposeViewController.canSendMail() {
             let mail = MFMailComposeViewController()
-            mail.mailComposeDelegate = settingViewController as! MFMailComposeViewControllerDelegate
+            mail.mailComposeDelegate = mapViewController as! MFMailComposeViewControllerDelegate
             // 收件人
             mail.setToRecipients([recipient])
             // 標題
             mail.setSubject(subject)
             // 信件內容
             mail.setMessageBody(messageBody, isHTML: false)
-            settingViewController.present(mail, animated: true)
+            mapViewController.present(mail, animated: true)
         }else {
             let mail = "mailto:\(recipient)?subject=\(subject)&body=\(messageBody)"
             if
@@ -258,18 +258,16 @@ extension RootCoordinator: SettingViewDelegate{
     func gotoShopEditView() {
         shopEditViewController = ShopEditViewController()
         shopEditViewController.modalPresentationStyle = .overCurrentContext
-        shopEditViewController.settingViewController = settingViewController
         shopEditViewController.mapViewController = mapViewController
         shopEditViewController.viewDelegate = self
-        settingTab.pushViewController(shopEditViewController, animated: true)
+        mapTab.pushViewController(shopEditViewController, animated: true)
     }
     
     func gotoProfileEditView() {
         let profileEditViewController = ProfileEditViewController()
         profileEditViewController.modalPresentationStyle = .overCurrentContext
-        profileEditViewController.settingViewController = settingViewController
         profileEditViewController.mapViewController = mapViewController
-        settingTab.pushViewController(profileEditViewController, animated: true)
+        mapTab.pushViewController(profileEditViewController, animated: true)
     }
     
     

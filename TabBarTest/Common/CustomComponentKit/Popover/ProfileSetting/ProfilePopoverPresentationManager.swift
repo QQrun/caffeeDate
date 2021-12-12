@@ -8,11 +8,16 @@ import UIKit
 
 class ProfilePopoverPresentationManager: NSObject {
 
+    var presentationController: ProfilePopoverPresentationController!
+    
 }
 
 extension ProfilePopoverPresentationManager: UIViewControllerTransitioningDelegate {
+    
+
+    
     func presentationController(forPresented presented: UIViewController, presenting: UIViewController?, source: UIViewController) -> UIPresentationController? {
-        let presentationController = ProfilePopoverPresentationController(presentedViewController: presented, presenting: presenting)
+        presentationController = ProfilePopoverPresentationController(presentedViewController: presented, presenting: presenting)
         return presentationController
     }
     

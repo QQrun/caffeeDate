@@ -12,6 +12,7 @@ import CoreLocation
 import Firebase
 import Alamofire
 import SnapKit
+import MessageUI
 
 protocol MapViewControllerViewDelegate: class {
     func gotoItemViewController_mapView(item:Item,personDetail:PersonDetailInfo)
@@ -137,11 +138,11 @@ class MapViewController: UIViewController {
     }
     
     fileprivate func hiddenTabBarOrNot(){
-//        if hiddeningTapBar{
+        if hiddeningTapBar{
             CoordinatorAndControllerInstanceHelper.rootCoordinator.hiddenTabBar()
-//        }else{
-//            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
-//        }
+        }else{
+            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
+        }
     }
     
     
@@ -2489,3 +2490,9 @@ extension MapViewController : WordLimitForTypeDelegate{
     
 }
 
+
+extension MapViewController: MFMailComposeViewControllerDelegate {
+    func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
+        dismiss(animated: true, completion: nil)
+    }
+}
