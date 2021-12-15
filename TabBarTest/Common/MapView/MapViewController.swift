@@ -54,10 +54,6 @@ class MapViewController: UIViewController {
     let iWantActionSheetContainer = UIButton() //我想⋯⋯開店、徵求、揪團btn的容器
     
     
-    var bookMarkClassificationNameLabels : [UILabel] = []
-    var bookMarkClassificationNameBtns : [UIButton] = []
-    var bookMarkClassificationNameLabels_ProfileBoard : [UILabel] = []
-    
     let smallIconActiveColor = UIColor.sksBlue()
     let smallIconUnactiveColor = UIColor.sksBlue().withAlphaComponent(0.2)
     var bulletinBoardExpansionState: BulletinBoardExpansionState = .NotExpanded
@@ -98,6 +94,8 @@ class MapViewController: UIViewController {
     
     private let actionSheetKit = ActionSheetKit()
     
+    var bookMarks_full: [String] = []
+    var bookMarks_half: [String] = []
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -138,11 +136,11 @@ class MapViewController: UIViewController {
     }
     
     fileprivate func hiddenTabBarOrNot(){
-        if hiddeningTapBar{
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.hiddenTabBar()
-        }else{
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
-        }
+        //        if hiddeningTapBar{
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.hiddenTabBar()
+        //        }else{
+        //            CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
+        //        }
     }
     
     
@@ -212,7 +210,7 @@ class MapViewController: UIViewController {
             textField.frame = CGRect(x:self.view.frame.width/2 - 150, y: view.frame.height/2 - 135, width: 300, height: 60)
             textField.attributedPlaceholder = NSAttributedString(string:
                                                                     " ", attributes:
-                                                                        [NSAttributedString.Key.foregroundColor:UIColor.hexStringToUIColor(hex: "B7B7B7")])
+                                                                    [NSAttributedString.Key.foregroundColor:UIColor.hexStringToUIColor(hex: "B7B7B7")])
             textField.text = UserSetting.storeName
             textField.clearButtonMode = .whileEditing
             textField.textAlignment = .center
@@ -239,19 +237,21 @@ class MapViewController: UIViewController {
         
         bulletinBoardTempContainer.frame = CGRect(x: 0, y: 0 , width: view.frame.width, height: view.frame.height - 40)
         
-        let bulletinBoardBG = UIImageView(frame: CGRect(x: 0, y: 10, width: view.frame.width, height: view.frame.height - 40 - 10))
-        bulletinBoardBG.contentMode = .scaleToFill
+        bulletinBoardContainer.layer.masksToBounds = false
+        bulletinBoardContainer.backgroundColor = .white
+        bulletinBoardContainer.layer.cornerRadius = 10
+        bulletinBoardContainer.layer.shadowColor = UIColor.black.cgColor
+        bulletinBoardContainer.layer.shadowOffset = CGSize(width: 0, height:-2)
+        bulletinBoardContainer.layer.shadowOpacity = 0.3
         
-        bulletinBoardBG.image = UIImage(named: "bulletinBoardParchmentBG")
+        let stick = UIView()
+        stick.frame = CGRect(x: view.frame.width/2 - 33, y: 7, width: 66, height: 4)
+        stick.layer.cornerRadius = 3
+        stick.backgroundColor = .lightGray
         
-        let bulletinBoardBookmarkBG = UIImageView()
-        bulletinBoardBookmarkBG.frame = CGRect(x: -6, y: 0, width: view.frame.width + 14, height: 45)
-        bulletinBoardBookmarkBG.contentMode = .scaleToFill
-        bulletinBoardBookmarkBG.image = UIImage(named: "bulletinBoardBookMarkBG")
         
         view.addSubview(bulletinBoardContainer)
-        bulletinBoardContainer.addSubview(bulletinBoardBG)
-        bulletinBoardContainer.addSubview(bulletinBoardBookmarkBG)
+        bulletinBoardContainer.addSubview(stick)
         bulletinBoardContainer.addSubview(bulletinBoardTempContainer)
         
         bulletinBoard_BuySellPart.frame = CGRect(x: 0, y: 0 , width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
@@ -260,7 +260,7 @@ class MapViewController: UIViewController {
         bulletinBoard_TeamUpPart.frame = CGRect(x: 0, y: 0 , width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
         bulletinBoardTempContainer.addSubview(bulletinBoard_TeamUpPart)
         
-        bulletinBoard_ProfilePart.frame = CGRect(x: 0, y: 0 , width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
+        bulletinBoard_ProfilePart.frame = CGRect(x: 0, y: 0, width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
         bulletinBoardTempContainer.addSubview(bulletinBoard_ProfilePart)
         
         bulletinBoard_CoffeeShop.frame = CGRect(x: 0, y: 0 , width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
@@ -285,7 +285,7 @@ class MapViewController: UIViewController {
             
             if bulletinBoardExpansionState == .NotExpanded {
                 let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-                animateBulletinBoard(targetPosition: view.frame.height - 274 - bottomPadding) { (_) in
+                animateBulletinBoard(targetPosition: view.frame.height - 300 - bottomPadding) { (_) in
                     self.bulletinBoardExpansionState = .PartiallyExpanded
                 }
             }
@@ -321,17 +321,11 @@ class MapViewController: UIViewController {
                 bulletinBoard_ProfilePart_Bottom.isHidden = false
                 bulletinBoard_ProfilePart_Bottom.alpha = 0
                 
-                //關掉標籤的btn
-                for btn in bookMarkClassificationNameBtns{
-                    btn.isEnabled = false
-                }
+                
                 //標籤fadeOut profile面板下方fadeIn
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-                    for label in self.bookMarkClassificationNameLabels{
-                        label.alpha = 0
-                        self.bulletinBoard_ProfilePart_Middle.alpha = 0
-                        self.bulletinBoard_ProfilePart_Bottom.alpha = 1
-                    }
+                    self.bulletinBoard_ProfilePart_Middle.alpha = 0
+                    self.bulletinBoard_ProfilePart_Bottom.alpha = 1
                 }, completion: nil)
                 
             }
@@ -802,98 +796,98 @@ class MapViewController: UIViewController {
         //從遠端讀取資料更新本地端的設定
         let ref = Database.database().reference()
         ref.child("PersonDetail/" + UserSetting.UID).observeSingleEvent(of: .value, with:{(snapshot) in
-                                                                            if snapshot.exists(){
-                                                                                
-                                                                                let userDetail = PersonDetailInfo(snapshot: snapshot)
-                                                                                
-                                                                                //做出sellItemsID
-                                                                                var storeSellItems : [Item] = []
-                                                                                if let childSnapshots = snapshot.childSnapshot(forPath: "SellItems").children.allObjects as? [DataSnapshot] {
-                                                                                    for childSnapshot in childSnapshots{
-                                                                                        let item = Item(snapshot: childSnapshot)
-                                                                                        item.itemID = childSnapshot.key
-                                                                                        item.thumbnail = UIImage()
-                                                                                        storeSellItems.append(item)
-                                                                                    }
-                                                                                }
-                                                                                storeSellItems = Util.quicksort_Item(storeSellItems)
-                                                                                var sellItemsID : [String] = []
-                                                                                for item in storeSellItems{
-                                                                                    sellItemsID.append(item.itemID!)
-                                                                                }
-                                                                                //做出buyItemsID
-                                                                                var storeBuyItems : [Item] = []
-                                                                                if let childSnapshots = snapshot.childSnapshot(forPath: "BuyItems").children.allObjects as? [DataSnapshot] {
-                                                                                    for childSnapshot in childSnapshots{
-                                                                                        let item = Item(snapshot: childSnapshot)
-                                                                                        item.itemID = childSnapshot.key
-                                                                                        item.thumbnail = UIImage()
-                                                                                        storeBuyItems.append(item)
-                                                                                    }
-                                                                                }
-                                                                                storeBuyItems = Util.quicksort_Item(storeBuyItems)
-                                                                                var buyItemsID : [String] = []
-                                                                                for item in storeBuyItems{
-                                                                                    buyItemsID.append(item.itemID!)
-                                                                                }
-                                                                                
-                                                                                //做出isWantSellSomething
-                                                                                var isWantSellSomething = false
-                                                                                if sellItemsID.count > 0 {
-                                                                                    isWantSellSomething = true
-                                                                                }
-                                                                                
-                                                                                //做出isWantBuySomething
-                                                                                var isWantBuySomething = false
-                                                                                if buyItemsID.count > 0{
-                                                                                    isWantBuySomething = true
-                                                                                }
-                                                                                
-                                                                                //做出photoURLs
-                                                                                var photoURLs : [String] = []
-                                                                                var photoURLsDict : [Int : String] =  [:]
-                                                                                if let childSnapshots = snapshot.childSnapshot(forPath: "photos").children.allObjects as? [DataSnapshot] {
-                                                                                    for childSnapshot in childSnapshots{
-                                                                                        let photoNumber = Int(childSnapshot.key)
-                                                                                        photoURLsDict[photoNumber!] = childSnapshot.value as? String ?? ""
-                                                                                    }
-                                                                                    let sortedByKeyDictionary = photoURLsDict.sorted { firstDictionary, secondDictionary in
-                                                                                        return firstDictionary.0 < secondDictionary.0 // 由小到大排序
-                                                                                    }
-                                                                                    
-                                                                                    for data in sortedByKeyDictionary{
-                                                                                        photoURLs.append(data.value)
-                                                                                    }
-                                                                                }
-                                                                                
-                                                                                let dic = ["alreadyUpdatePersonDetail":true,
-                                                                                           "UID":UserSetting.UID,
-                                                                                           "userName":userDetail.name,
-                                                                                           "userBirthDay":userDetail.birthday,
-                                                                                           "userGender":userDetail.gender,
-                                                                                           "userSelfIntroduction":userDetail.selfIntroduction,
-                                                                                           "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
-                                                                                           "isMapShowRequest":UserSetting.isMapShowRequest,
-                                                                                           "isMapShowTeamUp":UserSetting.isMapShowTeamUp,
-                                                                                           "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
-                                                                                           "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
-                                                                                           "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
-                                                                                           "perferIconStyleToShowInMap":userDetail.perferIconStyleToShowInMap,
-                                                                                           "isWantSellSomething":isWantSellSomething,
-                                                                                           "isWantBuySomething":isWantBuySomething,
-                                                                                           "sellItemsID":sellItemsID,
-                                                                                           "buyItemsID":buyItemsID,
-                                                                                           "userPhotosUrl":photoURLs,
-                                                                                           "currentChatTarget":"",] as [String : Any]
-                                                                                for data in dic {
-                                                                                    UserDefaults.standard.set(data.value, forKey: data.key)
-                                                                                }
-                                                                                if let headshot = userDetail.headShot{
-                                                                                    UserDefaults.standard.set(headshot, forKey: "userSmallHeadShotURL")
-                                                                                }
-                                                                                
-                                                                                
-                                                                            }})
+            if snapshot.exists(){
+                
+                let userDetail = PersonDetailInfo(snapshot: snapshot)
+                
+                //做出sellItemsID
+                var storeSellItems : [Item] = []
+                if let childSnapshots = snapshot.childSnapshot(forPath: "SellItems").children.allObjects as? [DataSnapshot] {
+                    for childSnapshot in childSnapshots{
+                        let item = Item(snapshot: childSnapshot)
+                        item.itemID = childSnapshot.key
+                        item.thumbnail = UIImage()
+                        storeSellItems.append(item)
+                    }
+                }
+                storeSellItems = Util.quicksort_Item(storeSellItems)
+                var sellItemsID : [String] = []
+                for item in storeSellItems{
+                    sellItemsID.append(item.itemID!)
+                }
+                //做出buyItemsID
+                var storeBuyItems : [Item] = []
+                if let childSnapshots = snapshot.childSnapshot(forPath: "BuyItems").children.allObjects as? [DataSnapshot] {
+                    for childSnapshot in childSnapshots{
+                        let item = Item(snapshot: childSnapshot)
+                        item.itemID = childSnapshot.key
+                        item.thumbnail = UIImage()
+                        storeBuyItems.append(item)
+                    }
+                }
+                storeBuyItems = Util.quicksort_Item(storeBuyItems)
+                var buyItemsID : [String] = []
+                for item in storeBuyItems{
+                    buyItemsID.append(item.itemID!)
+                }
+                
+                //做出isWantSellSomething
+                var isWantSellSomething = false
+                if sellItemsID.count > 0 {
+                    isWantSellSomething = true
+                }
+                
+                //做出isWantBuySomething
+                var isWantBuySomething = false
+                if buyItemsID.count > 0{
+                    isWantBuySomething = true
+                }
+                
+                //做出photoURLs
+                var photoURLs : [String] = []
+                var photoURLsDict : [Int : String] =  [:]
+                if let childSnapshots = snapshot.childSnapshot(forPath: "photos").children.allObjects as? [DataSnapshot] {
+                    for childSnapshot in childSnapshots{
+                        let photoNumber = Int(childSnapshot.key)
+                        photoURLsDict[photoNumber!] = childSnapshot.value as? String ?? ""
+                    }
+                    let sortedByKeyDictionary = photoURLsDict.sorted { firstDictionary, secondDictionary in
+                        return firstDictionary.0 < secondDictionary.0 // 由小到大排序
+                    }
+                    
+                    for data in sortedByKeyDictionary{
+                        photoURLs.append(data.value)
+                    }
+                }
+                
+                let dic = ["alreadyUpdatePersonDetail":true,
+                           "UID":UserSetting.UID,
+                           "userName":userDetail.name,
+                           "userBirthDay":userDetail.birthday,
+                           "userGender":userDetail.gender,
+                           "userSelfIntroduction":userDetail.selfIntroduction,
+                           "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
+                           "isMapShowRequest":UserSetting.isMapShowRequest,
+                           "isMapShowTeamUp":UserSetting.isMapShowTeamUp,
+                           "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
+                           "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
+                           "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
+                           "perferIconStyleToShowInMap":userDetail.perferIconStyleToShowInMap,
+                           "isWantSellSomething":isWantSellSomething,
+                           "isWantBuySomething":isWantBuySomething,
+                           "sellItemsID":sellItemsID,
+                           "buyItemsID":buyItemsID,
+                           "userPhotosUrl":photoURLs,
+                           "currentChatTarget":"",] as [String : Any]
+                for data in dic {
+                    UserDefaults.standard.set(data.value, forKey: data.key)
+                }
+                if let headshot = userDetail.headShot{
+                    UserDefaults.standard.set(headshot, forKey: "userSmallHeadShotURL")
+                }
+                
+                
+            }})
     }
     
     fileprivate func cleanBulletinBoard() {
@@ -923,45 +917,23 @@ class MapViewController: UIViewController {
         
         personInfo = PersonDetailInfo(snapshot: snapshot)
         
-        //做出書頁標籤
-        for i in 0 ... bookMarks.count - 1{
-            let classificationNameLabel = UILabel()
-            classificationNameLabel.text = bookMarks[i]
-            classificationNameLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-            classificationNameLabel.numberOfLines = 0
-            classificationNameLabel.textColor = UIColor.hexStringToUIColor(hex: "#414141")
-            classificationNameLabel.frame = CGRect(x: (0.5 + CGFloat(i)) * view.frame.width/CGFloat(bookMarks.count) - classificationNameLabel.intrinsicContentSize.width/2,y:19 - classificationNameLabel.intrinsicContentSize.height/2,width: classificationNameLabel.intrinsicContentSize.width + 2, height: classificationNameLabel.intrinsicContentSize.height)
-            bulletinBoardTempContainer.addSubview(classificationNameLabel)
-            bookMarkClassificationNameLabels.append(classificationNameLabel)
-            
-            
-            let classificationNameButton = UIButton()
-            classificationNameButton.isEnabled = true
-            
-            classificationNameButton.frame = CGRect(x:CGFloat(i) * view.frame.width/CGFloat(bookMarks.count),y:0,width: view.frame.width/CGFloat(bookMarks.count),height: 35)
-            
-            
-            
-            if bookMarks[i] == bookMarkName_Sell{
-                classificationNameButton.addTarget(self, action: #selector(bookMarkAct_OpenStore), for: .touchUpInside)
-            }else if bookMarks[i] == bookMarkName_Buy{
-                classificationNameButton.addTarget(self, action: #selector(bookMarkAct_Request), for: .touchUpInside)
-            }else if bookMarks[i] == bookMarkName_TeamUp{
-                classificationNameButton.addTarget(self, action: #selector(bookMarkAct_TeamUp), for: .touchUpInside)
-            }else if bookMarks[i] == bookMarkName_MakeFriend{
-                classificationNameButton.addTarget(self, action: #selector(bookMarkAct_Profile), for: .touchUpInside)
-            }
-            
-            bookMarkClassificationNameBtns.append(classificationNameButton)
-            bulletinBoardTempContainer.addSubview(classificationNameButton)
-            
-        }
+        //做出未滑開時的書頁標籤
+        bookMarks_half = bookMarks
+        let bookMarks_segmented_forHalfStatus = SSSegmentedControl(items: bookMarks,type: .pure)
+        bookMarks_segmented_forHalfStatus.translatesAutoresizingMaskIntoConstraints = false
+        bookMarks_segmented_forHalfStatus.selectedSegmentIndex = 0
+        bulletinBoardTempContainer.addSubview(bookMarks_segmented_forHalfStatus)
+        bookMarks_segmented_forHalfStatus.centerXAnchor.constraint(equalTo: bulletinBoardTempContainer.centerXAnchor).isActive = true
+        bookMarks_segmented_forHalfStatus.topAnchor.constraint(equalTo: bulletinBoardTempContainer.topAnchor, constant: 26).isActive = true
+        bookMarks_segmented_forHalfStatus.widthAnchor.constraint(equalToConstant: CGFloat(80 * bookMarks.count)).isActive = true
+        bookMarks_segmented_forHalfStatus.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        bookMarks_segmented_forHalfStatus.addTarget(self, action: #selector(segmentedOnValueChanged_half), for: .valueChanged)
         
         //做出未滑開時的照片與小itemTableView
         let photoTableViewContainer = UIView()
-        photoTableViewContainer.frame = CGRect(x: 0, y: 36 + 4, width: view.frame.width, height: 96)
+        photoTableViewContainer.frame = CGRect(x: 0, y: 64, width: view.frame.width, height: 96)
         let smallItemTableViewContainer = UIView()
-        smallItemTableViewContainer.frame = CGRect(x: 0, y: 36 + 96 + 4 + 5.3, width: view.frame.width, height: bulletinBoardTempContainer.frame.height - (36 + 96 - 5.3))
+        smallItemTableViewContainer.frame = CGRect(x: 0, y: 160, width: view.frame.width, height: bulletinBoardTempContainer.frame.height - (36 + 96 - 5.3))
         
         photoTableView = UITableView()
         
@@ -981,7 +953,7 @@ class MapViewController: UIViewController {
         photoTableView.backgroundColor = .clear
         photoTableView.separatorColor = .clear
         bulletinBoard_BuySellPart.addSubview(photoTableViewContainer)
-        photoTableViewContainer.addSubview(photoTableView)        
+        photoTableViewContainer.addSubview(photoTableView)
         
         
         let separatorForSmallItemTableViewTop = { () -> UIImageView in
@@ -1016,8 +988,8 @@ class MapViewController: UIViewController {
         ////ProfileBoard
         //照片
         let mediumSizeHeadShot = UIImageView()
-        mediumSizeHeadShot.frame = CGRect(x: 9, y: 47, width: 120, height: 120)
-        mediumSizeHeadShot.layer.cornerRadius = 60
+        mediumSizeHeadShot.frame = CGRect(x: 17, y: 70, width: 60, height: 60)
+        mediumSizeHeadShot.layer.cornerRadius = 30
         mediumSizeHeadShot.clipsToBounds = true
         let loadingView = UIImageView(frame: CGRect(x: mediumSizeHeadShot.frame.minX + mediumSizeHeadShot.frame.width * 1/12, y: mediumSizeHeadShot.frame.minY + mediumSizeHeadShot.frame.height * 1/12, width: mediumSizeHeadShot.frame.width * 5/6, height: mediumSizeHeadShot.frame.height * 5/6))
         loadingView.contentMode = .scaleAspectFit
@@ -1026,7 +998,7 @@ class MapViewController: UIViewController {
         }else{
             loadingView.image = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
         }
-        loadingView.tintColor = UIColor.hexStringToUIColor(hex: "472411")
+        loadingView.tintColor = UIColor.lightGray
         bulletinBoard_ProfilePart.addSubview(loadingView)
         bulletinBoard_ProfilePart.addSubview(mediumSizeHeadShot)
         if personInfo.photos != nil{
@@ -1049,12 +1021,12 @@ class MapViewController: UIViewController {
         nameLabel.font = UIFont(name: "HelveticaNeue", size: 18)
         nameLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
         nameLabel.text = personInfo.name
-        nameLabel.frame = CGRect(x: 9 + 120 + 6, y: 47, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
+        nameLabel.frame = CGRect(x: 92, y: 75, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
         bulletinBoard_ProfilePart.addSubview(nameLabel)
         
         //年齡
         let ageLabel = UILabel()
-        ageLabel.font = UIFont(name: "HelveticaNeue", size: 16)
+        ageLabel.font = UIFont(name: "HelveticaNeue", size: 18)
         ageLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
         let birthdayFormatter = DateFormatter()
         birthdayFormatter.dateFormat = "yyyy/MM/dd"
@@ -1064,14 +1036,14 @@ class MapViewController: UIViewController {
         if age != 0 {
             ageLabel.text = "\(age)"
         }
-        ageLabel.frame = CGRect(x: 9 + 120 + 6 + nameLabel.intrinsicContentSize.width + 4, y: 49, width: nameLabel.intrinsicContentSize.width, height: ageLabel.intrinsicContentSize.height)
+        ageLabel.frame = CGRect(x: 92 + nameLabel.intrinsicContentSize.width + 4, y: 75, width: nameLabel.intrinsicContentSize.width, height: ageLabel.intrinsicContentSize.height)
         bulletinBoard_ProfilePart.addSubview(ageLabel)
         
         //登入時間與icon
         let signInTimeIconImageView = UIImageView()
         let signInTimeIcon = UIImage(named: "GreenCircle")?.withRenderingMode(.alwaysTemplate)
         signInTimeIconImageView.image = signInTimeIcon
-        signInTimeIconImageView.frame = CGRect(x: 9 + 120 + 6, y: 71.5, width: 14, height: 14)
+        signInTimeIconImageView.frame = CGRect(x: 92, y: 106.5, width: 14, height: 14)
         bulletinBoard_ProfilePart.addSubview(signInTimeIconImageView)
         
         let dateFormatter = DateFormatter()
@@ -1135,10 +1107,10 @@ class MapViewController: UIViewController {
         
         
         let signInTimeLabel = UILabel()
-        signInTimeLabel.font = UIFont(name: "HelveticaNeue", size: 14)
+        signInTimeLabel.font = UIFont(name: "HelveticaNeue", size: 12)
         signInTimeLabel.textColor = .black
         signInTimeLabel.text = finalTimeString
-        signInTimeLabel.frame = CGRect(x: 9 + 120 + 6 + 14 + 4, y: 69.6, width: signInTimeLabel.intrinsicContentSize.width, height: signInTimeLabel.intrinsicContentSize.height)
+        signInTimeLabel.frame = CGRect(x: 113, y: 107, width: signInTimeLabel.intrinsicContentSize.width, height: signInTimeLabel.intrinsicContentSize.height)
         bulletinBoard_ProfilePart.addSubview(signInTimeLabel)
         
         
@@ -1148,12 +1120,12 @@ class MapViewController: UIViewController {
         selfIntroductionLabel.text = personInfo.selfIntroduction
         selfIntroductionLabel.numberOfLines = 0
         selfIntroductionLabel.textAlignment = .left
-        selfIntroductionLabel.frame = CGRect(x: 135, y: 89.5, width: view.frame.width - 145, height: 66.4)
+        selfIntroductionLabel.frame = CGRect(x: 16, y: 138, width: view.frame.width - 32, height: 82)
         bulletinBoard_ProfilePart.addSubview(selfIntroductionLabel)
         selfIntroductionLabel.sizeToFit()
         //66.4是四行的高度 如果超過四行，就縮小
-        if selfIntroductionLabel.frame.height > 66.4{
-            selfIntroductionLabel.frame = CGRect(x: 135, y: 89.5, width: view.frame.width - 138, height: 66.4)
+        if selfIntroductionLabel.frame.height > 82{
+            selfIntroductionLabel.frame = CGRect(x: 16, y: 138, width: view.frame.width - 32, height: 82)
         }
         
         //點擊照片或是自我介紹，前往PhotoProfileView
@@ -1166,82 +1138,29 @@ class MapViewController: UIViewController {
         bulletinBoard_ProfilePart.addSubview(gotoPhotoProfileViewBtn)
         
         
-        if UserSetting.UID != UID{
-            let mailBtn = MailButton(personInfo: personInfo)
-            mailBtn.setImage(UIImage(named: "飛鴿傳書icon"), for: .normal)
-            mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 50 - 9, y: 45, width: 50, height: 42)
-            //            mailBtn.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            mailBtn.isEnabled = true
-            bulletinBoard_ProfilePart.addSubview(mailBtn)
-        }
-        
-        //        let tradeEvaluationLabel = UILabel()
-        //        tradeEvaluationLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        //        tradeEvaluationLabel.textColor = .black
-        //        tradeEvaluationLabel.text = "交易評價"
-        //        tradeEvaluationLabel.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 1/4 - tradeEvaluationLabel.intrinsicContentSize.width/2, y: 47 + 120 + 9, width: tradeEvaluationLabel.intrinsicContentSize.width, height: tradeEvaluationLabel.intrinsicContentSize.height)
-        //        bulletinBoard_ProfilePart.addSubview(tradeEvaluationLabel)
-        //        DrawStarsUnderLabel(bulletinBoard_ProfilePart,tradeEvaluationLabel,4.5)
-        //
-        //        let tradeEvaluationCountLabel = UILabel()
-        //        tradeEvaluationCountLabel.font = UIFont(name: "HelveticaNeue", size: 12)
-        //        tradeEvaluationCountLabel.textColor = UIColor.hexStringToUIColor(hex: "414141")
-        //        tradeEvaluationCountLabel.text =  "("+"\(personInfo.tradeEvaluationCount)" + ")"
-        //        tradeEvaluationCountLabel.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 1/4 + 44 + 2, y: 47 + 120 + 9 + 22, width: tradeEvaluationCountLabel.intrinsicContentSize.width, height: tradeEvaluationCountLabel.intrinsicContentSize.height)
-        //        bulletinBoard_ProfilePart.addSubview(tradeEvaluationCountLabel)
-        
-        //        if personInfo.tradeEvaluationCommentCount > 0{
-        //            let tradeEvaluationCommentLabel = UILabel()
-        //            tradeEvaluationCommentLabel.font = UIFont(name: "HelveticaNeue", size: 12)
-        //            tradeEvaluationCommentLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        //            tradeEvaluationCommentLabel.text = "查看 " + "\(personInfo.tradeEvaluationCommentCount)" + " 則評論"
-        //            tradeEvaluationCommentLabel.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 1/4 - tradeEvaluationCommentLabel.intrinsicContentSize.width/2, y: 47 + 120 + 9 + 22 + tradeEvaluationCountLabel.intrinsicContentSize.height + 5, width: tradeEvaluationCommentLabel.intrinsicContentSize.width, height: tradeEvaluationCommentLabel.intrinsicContentSize.height)
-        //            bulletinBoard_ProfilePart.addSubview(tradeEvaluationCommentLabel)
-        //
-        //            let tradeEvaluationCommentBtn = UIButton()
-        //            tradeEvaluationCommentBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 1/4 - 44, y: 47 + 120 + 9, width: 100, height: 60)
-        //            bulletinBoard_ProfilePart.addSubview(tradeEvaluationCommentBtn)
-        //        }
-        
-        //        let teamUpEvaluationLabel = UILabel()
-        //        teamUpEvaluationLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        //        teamUpEvaluationLabel.textColor = .black
-        //        teamUpEvaluationLabel.text = "揪團評價"
-        //        teamUpEvaluationLabel.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 3/4 - teamUpEvaluationLabel.intrinsicContentSize.width/2, y: 47 + 120 + 9, width: teamUpEvaluationLabel.intrinsicContentSize.width, height: teamUpEvaluationLabel.intrinsicContentSize.height)
-        //        bulletinBoard_ProfilePart.addSubview(teamUpEvaluationLabel)
-        //        DrawStarsUnderLabel(bulletinBoard_ProfilePart,teamUpEvaluationLabel,3.5)
-        
-        
-        //        let teamupEvaluationCountLabel = UILabel()
-        //        teamupEvaluationCountLabel.font = UIFont(name: "HelveticaNeue", size: 12)
-        //        teamupEvaluationCountLabel.textColor = UIColor.hexStringToUIColor(hex: "414141")
-        //        teamupEvaluationCountLabel.text =  "("+"\(personInfo.teamUpEvaluationCount)" + ")"
-        //        teamupEvaluationCountLabel.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 3/4 + 44 + 2, y: 47 + 120 + 9 + 22, width: teamupEvaluationCountLabel.intrinsicContentSize.width, height: teamupEvaluationCountLabel.intrinsicContentSize.height)
-        //        bulletinBoard_ProfilePart.addSubview(teamupEvaluationCountLabel)
-        
-        //        if personInfo.teamUpEvaluationCommentCount > 0{
-        //            let teamupEvaluationCommentLabel = UILabel()
-        //            teamupEvaluationCommentLabel.font = UIFont(name: "HelveticaNeue", size: 12)
-        //            teamupEvaluationCommentLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        //            teamupEvaluationCommentLabel.text = "查看 " + "\(personInfo.teamUpEvaluationCommentCount)" + " 則評論"
-        //            teamupEvaluationCommentLabel.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 3/4 - teamupEvaluationCommentLabel.intrinsicContentSize.width/2, y: 47 + 120 + 9 + 22 + tradeEvaluationCountLabel.intrinsicContentSize.height + 5, width: teamupEvaluationCommentLabel.intrinsicContentSize.width, height: teamupEvaluationCommentLabel.intrinsicContentSize.height)
-        //            bulletinBoard_ProfilePart.addSubview(teamupEvaluationCommentLabel)
-        //
-        //            let teamupEvaluationCommentBtn = UIButton()
-        //            teamupEvaluationCommentBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width * 3/4 - 44, y: 47 + 120 + 9, width: 100, height: 60)
-        //            bulletinBoard_ProfilePart.addSubview(teamupEvaluationCommentBtn)
+        //        if UserSetting.UID != UID{
+        let mailBtn = MailButton(personInfo: personInfo)
+        var mailImage = UIImage(named: "icons24MessageFilledGrey24")
+        mailBtn.contentMode = .scaleAspectFit
+        mailBtn.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
+        mailBtn.backgroundColor = .primary()
+        mailBtn.layer.cornerRadius = 14
+        mailBtn.tintColor = .white
+        mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 21 - 28, y: 72, width: 28, height: 28)
+        mailBtn.isEnabled = true
+        bulletinBoard_ProfilePart.addSubview(mailBtn)
         //        }
         
         bulletinBoard_ProfilePart_Middle = UIView()
-        bulletinBoard_ProfilePart_Middle.frame = CGRect(x: 0, y: 47 + 120 + 9, width: bulletinBoard_ProfilePart.frame.width, height: 100)
+        bulletinBoard_ProfilePart_Middle.frame = CGRect(x: 0, y: 0, width: bulletinBoard_ProfilePart.frame.width, height: 100)
         bulletinBoard_ProfilePart.addSubview(bulletinBoard_ProfilePart_Middle)
         
         let remainingTimeLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "刊登剩餘時間  99：99：99"
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
+            label.textColor = UIColor.gray
             label.font = UIFont(name: "HelveticaNeue", size: 14)
-            label.frame = CGRect(x: bulletinBoard_ProfilePart_Middle.frame.width - 18 - label.intrinsicContentSize.width, y: 0, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: bulletinBoard_ProfilePart_Middle.frame.width - 18 - label.intrinsicContentSize.width, y: 106, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             label.text = ""
             label.textAlignment = .right
             return label
@@ -1250,8 +1169,9 @@ class MapViewController: UIViewController {
         startRemainingStoreOpenTimer(lebal: remainingTimeLabel, storeOpenTimeString: openTimeString, durationOfAuction: 60 * 60 * 24 * 3)
         
         let plzSlideUpImageView = {() -> UIImageView in
-            let imageView = UIImageView(frame: CGRect(x: self.bulletinBoard_ProfilePart_Middle.frame.width/2 - 19/2, y: remainingTimeLabel.frame.maxY + 21, width: 19, height: 19))
-            imageView.image = UIImage(named: "plzSlideUp")
+            let imageView = UIImageView(frame: CGRect(x: self.bulletinBoard_ProfilePart_Middle.frame.width/2 - 19/2, y: 230, width: 19, height: 19))
+            imageView.image = UIImage(named: "plzSlideUp")?.withRenderingMode(.alwaysTemplate)
+            imageView.tintColor = .primary()
             return imageView
         }()
         bulletinBoard_ProfilePart_Middle.addSubview(plzSlideUpImageView)
@@ -1260,7 +1180,7 @@ class MapViewController: UIViewController {
         let plzSlideUpLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "上滑展開攤販詳細資訊"
-            label.textColor = UIColor.hexStringToUIColor(hex: "751010")
+            label.textColor = .primary()
             label.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
             label.frame = CGRect(x: bulletinBoard_ProfilePart_Middle.frame.width/2 - label.intrinsicContentSize.width/2, y: plzSlideUpImageView.frame.maxY + 6, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
@@ -1270,12 +1190,6 @@ class MapViewController: UIViewController {
         UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse], animations: {
             plzSlideUpImageView.frame.origin.y -= 8
         }, completion: nil)
-        
-        
-        
-        
-        
-        
         
         bulletinBoard_ProfilePart_Bottom = UIView()
         bulletinBoard_ProfilePart_Bottom.frame = CGRect(x: 0, y: 0, width: bulletinBoard_ProfilePart.frame.width, height: bulletinBoard_ProfilePart.frame.height)
@@ -1290,13 +1204,17 @@ class MapViewController: UIViewController {
         }()
         bulletinBoard_ProfilePart_Bottom.addSubview(gotoPhotoProfileViewBtn_Bottom)
         
-        if UserSetting.UID != UID{
-            let mailBtn_Bottom = MailButton(personInfo: personInfo)
-            mailBtn_Bottom.setImage(UIImage(named: "飛鴿傳書icon"), for: .normal)
-            mailBtn_Bottom.frame = CGRect(x: bulletinBoard_ProfilePart_Bottom.frame.width - 50 - 9, y: 45, width: 50, height: 42)
-            mailBtn_Bottom.isEnabled = true
-            bulletinBoard_ProfilePart_Bottom.addSubview(mailBtn_Bottom)
-        }
+        //        if UserSetting.UID != UID{
+        let mailBtn_Bottom = MailButton(personInfo: personInfo)
+        mailBtn_Bottom.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
+        mailBtn_Bottom.backgroundColor = .primary()
+        mailBtn_Bottom.layer.cornerRadius = 14
+        mailBtn_Bottom.tintColor = .white
+        mailBtn_Bottom.contentMode = .scaleAspectFit
+        mailBtn_Bottom.frame = CGRect(x: bulletinBoard_ProfilePart_Bottom.frame.width - 50 - 9, y: 45, width: 28, height: 28)
+        mailBtn_Bottom.isEnabled = true
+        bulletinBoard_ProfilePart_Bottom.addSubview(mailBtn_Bottom)
+        //        }
         
         let storeNameAndDistanceLabel = {() -> UILabel in
             let label = UILabel()
@@ -1341,33 +1259,17 @@ class MapViewController: UIViewController {
         var bookMarks_temp = bookMarks
         bookMarks_temp.remove(at: 0)
         
-        if bookMarks_temp.count > 0 {
-            for i in 0 ... bookMarks_temp.count - 1{
-                let classificationNameLabel = UILabel()
-                classificationNameLabel.text = bookMarks_temp[i]
-                classificationNameLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-                classificationNameLabel.numberOfLines = 0
-                classificationNameLabel.textColor = UIColor.hexStringToUIColor(hex: "#414141")
-                classificationNameLabel.frame = CGRect(x: (0.5 + CGFloat(i)) * view.frame.width/CGFloat(bookMarks_temp.count) - classificationNameLabel.intrinsicContentSize.width/2,y:22 - classificationNameLabel.intrinsicContentSize.height/2 + 240 - 60,width: classificationNameLabel.intrinsicContentSize.width + 2, height: classificationNameLabel.intrinsicContentSize.height)
-                bulletinBoard_ProfilePart_Bottom.addSubview(classificationNameLabel)
-                bookMarkClassificationNameLabels_ProfileBoard.append(classificationNameLabel)
-                
-                let classificationNameButton = UIButton()
-                classificationNameButton.isEnabled = true
-                classificationNameButton.frame = CGRect(x:CGFloat(i) * view.frame.width/CGFloat(bookMarks_temp.count),y:240 - 60,width: view.frame.width/CGFloat(bookMarks_temp.count),height: 44)
-                if bookMarks_temp[i] == bookMarkName_Sell{
-                    classificationNameButton.addTarget(self, action: #selector(ProfileBoard_bookMarkAct_OpenStore), for: .touchUpInside)
-                }else if bookMarks_temp[i] == bookMarkName_Buy{
-                    classificationNameButton.addTarget(self, action: #selector(ProfileBoard_bookMarkAct_Request), for: .touchUpInside)
-                }else if bookMarks_temp[i] == bookMarkName_TeamUp{
-                    classificationNameButton.addTarget(self, action: #selector(ProfileBoard_bookMarkAct_TeamUp), for: .touchUpInside)
-                }
-                bulletinBoard_ProfilePart_Bottom.addSubview(classificationNameButton)
-                
-            }
-            
-            changeBookMark(text: bookMarks_temp[0],labels: bookMarkClassificationNameLabels_ProfileBoard)
-        }
+        //做出書頁標籤
+        let         bookMarks_segmented_forFullStatus = SSSegmentedControl(items: bookMarks_temp,type: .pure)
+        bookMarks_segmented_forFullStatus.translatesAutoresizingMaskIntoConstraints = false
+        bookMarks_segmented_forFullStatus.selectedSegmentIndex = 0
+        bulletinBoard_ProfilePart_Bottom.addSubview(        bookMarks_segmented_forFullStatus)
+        bookMarks_segmented_forFullStatus.centerXAnchor.constraint(equalTo: bulletinBoard_ProfilePart_Bottom.centerXAnchor).isActive = true
+        bookMarks_segmented_forFullStatus.topAnchor.constraint(equalTo: view.topAnchor, constant: 26).isActive = true
+        bookMarks_segmented_forFullStatus.widthAnchor.constraint(equalToConstant: 160).isActive = true
+        bookMarks_segmented_forFullStatus.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        //                bookMarks_segmented_forFullStatus.addTarget(self, action: #selector(segmentedOnValueChanged), for: .valueChanged)
+        
         
         
         
@@ -1400,7 +1302,9 @@ class MapViewController: UIViewController {
         bulletinBoard_ProfilePart.isHidden = true
         
         
-        changeBookMark(text: selectedbookMark,labels: bookMarkClassificationNameLabels)
+        bookMarks_segmented_forFullStatus.selectedSegmentIndex = bookMarks_temp.index(of: selectedbookMark) ?? 0
+        bookMarks_segmented_forHalfStatus.selectedSegmentIndex = bookMarks.index(of: selectedbookMark) ?? 0
+        
         if selectedbookMark == bookMarkName_Sell{
             bookMarkAct_OpenStore()
         }else if selectedbookMark == bookMarkName_Buy{
@@ -1409,20 +1313,6 @@ class MapViewController: UIViewController {
             bookMarkAct_TeamUp()
         }else if selectedbookMark == bookMarkName_MakeFriend{
             bookMarkAct_Profile()
-            //            if bookMarks_temp.count > 0{
-            //                if bookMarks_temp[0] == bookMarkName_Sell{
-            //                    currentItemType = .Sell
-            //
-            //                    photoTableView.reloadData()
-            //                    bigItemTableView.reloadData()
-            //                }else if bookMarks_temp[0] == bookMarkName_Buy{
-            //                    currentItemType = .Buy
-            //                    photoTableView.reloadData()
-            //                    bigItemTableView.reloadData()
-            //                }else if bookMarks_temp[0] == bookMarkName_TeamUp{
-            //                    print("bookMarks_temp[0] == bookMarkName_TeamUp")
-            //                }
-            //            }
         }
         
         
@@ -1460,7 +1350,7 @@ class MapViewController: UIViewController {
         smallItemTableView.reloadData()
         
         let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-        animateBulletinBoard(targetPosition: view.frame.height - 274 - bottomPadding) { (_) in
+        animateBulletinBoard(targetPosition: view.frame.height - 300 - bottomPadding) { (_) in
             self.bulletinBoardExpansionState = .PartiallyExpanded
         }
         
@@ -1481,15 +1371,8 @@ class MapViewController: UIViewController {
         
         
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-            for label in self.bookMarkClassificationNameLabels{
-                label.alpha = 1
-                self.bulletinBoard_ProfilePart_Bottom.alpha = 0
-                self.bulletinBoard_ProfilePart_Middle.alpha = 1
-            }
+            
         }, completion: { _ in
-            for btn in self.bookMarkClassificationNameBtns{
-                btn.isEnabled = true
-            }
             self.bulletinBoard_ProfilePart_Bottom.isHidden = true
         })
         
@@ -1532,7 +1415,7 @@ class MapViewController: UIViewController {
         exclamationPopUpContainerView.addSubview(exclamationPopUpImageView)
         
         showOpenStoreButton.frame = CGRect(x: 6, y: 25, width: 44, height: 44)
-        let openStoreImage = UIImage(named: "天秤小icon")
+        let openStoreImage = UIImage(named: "icons24ShopLocateFilledBk24")
         let openStoreImage_tintedImage = openStoreImage?.withRenderingMode(.alwaysTemplate)
         
         if UserSetting.isMapShowOpenStore{
@@ -1839,8 +1722,6 @@ class MapViewController: UIViewController {
     
     @objc private func bookMarkAct_OpenStore(){
         refreshTableViewsContent(.Sell)
-        changeBookMark(text:bookMarkName_Sell,labels: bookMarkClassificationNameLabels)
-        changeBookMark(text:bookMarkName_Sell,labels: bookMarkClassificationNameLabels_ProfileBoard)
         fadeInBuySellBoard()
     }
     
@@ -1866,8 +1747,6 @@ class MapViewController: UIViewController {
     
     @objc private func bookMarkAct_Request(){
         refreshTableViewsContent(.Buy)
-        changeBookMark(text:bookMarkName_Buy,labels: bookMarkClassificationNameLabels)
-        changeBookMark(text:bookMarkName_Buy,labels: bookMarkClassificationNameLabels_ProfileBoard)
         fadeInBuySellBoard()
     }
     
@@ -1892,8 +1771,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func bookMarkAct_TeamUp(){
-        changeBookMark(text:bookMarkName_TeamUp,labels: bookMarkClassificationNameLabels)
-        changeBookMark(text:bookMarkName_TeamUp,labels: bookMarkClassificationNameLabels_ProfileBoard)
+        
         fadeInTeamUpBoard()
     }
     fileprivate func fadeInProfileBoard() {
@@ -1917,7 +1795,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func bookMarkAct_Profile(){
-        changeBookMark(text:bookMarkName_MakeFriend,labels: bookMarkClassificationNameLabels)
+        //        changeBookMark(text:bookMarkName_MakeFriend,labels: bookMarkClassificationNameLabels)
         fadeInProfileBoard()
     }
     
@@ -1958,20 +1836,13 @@ class MapViewController: UIViewController {
     @objc private func ProfileBoard_bookMarkAct_OpenStore(){
         
         refreshTableViewsContent(.Sell)
-        changeBookMark(text:bookMarkName_Sell,labels: bookMarkClassificationNameLabels_ProfileBoard)
-        changeBookMark(text:bookMarkName_Sell,labels: bookMarkClassificationNameLabels)
     }
     @objc private func ProfileBoard_bookMarkAct_Request(){
         
         refreshTableViewsContent(.Buy)
-        changeBookMark(text:bookMarkName_Buy,labels: bookMarkClassificationNameLabels_ProfileBoard)
-        changeBookMark(text:bookMarkName_Buy,labels: bookMarkClassificationNameLabels)
         
     }
     @objc private func ProfileBoard_bookMarkAct_TeamUp(){
-        print("ProfileBoard_bookMarkAct_TeamUp")
-        changeBookMark(text:bookMarkName_TeamUp,labels: bookMarkClassificationNameLabels_ProfileBoard)
-        changeBookMark(text:bookMarkName_TeamUp,labels: bookMarkClassificationNameLabels)
         
     }
     
@@ -2058,6 +1929,8 @@ class MapViewController: UIViewController {
     
     
     
+    
+    
     fileprivate func changeBookMark(text:String,labels:[UILabel]) {
         for label in labels{
             if label.text == text{
@@ -2081,6 +1954,17 @@ class MapViewController: UIViewController {
         }
     }
     
+    @objc func segmentedOnValueChanged_half(_ segmented: UISegmentedControl) {
+        if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_Sell){
+            bookMarkAct_OpenStore()
+        }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_Buy){
+            bookMarkAct_Request()
+        }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_TeamUp){
+            bookMarkAct_TeamUp()
+        }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_MakeFriend){
+            bookMarkAct_Profile()
+        }
+    }
     
     
 }
@@ -2106,6 +1990,7 @@ extension MapViewController{
         //            loadAnnotations(withSearchQuery: "Coffee Shops")
         //        }
     }
+    
     
     
     
@@ -2189,7 +2074,7 @@ extension MapViewController: MKMapViewDelegate {
         
         if bulletinBoardExpansionState == .NotExpanded {
             let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
-            animateBulletinBoard(targetPosition: self.view.frame.height - 274 - bottomPadding) { (_) in
+            animateBulletinBoard(targetPosition: self.view.frame.height - 300 - bottomPadding) { (_) in
                 self.bulletinBoardExpansionState = .PartiallyExpanded
             }
         }
@@ -2247,7 +2132,7 @@ extension MapViewController: MKMapViewDelegate {
             var selectedBookMark = ""
             
             switch  (view.annotation as! PersonAnnotation).markTypeToShow {
-            
+                
             case .makeFriend:
                 selectedBookMark = bookMarkName_MakeFriend
             case .openStore:
@@ -2352,7 +2237,7 @@ extension MapViewController: MKMapViewDelegate {
             mkMarker?.viewWithTag(1)?.removeFromSuperview() //如果有加imageView，就刪除
             switch (annotation as! PersonAnnotation).markTypeToShow {
             case .openStore:
-                mkMarker?.glyphImage = UIImage(named: "天秤小icon_紫")
+                mkMarker?.glyphImage = UIImage(named: "icons24ShopLocateFilledBk24")
                 break
             case .request:
                 mkMarker?.glyphImage = UIImage(named: "捲軸小icon_紫")
@@ -2439,7 +2324,7 @@ extension MapViewController: CLLocationManagerDelegate{
     func enableLocationServices(){
         
         switch CLLocationManager.authorizationStatus() {
-        
+            
         case .notDetermined:
             print("MapViewController:Location auth status is NOT DETERMINED")
             

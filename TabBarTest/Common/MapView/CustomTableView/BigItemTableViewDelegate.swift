@@ -91,7 +91,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
                 loadingView.tag = 2
                 let imageView = UIImageView(frame: CGRect(x: cell.photo.frame.origin.x  + cell.photo.frame.width/4, y: cell.photo.frame.origin.y + cell.photo.frame.width/4, width: cell.photo.frame.width/2, height: cell.photo.frame.height/2))
                 if currentItemType == .Sell{
-                    imageView.image = UIImage(named: "天秤小icon")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = UIImage(named: "icons24ShopLocateFilledBk24")?.withRenderingMode(.alwaysTemplate)
                 }else{
                     imageView.image = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
                 }

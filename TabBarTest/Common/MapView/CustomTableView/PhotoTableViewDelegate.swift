@@ -50,16 +50,16 @@ public class PhotoTableViewDelegate :NSObject,UITableViewDataSource,UITableViewD
                 let loadingView = UIView(frame: CGRect(x: cell.photo.frame.origin.x  + cell.photo.frame.width/8, y: cell.photo.frame.origin.y + cell.photo.frame.width/8, width: cell.photo.frame.width * 3/4, height: cell.photo.frame.height * 3/4))
                 loadingView.layer.cornerRadius = 7
                 loadingView.layer.borderWidth = 2.5
-                loadingView.layer.borderColor = UIColor.hexStringToUIColor(hex: "472411").cgColor
+                loadingView.layer.borderColor = UIColor.lightGray.cgColor
                 loadingView.backgroundColor = .clear
                 loadingView.tag = 2
                 let imageView = UIImageView(frame: CGRect(x: cell.photo.frame.origin.x  + cell.photo.frame.width/4, y: cell.photo.frame.origin.y + cell.photo.frame.width/4, width: cell.photo.frame.width/2, height: cell.photo.frame.height/2))
                 if currentItemType == .Sell{
-                    imageView.image = UIImage(named: "天秤小icon")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = UIImage(named: "icons24ShopLocateFilledBk24")?.withRenderingMode(.alwaysTemplate)
                 }else{
                     imageView.image = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
                 }
-                imageView.tintColor = UIColor.hexStringToUIColor(hex: "472411")
+                imageView.tintColor = .lightGray
                 imageView.tag = 1
                 imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi)/2)
                 cell.addSubview(loadingView)

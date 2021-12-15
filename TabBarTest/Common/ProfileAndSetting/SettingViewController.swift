@@ -243,7 +243,7 @@ class SettingViewController: UIViewController {
                 let view = UIImageView()
                 
                 view.frame = CGRect(x: 34 + 10, y: topPadding + 297 + 27, width: 30, height: 26)
-                let tintedImage = UIImage(named: "天秤小icon")?.withRenderingMode(.alwaysTemplate)
+                let tintedImage = UIImage(named: "icons24ShopLocateFilledBk24")?.withRenderingMode(.alwaysTemplate)
                 view.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
                 if UserSetting.perferIconStyleToShowInMap == "openStore"{
                     view.tintColor = UIColor.hexStringToUIColor(hex: "D8D8D8")

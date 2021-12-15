@@ -46,7 +46,7 @@ public class ItemTableViewDelegate :NSObject,UITableViewDataSource,UITableViewDe
         else if currentItemType == .Buy{
             likeUIDs = personDetail.buyItems[indexPath.row].likeUIDs
         }
-        cell.heartImage.image = UIImage(named: "空愛心")
+        cell.heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
         if likeUIDs.count > 99{
             cell.heartNumberLabel.text = "99+"
         }else{
@@ -55,7 +55,7 @@ public class ItemTableViewDelegate :NSObject,UITableViewDataSource,UITableViewDe
         for likeUID in likeUIDs{
             if likeUID == UserSetting.UID{
                 cell.userPressLike = true
-                cell.heartImage.image = UIImage(named: "實愛心")
+                cell.heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
             }
         }
         

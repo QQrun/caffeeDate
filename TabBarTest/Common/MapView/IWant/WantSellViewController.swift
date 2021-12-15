@@ -533,7 +533,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             cell.loadingView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi)/2).scaledBy(x: 0.7, y: 0.7)
             if iWantType == .Sell{
                 
-                cell.loadingView.image = UIImage(named: "天秤小icon")?.withRenderingMode(.alwaysTemplate)
+                cell.loadingView.image = UIImage(named: "icons24ShopLocateFilledBk24")?.withRenderingMode(.alwaysTemplate)
             }else{
                 cell.loadingView.image = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
             }
