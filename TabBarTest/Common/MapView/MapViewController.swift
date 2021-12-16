@@ -47,7 +47,7 @@ class MapViewController: UIViewController {
     let bulletinBoardTempContainer = UIView() //for 可替換的內部東西
     let bulletinBoard_BuySellPart = UIView() //bulletinBoardTempContainer的子view
     let bulletinBoard_ProfilePart = UIView() //bulletinBoardTempContainer的子view
-    var bulletinBoard_ProfilePart_Middle = UIView() //bulletinBoard_ProfilePart的子view
+    var bulletinBoard_ProfilePart_plzSlideUp = UIView() //bulletinBoard_ProfilePart的子view
     var bulletinBoard_ProfilePart_Bottom = UIView() //bulletinBoard_ProfilePart的子view
     let bulletinBoard_TeamUpPart = UIView() //bulletinBoardTempContainer的子view
     let bulletinBoard_CoffeeShop = UIView() //bulletinBoardTempContainer的子view
@@ -96,6 +96,9 @@ class MapViewController: UIViewController {
     
     var bookMarks_full: [String] = []
     var bookMarks_half: [String] = []
+    
+    var bookMarks_segmented_forHalfStatus = SSSegmentedControl(items: [],type: .pure)
+    var bookMarks_segmented_forFullStatus = SSSegmentedControl(items: [],type: .pure)
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -277,7 +280,9 @@ class MapViewController: UIViewController {
     
     @objc func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
         
+        print("handleSwipeGesture")
         if sender.direction == .up {
+            print("sender.direction == .up")
             //如果是在CoffeeShop頁，不能上滑
             if bulletinBoard_CoffeeShop.subviews.count > 0{
                 return
@@ -290,30 +295,29 @@ class MapViewController: UIViewController {
                 }
             }
             if bulletinBoardExpansionState == .PartiallyExpanded {
-                
+                print("bulletinBoardExpansionState == .PartiallyExpanded")
                 bigItemTableView.reloadData()
                 animateBulletinBoard(targetPosition: 40) { (_) in
                     self.bulletinBoardExpansionState = .FullyExpanded
                 }
                 
-                
-                if bulletinBoard_ProfilePart.isHidden == true{
-                    bulletinBoard_ProfilePart.isHidden = false
-                    bulletinBoard_ProfilePart.alpha = 0
-                    UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-                        self.bulletinBoard_ProfilePart.alpha = 1
-                        self.bulletinBoard_TeamUpPart.alpha = 0
-                        self.bulletinBoard_BuySellPart.alpha = 0
-                        self.bulletinBoard_CoffeeShop.alpha = 0
-                    }, completion:  { _ in
-                        self.bulletinBoard_TeamUpPart.isHidden = true
-                        self.bulletinBoard_BuySellPart.isHidden = true
-                        self.bulletinBoard_CoffeeShop.isHidden = true
-                        self.bulletinBoard_TeamUpPart.alpha = 1
-                        self.bulletinBoard_BuySellPart.alpha = 1
-                        self.bulletinBoard_CoffeeShop.alpha = 1
-                    })
-                }
+                bulletinBoard_ProfilePart.isHidden = false
+                bulletinBoard_ProfilePart.alpha = 0
+                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+                    self.bulletinBoard_ProfilePart.alpha = 1
+                    self.bulletinBoard_TeamUpPart.alpha = 0
+                    self.bulletinBoard_BuySellPart.alpha = 0
+                    self.bulletinBoard_CoffeeShop.alpha = 0
+                    self.bookMarks_segmented_forHalfStatus.alpha = 0
+                }, completion:  { _ in
+                    self.bulletinBoard_TeamUpPart.isHidden = true
+                    self.bulletinBoard_BuySellPart.isHidden = true
+                    self.bulletinBoard_CoffeeShop.isHidden = true
+                    self.bookMarks_segmented_forHalfStatus.isHidden = true
+                    self.bulletinBoard_TeamUpPart.alpha = 1
+                    self.bulletinBoard_BuySellPart.alpha = 1
+                    self.bulletinBoard_CoffeeShop.alpha = 1
+                })
                 
                 
                 
@@ -324,47 +328,80 @@ class MapViewController: UIViewController {
                 
                 //標籤fadeOut profile面板下方fadeIn
                 UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-                    self.bulletinBoard_ProfilePart_Middle.alpha = 0
+                    self.bulletinBoard_ProfilePart_plzSlideUp.alpha = 0
                     self.bulletinBoard_ProfilePart_Bottom.alpha = 1
                 }, completion: nil)
                 
+                
+                
+                var bookMarks_temp = bookMarks_half
+                bookMarks_temp.remove(at: 0)
+                switch currentBulletinBoard {
+                case .Profile:
+                    break
+                case .Buy:
+                    bookMarks_segmented_forFullStatus.selectedSegmentIndex = bookMarks_temp.firstIndex(of: bookMarkName_Buy) ?? 0
+                    break
+                case .Sell:
+                    bookMarks_segmented_forFullStatus.selectedSegmentIndex = bookMarks_temp.firstIndex(of: bookMarkName_Sell) ?? 0
+                    break
+                case .TeamUp:
+                    bookMarks_segmented_forFullStatus.selectedSegmentIndex = bookMarks_temp.firstIndex(of: bookMarkName_TeamUp) ?? 0
+                    break
+                }
             }
         } else {
             
-            bulletinBoard_ProfilePart_Middle.alpha = 1
+            print("sender.direction == .down")
+            bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
             
             if bulletinBoardExpansionState == .FullyExpanded {
+                print("半縮小")
                 //                animateBulletinBoard(targetPosition: view.frame.height - 274) { (_) in
                 //                    self.bulletinBoardExpansionState = .PartiallyExpanded
                 //                }
                 //
                 //
-                //                switch currentBulletinBoard {
-                //                case .Profile:
-                //                    break
-                //                case .Buy:
-                //                    fadeInBuySellBoard()
-                //                    break
-                //                case .Sell:
-                //                    fadeInBuySellBoard()
-                //                    break
-                //                case .TeamUp:
-                //                    fadeInTeamUpBoard()
-                //                    break
-                //                }
+                                
                 //
                 //
-                //                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-                //                    for label in self.bookMarkClassificationNameLabels{
-                //                        label.alpha = 1
-                //                        self.bulletinBoard_ProfilePart_Bottom.alpha = 0
-                //                    }
-                //                }, completion: { _ in
-                //                    for btn in self.bookMarkClassificationNameBtns{
-                //                        btn.isEnabled = true
-                //                    }
-                //                    self.bulletinBoard_ProfilePart_Bottom.isHidden = true
-                //                })
+                
+//                switch currentBulletinBoard {
+//                case .Profile:
+//                    break
+//                case .Buy:
+//                    fadeInBuySellBoard()
+//                    break
+//                case .Sell:
+//                    fadeInBuySellBoard()
+//                    break
+//                case .TeamUp:
+//                    fadeInTeamUpBoard()
+//                    break
+//                }
+                
+//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+//                    switch currentBulletinBoard {
+//                        case .Profile:
+//                        self.bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
+//                            break
+//                    //                case .Buy:
+//                    //                    fadeInBuySellBoard()
+//                    //                    break
+//                    //                case .Sell:
+//                    //                    fadeInBuySellBoard()
+//                    //                    break
+//                    //                case .TeamUp:
+//                    //                    fadeInTeamUpBoard()
+//                    //                    break
+//                    //                }
+//                    }
+//
+//                }, completion: { _ in
+//
+//                    self.bulletinBoard_ProfilePart_Bottom.isHidden = true
+//                })
+                
                 mapView.deselectAnnotation(nil, animated: true)
                 animateBulletinBoard(targetPosition: view.frame.height) { (_) in
                     self.bulletinBoardExpansionState = .NotExpanded
@@ -919,7 +956,7 @@ class MapViewController: UIViewController {
         
         //做出未滑開時的書頁標籤
         bookMarks_half = bookMarks
-        let bookMarks_segmented_forHalfStatus = SSSegmentedControl(items: bookMarks,type: .pure)
+        bookMarks_segmented_forHalfStatus = SSSegmentedControl(items: bookMarks,type: .pure)
         bookMarks_segmented_forHalfStatus.translatesAutoresizingMaskIntoConstraints = false
         bookMarks_segmented_forHalfStatus.selectedSegmentIndex = 0
         bulletinBoardTempContainer.addSubview(bookMarks_segmented_forHalfStatus)
@@ -955,15 +992,6 @@ class MapViewController: UIViewController {
         bulletinBoard_BuySellPart.addSubview(photoTableViewContainer)
         photoTableViewContainer.addSubview(photoTableView)
         
-        
-        let separatorForSmallItemTableViewTop = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x:5, y: photoTableViewContainer.frame.maxY + 2.5, width: UIScreen.main.bounds.size.width - 13, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
-        }()
-        bulletinBoard_BuySellPart.addSubview(separatorForSmallItemTableViewTop)
         
         smallItemDelegate.personDetail = personInfo
         smallItemDelegate.currentItemType = currentItemType
@@ -1138,43 +1166,43 @@ class MapViewController: UIViewController {
         bulletinBoard_ProfilePart.addSubview(gotoPhotoProfileViewBtn)
         
         
-        //        if UserSetting.UID != UID{
-        let mailBtn = MailButton(personInfo: personInfo)
-        var mailImage = UIImage(named: "icons24MessageFilledGrey24")
-        mailBtn.contentMode = .scaleAspectFit
-        mailBtn.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
-        mailBtn.backgroundColor = .primary()
-        mailBtn.layer.cornerRadius = 14
-        mailBtn.tintColor = .white
-        mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 21 - 28, y: 72, width: 28, height: 28)
-        mailBtn.isEnabled = true
-        bulletinBoard_ProfilePart.addSubview(mailBtn)
-        //        }
+        if UserSetting.UID != UID{
+            let mailBtn = MailButton(personInfo: personInfo)
+            var mailImage = UIImage(named: "icons24MessageFilledGrey24")
+            mailBtn.contentMode = .scaleAspectFit
+            mailBtn.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
+            mailBtn.backgroundColor = .primary()
+            mailBtn.layer.cornerRadius = 14
+            mailBtn.tintColor = .white
+            mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 21 - 28, y: 72, width: 28, height: 28)
+            mailBtn.isEnabled = true
+            bulletinBoard_ProfilePart.addSubview(mailBtn)
+        }
         
-        bulletinBoard_ProfilePart_Middle = UIView()
-        bulletinBoard_ProfilePart_Middle.frame = CGRect(x: 0, y: 0, width: bulletinBoard_ProfilePart.frame.width, height: 100)
-        bulletinBoard_ProfilePart.addSubview(bulletinBoard_ProfilePart_Middle)
+        bulletinBoard_ProfilePart_plzSlideUp = UIView()
+        bulletinBoard_ProfilePart_plzSlideUp.frame = CGRect(x: 0, y: 0, width: bulletinBoard_ProfilePart.frame.width, height: 100)
+        bulletinBoard_ProfilePart.addSubview(bulletinBoard_ProfilePart_plzSlideUp)
         
         let remainingTimeLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "刊登剩餘時間  99：99：99"
             label.textColor = UIColor.gray
             label.font = UIFont(name: "HelveticaNeue", size: 14)
-            label.frame = CGRect(x: bulletinBoard_ProfilePart_Middle.frame.width - 18 - label.intrinsicContentSize.width, y: 106, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: bulletinBoard_ProfilePart_plzSlideUp.frame.width - 18 - label.intrinsicContentSize.width, y: 106, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             label.text = ""
             label.textAlignment = .right
             return label
         }()
-        bulletinBoard_ProfilePart_Middle.addSubview(remainingTimeLabel)
+        bulletinBoard_ProfilePart.addSubview(remainingTimeLabel)
         startRemainingStoreOpenTimer(lebal: remainingTimeLabel, storeOpenTimeString: openTimeString, durationOfAuction: 60 * 60 * 24 * 3)
         
         let plzSlideUpImageView = {() -> UIImageView in
-            let imageView = UIImageView(frame: CGRect(x: self.bulletinBoard_ProfilePart_Middle.frame.width/2 - 19/2, y: 230, width: 19, height: 19))
+            let imageView = UIImageView(frame: CGRect(x: self.bulletinBoard_ProfilePart_plzSlideUp.frame.width/2 - 19/2, y: 245, width: 19, height: 19))
             imageView.image = UIImage(named: "plzSlideUp")?.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = .primary()
             return imageView
         }()
-        bulletinBoard_ProfilePart_Middle.addSubview(plzSlideUpImageView)
+        bulletinBoard_ProfilePart_plzSlideUp.addSubview(plzSlideUpImageView)
         
         
         let plzSlideUpLabel = { () -> UILabel in
@@ -1182,10 +1210,10 @@ class MapViewController: UIViewController {
             label.text = "上滑展開攤販詳細資訊"
             label.textColor = .primary()
             label.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
-            label.frame = CGRect(x: bulletinBoard_ProfilePart_Middle.frame.width/2 - label.intrinsicContentSize.width/2, y: plzSlideUpImageView.frame.maxY + 6, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: bulletinBoard_ProfilePart_plzSlideUp.frame.width/2 - label.intrinsicContentSize.width/2, y: plzSlideUpImageView.frame.maxY + 6, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
-        bulletinBoard_ProfilePart_Middle.addSubview(plzSlideUpLabel)
+        bulletinBoard_ProfilePart_plzSlideUp.addSubview(plzSlideUpLabel)
         
         UIView.animate(withDuration: 1, delay: 0, options: [.repeat, .autoreverse], animations: {
             plzSlideUpImageView.frame.origin.y -= 8
@@ -1204,77 +1232,64 @@ class MapViewController: UIViewController {
         }()
         bulletinBoard_ProfilePart_Bottom.addSubview(gotoPhotoProfileViewBtn_Bottom)
         
-        //        if UserSetting.UID != UID{
-        let mailBtn_Bottom = MailButton(personInfo: personInfo)
-        mailBtn_Bottom.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
-        mailBtn_Bottom.backgroundColor = .primary()
-        mailBtn_Bottom.layer.cornerRadius = 14
-        mailBtn_Bottom.tintColor = .white
-        mailBtn_Bottom.contentMode = .scaleAspectFit
-        mailBtn_Bottom.frame = CGRect(x: bulletinBoard_ProfilePart_Bottom.frame.width - 50 - 9, y: 45, width: 28, height: 28)
-        mailBtn_Bottom.isEnabled = true
-        bulletinBoard_ProfilePart_Bottom.addSubview(mailBtn_Bottom)
-        //        }
-        
-        let storeNameAndDistanceLabel = {() -> UILabel in
+        let storeNameLabel = {() -> UILabel in
             let label = UILabel()
-            label.font = UIFont(name: "HelveticaNeue-light", size: 14)
+            label.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
+            label.text = storeName
+            label.textColor = .gray
+            label.frame = CGRect(x: 17, y: 28, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            
+            return label
+        }()
+        bulletinBoard_ProfilePart_Bottom.addSubview(storeNameLabel)
+        
+        let dot = {() -> UIView in
+            let view = UIView()
+            view.frame = CGRect(x: storeNameLabel.frame.maxX + 8, y: storeNameLabel.frame.minY + 5, width: 4, height: 4)
+            view.layer.cornerRadius = 2
+            view.backgroundColor = .lightGray
+            return view
+        }()
+        bulletinBoard_ProfilePart_Bottom.addSubview(dot)
+        
+        let distanceLabel = {() -> UILabel in
+            let label = UILabel()
+            label.font = UIFont(name: "HelveticaNeue", size: 14)
             var distanceDouble = Double(distance)
             if distanceDouble >= 1000{
                 distanceDouble = distanceDouble/1000
                 distanceDouble = Double(Int(distanceDouble * 10))/10
-                label.text = storeName + " " + "\(distanceDouble)" + "km"
+                label.text = "\(distanceDouble)" + "km"
             }else{
-                label.text =  storeName + " " + "\(Int(distanceDouble))" + "m"
+                label.text = "\(Int(distanceDouble))" + "m"
             }
-            label.textColor = UIColor.hexStringToUIColor(hex: "414141")
-            label.textAlignment = .right
-            label.frame = CGRect(x: bulletinBoard_ProfilePart_Bottom.frame.width - label.intrinsicContentSize.width - 6, y: 10, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
-            
+            label.textColor = .gray
+            label.frame = CGRect(x: dot.frame.maxX + 8, y: storeNameLabel.frame.minY, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
-        bulletinBoard_ProfilePart_Bottom.addSubview(storeNameAndDistanceLabel)
-        
-        
-        let separator = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x:40, y:240 - 60, width: bulletinBoard_ProfilePart_Bottom.frame.width - 70, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
-        }()
-        bulletinBoard_ProfilePart_Bottom.addSubview(separator)
-        
-        let separator2 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x:40, y:43 + 240 - 60, width: UIScreen.main.bounds.size.width - 70, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
-        }()
-        separator2.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-        bulletinBoard_ProfilePart_Bottom.addSubview(separator2)
+        bulletinBoard_ProfilePart_Bottom.addSubview(distanceLabel)
         
         
         var bookMarks_temp = bookMarks
         bookMarks_temp.remove(at: 0)
         
         //做出書頁標籤
-        let         bookMarks_segmented_forFullStatus = SSSegmentedControl(items: bookMarks_temp,type: .pure)
+        bookMarks_segmented_forFullStatus = SSSegmentedControl(items: bookMarks_temp,type: .pure)
         bookMarks_segmented_forFullStatus.translatesAutoresizingMaskIntoConstraints = false
         bookMarks_segmented_forFullStatus.selectedSegmentIndex = 0
         bulletinBoard_ProfilePart_Bottom.addSubview(        bookMarks_segmented_forFullStatus)
-        bookMarks_segmented_forFullStatus.centerXAnchor.constraint(equalTo: bulletinBoard_ProfilePart_Bottom.centerXAnchor).isActive = true
-        bookMarks_segmented_forFullStatus.topAnchor.constraint(equalTo: view.topAnchor, constant: 26).isActive = true
-        bookMarks_segmented_forFullStatus.widthAnchor.constraint(equalToConstant: 160).isActive = true
-        bookMarks_segmented_forFullStatus.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        bookMarks_segmented_forFullStatus.centerXAnchor.constraint(equalTo: bulletinBoardTempContainer.centerXAnchor).isActive = true
+        bookMarks_segmented_forFullStatus.topAnchor.constraint(equalTo: bulletinBoardTempContainer.topAnchor, constant: 220).isActive = true
+        bookMarks_segmented_forFullStatus.widthAnchor.constraint(equalToConstant: CGFloat(80 * bookMarks_temp.count)).isActive = true
+        bookMarks_segmented_forFullStatus.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        bookMarks_segmented_forFullStatus.addTarget(self, action: #selector(segmentedOnValueChanged_half), for: .valueChanged)
         //                bookMarks_segmented_forFullStatus.addTarget(self, action: #selector(segmentedOnValueChanged), for: .valueChanged)
         
         
         
         
         let bigItemTableViewContainer = UIView()
-        bigItemTableViewContainer.frame = CGRect(x: 0, y: 44 + 240 - 60, width: view.frame.width, height: bulletinBoard_ProfilePart_Bottom.frame.height - 44 - 240 + 60)
+        bigItemTableViewContainer.frame = CGRect(x: 0, y: 44 + 240 - 30, width: view.frame.width, height: bulletinBoard_ProfilePart_Bottom.frame.height - 44 - 240 + 30)
         
         bigItemDelegate.personDetail = personInfo
         bigItemDelegate.currentItemType = currentItemType
@@ -1357,23 +1372,51 @@ class MapViewController: UIViewController {
         
         switch currentBulletinBoard {
         case .Profile:
+            bookMarks_segmented_forHalfStatus.selectedSegmentIndex = bookMarks_half.firstIndex(of: bookMarkName_MakeFriend) ?? 0
+            fadeInProfileBoard()
             break
         case .Buy:
+            bookMarks_segmented_forHalfStatus.selectedSegmentIndex = bookMarks_half.firstIndex(of: bookMarkName_Buy) ?? 0
             fadeInBuySellBoard()
             break
         case .Sell:
+            bookMarks_segmented_forHalfStatus.selectedSegmentIndex = bookMarks_half.firstIndex(of: bookMarkName_Sell) ?? 0
             fadeInBuySellBoard()
             break
         case .TeamUp:
+            bookMarks_segmented_forHalfStatus.selectedSegmentIndex = bookMarks_half.firstIndex(of: bookMarkName_TeamUp) ?? 0
             fadeInTeamUpBoard()
             break
         }
         
         
+        
+//        if bulletinBoard_ProfilePart.isHidden == true{
+//            bulletinBoard_ProfilePart.isHidden = false
+//            bulletinBoard_ProfilePart.alpha = 0
+//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+//                self.bulletinBoard_ProfilePart.alpha = 1
+//                self.bulletinBoard_TeamUpPart.alpha = 0
+//                self.bulletinBoard_BuySellPart.alpha = 0
+//                self.bulletinBoard_CoffeeShop.alpha = 0
+//            }, completion:  { _ in
+//                self.bulletinBoard_TeamUpPart.isHidden = true
+//                self.bulletinBoard_BuySellPart.isHidden = true
+//                self.bulletinBoard_CoffeeShop.isHidden = true
+//                self.bulletinBoard_TeamUpPart.alpha = 1
+//                self.bulletinBoard_BuySellPart.alpha = 1
+//                self.bulletinBoard_CoffeeShop.alpha = 1
+//            })
+//        }
+        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-            
+            self.bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
+            self.bulletinBoard_ProfilePart_Bottom.alpha = 0
+            self.bookMarks_segmented_forHalfStatus.isHidden = false
+            self.bookMarks_segmented_forHalfStatus.alpha = 1
         }, completion: { _ in
             self.bulletinBoard_ProfilePart_Bottom.isHidden = true
+            
         })
         
     }
@@ -1721,6 +1764,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func bookMarkAct_OpenStore(){
+        currentBulletinBoard = .Sell
         refreshTableViewsContent(.Sell)
         fadeInBuySellBoard()
     }
@@ -1746,6 +1790,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func bookMarkAct_Request(){
+        currentBulletinBoard = .Buy
         refreshTableViewsContent(.Buy)
         fadeInBuySellBoard()
     }
@@ -1771,7 +1816,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func bookMarkAct_TeamUp(){
-        
+        currentBulletinBoard = .TeamUp
         fadeInTeamUpBoard()
     }
     fileprivate func fadeInProfileBoard() {
@@ -1795,7 +1840,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func bookMarkAct_Profile(){
-        //        changeBookMark(text:bookMarkName_MakeFriend,labels: bookMarkClassificationNameLabels)
+        currentBulletinBoard = .Profile
         fadeInProfileBoard()
     }
     
@@ -1833,17 +1878,17 @@ class MapViewController: UIViewController {
         
     }
     
-    @objc private func ProfileBoard_bookMarkAct_OpenStore(){
-        
+    @objc private func bookMarkAct_OpenStore_FullExpand(){
+        currentBulletinBoard = .Sell
         refreshTableViewsContent(.Sell)
     }
-    @objc private func ProfileBoard_bookMarkAct_Request(){
-        
+    @objc private func bookMarkAct_Request_FullExpand(){
+        currentBulletinBoard = .Buy
         refreshTableViewsContent(.Buy)
         
     }
-    @objc private func ProfileBoard_bookMarkAct_TeamUp(){
-        
+    @objc private func bookMarkAct_TeamUp_FullExpand(){
+        currentBulletinBoard = .TeamUp
     }
     
     
@@ -1931,39 +1976,31 @@ class MapViewController: UIViewController {
     
     
     
-    fileprivate func changeBookMark(text:String,labels:[UILabel]) {
-        for label in labels{
-            if label.text == text{
-                label.textColor = UIColor.hexStringToUIColor(hex: "#751010")
-                label.font = UIFont(name: "HelveticaNeue-Medium", size: 15)
-            }else{
-                label.textColor = UIColor.hexStringToUIColor(hex: "#414141")
-                label.font = UIFont(name: "HelveticaNeue", size: 15)
+    
+    @objc func segmentedOnValueChanged_half(_ segmented: UISegmentedControl) {
+        
+        if(self.bulletinBoardExpansionState == .PartiallyExpanded){
+            if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_Sell){
+                bookMarkAct_OpenStore()
+            }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_Buy){
+                bookMarkAct_Request()
+            }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_TeamUp){
+                bookMarkAct_TeamUp()
+            }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_MakeFriend){
+                bookMarkAct_Profile()
+            }
+        }else{
+            var bookMarks_temp = bookMarks_half
+            bookMarks_temp.remove(at: 0)
+            if(bookMarks_temp[segmented.selectedSegmentIndex] == bookMarkName_Sell){
+                bookMarkAct_OpenStore_FullExpand()
+            }else if(bookMarks_temp[segmented.selectedSegmentIndex] == bookMarkName_Buy){
+                bookMarkAct_Request_FullExpand()
+            }else if(bookMarks_temp[segmented.selectedSegmentIndex] == bookMarkName_TeamUp){
+                bookMarkAct_TeamUp_FullExpand()
             }
         }
         
-        //記錄當前哪頁
-        if text == bookMarkName_Sell{
-            currentBulletinBoard = .Sell
-        }else if text == bookMarkName_Buy{
-            currentBulletinBoard = .Buy
-        }else if text == bookMarkName_TeamUp{
-            currentBulletinBoard = .TeamUp
-        }else if text == bookMarkName_MakeFriend{
-            currentBulletinBoard = .Profile
-        }
-    }
-    
-    @objc func segmentedOnValueChanged_half(_ segmented: UISegmentedControl) {
-        if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_Sell){
-            bookMarkAct_OpenStore()
-        }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_Buy){
-            bookMarkAct_Request()
-        }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_TeamUp){
-            bookMarkAct_TeamUp()
-        }else if(bookMarks_half[segmented.selectedSegmentIndex] == bookMarkName_MakeFriend){
-            bookMarkAct_Profile()
-        }
     }
     
     

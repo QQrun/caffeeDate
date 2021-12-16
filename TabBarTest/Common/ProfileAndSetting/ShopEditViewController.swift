@@ -227,8 +227,8 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         let bookMarkContainerView = UIView()
         bookMarkContainerView.frame = CGRect(x: 0, y: 240 + offsetY - 60, width: view.frame.width, height: 44)
         let bookMarkKit = CustomBookMarkKit(title: ["擺攤","任務"], containerView: bookMarkContainerView)
-        bookMarkKit.titleBtns[0].addTarget(self, action: #selector(ProfileBoard_bookMarkAct_OpenStore), for: .touchUpInside)
-        bookMarkKit.titleBtns[1].addTarget(self, action: #selector(ProfileBoard_bookMarkAct_Request), for: .touchUpInside)
+        bookMarkKit.titleBtns[0].addTarget(self, action: #selector(bookMarkAct_OpenStore_FullExpand), for: .touchUpInside)
+        bookMarkKit.titleBtns[1].addTarget(self, action: #selector(bookMarkAct_Request_FullExpand), for: .touchUpInside)
         shopModel.customBookMarkKit = bookMarkKit
         bulletinBoard.addSubview(bookMarkContainerView)
         
@@ -262,10 +262,10 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         viewDelegate?.gotoProfileViewController_shopEditView(personDetail: shopModel.personInfo)
     }
     
-    @objc private func ProfileBoard_bookMarkAct_OpenStore(){
+    @objc private func bookMarkAct_OpenStore_FullExpand(){
         shopModel.currentItemType = .Sell
     }
-    @objc private func ProfileBoard_bookMarkAct_Request(){
+    @objc private func bookMarkAct_Request_FullExpand(){
         shopModel.currentItemType = .Buy
     }
     

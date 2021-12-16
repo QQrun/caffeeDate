@@ -57,7 +57,7 @@ class ItemTableViewCell: UITableViewCell {
         commitNumber = {
             let label = UILabel()
             label.text = "99+"
-            label.textColor = .primary()
+            label.textColor = .black.withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - label.intrinsicContentSize.width, y: 44/2 - label.intrinsicContentSize.height/2, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
@@ -68,19 +68,11 @@ class ItemTableViewCell: UITableViewCell {
         let chatIconImage = { () -> UIImageView in
             let imageView = UIImageView()
             imageView.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
-            imageView.tintColor = .primary()
+            imageView.tintColor = .black.withAlphaComponent(0.5)
             imageView.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4, y:44/2 - 20/2, width: 20, height: 20)
             return imageView
         }()
         contentView.addSubview(chatIconImage)
-        
-        //        let chatBtn = { () -> UIButton in
-        //            let btn = UIButton()
-        //            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4, y: 0, width: 50, height: contentView.frame.height)
-        //            btn.backgroundColor = .blue
-        //            return btn
-        //        }()
-        //        contentView.addSubview(chatBtn)
         
         heartNumberLabel = {
             let label = UILabel()

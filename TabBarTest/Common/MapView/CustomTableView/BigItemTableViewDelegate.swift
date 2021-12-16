@@ -86,7 +86,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
                 let loadingView = UIView(frame: CGRect(x: cell.photo.frame.origin.x  + cell.photo.frame.width/8, y: cell.photo.frame.origin.y + cell.photo.frame.width/8, width: cell.photo.frame.width * 3/4, height: cell.photo.frame.height * 3/4))
                 loadingView.layer.cornerRadius = 7
                 loadingView.layer.borderWidth = 2.5
-                loadingView.layer.borderColor = UIColor.hexStringToUIColor(hex: "472411").cgColor
+                loadingView.layer.borderColor = UIColor.lightGray.cgColor
                 loadingView.backgroundColor = .clear
                 loadingView.tag = 2
                 let imageView = UIImageView(frame: CGRect(x: cell.photo.frame.origin.x  + cell.photo.frame.width/4, y: cell.photo.frame.origin.y + cell.photo.frame.width/4, width: cell.photo.frame.width/2, height: cell.photo.frame.height/2))
@@ -95,7 +95,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
                 }else{
                     imageView.image = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
                 }
-                imageView.tintColor = UIColor.hexStringToUIColor(hex: "472411")
+                imageView.tintColor = .lightGray
                 imageView.tag = 1
                 cell.addSubview(loadingView)
                 cell.sendSubviewToBack(loadingView)
@@ -155,7 +155,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
         else if currentItemType == .Buy{
             likeUIDs = personDetail.buyItems[indexPath.row].likeUIDs
         }
-        cell.heartImage.image = UIImage(named: "空愛心")
+        cell.heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
         if likeUIDs.count > 99{
             cell.heartNumberLabel.text = "99+"
         }else{
@@ -164,7 +164,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
         for likeUID in likeUIDs{
             if likeUID == UserSetting.UID{
                 cell.userPressLike = true
-                cell.heartImage.image = UIImage(named: "實愛心")
+                cell.heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
             }
         }
         

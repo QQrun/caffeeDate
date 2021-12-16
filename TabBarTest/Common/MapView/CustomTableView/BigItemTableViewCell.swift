@@ -26,7 +26,7 @@ class BigItemTableViewCell: UITableViewCell{
     var nameLabel = UILabel()
     var priceLabel = UILabel()
     var descriptLabel = UILabel()
-    var separator = UIImageView()
+    var separator = UIView()
     var commitNumber = UILabel()
     var heartNumberLabel = UILabel()
     var heartBtn = UIButton()
@@ -80,7 +80,7 @@ class BigItemTableViewCell: UITableViewCell{
         nameLabel = {
             let label = UILabel()
             label.text = "商品名稱"
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
+            label.textColor = .black
             label.font = UIFont(name: "HelveticaNeue", size: 16)
             label.frame = CGRect(x: 9 + 88 + 6, y: 8, width: UIScreen.main.bounds.size.width - 143, height: label.intrinsicContentSize.height)
             return label
@@ -90,7 +90,7 @@ class BigItemTableViewCell: UITableViewCell{
         descriptLabel = {
             let label = UILabel()
             label.text = "商品資訊"
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
+            label.textColor = .black.withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue-Light", size: 14)
             label.frame = CGRect(x: 9 + 88 + 6, y: 29, width: UIScreen.main.bounds.size.width - 143, height: label.intrinsicContentSize.height)
             return label
@@ -100,7 +100,7 @@ class BigItemTableViewCell: UITableViewCell{
         priceLabel = {
             let label = UILabel()
             label.text = "$：一杯咖啡"
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
+            label.textColor = .black.withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: 9 + 88 + 6, y: 11 + 88 - label.intrinsicContentSize.height + 2, width: UIScreen.main.bounds.size.width - 240, height: label.intrinsicContentSize.height)
             return label
@@ -111,7 +111,7 @@ class BigItemTableViewCell: UITableViewCell{
         commitNumber = {
             let label = UILabel()
             label.text = "99+"
-            label.textColor = UIColor.hexStringToUIColor(hex: "751010")
+            label.textColor = .black.withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - label.intrinsicContentSize.width, y: 110 - 8 - 20 + 2 + 2, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
@@ -120,29 +120,17 @@ class BigItemTableViewCell: UITableViewCell{
         
         let chatIconImage = { () -> UIImageView in
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "ChatIcon")
+            imageView.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
+            imageView.tintColor = .black.withAlphaComponent(0.5)
             imageView.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4, y:110 - 8 - 20 + 2, width: 20, height: 20)
             return imageView
         }()
         contentView.addSubview(chatIconImage)
         
-//        reportBtn = { () -> UIButton in
-//            let btn = UIButton()
-//            btn.frame = CGRect(x:UIScreen.main.bounds.size.width - 20 - 5, y: 4, width: 20, height: 20)
-//            let icon = UIImage(named: "reportIcon")?.withRenderingMode(.alwaysTemplate)
-//            btn.setImage(icon, for: .normal)
-//            btn.tintColor = UIColor.hexStringToUIColor(hex: "#751010")
-//            btn.alpha = 0.4
-//            btn.contentMode = .center
-//            btn.backgroundColor = .clear
-//            return btn
-//        }()
-//        contentView.addSubview(reportBtn)
-        
         heartNumberLabel = {
             let label = UILabel()
             label.text = "99+"
-            label.textColor = UIColor.hexStringToUIColor(hex: "751010")
+            label.textColor = .primary()
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - label.intrinsicContentSize.width - 8, y: 110 - 8 - 20 + 4, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
@@ -151,7 +139,8 @@ class BigItemTableViewCell: UITableViewCell{
         
         heartImage = { () -> UIImageView in
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "空愛心")
+            imageView.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
+            imageView.tintColor = .primary()
             imageView.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y:110 - 8 - 20 + 2, width: 22, height: 20)
             return imageView
         }()
@@ -167,12 +156,11 @@ class BigItemTableViewCell: UITableViewCell{
         }()
         contentView.addSubview(heartBtn)
         
-        separator = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x:5, y:110 - 1.3, width: UIScreen.main.bounds.size.width - 13, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
+        separator = { () -> UIView in
+            let view = UIView()
+            view.frame = CGRect(x:5, y:110 - 1.3, width: UIScreen.main.bounds.size.width - 13, height: 1.3)
+            view.backgroundColor = .lightGray
+            return view
         }()
         contentView.addSubview(separator)
         
@@ -206,7 +194,7 @@ class BigItemTableViewCell: UITableViewCell{
         let heartNumberLabelText = heartNumberLabel.text!.trimmingCharacters(in: ["+"])
         var heartNumber = Int(heartNumberLabelText)!
         if !userPressLike{
-            heartImage.image = UIImage(named: "實愛心")
+            heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
             likeRef.setValue(UserSetting.UID)
             heartNumber += 1
             userPressLike = true
@@ -216,7 +204,7 @@ class BigItemTableViewCell: UITableViewCell{
                 personInfo.buyItems[indexOfRow].likeUIDs!.append(UserSetting.UID)
             }
         }else{
-            heartImage.image = UIImage(named: "空愛心")
+            heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
             likeRef.removeValue()
             heartNumber -= 1
             userPressLike = false
