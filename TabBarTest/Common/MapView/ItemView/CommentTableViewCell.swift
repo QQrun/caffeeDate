@@ -14,12 +14,12 @@ class CommentTableViewCell: UITableViewCell {
     
     @IBOutlet weak var photo: UIImageView!
     @IBOutlet weak var nameLabel: UILabel!
-    @IBOutlet weak var separator: UIImageView!
     @IBOutlet weak var commentLabel: UILabel!
     @IBOutlet weak var heartNumberLabel: UILabel!
     @IBOutlet weak var heartImage: UIImageView!
     @IBOutlet weak var reportBtn: UIButton!
     @IBOutlet weak var heartBtn: UIButton!
+    @IBOutlet weak var separator: UIView!
     var userPressLike : Bool = false
     
     var commentID : String!
@@ -40,6 +40,13 @@ class CommentTableViewCell: UITableViewCell {
         photo.layer.cornerRadius = 18
         photo.clipsToBounds = true
         
+        separator.backgroundColor = .on().withAlphaComponent(0.08)
+        nameLabel.textColor = .on().withAlphaComponent(0.7)
+        commentLabel.textColor = .on().withAlphaComponent(0.9)
+        heartNumberLabel.textColor = .primary()
+        heartImage.tintColor = .primary()
+        
+        
         contentView.backgroundColor = .clear
     }
 
@@ -58,12 +65,12 @@ class CommentTableViewCell: UITableViewCell {
         var heartNumber = Int(heartNumberLabelText)!
         
         if userPressLike{
-            heartImage.image = UIImage(named:"空愛心")
+            heartImage.image = UIImage(named:"空愛心")?.withRenderingMode(.alwaysTemplate)
             likeRef.removeValue()
             heartNumber -= 1
             userPressLike = false
         }else{
-            heartImage.image = UIImage(named:"實愛心")
+            heartImage.image = UIImage(named:"實愛心")?.withRenderingMode(.alwaysTemplate)
             likeRef.setValue(UserSetting.userName)
             heartNumber += 1
             userPressLike = true

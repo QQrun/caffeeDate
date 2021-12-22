@@ -57,7 +57,7 @@ class WordLimitUITextFieldDelegate : NSObject, UITextFieldDelegate, UITextViewDe
     
     
     var placeholder = "在這寫下您提供的商品資訊與細節⋯⋯"
-    var placeholderColor = UIColor.hexStringToUIColor(hex: "414141")
+    var placeholderColor = UIColor.on().withAlphaComponent(0.5)
     
     func textViewDidBeginEditing(_ textView: UITextView)
     {

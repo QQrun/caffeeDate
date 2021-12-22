@@ -34,6 +34,8 @@ class RootTabBarController: UITabBarController {
             UserSetting.isNightMode = true
         }
         
+        UserSetting.isNightMode = false
+        
         if UserSetting.isNightMode {
             overrideUserInterfaceStyle = .dark
         }else{

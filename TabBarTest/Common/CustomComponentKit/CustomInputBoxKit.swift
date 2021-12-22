@@ -27,10 +27,10 @@ class CustomInputBoxKit : NSObject{
     private var inputBoxOriginY: CGFloat!
     private var inputBoxOriginY_afterkeyBoardShow : CGFloat = 0
     
-    private var inputBoxBG = UIImageView()
-    private var bulletinBoardBG_BottomFadeInOriginFrame : CGRect!
+    private var bg = UIView()
+    private var         bg_OriginFrame : CGRect!
     
-    private var separatorForInput = UIImageView()
+    private var separatorForInput = UIView()
     private var separatorForInputOriginFrame : CGRect!
     
     private var publishBtn = UIButton()
@@ -51,7 +51,7 @@ class CustomInputBoxKit : NSObject{
 
     
     var placeholder = "輸入訊息"
-    private var placeholderColor = UIColor.hexStringToUIColor(hex: "414141")
+    private var placeholderColor = UIColor.on().withAlphaComponent(0.5)
     
     private var withAddBtn = false
     
@@ -78,34 +78,39 @@ class CustomInputBoxKit : NSObject{
         inputBoxOriginY = inputBox.frame.origin.y
         
         
-        inputBoxBG = {() -> UIImageView in
-            let imageView = UIImageView()
-            imageView.frame = CGRect(x: 0, y: 0, width: inputBox.frame.width, height: UIScreen.main.bounds.size.height)
-            imageView.image = UIImage(named: "bulletinBoardParchmentBG_BottomFadeIn3")
-            imageView.contentMode = .scaleToFill
-            return imageView
+        bg = {() -> UIView in
+            let view = UIView()
+            view.frame = CGRect(x: 0, y: 0, width: inputBox.frame.width, height: UIScreen.main.bounds.size.height)
+            view.backgroundColor = .on().withAlphaComponent(0.16)
+            view.layer.shadowRadius = 2
+            view.layer.masksToBounds = false
+            view.backgroundColor = .surface()
+            view.layer.shadowOpacity = 0.3
+            view.layer.shadowColor = UIColor.on().cgColor
+            return view
         }()
-        inputBox.addSubview(inputBoxBG)
-        bulletinBoardBG_BottomFadeInOriginFrame = inputBoxBG.frame
+        inputBox.addSubview(bg)
+        bg_OriginFrame = bg.frame
         
-        separatorForInput = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
+        separatorForInput = { () -> UIView in
+            let view = UIView()
+            view.backgroundColor = .on().withAlphaComponent(0.16)
             if withAddBtn{
-                imageView.frame = CGRect(x: 7 + 25, y:inputBox.frame.height - 6 - 3 - 10, width: inputBox.frame.width - 44 - 7 - 25, height: 3)
+                view.frame = CGRect(x: 7 + 25, y:inputBox.frame.height - 6 - 3 - 10, width: inputBox.frame.width - 44 - 7 - 25, height: 1)
             }
             else{
-               imageView.frame = CGRect(x: 7, y:inputBox.frame.height - 6 - 3 - 10, width: inputBox.frame.width - 44 - 7, height: 3)
+                view.frame = CGRect(x: 7, y:inputBox.frame.height - 6 - 3 - 10, width: inputBox.frame.width - 44 - 7, height: 1)
             }
-            imageView.contentMode = .scaleToFill
-            return imageView
+            view.contentMode = .scaleToFill
+            return view
         }()
         inputBox.addSubview(separatorForInput)
         separatorForInputOriginFrame = separatorForInput.frame
         
         publishBtn = { () -> UIButton in
             let btn = UIButton()
-            btn.setImage(UIImage(named: "inkIcon"), for: [])
+            btn.setImage(UIImage(named: "icons24SendPress24")?.withRenderingMode(.alwaysTemplate), for: [])
+            btn.tintColor = .primary()
             btn.frame = CGRect(x: inputBox.frame.width - 15 - 25, y: inputBox.frame.height/2 - 25/2, width: 25, height: 25)
             btn.isEnabled = false
             btn.alpha = 0.4
@@ -230,7 +235,7 @@ class CustomInputBoxKit : NSObject{
     }
     
     func inputBoxInitialization() {
-        inputBoxBG.frame = bulletinBoardBG_BottomFadeInOriginFrame
+        bg.frame =                 bg_OriginFrame
         inputBox.frame = inputBoxOriginFrame
         publishBtn.frame = publishBtnOriginFrame
         addBtn.frame = addBtnOriginFrame

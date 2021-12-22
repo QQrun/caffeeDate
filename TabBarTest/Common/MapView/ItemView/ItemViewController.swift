@@ -54,7 +54,7 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     //隐藏狀態欄
     override var prefersStatusBarHidden: Bool {
-        return true
+        return false
     }
     
     init(item: Item,personInfo : PersonDetailInfo) {
@@ -100,22 +100,31 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     
     fileprivate func configTopbar() {
+        
         customTopBarKit.CreatTopBar(view: view)
+        
         if personInfo != nil{
-            customTopBarKit.CreatHeatShotAndName(personDetailInfo: personInfo!, canGoProfileView: true)
+//            customTopBarKit.CreatHeatShotAndName(personDetailInfo: personInfo!, canGoProfileView: true)
             customTopBarKit.CreatMailBtn(personDetailInfo: personInfo!)
             customTopBarKit.getMailBtn()?.addTarget(self, action: #selector(mailBtnAct), for: .touchUpInside)
         }else {
             let ref = Database.database().reference(withPath: "PersonDetail/" + "\(itemOwnerID)")
             ref.observeSingleEvent(of: .value,  with: {(snapshot) in
                 if snapshot.exists(){
-                    self.customTopBarKit.CreatHeatShotAndName(personDetailInfo: PersonDetailInfo(snapshot: snapshot), canGoProfileView: true)
+//                    self.customTopBarKit.CreatHeatShotAndName(personDetailInfo: PersonDetailInfo(snapshot: snapshot), canGoProfileView: true)
                     self.customTopBarKit.CreatMailBtn(personDetailInfo: PersonDetailInfo(snapshot: snapshot))
                 }
             })
         }
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
+        
+        
+//        if itemOwnerID != UserSetting.UID {
+            customTopBarKit.CreatMoreBtn()
+            let moreBtn = customTopBarKit.getMoreBtn()
+            moreBtn.addTarget(self, action: #selector(reportBtnAct), for: .touchUpInside)
+//        }
     }
     
     fileprivate func observeCommentRef() {
@@ -227,7 +236,7 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             for likeUID in self.likeUIDs{
                 if likeUID == UserSetting.UID{
-                    self.heartImage.image = UIImage(named: "實愛心")
+                    self.heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
                     self.userPressLike = true
                 }
             }
@@ -236,8 +245,8 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     fileprivate func configScrollContent() {
         
-        let photoWidth : CGFloat = view.frame.width -  76
-        let photoTopMargin : CGFloat = 20
+        let photoWidth : CGFloat = view.frame.width
+        let photoTopMargin : CGFloat = 0
         
         if let urls = item.photosUrl,urls.count != 0{
             var getPhotoNumber = 0
@@ -265,11 +274,10 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         if photosContainer.count > 0 {
             photo = { () -> UIImageView in
                 let imageView = UIImageView()
-                imageView.frame = CGRect(x: 38, y: photoTopMargin, width: photoWidth, height: photoWidth)
+                imageView.frame = CGRect(x: 0, y: photoTopMargin, width: photoWidth, height: photoWidth)
                 imageView.contentMode = .scaleAspectFill
                 imageView.backgroundColor = .clear
                 imageView.image = photosContainer[0]
-                imageView.layer.cornerRadius = 12
                 imageView.clipsToBounds = true
                 imageView.alpha = 0
                 return imageView
@@ -311,31 +319,16 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let itemNameLabel = { () -> UILabel in
             let label = UILabel()
             label.text = item.name
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
-            label.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
-            label.frame = CGRect(x: 38, y: currentScrollHeignt + 8, width: photoWidth - 20 - 3, height: 0)
+            label.textColor = .on().withAlphaComponent(0.9)
+            label.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
+            label.frame = CGRect(x: 24, y: currentScrollHeignt + 8, width: photoWidth - 20 - 3, height: 0)
             label.numberOfLines = 0
             label.sizeToFit()
             return label
         }()
         scrollView.addSubview(itemNameLabel)
         
-        
-        
-        let reportBtn = { () -> UIButton in
-            let btn = UIButton()
-            btn.frame = CGRect(x: view.frame.width - 38 - 20, y:currentScrollHeignt + 8, width: 20, height: 20)
-            let icon = UIImage(named: "reportIcon")?.withRenderingMode(.alwaysTemplate)
-            btn.setImage(icon, for: .normal)
-            btn.tintColor = UIColor.hexStringToUIColor(hex: "#751010")
-            btn.contentMode = .center
-            btn.addTarget(self, action: #selector(reportBtnAct), for: .touchUpInside)
-            return btn
-        }()
-        if itemOwnerID != UserSetting.UID {
-            scrollView.addSubview(reportBtn)
-        }
-        
+    
         currentScrollHeignt += (8 + itemNameLabel.frame.height)
         
         
@@ -343,13 +336,13 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             let label = UILabel()
             
             if item.itemType == .Buy{
-                label.text = "賞金：" + "\(item.price)"
+                label.text = "Price：" + "\(item.price)"
             }else if item.itemType == .Sell{
-                label.text = "價格：" + "\(item.price)"
+                label.text = "Price：" + "\(item.price)"
             }
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
+            label.textColor = .on().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
-            label.frame = CGRect(x: 38, y: currentScrollHeignt + 4, width: photoWidth - 42, height: 0)
+            label.frame = CGRect(x: 24, y: currentScrollHeignt + 4, width: photoWidth - 42, height: 0)
             label.numberOfLines = 0
             label.sizeToFit()
             return label
@@ -361,9 +354,9 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let itemDescriptLabel = { () -> UILabel in
             let label = UILabel()
             label.text = item.descript
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
-            label.frame = CGRect(x: 38, y: currentScrollHeignt + 8, width: photoWidth, height: 0)
+            label.frame = CGRect(x: 24, y: currentScrollHeignt + 8, width: photoWidth, height: 0)
             label.numberOfLines = 0
             label.sizeToFit()
             return label
@@ -375,8 +368,9 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         heartImage = { () -> UIImageView in
             let imageView = UIImageView()
-            imageView.image = UIImage(named: "空愛心")
-            imageView.frame = CGRect(x:38, y:currentScrollHeignt + 8, width: 22, height: 20)
+            imageView.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
+            imageView.tintColor = .primary()
+            imageView.frame = CGRect(x:25, y:currentScrollHeignt + 8, width: 22, height: 20)
             return imageView
         }()
         scrollView.addSubview(heartImage)
@@ -384,7 +378,7 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         heartBtn = { () -> UIButton in
             let btn = UIButton()
-            btn.frame = CGRect(x: 38 - 14, y: currentScrollHeignt + 8 - 15, width: 50, height: 50)
+            btn.frame = CGRect(x: 25, y: currentScrollHeignt + 8 - 15, width: 50, height: 50)
             btn.addTarget(self, action: #selector(heartBtnAct), for: .touchUpInside)
             btn.isEnabled = true
             return btn
@@ -394,9 +388,9 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         heartNumberLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "0"
-            label.textColor = UIColor.hexStringToUIColor(hex: "751010")
+            label.textColor = .primary()
             label.font = UIFont(name: "HelveticaNeue", size: 14)
-            label.frame = CGRect(x: 38 + 22 + 5, y: currentScrollHeignt + 8 + 20/2 - label.intrinsicContentSize.height/2 - 1, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: 25 + 22 + 5, y: currentScrollHeignt + 8 + 20/2 - label.intrinsicContentSize.height/2 - 1, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(heartNumberLabel)
@@ -427,20 +421,22 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
     
     fileprivate func setBackground() {
         
-        let bgKit = CustomBGKit()
-        bgKit.CreatParchmentBG(view: view)
-        scrollView = bgKit.GetScrollView()
+        view.backgroundColor = .surface()
         
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0 + topPadding, width: view.frame.width, height: view.frame.height - topPadding))
+        scrollView.contentSize = CGSize(width: view.frame.width,height: view.frame.height)
+        view.addSubview(scrollView)
         scrollView.isScrollEnabled = true
         scrollView.bounces = false
         let scrollViewTap = UITapGestureRecognizer(target: self, action: #selector(scrollViewTapped))
         scrollView.addGestureRecognizer(scrollViewTap)
         view.addSubview(scrollView)
+    
         
         customInputBoxKit.customInputBoxKitDelegate = self
         customInputBoxKit.creatView(containerView:view)
-        
-        
     }
     
     //MARK: - TableViewDelegate
@@ -459,10 +455,11 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         cell.genderIcon.contentMode = .scaleAspectFit
         cell.genderIcon.tag = 1
         if comments[indexPath.row].gender == 0{
-            cell.genderIcon.image = UIImage(named: "girlIcon")
+            cell.genderIcon.image = UIImage(named: "girlIcon")?.withRenderingMode(.alwaysTemplate)
         }else if comments[indexPath.row].gender == 1{
-            cell.genderIcon.image = UIImage(named: "boyIcon")
+            cell.genderIcon.image = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
         }
+        cell.genderIcon.tintColor = .lightGray
         cell.addSubview(cell.genderIcon)
         cell.sendSubviewToBack(cell.genderIcon)
         
@@ -483,10 +480,10 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             cell.heartNumberLabel.text = "99+"
         }
         
-        cell.heartImage.image = UIImage(named: "空愛心")
+        cell.heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
         for likeUID in comments[indexPath.row].likeUIDs!{
             if likeUID == UserSetting.UID{
-                cell.heartImage.image = UIImage(named: "實愛心")
+                cell.heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
                 cell.userPressLike = true
             }
         }
@@ -535,10 +532,6 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         bg.backgroundColor = .clear
         cell.backgroundView = bg
         
-        let oneDegree = CGFloat.pi / 180
-        if indexPath.row % 2 == 1{
-            cell.separator.transform = CGAffineTransform(rotationAngle: oneDegree * 180)
-        }
         
         return cell
     }
@@ -570,13 +563,13 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         }
         
         if !userPressLike{
-            heartImage.image = UIImage(named: "實愛心")
+            heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
             likeRef.setValue(UserSetting.UID)
             heartNumberLabel.text =  "\(Int(heartNumberLabel.text!)! + 1)"
             item.likeUIDs?.append(UserSetting.UID)
             userPressLike = true
         }else{
-            heartImage.image = UIImage(named: "空愛心")
+            heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
             likeRef.removeValue()
             heartNumberLabel.text =  "\(Int(heartNumberLabel.text!)! - 1)"
             userPressLike = false            

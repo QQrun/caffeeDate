@@ -80,7 +80,7 @@ class BigItemTableViewCell: UITableViewCell{
         nameLabel = {
             let label = UILabel()
             label.text = "商品名稱"
-            label.textColor = .black
+            label.textColor = .on()
             label.font = UIFont(name: "HelveticaNeue", size: 16)
             label.frame = CGRect(x: 9 + 88 + 6, y: 8, width: UIScreen.main.bounds.size.width - 143, height: label.intrinsicContentSize.height)
             return label
@@ -90,7 +90,7 @@ class BigItemTableViewCell: UITableViewCell{
         descriptLabel = {
             let label = UILabel()
             label.text = "商品資訊"
-            label.textColor = .black.withAlphaComponent(0.5)
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue-Light", size: 14)
             label.frame = CGRect(x: 9 + 88 + 6, y: 29, width: UIScreen.main.bounds.size.width - 143, height: label.intrinsicContentSize.height)
             return label
@@ -100,7 +100,7 @@ class BigItemTableViewCell: UITableViewCell{
         priceLabel = {
             let label = UILabel()
             label.text = "$：一杯咖啡"
-            label.textColor = .black.withAlphaComponent(0.7)
+            label.textColor = .on().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: 9 + 88 + 6, y: 11 + 88 - label.intrinsicContentSize.height + 2, width: UIScreen.main.bounds.size.width - 240, height: label.intrinsicContentSize.height)
             return label
@@ -111,7 +111,7 @@ class BigItemTableViewCell: UITableViewCell{
         commitNumber = {
             let label = UILabel()
             label.text = "99+"
-            label.textColor = .black.withAlphaComponent(0.5)
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - label.intrinsicContentSize.width, y: 110 - 8 - 20 + 2 + 2, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
@@ -121,7 +121,7 @@ class BigItemTableViewCell: UITableViewCell{
         let chatIconImage = { () -> UIImageView in
             let imageView = UIImageView()
             imageView.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
-            imageView.tintColor = .black.withAlphaComponent(0.5)
+            imageView.tintColor = .on().withAlphaComponent(0.5)
             imageView.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4, y:110 - 8 - 20 + 2, width: 20, height: 20)
             return imageView
         }()
@@ -158,8 +158,8 @@ class BigItemTableViewCell: UITableViewCell{
         
         separator = { () -> UIView in
             let view = UIView()
-            view.frame = CGRect(x:5, y:110 - 1.3, width: UIScreen.main.bounds.size.width - 13, height: 1.3)
-            view.backgroundColor = .lightGray
+            view.frame = CGRect(x:5, y:110 - 1.3, width: UIScreen.main.bounds.size.width - 13, height: 1)
+            view.backgroundColor = .on().withAlphaComponent(0.08)
             return view
         }()
         contentView.addSubview(separator)

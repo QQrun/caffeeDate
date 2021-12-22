@@ -25,13 +25,12 @@ class CustomTopBarKit {
     
     private var topPadding : CGFloat = 0
     
-    private let topBarXoffset : CGFloat = -2 //這是圖導致的偏差
-    private let topBarYoffset : CGFloat = -3 //這是圖導致的偏差
     private var topBar = UIView()
     
     private var headShotContainer : UIImage?
     
-    func CreatTopBar(view:UIView){
+    
+    func CreatTopBar(view:UIView,showSeparator:Bool = false){
         
         if alreadyCreat{
             return
@@ -42,22 +41,26 @@ class CustomTopBarKit {
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
         
-        topBar = UIView(frame: CGRect(x: topBarXoffset, y: topBarYoffset + topPadding, width: UIScreen.main.bounds.size.width + 2, height: 62))
+        topBar = UIView(frame: CGRect(x: 0, y:  topPadding, width: UIScreen.main.bounds.size.width + 2, height: 45))
         view.addSubview(topBar)
         
-        let bulletinBoardBookmarkBG = UIImageView()
-        bulletinBoardBookmarkBG.frame = CGRect(x: -6, y: 0, width: topBar.frame.width +  14, height: topBar.frame.height)
-        bulletinBoardBookmarkBG.contentMode = .scaleToFill
-        bulletinBoardBookmarkBG.image = UIImage(named: "bulletinBoardBookMarkBG")
-        topBar.addSubview(bulletinBoardBookmarkBG)
+        if(showSeparator){
+            let separator = { () -> UIView in
+                let view = UIView()
+                view.frame = CGRect(x:5, y:topBar.frame.height - 1, width: UIScreen.main.bounds.size.width - 13, height: 1)
+                view.backgroundColor = .on().withAlphaComponent(0.16)
+                return view
+            }()
+            topBar.addSubview(separator)}
         
-        
-        gobackImageView = UIImageView(frame: CGRect(x: 16 - topBarXoffset, y: topBar.frame.height/2 - 24/2 - 5 - topBarYoffset, width: 12, height: 24))
-        gobackImageView.image = UIImage(named: "gobackIcon")
+        gobackImageView = UIImageView(frame: CGRect(x: 16, y: topBar.frame.height/2 - 28/2, width: 28, height: 28))
+        gobackImageView.image = UIImage(named: "icons24NavigateBack24")?.withRenderingMode(.alwaysTemplate)
+        gobackImageView.tintColor = .primary()
+        gobackImageView.contentMode = .scaleToFill
         topBar.addSubview(gobackImageView)
         
         
-        gobackBtn = UIButton(frame: CGRect(x:  -topBarXoffset, y: -topBarYoffset, width: 40, height: 60))
+        gobackBtn = UIButton(frame: CGRect(x:  0, y: 0, width: 40, height: 60))
         gobackBtn.isEnabled = true
         topBar.addSubview(gobackBtn)
         
@@ -66,12 +69,14 @@ class CustomTopBarKit {
     func CreatMoreBtn(){
         moreBtn = { () -> UIButton in
             let btn = UIButton()
-            btn.setTitle("⋯", for: [])
-            btn.setTitleColor(UIColor.hexStringToUIColor(hex: "751010"), for:.normal)
+//            btn.setTitle("⋯", for: [])
+            btn.setImage(UIImage(named: "icons24MoreDotFilledGrey24")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            btn.tintColor = .white
+            btn.layer.backgroundColor = UIColor.primary().cgColor
+            btn.layer.cornerRadius = 12
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
-            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 15 - 30 - topBarXoffset, y: -topBarYoffset, width: 30, height: 44)
+            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 24 - 16, y: topBar.frame.height/2 - 24/2, width: 24, height: 24)
             btn.isEnabled = true
-            btn.isHidden = true //預設不顯示
             return btn
         }()
         topBar.addSubview(moreBtn)
@@ -80,10 +85,10 @@ class CustomTopBarKit {
     func CreatDoSomeThingTextBtn(text:String){
         doSomeThingTextBtn = { () -> UIButton in
             let btn = UIButton()
-            btn.setTitleColor(UIColor.hexStringToUIColor(hex: "751010"), for:.normal)
+            btn.setTitleColor(.primary(), for:.normal)
             btn.setTitle(text, for: .normal)
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
-            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 15 - 50 - topBarXoffset + 5, y: -topBarYoffset + 2, width: 50, height: 44)
+            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 15 - 50 + 5, y: 2, width: 50, height: 44)
             btn.isEnabled = true
             btn.alpha = 1
             return btn
@@ -98,7 +103,7 @@ class CustomTopBarKit {
         }
         mailBtn = MailButton(personInfo: personDetailInfo)
         mailBtn!.setImage(UIImage(named: "飛鴿傳書icon"), for: .normal)
-        mailBtn!.frame = CGRect(x: topBar.frame.width - 50 - 9, y: topBar.frame.height/2 - 42/2 - 5 - topBarYoffset, width: 50, height: 42)
+        mailBtn!.frame = CGRect(x: topBar.frame.width - 50 - 9, y: topBar.frame.height/2 - 42/2 - 5, width: 50, height: 42)
         mailBtn!.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
         topBar.addSubview(mailBtn!)
         
@@ -118,9 +123,9 @@ class CustomTopBarKit {
         let titleLabel = { () -> UILabel in
             let label = UILabel()
             label.text = text
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
+            label.textColor = .on()
             label.font = UIFont(name: "HelveticaNeue", size: 18)
-            label.frame = CGRect(x: UIScreen.main.bounds.size.width/2 - label.intrinsicContentSize.width/2 - topBarXoffset, y: 13 - topBarYoffset, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: UIScreen.main.bounds.size.width/2 - label.intrinsicContentSize.width/2, y: 13, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         topBar.addSubview(titleLabel)
@@ -131,17 +136,17 @@ class CustomTopBarKit {
         let nameLabel = { () -> UILabel in
             let label = UILabel()
             label.text = personDetailInfo.name
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
+            label.textColor = .on()
             label.font = UIFont(name: "HelveticaNeue", size: 18)
-                        return label
+            return label
         }()
         topBar.addSubview(nameLabel)
         
-        let genderIcon = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 7.5 - topBarYoffset, width: 36, height: 36))
-        let headShot = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 7.5 - topBarYoffset, width: 36, height: 36))
-    
-        nameLabel.frame = CGRect(x: headShot.frame.maxX + 6, y: 15 - topBarYoffset, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
-
+        let genderIcon = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 7.5, width: 36, height: 36))
+        let headShot = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 7.5, width: 36, height: 36))
+        
+        nameLabel.frame = CGRect(x: headShot.frame.maxX + 6, y: 15, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
+        
         
         
         if let personHeadShot = personDetailInfo.headShotContainer{
@@ -193,7 +198,7 @@ class CustomTopBarKit {
         
         if canGoProfileView{
             let profileBtn = ProfileButton(personInfo: personDetailInfo)
-            profileBtn.frame = CGRect(x: genderIcon.frame.minX, y: 7.5 - topBarYoffset, width: 140, height: 36)
+            profileBtn.frame = CGRect(x: genderIcon.frame.minX, y: 7.5, width: 140, height: 36)
             topBar.addSubview(profileBtn)
         }
     }

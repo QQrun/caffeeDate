@@ -24,7 +24,7 @@ class CustomBGKit{
         let window = UIApplication.shared.keyWindow
         topPadding = window?.safeAreaInsets.top ?? 0
 
-        view.backgroundColor = UIColor.hexStringToUIColor(hex: "2B2D2F")
+        view.backgroundColor = .white
         
         
         let bulletinBoardBG = UIImageView(frame: CGRect(x: 0, y: 10 + topPadding, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height))

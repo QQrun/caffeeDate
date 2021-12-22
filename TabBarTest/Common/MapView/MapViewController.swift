@@ -241,9 +241,8 @@ class MapViewController: UIViewController {
         bulletinBoardTempContainer.frame = CGRect(x: 0, y: 0 , width: view.frame.width, height: view.frame.height - 40)
         
         bulletinBoardContainer.layer.masksToBounds = false
-        bulletinBoardContainer.backgroundColor = .white
+        bulletinBoardContainer.backgroundColor = .surface()
         bulletinBoardContainer.layer.cornerRadius = 10
-        bulletinBoardContainer.layer.shadowColor = UIColor.black.cgColor
         bulletinBoardContainer.layer.shadowOffset = CGSize(width: 0, height:-2)
         bulletinBoardContainer.layer.shadowOpacity = 0.3
         
@@ -445,48 +444,53 @@ class MapViewController: UIViewController {
         let interval : CGFloat = 2
         let wifiStar_1 = UIImageView(frame: CGRect(x: label.frame.origin.x - 100 + view.frame.width/2 - interval * 4, y: label.frame.origin.y + 1, width: 16, height: 14.4))
         if point == 0{
-            wifiStar_1.image = UIImage(named: "EmptyStar")
+            wifiStar_1.image = UIImage(named: "EmptyStar")?.withRenderingMode(.alwaysTemplate)
         }else if point == 0.5{
-            wifiStar_1.image = UIImage(named: "HalfStar")
+            wifiStar_1.image = UIImage(named: "HalfStar")?.withRenderingMode(.alwaysTemplate)
         }else {
-            wifiStar_1.image = UIImage(named: "FullStar")
+            wifiStar_1.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
         }
+        wifiStar_1.tintColor = .sksIndigo()
         board.addSubview(wifiStar_1)
         let wifiStar_2 = UIImageView(frame: CGRect(x: label.frame.origin.x - 84 + view.frame.width/2 - interval * 3, y: label.frame.origin.y + 1, width: 16, height: 14.4))
         if point <= 1{
-            wifiStar_2.image = UIImage(named: "EmptyStar")
+            wifiStar_2.image = UIImage(named: "EmptyStar")?.withRenderingMode(.alwaysTemplate)
         }else if point == 1.5{
-            wifiStar_2.image = UIImage(named: "HalfStar")
+            wifiStar_2.image = UIImage(named: "HalfStar")?.withRenderingMode(.alwaysTemplate)
         }else {
-            wifiStar_2.image = UIImage(named: "FullStar")
+            wifiStar_2.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
         }
+        wifiStar_2.tintColor = .sksIndigo()
         board.addSubview(wifiStar_2)
         let wifiStar_3 = UIImageView(frame: CGRect(x: label.frame.origin.x - 68 + view.frame.width/2 - interval * 2, y: label.frame.origin.y + 1, width: 16, height: 14.4))
         if point <= 2{
-            wifiStar_3.image = UIImage(named: "EmptyStar")
+            wifiStar_3.image = UIImage(named: "EmptyStar")?.withRenderingMode(.alwaysTemplate)
         }else if point == 2.5{
-            wifiStar_3.image = UIImage(named: "HalfStar")
+            wifiStar_3.image = UIImage(named: "HalfStar")?.withRenderingMode(.alwaysTemplate)
         }else {
-            wifiStar_3.image = UIImage(named: "FullStar")
+            wifiStar_3.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
         }
+        wifiStar_3.tintColor = .sksIndigo()
         board.addSubview(wifiStar_3)
         let wifiStar_4 = UIImageView(frame: CGRect(x: label.frame.origin.x - 52 + view.frame.width/2 - interval, y: label.frame.origin.y + 1, width: 16, height: 14.4))
         if point <= 3{
-            wifiStar_4.image = UIImage(named: "EmptyStar")
+            wifiStar_4.image = UIImage(named: "EmptyStar")?.withRenderingMode(.alwaysTemplate)
         }else if point == 3.5{
-            wifiStar_4.image = UIImage(named: "HalfStar")
+            wifiStar_4.image = UIImage(named: "HalfStar")?.withRenderingMode(.alwaysTemplate)
         }else {
-            wifiStar_4.image = UIImage(named: "FullStar")
+            wifiStar_4.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
         }
+        wifiStar_4.tintColor = .sksIndigo()
         board.addSubview(wifiStar_4)
         let wifiStar_5 = UIImageView(frame: CGRect(x: label.frame.origin.x - 36 + view.frame.width/2, y: label.frame.origin.y + 1, width: 16, height: 14.4))
         if point <= 4{
-            wifiStar_5.image = UIImage(named: "EmptyStar")
+            wifiStar_5.image = UIImage(named: "EmptyStar")?.withRenderingMode(.alwaysTemplate)
         }else if point == 4.5{
-            wifiStar_5.image = UIImage(named: "HalfStar")
+            wifiStar_5.image = UIImage(named: "HalfStar")?.withRenderingMode(.alwaysTemplate)
         }else {
-            wifiStar_5.image = UIImage(named: "FullStar")
+            wifiStar_5.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
         }
+        wifiStar_5.tintColor = .sksIndigo()
         bulletinBoard_CoffeeShop.addSubview(wifiStar_5)
     }
     
@@ -550,83 +554,72 @@ class MapViewController: UIViewController {
         let shopNameLabel = UILabel()
         shopNameLabel.font = UIFont(name: "HelveticaNeue", size: 16)
         shopNameLabel.text = coffeeAnnotation.name
-        shopNameLabel.frame = CGRect(x: 15, y: 4, width: shopNameLabel.intrinsicContentSize.width, height: shopNameLabel.intrinsicContentSize.height)
-        shopNameLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        shopNameLabel.frame = CGRect(x: 10, y: 19, width: shopNameLabel.intrinsicContentSize.width, height: shopNameLabel.intrinsicContentSize.height)
+        shopNameLabel.textColor = .on()
         bulletinBoard_CoffeeShop.addSubview(shopNameLabel)
         
         let userloc = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
         let coffeeloc = CLLocation(latitude: coffeeAnnotation.coordinate.latitude, longitude: coffeeAnnotation.coordinate.longitude)
         var distance = userloc.distance(from: coffeeloc)
         
-        //        let distanceLabel = UILabel()
-        //        distanceLabel.font = UIFont(name: "HelveticaNeue", size: 14)
-        
-        //        if Int(distance) >= 1000{
-        //            distance = distance/1000
-        //            distance = Double(Int(distance * 10))/10
-        //            distanceLabel.text = "\(distance)" + "km"
-        //        }else{
-        //            distanceLabel.text = "\(Int(distance))" + "m"
-        //        }
-        //        distanceLabel.frame = CGRect(x: 15 + shopNameLabel.intrinsicContentSize.width + 2, y: 6, width: distanceLabel.intrinsicContentSize.width, height: distanceLabel.intrinsicContentSize.height)
-        //        distanceLabel.textColor = UIColor.hexStringToUIColor(hex: "414141")
-        //        bulletinBoard_CoffeeShop.addSubview(distanceLabel)
-        
         let addressLabel = UILabel()
         addressLabel.font = UIFont(name: "HelveticaNeue", size: 12)
         addressLabel.text = coffeeAnnotation.address
-        addressLabel.frame = CGRect(x: 15, y: 21, width: addressLabel.intrinsicContentSize.width, height: addressLabel.intrinsicContentSize.height)
-        addressLabel.textColor = UIColor.hexStringToUIColor(hex: "414141")
+        addressLabel.frame = CGRect(x: 10, y: 39, width: addressLabel.intrinsicContentSize.width, height: addressLabel.intrinsicContentSize.height)
+        addressLabel.textColor = .on().withAlphaComponent(0.7)
         bulletinBoard_CoffeeShop.addSubview(addressLabel)
         
         
         if verifyUrl(urlString: coffeeAnnotation.url){
             coffeeShop_url = coffeeAnnotation.url
             let fbBtn = UIButton()
-            fbBtn.frame = CGRect(x: view.frame.width - 24 - 12, y: 7, width: 24, height: 24)
+            fbBtn.frame = CGRect(x: view.frame.width - 24 - 12, y: 22, width: 24, height: 24)
             let fbIcon = UIImage(named: "facebookIcon")?.withRenderingMode(.alwaysTemplate)
             fbBtn.setImage(fbIcon, for: .normal)
-            fbBtn.tintColor = UIColor.hexStringToUIColor(hex: "#751010")
+            fbBtn.tintColor = .primary()
             fbBtn.isEnabled = true
             fbBtn.addTarget(self, action: #selector(fbBtnAct), for: .touchUpInside)
             bulletinBoard_CoffeeShop.addSubview(fbBtn)
         }
         
-        let commitIcon = UIImageView(frame: CGRect(x: 9, y: 45, width: 20, height: 18))
-        commitIcon.image = UIImage(named: "commitIcon")
+        let commitIcon = UIImageView(frame: CGRect(x: 9, y: 58, width: 20, height: 18))
+        commitIcon.image = UIImage(named: "commitIcon")?.withRenderingMode(.alwaysTemplate)
+        commitIcon.tintColor = .sksIndigo()
         bulletinBoard_CoffeeShop.addSubview(commitIcon)
         let commitLabel = UILabel()
         commitLabel.text = "評分：" + "\(coffeeAnnotation.reviews)" + "人"
-        commitLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        commitLabel.textColor = .on()
         commitLabel.font = UIFont(name: "HelveticaNeue", size: 13)
-        commitLabel.frame = CGRect(x: 9 + 20 + 2, y: 46, width: commitLabel.intrinsicContentSize.width, height: commitLabel.intrinsicContentSize.height)
+        commitLabel.frame = CGRect(x: 9 + 20 + 2, y: 61, width: commitLabel.intrinsicContentSize.width, height: commitLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(commitLabel)
         
-        let loveShopIcon = UIImageView(frame: CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4, y: 45, width: 18, height: 16))
-        loveShopIcon.image = UIImage(named: "loveIcon")
+        let loveShopIcon = UIImageView(frame: CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4, y: 58, width: 18, height: 16))
+        loveShopIcon.image = UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate)
+        loveShopIcon.tintColor = .sksIndigo()
         bulletinBoard_CoffeeShop.addSubview(loveShopIcon)
         let loveShopLabel = UILabel()
         loveShopLabel.text = "愛店：" + "\(coffeeAnnotation.favorites)" + "人"
-        loveShopLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        loveShopLabel.textColor = .on()
         loveShopLabel.font = UIFont(name: "HelveticaNeue", size: 13)
-        loveShopLabel.frame = CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3, y: 46, width: loveShopLabel.intrinsicContentSize.width, height: loveShopLabel.intrinsicContentSize.height)
+        loveShopLabel.frame = CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3, y: 61, width: loveShopLabel.intrinsicContentSize.width, height: loveShopLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(loveShopLabel)
         
-        let checkInIcon = UIImageView(frame: CGRect(x:9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3 + loveShopLabel.intrinsicContentSize.width + 4, y: 43, width: 15, height: 19))
-        checkInIcon.image = UIImage(named: "chechInIcon")
+        let checkInIcon = UIImageView(frame: CGRect(x:9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3 + loveShopLabel.intrinsicContentSize.width + 4, y: 58, width: 15, height: 19))
+        checkInIcon.image = UIImage(named: "chechInIcon")?.withRenderingMode(.alwaysTemplate)
+        checkInIcon.tintColor = .sksIndigo()
         bulletinBoard_CoffeeShop.addSubview(checkInIcon)
         let checkInLabel = UILabel()
         checkInLabel.text = "打卡：" + "\(coffeeAnnotation.checkins)" + "人"
-        checkInLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        checkInLabel.textColor = .on()
         checkInLabel.font = UIFont(name: "HelveticaNeue", size: 13)
-        checkInLabel.frame = CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3 + loveShopLabel.intrinsicContentSize.width + 4 + 15 + 3, y: 46, width: checkInLabel.intrinsicContentSize.width, height: checkInLabel.intrinsicContentSize.height)
+        checkInLabel.frame = CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3 + loveShopLabel.intrinsicContentSize.width + 4 + 15 + 3, y: 61, width: checkInLabel.intrinsicContentSize.width, height: checkInLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(checkInLabel)
         
         let wifiLabel = UILabel()
         wifiLabel.text = "WIFI穩定"
-        wifiLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        wifiLabel.textColor = .on()
         wifiLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        wifiLabel.frame = CGRect(x: 10, y: 68, width: wifiLabel.intrinsicContentSize.width, height: wifiLabel.intrinsicContentSize.height)
+        wifiLabel.frame = CGRect(x: 10, y: 83, width: wifiLabel.intrinsicContentSize.width, height: wifiLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(wifiLabel)
         let labelHeightWithInterval = wifiLabel.intrinsicContentSize.height + 8
         DrawStarsAfterLabel(bulletinBoard_CoffeeShop,wifiLabel,coffeeAnnotation.wifi)
@@ -634,25 +627,25 @@ class MapViewController: UIViewController {
         
         let quietLabel = UILabel()
         quietLabel.text = "安靜程度"
-        quietLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        quietLabel.textColor = .on()
         quietLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        quietLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval, width: quietLabel.intrinsicContentSize.width, height: quietLabel.intrinsicContentSize.height)
+        quietLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval, width: quietLabel.intrinsicContentSize.width, height: quietLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(quietLabel)
         DrawStarsAfterLabel(bulletinBoard_CoffeeShop,quietLabel,coffeeAnnotation.quiet)
         
         let seatLabel = UILabel()
         seatLabel.text = "通常有位"
-        seatLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        seatLabel.textColor = .on()
         seatLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        seatLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval * 2, width: seatLabel.intrinsicContentSize.width, height: seatLabel.intrinsicContentSize.height)
+        seatLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 2, width: seatLabel.intrinsicContentSize.width, height: seatLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(seatLabel)
         DrawStarsAfterLabel(bulletinBoard_CoffeeShop,seatLabel,coffeeAnnotation.seat)
         
         let mondayLabel = UILabel()
         mondayLabel.text = "週一"
-        mondayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        mondayLabel.textColor = .on()
         mondayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        mondayLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval * 3, width: mondayLabel.intrinsicContentSize.width, height: mondayLabel.intrinsicContentSize.height)
+        mondayLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 3, width: mondayLabel.intrinsicContentSize.width, height: mondayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(mondayLabel)
         
         let mondayLabel_value = UILabel()
@@ -660,16 +653,16 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.monday.open,let close = coffeeAnnotation.business_hours?.monday.close{
             mondayLabel_value.text = open + " ~ " + close
         }
-        mondayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        mondayLabel_value.textColor = .on()
         mondayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        mondayLabel_value.frame = CGRect(x: view.frame.width/2 - mondayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 3, width: mondayLabel_value.intrinsicContentSize.width, height: mondayLabel_value.intrinsicContentSize.height)
+        mondayLabel_value.frame = CGRect(x: view.frame.width/2 - mondayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 3, width: mondayLabel_value.intrinsicContentSize.width, height: mondayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(mondayLabel_value)
         
         let tuesdayLabel = UILabel()
         tuesdayLabel.text = "週二"
-        tuesdayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        tuesdayLabel.textColor = .on()
         tuesdayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        tuesdayLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval * 4, width: tuesdayLabel.intrinsicContentSize.width, height: tuesdayLabel.intrinsicContentSize.height)
+        tuesdayLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 4, width: tuesdayLabel.intrinsicContentSize.width, height: tuesdayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(tuesdayLabel)
         
         let tuesdayLabel_value = UILabel()
@@ -677,16 +670,16 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.tuesday.open,let close = coffeeAnnotation.business_hours?.tuesday.close{
             tuesdayLabel_value.text = open + " ~ " + close
         }
-        tuesdayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        tuesdayLabel_value.textColor = .on()
         tuesdayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        tuesdayLabel_value.frame = CGRect(x: view.frame.width/2 - tuesdayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 4, width: tuesdayLabel_value.intrinsicContentSize.width, height: tuesdayLabel_value.intrinsicContentSize.height)
+        tuesdayLabel_value.frame = CGRect(x: view.frame.width/2 - tuesdayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 4, width: tuesdayLabel_value.intrinsicContentSize.width, height: tuesdayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(tuesdayLabel_value)
         
         let wednesdayLabel = UILabel()
         wednesdayLabel.text = "週三"
-        wednesdayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        wednesdayLabel.textColor = .on()
         wednesdayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        wednesdayLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval * 5, width: wednesdayLabel.intrinsicContentSize.width, height: wednesdayLabel.intrinsicContentSize.height)
+        wednesdayLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 5, width: wednesdayLabel.intrinsicContentSize.width, height: wednesdayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(wednesdayLabel)
         
         let wednesdayLabel_value = UILabel()
@@ -694,16 +687,16 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.wednesday.open,let close = coffeeAnnotation.business_hours?.wednesday.close{
             wednesdayLabel_value.text = open + " ~ " + close
         }
-        wednesdayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        wednesdayLabel_value.textColor = .on()
         wednesdayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        wednesdayLabel_value.frame = CGRect(x: view.frame.width/2 - wednesdayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 5, width: wednesdayLabel_value.intrinsicContentSize.width, height: wednesdayLabel_value.intrinsicContentSize.height)
+        wednesdayLabel_value.frame = CGRect(x: view.frame.width/2 - wednesdayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 5, width: wednesdayLabel_value.intrinsicContentSize.width, height: wednesdayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(wednesdayLabel_value)
         
         let thursdayLabel = UILabel()
         thursdayLabel.text = "週四"
-        thursdayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        thursdayLabel.textColor = .on()
         thursdayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        thursdayLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval * 6, width: thursdayLabel.intrinsicContentSize.width, height: thursdayLabel.intrinsicContentSize.height)
+        thursdayLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 6, width: thursdayLabel.intrinsicContentSize.width, height: thursdayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(thursdayLabel)
         
         let thursdayLabel_value = UILabel()
@@ -711,16 +704,16 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.thursday.open,let close = coffeeAnnotation.business_hours?.thursday.close{
             thursdayLabel_value.text = open + " ~ " + close
         }
-        thursdayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        thursdayLabel_value.textColor = .on()
         thursdayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        thursdayLabel_value.frame = CGRect(x: view.frame.width/2 - thursdayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 6, width: thursdayLabel_value.intrinsicContentSize.width, height: thursdayLabel_value.intrinsicContentSize.height)
+        thursdayLabel_value.frame = CGRect(x: view.frame.width/2 - thursdayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 6, width: thursdayLabel_value.intrinsicContentSize.width, height: thursdayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(thursdayLabel_value)
         
         let fridayLabel = UILabel()
         fridayLabel.text = "週五"
-        fridayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        fridayLabel.textColor = .on()
         fridayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        fridayLabel.frame = CGRect(x: 10, y: 68 + labelHeightWithInterval * 7, width: fridayLabel.intrinsicContentSize.width, height: fridayLabel.intrinsicContentSize.height)
+        fridayLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 7, width: fridayLabel.intrinsicContentSize.width, height: fridayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(fridayLabel)
         
         let fridayLabel_value = UILabel()
@@ -728,41 +721,41 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.friday.open,let close = coffeeAnnotation.business_hours?.friday.close{
             fridayLabel_value.text = open + " ~ " + close
         }
-        fridayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        fridayLabel_value.textColor = .on()
         fridayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        fridayLabel_value.frame = CGRect(x: view.frame.width/2 - fridayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 7, width: fridayLabel_value.intrinsicContentSize.width, height: fridayLabel_value.intrinsicContentSize.height)
+        fridayLabel_value.frame = CGRect(x: view.frame.width/2 - fridayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 7, width: fridayLabel_value.intrinsicContentSize.width, height: fridayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(fridayLabel_value)
         
         
         let tastyLabel = UILabel()
         tastyLabel.text = "咖啡好喝"
-        tastyLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        tastyLabel.textColor = .on()
         tastyLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        tastyLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 68, width: tastyLabel.intrinsicContentSize.width, height: tastyLabel.intrinsicContentSize.height)
+        tastyLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 83, width: tastyLabel.intrinsicContentSize.width, height: tastyLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(tastyLabel)
         DrawStarsAfterLabel(bulletinBoard_CoffeeShop,tastyLabel,coffeeAnnotation.tasty)
         
         let cheapLabel = UILabel()
         cheapLabel.text = "價格便宜"
-        cheapLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        cheapLabel.textColor = .on()
         cheapLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        cheapLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 68 + labelHeightWithInterval, width: cheapLabel.intrinsicContentSize.width, height: cheapLabel.intrinsicContentSize.height)
+        cheapLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 83 + labelHeightWithInterval, width: cheapLabel.intrinsicContentSize.width, height: cheapLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(cheapLabel)
         DrawStarsAfterLabel(bulletinBoard_CoffeeShop,cheapLabel,coffeeAnnotation.cheap)
         
         let musicLabel = UILabel()
         musicLabel.text = "裝潢音樂"
-        musicLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        musicLabel.textColor = .on()
         musicLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        musicLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 68 + labelHeightWithInterval * 2, width: musicLabel.intrinsicContentSize.width, height: musicLabel.intrinsicContentSize.height)
+        musicLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 83 + labelHeightWithInterval * 2, width: musicLabel.intrinsicContentSize.width, height: musicLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(musicLabel)
         DrawStarsAfterLabel(bulletinBoard_CoffeeShop,musicLabel,coffeeAnnotation.music)
         
         let saturdayLabel = UILabel()
         saturdayLabel.text = "週六"
-        saturdayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        saturdayLabel.textColor = .on()
         saturdayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        saturdayLabel.frame = CGRect(x:view.frame.width/2 + 10, y: 68 + labelHeightWithInterval * 3, width: saturdayLabel.intrinsicContentSize.width, height: saturdayLabel.intrinsicContentSize.height)
+        saturdayLabel.frame = CGRect(x:view.frame.width/2 + 10, y: 83 + labelHeightWithInterval * 3, width: saturdayLabel.intrinsicContentSize.width, height: saturdayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(saturdayLabel)
         
         let saturdayLabel_value = UILabel()
@@ -770,16 +763,16 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.saturday.open,let close = coffeeAnnotation.business_hours?.saturday.close{
             saturdayLabel_value.text = open + " ~ " + close
         }
-        saturdayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        saturdayLabel_value.textColor = .on()
         saturdayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        saturdayLabel_value.frame = CGRect(x: view.frame.width - saturdayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 3, width: saturdayLabel_value.intrinsicContentSize.width, height: saturdayLabel_value.intrinsicContentSize.height)
+        saturdayLabel_value.frame = CGRect(x: view.frame.width - saturdayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 3, width: saturdayLabel_value.intrinsicContentSize.width, height: saturdayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(saturdayLabel_value)
         
         let sundayLabel = UILabel()
         sundayLabel.text = "週日"
-        sundayLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        sundayLabel.textColor = .on()
         sundayLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        sundayLabel.frame = CGRect(x:view.frame.width/2 + 10, y: 68 + labelHeightWithInterval * 4, width: tuesdayLabel.intrinsicContentSize.width, height: tuesdayLabel.intrinsicContentSize.height)
+        sundayLabel.frame = CGRect(x:view.frame.width/2 + 10, y: 83 + labelHeightWithInterval * 4, width: tuesdayLabel.intrinsicContentSize.width, height: tuesdayLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(sundayLabel)
         
         let sundayLabel_value = UILabel()
@@ -787,15 +780,15 @@ class MapViewController: UIViewController {
         if let open = coffeeAnnotation.business_hours?.sunday.open,let close = coffeeAnnotation.business_hours?.sunday.close{
             sundayLabel_value.text = open + " ~ " + close
         }
-        sundayLabel_value.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        sundayLabel_value.textColor = .on()
         sundayLabel_value.font = UIFont(name: "HelveticaNeue", size: 15)
-        sundayLabel_value.frame = CGRect(x: view.frame.width - sundayLabel_value.intrinsicContentSize.width - 10, y: 68 + labelHeightWithInterval * 4, width: sundayLabel_value.intrinsicContentSize.width, height: sundayLabel_value.intrinsicContentSize.height)
+        sundayLabel_value.frame = CGRect(x: view.frame.width - sundayLabel_value.intrinsicContentSize.width - 10, y: 83 + labelHeightWithInterval * 4, width: sundayLabel_value.intrinsicContentSize.width, height: sundayLabel_value.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(sundayLabel_value)
         
         
         //TAG
         var currentTagX = view.frame.width/2 + 10
-        var currentTagY = 68 + labelHeightWithInterval * 5
+        var currentTagY = 83 + labelHeightWithInterval * 5
         if coffeeAnnotation.tags.count > 0 {
             for i in 0 ... coffeeAnnotation.tags.count - 1{
                 let lbl = createTagLabel(text: coffeeAnnotation.tags[i])
@@ -822,7 +815,7 @@ class MapViewController: UIViewController {
         lbl.topInset = 2.0
         lbl.bottomInset = 2.0
         lbl.textColor = UIColor.hexStringToUIColor(hex: "#f2f2f2")
-        lbl.backgroundColor = .primary()
+        lbl.backgroundColor = .sksIndigo()
         lbl.cornerRadius = 2
         lbl.font = .systemFont(ofSize: 14)
         
@@ -1047,7 +1040,7 @@ class MapViewController: UIViewController {
         //姓名
         let nameLabel = UILabel()
         nameLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        nameLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        nameLabel.textColor = .on()
         nameLabel.text = personInfo.name
         nameLabel.frame = CGRect(x: 92, y: 75, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
         bulletinBoard_ProfilePart.addSubview(nameLabel)
@@ -1055,7 +1048,7 @@ class MapViewController: UIViewController {
         //年齡
         let ageLabel = UILabel()
         ageLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        ageLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        ageLabel.textColor = .on()
         let birthdayFormatter = DateFormatter()
         birthdayFormatter.dateFormat = "yyyy/MM/dd"
         let currentTime = Date()
@@ -1136,7 +1129,7 @@ class MapViewController: UIViewController {
         
         let signInTimeLabel = UILabel()
         signInTimeLabel.font = UIFont(name: "HelveticaNeue", size: 12)
-        signInTimeLabel.textColor = .black
+        signInTimeLabel.textColor = .on()
         signInTimeLabel.text = finalTimeString
         signInTimeLabel.frame = CGRect(x: 113, y: 107, width: signInTimeLabel.intrinsicContentSize.width, height: signInTimeLabel.intrinsicContentSize.height)
         bulletinBoard_ProfilePart.addSubview(signInTimeLabel)
@@ -1144,7 +1137,7 @@ class MapViewController: UIViewController {
         
         let selfIntroductionLabel = UILabel()
         selfIntroductionLabel.font = UIFont(name: "HelveticaNeue-Light", size: 14)
-        selfIntroductionLabel.textColor = .black
+        selfIntroductionLabel.textColor = .on()
         selfIntroductionLabel.text = personInfo.selfIntroduction
         selfIntroductionLabel.numberOfLines = 0
         selfIntroductionLabel.textAlignment = .left
@@ -1173,7 +1166,7 @@ class MapViewController: UIViewController {
             mailBtn.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
             mailBtn.backgroundColor = .primary()
             mailBtn.layer.cornerRadius = 14
-            mailBtn.tintColor = .white
+            mailBtn.tintColor = .surface()
             mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 21 - 28, y: 72, width: 28, height: 28)
             mailBtn.isEnabled = true
             bulletinBoard_ProfilePart.addSubview(mailBtn)
@@ -1186,7 +1179,7 @@ class MapViewController: UIViewController {
         let remainingTimeLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "刊登剩餘時間  99：99：99"
-            label.textColor = UIColor.gray
+            label.textColor = .on().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: bulletinBoard_ProfilePart_plzSlideUp.frame.width - 18 - label.intrinsicContentSize.width, y: 106, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             label.text = ""
@@ -1236,7 +1229,7 @@ class MapViewController: UIViewController {
             let label = UILabel()
             label.font = UIFont(name: "HelveticaNeue-Bold", size: 14)
             label.text = storeName
-            label.textColor = .gray
+            label.textColor = .on().withAlphaComponent(0.7)
             label.frame = CGRect(x: 17, y: 28, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             
             return label
@@ -1247,7 +1240,7 @@ class MapViewController: UIViewController {
             let view = UIView()
             view.frame = CGRect(x: storeNameLabel.frame.maxX + 8, y: storeNameLabel.frame.minY + 5, width: 4, height: 4)
             view.layer.cornerRadius = 2
-            view.backgroundColor = .lightGray
+            view.backgroundColor = .on().withAlphaComponent(0.7)
             return view
         }()
         bulletinBoard_ProfilePart_Bottom.addSubview(dot)
@@ -1263,7 +1256,7 @@ class MapViewController: UIViewController {
             }else{
                 label.text = "\(Int(distanceDouble))" + "m"
             }
-            label.textColor = .gray
+            label.textColor = .on().withAlphaComponent(0.7)
             label.frame = CGRect(x: dot.frame.maxX + 8, y: storeNameLabel.frame.minY, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
@@ -1550,7 +1543,6 @@ class MapViewController: UIViewController {
         circleButton_add.backgroundColor = .primary()
         circleButton_add.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         circleButton_add.layer.cornerRadius = 26
-        circleButton_add.layer.shadowColor = UIColor.black.cgColor
         circleButton_add.layer.shadowRadius = 2
         circleButton_add.layer.shadowOffset = CGSize(width: 2, height: 2)
         circleButton_add.layer.shadowOpacity = 0.3
@@ -1564,7 +1556,6 @@ class MapViewController: UIViewController {
         let accountButton = UIButton()
         accountButton.setImage(UIImage(named: "icons24AccountFilledGrey24"), for: .normal)
         accountButton.backgroundColor = .sksWhite()
-        accountButton.layer.shadowColor = UIColor.black.cgColor
         accountButton.layer.shadowRadius = 2
         accountButton.layer.shadowOffset = CGSize(width: 2, height: 2)
         accountButton.layer.shadowOpacity = 0.3
@@ -1580,7 +1571,6 @@ class MapViewController: UIViewController {
         let messageButton = UIButton()
         messageButton.setImage(UIImage(named: "icons24MessageFilledGrey24"), for: .normal)
         messageButton.backgroundColor = .sksWhite()
-        messageButton.layer.shadowColor = UIColor.black.cgColor
         messageButton.layer.shadowRadius = 2
         messageButton.layer.shadowOffset = CGSize(width: 2, height: 2)
         messageButton.layer.shadowOpacity = 0.3
@@ -1598,7 +1588,6 @@ class MapViewController: UIViewController {
         circleButton_exclamation.backgroundColor = .sksWhite()
         let exclamationImage = UIImage(named: "icons24FilterListBlack24Dp")
         circleButton_exclamation.layer.cornerRadius = 16
-        circleButton_exclamation.layer.shadowColor = UIColor.black.cgColor
         circleButton_exclamation.layer.shadowRadius = 2
         circleButton_exclamation.layer.shadowOffset = CGSize(width: 2, height: 2)
         circleButton_exclamation.layer.shadowOpacity = 0.3
@@ -1612,7 +1601,6 @@ class MapViewController: UIViewController {
         circleButton_reposition.backgroundColor = .sksWhite()
         let repositionImage = UIImage(named: "icons24LocationGrey24")
         circleButton_reposition.layer.cornerRadius = 16
-        circleButton_reposition.layer.shadowColor = UIColor.black.cgColor
         circleButton_reposition.layer.shadowRadius = 2
         circleButton_reposition.layer.shadowOffset = CGSize(width: 2, height: 2)
         circleButton_reposition.layer.shadowOpacity = 0.3
@@ -1625,7 +1613,6 @@ class MapViewController: UIViewController {
         circleButton_notification.backgroundColor = .sksWhite()
         let notificationImage = UIImage(named: "icons24NotificationFilledGrey24")
         circleButton_notification.layer.cornerRadius = 16
-        circleButton_notification.layer.shadowColor = UIColor.black.cgColor
         circleButton_notification.layer.shadowRadius = 2
         circleButton_notification.layer.shadowOffset = CGSize(width: 2, height: 2)
         circleButton_notification.layer.shadowOpacity = 0.3

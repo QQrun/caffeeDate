@@ -39,7 +39,7 @@ class WantAddPhotoTableViewCell: UITableViewCell {
         }()
         loadingView = {
             let imageView = UIImageView(frame: CGRect(x: photo.frame.minX + photo.frame.width * 1/8, y: photo.frame.minY + photo.frame.height * 1/8, width: photo.frame.width * 3/4, height: photo.frame.height * 3/4))
-            imageView.tintColor = UIColor.hexStringToUIColor(hex: "5E1A11")
+            imageView.tintColor = .lightGray
             imageView.contentMode = .scaleAspectFill
             imageView.transform = CGAffineTransform(rotationAngle: CGFloat(Double.pi)/2)
             return imageView
@@ -86,8 +86,10 @@ class WantAddPhotoTableViewCell: UITableViewCell {
         if let reorderView = findReorderView(self) {
             for sv in reorderView.subviews {
                 if sv is UIImageView {
-                    let img = UIImage(named: "bk_icon_order_20_n2")!
+                    let img = UIImage(named: "bk_icon_order_20_n2")?.withRenderingMode(.alwaysTemplate)
+                    
                     (sv as! UIImageView).image = img
+                    (sv as! UIImageView).tintColor = .primary()
                     (sv as! UIImageView).contentMode = .center
                     let oneDegree = CGFloat.pi / 180
                     (sv as! UIImageView).transform = CGAffineTransform(rotationAngle: oneDegree * 90)

@@ -13,7 +13,6 @@ import Alamofire
 
 class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate {
     
-    weak var settingViewController: SettingViewController?
     weak var mapViewController: MapViewController?
     
     var scrollView : UIScrollView!
@@ -31,15 +30,6 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
     
     var photoTableView = UITableView()
     
-    let fullScreenGrayBG = UIButton()
-    let concealBtn = UIButton()
-    let deleteBtn = UIButton()
-    let addPhotoBtn = UIButton()
-    let takePhotoBtn = UIButton()
-    
-    var rootWidth : CGFloat = 0
-    
-    
     let selfIntroductionWordLimit = 500
     let selfIntroductionTextViewDelegate = WordLimitUITextFieldDelegate()
     var selfIntroductionTextFieldCountLabel = UILabel()
@@ -56,6 +46,10 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
     let customTopBarKit = CustomTopBarKit()
     
     var isPhotosAlreadyDownload : [Bool] = [] //這個為了處理WantAddPhotoTableViewCell的deleteIcon隨著loadingView浮現的問題
+    
+    private let actionSheetKit_deletePhoto = ActionSheetKit()
+    private let actionSheetKit_addPhoto = ActionSheetKit()
+    
     
     init() {
         super.init(nibName: nil, bundle: nil)
@@ -91,9 +85,14 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
     
     fileprivate func setBackground() {
         
-        let bgKit = CustomBGKit()
-        bgKit.CreatParchmentBG(view: view)
-        scrollView = bgKit.GetScrollView()
+        view.backgroundColor = .surface()
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0
+        let topbarHeight : CGFloat = 45 //加陰影部分
+        
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0 + topPadding + topbarHeight, width: view.frame.width, height: view.frame.height - topPadding - topbarHeight))
+        scrollView.contentSize = CGSize(width: view.frame.width,height: view.frame.height)
+        view.addSubview(scrollView)
         
         let endEditTouchRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditTouch))
         endEditTouchRecognizer.cancelsTouchesInView = false
@@ -104,38 +103,9 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
     
     
     fileprivate func addDeleteAndCancealBtn() {
-        
-        fullScreenGrayBG.isHidden = true
-        fullScreenGrayBG.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        fullScreenGrayBG.backgroundColor = UIColor(red: 74/255, green: 74/255, blue: 74/255, alpha: 0.56)
-        fullScreenGrayBG.addTarget(self, action: #selector(concealBtnAct), for: .touchUpInside)
-        view.addSubview(fullScreenGrayBG)
-        
-        rootWidth = UIScreen.main.bounds.size.width
-        concealBtn.frame = CGRect(x: 6, y: 2 * view.frame.height - 53 - 9, width: rootWidth - 12, height: 53)
-        concealBtn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"), for: .normal)
-        concealBtn.imageView?.contentMode = .scaleToFill
-        let concealLabel = UILabel()
-        concealLabel.text = "取消"
-        concealLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        concealLabel.textColor = UIColor.hexStringToUIColor(hex: "6D6D6D")
-        concealLabel.frame = CGRect(x: concealBtn.frame.width/2 - concealLabel.intrinsicContentSize.width/2, y: concealBtn.frame.height/2 -  concealLabel.intrinsicContentSize.height/2, width: concealLabel.intrinsicContentSize.width, height: concealLabel.intrinsicContentSize.height)
-        concealBtn.addSubview(concealLabel)
-        view.addSubview(concealBtn)
-        concealBtn.addTarget(self, action: #selector(concealBtnAct), for: .touchUpInside)
-        //
-        deleteBtn.frame = CGRect(x: 6, y:2 * view.frame.height - 124, width: rootWidth - 12, height: 53)
-        deleteBtn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"), for: .normal)
-        deleteBtn.imageView?.contentMode = .scaleToFill
-        let deleteLabel = UILabel()
-        deleteLabel.text = "刪除"
-        deleteLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        deleteLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        deleteLabel.frame = CGRect(x: deleteBtn.frame.width/2 - deleteLabel.intrinsicContentSize.width/2, y: deleteBtn.frame.height/2 -  deleteLabel.intrinsicContentSize.height/2, width: deleteLabel.intrinsicContentSize.width, height: deleteLabel.intrinsicContentSize.height)
-        deleteBtn.addSubview(deleteLabel)
-        view.addSubview(deleteBtn)
-        deleteBtn.addTarget(self, action: #selector(deleteBtnAct), for: .touchUpInside)
-        
+        let actionSheetText = ["取消","刪除"]
+        actionSheetKit_deletePhoto.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        actionSheetKit_deletePhoto.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(deleteBtnAct), for: .touchUpInside)
     }
     
     
@@ -156,26 +126,24 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         let photoTitleLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "照片(第一張將設為大頭貼)"
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
+            label.textColor = .on().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 16)
             label.frame = CGRect(x: 14, y: 20, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(photoTitleLabel)
         
-        let separator1_1 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: 15, y:photoTitleLabel.frame.origin.y + photoTitleLabel.frame.height + 7, width: view.frame.width - 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            return imageView
+        let separator1_1 = { () -> UIView in
+            let seperator = UIView()
+            seperator.frame = CGRect(x: 15, y:photoTitleLabel.frame.origin.y + photoTitleLabel.frame.height + 7, width: view.frame.width - 30, height: 1)
+            seperator.backgroundColor = .on().withAlphaComponent(0.08)
+            return seperator
         }()
         scrollView.addSubview(separator1_1)
         
         
         
-        let tableViewContainer = UIView(frame: CGRect(x: 0, y: separator1_1.frame.origin.y + 11, width: view.frame.width, height: 135))
+        let tableViewContainer = UIView(frame: CGRect(x: 0, y: separator1_1.frame.origin.y + 16, width: view.frame.width, height: 135))
         tableViewContainer.backgroundColor = .clear
         scrollView.addSubview(tableViewContainer)
         
@@ -196,40 +164,18 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
         tableViewContainer.addSubview(photoTableView)
         
-        
-        let separator1_2 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: 15, y:tableViewContainer.frame.origin.y + tableViewContainer.frame.height, width: view.frame.width - 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            imageView.alpha = 0
-            return imageView
-        }()
-        scrollView.addSubview(separator1_2)
-        
-        
-        let separator2_1 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: 15, y:separator1_2.frame.origin.y + 60, width: view.frame.width - 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
+        let separator2_1 = { () -> UIView in
+            let seperator = UIView()
+            seperator.frame = CGRect(x: 15, y:tableViewContainer.frame.maxY + 20, width: view.frame.width - 30, height: 1)
+            seperator.backgroundColor = .on().withAlphaComponent(0.08)
+            return seperator
         }()
         scrollView.addSubview(separator2_1)
-        
-        //        let separator2_2 = { () -> UIImageView in
-        //            let imageView = UIImageView()
-        //            imageView.image = UIImage(named: "分隔線擦痕")
-        //            imageView.frame = CGRect(x: 15, y:separator2_1.frame.origin.y + 600, width: view.frame.width - 40, height: 1.3)
-        //            imageView.contentMode = .scaleToFill
-        //            return imageView
-        //        }()
-        //        scrollView.addSubview(separator2_2)
         
         let selfIntroductionLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "自我介紹"
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
+            label.textColor = .on().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 16)
             label.frame = CGRect(x: 14, y: separator2_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
@@ -239,7 +185,7 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         selfIntroductionTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "\(selfIntroductionWordLimit)"
-            label.textColor = UIColor.hexStringToUIColor(hex: "414141")
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
             label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator2_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
@@ -252,14 +198,14 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         selfIntroductionTextView = { () -> UITextView in
             let textView = UITextView()
             textView.tintColor = .white
-            textView.frame = CGRect(x:20, y: separator2_1.frame.origin.y + separator2_1.frame.height, width: view.frame.width - 20 * 2, height: 600)
+            textView.frame = CGRect(x:20, y: separator2_1.frame.origin.y + separator2_1.frame.height, width: view.frame.width - 20 * 2, height: 250)
             textView.returnKeyType = .default
-            textView.textColor =  UIColor.hexStringToUIColor(hex: "414141")
+            textView.textColor =  .on().withAlphaComponent(0.5)
             textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)
             textView.backgroundColor = .clear
             textView.text = selfIntroductionPlaceholder
             selfIntroductionTextViewDelegate.placeholder = selfIntroductionPlaceholder
-            selfIntroductionTextViewDelegate.placeholderColor = UIColor.hexStringToUIColor(hex: "414141")
+            selfIntroductionTextViewDelegate.placeholderColor = UIColor.on().withAlphaComponent(0.5)
             
             selfIntroductionTextViewDelegate.wordLimit = selfIntroductionWordLimit
             selfIntroductionTextViewDelegate.wordLimitLabel = selfIntroductionTextFieldCountLabel
@@ -267,6 +213,23 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
             return textView
         }()
         scrollView.addSubview(selfIntroductionTextView)
+        
+        let separator3_1 = { () -> UIView in
+            let seperator = UIView()
+            seperator.frame = CGRect(x: 15, y:selfIntroductionTextView.frame.maxY, width: view.frame.width - 30, height: 1)
+            seperator.backgroundColor = .on().withAlphaComponent(0.08)
+            return seperator
+        }()
+        scrollView.addSubview(separator3_1)
+        
+        let space = { () -> UIView in
+            let space = UIView()
+            space.frame = CGRect(x: 0, y:separator3_1.frame.maxY, width: view.frame.width, height: view.frame.height/2)
+            return space
+        }()
+        scrollView.addSubview(space)
+        
+
     }
     
     
@@ -312,26 +275,14 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
     @objc fileprivate func showDeletePhotoBtn() {
         //跳出是否要刪除照片鈕
         self.view.endEditing(true)
-        fullScreenGrayBG.isHidden = false
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            self.deleteBtn.frame = CGRect(x: 6, y: self.view.frame.height - 53 - 9 - 53 - 9, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: self.view.frame.height - 53 - 9, width: self.rootWidth - 12, height: 53)
-        })
+        actionSheetKit_deletePhoto.allBtnSlideIn()
+
     }
     
     @objc fileprivate func showSelectPhotoBtn() {
-        
         //跳出是否要新增照片鈕 從相簿、從相機
         self.view.endEditing(true)
-        fullScreenGrayBG.isHidden = false
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            
-            
-            self.addPhotoBtn.frame = CGRect(x: 6, y: self.view.frame.height - 177, width: self.rootWidth - 12, height: 53)
-            self.takePhotoBtn.frame = CGRect(x: 6, y: self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: self.view.frame.height - 62, width: self.rootWidth - 12, height: 53)
-        })
-        
+        actionSheetKit_addPhoto.allBtnSlideIn()
     }
     
     
@@ -498,7 +449,6 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
         
         gobackAct()
-        refreshSettingViewController()
         refreshMapViewController()
     }
     
@@ -511,18 +461,6 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
     }
     
-    func refreshSettingViewController(){
-        if settingViewController != nil{
-            if photos.count > 0{
-                settingViewController?.changePhotoImage(photos[0])
-            }else{
-                settingViewController?.changePhotoImage(UIImage(named: "photoIcon_ square_booming")!)
-            }
-        }
-    }
-    
-    
-    
     
     @objc fileprivate func takePhotoBtnAct(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.camera) {
@@ -533,7 +471,6 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
             picker.modalPresentationStyle = .overCurrentContext
             self.present(picker, animated: true, completion: nil)
         }
-        concealBtnAct()
     }
     
     @objc fileprivate func addPhotoBtnAct(){
@@ -544,50 +481,13 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
             picker.modalPresentationStyle = .overCurrentContext
             self.present(picker, animated: true, completion: nil)
         }
-        concealBtnAct()
     }
-    
-    
-    
-    @objc fileprivate func concealBtnAct(){
-        fullScreenGrayBG.isHidden = true
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            self.deleteBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 53 - 9, width: self.rootWidth - 12, height: 53)
-            self.addPhotoBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 177, width: self.rootWidth - 12, height: 53)
-            self.takePhotoBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-        })
-    }
-    
+
     fileprivate func addTakePhotoOrUsePhotoBtn(){
-        
-        
-        
-        addPhotoBtn.frame = CGRect(x: 6, y:2 * view.frame.height - 177, width: rootWidth - 12, height: 53)
-        addPhotoBtn.setImage(UIImage(named: "ActionSheet_上方有弧度"), for: .normal)
-        addPhotoBtn.imageView?.contentMode = .scaleToFill
-        let addPhotoLabel = UILabel()
-        addPhotoLabel.text = "從相簿找圖"
-        addPhotoLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        addPhotoLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        addPhotoLabel.frame = CGRect(x: addPhotoBtn.frame.width/2 - addPhotoLabel.intrinsicContentSize.width/2, y: addPhotoBtn.frame.height/2 -  addPhotoLabel.intrinsicContentSize.height/2, width: addPhotoLabel.intrinsicContentSize.width, height: addPhotoLabel.intrinsicContentSize.height)
-        addPhotoBtn.addSubview(addPhotoLabel)
-        view.addSubview(addPhotoBtn)
-        addPhotoBtn.addTarget(self, action: #selector(addPhotoBtnAct), for: .touchUpInside)
-        
-        takePhotoBtn.frame = CGRect(x: 6, y:2 * view.frame.height - 124, width: rootWidth - 12, height: 53)
-        takePhotoBtn.setImage(UIImage(named: "ActionSheet_下方有弧度"), for: .normal)
-        takePhotoBtn.imageView?.contentMode = .scaleToFill
-        let takePhotLabel = UILabel()
-        takePhotLabel.text = "拍照"
-        takePhotLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        takePhotLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        takePhotLabel.frame = CGRect(x: takePhotoBtn.frame.width/2 - takePhotLabel.intrinsicContentSize.width/2, y: takePhotoBtn.frame.height/2 -  takePhotLabel.intrinsicContentSize.height/2, width: takePhotLabel.intrinsicContentSize.width, height: takePhotLabel.intrinsicContentSize.height)
-        takePhotoBtn.addSubview(takePhotLabel)
-        view.addSubview(takePhotoBtn)
-        takePhotoBtn.addTarget(self, action: #selector(takePhotoBtnAct), for: .touchUpInside)
-        
-        
+        let actionSheetText = ["取消","從相簿找圖","拍照"]
+        actionSheetKit_addPhoto.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        actionSheetKit_addPhoto.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addPhotoBtnAct), for: .touchUpInside)
+        actionSheetKit_addPhoto.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(takePhotoBtnAct), for: .touchUpInside)
     }
     
     @objc fileprivate func deleteBtnAct(){
@@ -603,12 +503,6 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         }
         //刪除photoUrl
         photoUrls.remove(at: currentSelectPhotoNumber)
-        
-        fullScreenGrayBG.isHidden = true
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            self.deleteBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 53 - 9, width: self.rootWidth - 12, height: 53)
-        })
         
     }
     
@@ -646,7 +540,7 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
         
         if indexPath.row <= photos.count - 1{
-            cell.deleteIcon.image = UIImage(named: "PhotoDeleteIcon")!
+            cell.deleteIcon.image = UIImage(named: "icons24DeleteFilledShade24")!
             cell.photo.image = photos[indexPath.row]
             
             if UserSetting.userGender == 0{
@@ -657,7 +551,8 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         }else{
             cell.loadingView.alpha = 0
             cell.deleteIcon.image = UIImage()
-            cell.photo.image = UIImage(named: "AddPhotoIcon")
+            cell.photo.image = UIImage(named: "AddPhotoIcon")?.withRenderingMode(.alwaysTemplate)
+            cell.photo.tintColor = .primary()
             
         }
         

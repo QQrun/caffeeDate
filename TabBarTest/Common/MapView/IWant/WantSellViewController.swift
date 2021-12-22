@@ -257,7 +257,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         itemNameTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "\(itemNameWordLimit)"
-            label.textColor = UIColor.hexStringToUIColor(hex: "414141")
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
             label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator2_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
@@ -275,12 +275,12 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if iWantType == .Sell{
                 textField.attributedPlaceholder = NSAttributedString(string:
                                                                         "    ex：二手書、手工品、個人平面設計接案⋯⋯", attributes:
-                                                                            [NSAttributedString.Key.foregroundColor:UIColor.hexStringToUIColor(hex: "414141")])
+                                                                            [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
                 
             }else if iWantType == .Buy{
                 textField.attributedPlaceholder = NSAttributedString(string:
                                                                         "    ex：一場約會、二手Switch、某項正職、打工⋯⋯", attributes:
-                                                                            [NSAttributedString.Key.foregroundColor:UIColor.hexStringToUIColor(hex: "414141")])
+                                                                            [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
                 
             }
             textField.clearButtonMode = .whileEditing
@@ -333,7 +333,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         priceTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "\(priceWordLimit)"
-            label.textColor = UIColor.hexStringToUIColor(hex: "414141")
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
             label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
@@ -347,7 +347,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             textField.frame = CGRect(x:20, y: separator3_1.frame.origin.y + separator3_1.frame.height, width: view.frame.width - 20 * 2, height: 60)
             textField.attributedPlaceholder = NSAttributedString(string:
                                                                     "    ex：一杯咖啡、一頓飯、250元、聊天室談⋯⋯", attributes:
-                                                                        [NSAttributedString.Key.foregroundColor:UIColor.hexStringToUIColor(hex: "414141")])
+                                                                        [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
             textField.clearButtonMode = .whileEditing
             textField.returnKeyType = .done
             textField.textColor = .black
@@ -401,7 +401,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         itemInfoTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
             label.text = "\(itemInfoWordLimit)"
-            label.textColor = UIColor.hexStringToUIColor(hex: "414141")
+            label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
             label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
@@ -420,12 +420,12 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             textView.tintColor = .white
             textView.frame = CGRect(x:20, y: separator4_1.frame.origin.y + separator4_1.frame.height, width: view.frame.width - 20 * 2, height: 600)
             textView.returnKeyType = .default
-            textView.textColor =  UIColor.hexStringToUIColor(hex: "414141")
+            textView.textColor =  .on().withAlphaComponent(0.5)
             textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)
             textView.backgroundColor = .clear
             textView.text = itemInfoPlaceholder
             itemInfoTextViewDelegate.placeholder = itemInfoPlaceholder
-            itemInfoTextViewDelegate.placeholderColor = UIColor.hexStringToUIColor(hex: "414141")
+            itemInfoTextViewDelegate.placeholderColor = .on().withAlphaComponent(0.5)
             
             itemInfoTextViewDelegate.wordLimit = itemInfoWordLimit
             itemInfoTextViewDelegate.wordLimitLabel = itemInfoTextFieldCountLabel
@@ -524,7 +524,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         let cell = tableView.dequeueReusableCell(withIdentifier: "wantAddPhotoTableViewCell", for: indexPath) as! WantAddPhotoTableViewCell
         
         if indexPath.row <= photos.count - 1{
-            cell.deleteIcon.image = UIImage(named: "PhotoDeleteIcon")!
+            cell.deleteIcon.image = UIImage(named: "icons24DeleteFilledShade24")!
             cell.photo.image = photos[indexPath.row]
             
             cell.loadingView.contentMode = .scaleAspectFit
