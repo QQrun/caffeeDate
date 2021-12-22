@@ -87,7 +87,7 @@ class CustomTopBarKit {
             let btn = UIButton()
             btn.setTitleColor(.primary(), for:.normal)
             btn.setTitle(text, for: .normal)
-            btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 18)
+            btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Medium", size: 16)
             btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 15 - 50 + 5, y: 2, width: 50, height: 44)
             btn.isEnabled = true
             btn.alpha = 1
@@ -124,7 +124,7 @@ class CustomTopBarKit {
             let label = UILabel()
             label.text = text
             label.textColor = .on()
-            label.font = UIFont(name: "HelveticaNeue", size: 18)
+            label.font = UIFont(name: "HelveticaNeue-bold", size: 18)
             label.frame = CGRect(x: UIScreen.main.bounds.size.width/2 - label.intrinsicContentSize.width/2, y: 13, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()

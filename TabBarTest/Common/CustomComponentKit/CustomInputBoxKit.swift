@@ -134,7 +134,7 @@ class CustomInputBoxKit : NSObject{
         
         inputBoxTextView = { () -> UITextView in
             let textView = UITextView()
-            textView.tintColor = .white
+            textView.tintColor = .primary()
             textView.returnKeyType = .done
             textView.textColor = placeholderColor
             textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)

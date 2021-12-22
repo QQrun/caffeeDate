@@ -197,10 +197,10 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
         selfIntroductionTextView = { () -> UITextView in
             let textView = UITextView()
-            textView.tintColor = .white
+            textView.tintColor = .primary()
             textView.frame = CGRect(x:20, y: separator2_1.frame.origin.y + separator2_1.frame.height, width: view.frame.width - 20 * 2, height: 250)
             textView.returnKeyType = .default
-            textView.textColor =  .on().withAlphaComponent(0.5)
+            textView.textColor =  .on().withAlphaComponent(0.9)
             textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)
             textView.backgroundColor = .clear
             textView.text = selfIntroductionPlaceholder

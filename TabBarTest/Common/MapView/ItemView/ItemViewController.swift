@@ -354,7 +354,7 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         let itemDescriptLabel = { () -> UILabel in
             let label = UILabel()
             label.text = item.descript
-            label.textColor = .on().withAlphaComponent(0.5)
+            label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.frame = CGRect(x: 24, y: currentScrollHeignt + 8, width: photoWidth, height: 0)
             label.numberOfLines = 0

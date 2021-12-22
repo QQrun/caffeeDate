@@ -25,15 +25,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     let picker = UIImagePickerController()
     
     var photoTableView = UITableView()
-    
-    
-    let fullScreenGrayBG = UIButton()
-    let concealBtn = UIButton()
-    let deleteBtn = UIButton()
-    let addPhotoBtn = UIButton()
-    let takePhotoBtn = UIButton()
-    var rootWidth : CGFloat = 0
-    
+        
     var currentSelectPhotoNumber = 0
     
     var scrollView : UIScrollView!
@@ -74,6 +66,10 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     var customTopBarKit = CustomTopBarKit()
     
     var isPhotosAlreadyDownload : [Bool] = [] //這個為了處理WantAddPhotoTableViewCell的deleteIcon隨著loadingView浮現的問題
+    
+    
+    private let actionSheetKit_deletePhoto = ActionSheetKit()
+    private let actionSheetKit_addPhoto = ActionSheetKit()
     
     
     //隐藏狀態欄
@@ -151,9 +147,15 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     }
     
     fileprivate func setBackground() {
-        let bgKit = CustomBGKit()
-        bgKit.CreatParchmentBG(view: view)
-        scrollView = bgKit.GetScrollView()
+        
+        view.backgroundColor = .surface()
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0
+        let topbarHeight : CGFloat = 45 //加陰影部分
+        
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0 + topPadding + topbarHeight, width: view.frame.width, height: view.frame.height - topPadding - topbarHeight))
+        scrollView.contentSize = CGSize(width: view.frame.width,height: view.frame.height)
+        view.addSubview(scrollView)
         
         let endEditTouchRecognizer = UITapGestureRecognizer(target: self, action: #selector(endEditTouch))
         endEditTouchRecognizer.cancelsTouchesInView = false
@@ -164,7 +166,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     fileprivate func configTopBar() {
         
-        customTopBarKit.CreatTopBar(view: view)
+        customTopBarKit.CreatTopBar(view: view,showSeparator:true)
         customTopBarKit.CreatDoSomeThingTextBtn(text: "刊登")
         if iWantType == .Sell{
             customTopBarKit.CreatCenterTitle(text: "我想販賣⋯⋯")
@@ -190,15 +192,16 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         picker.modalPresentationStyle = .overCurrentContext
         
-        tableViewContainer = UIView(frame: CGRect(x: 0, y: 6, width: view.frame.width, height: 135))
+        tableViewContainer = UIView(frame: CGRect(x: 0, y: 16, width: view.frame.width, height: 135))
         tableViewContainer.backgroundColor = .clear
         scrollView.addSubview(tableViewContainer)
         
-        photoTableView.frame = CGRect(x: 0, y: 0, width: 150, height: view.frame.width)
+        photoTableView.frame = CGRect(x: 4, y: 0, width: 150, height: view.frame.width - 8)
         photoTableView.center = CGPoint(x: view.frame.width/2.0, y: 96/2.0)
         photoTableView.transform = CGAffineTransform(rotationAngle: -CGFloat(Double.pi)/2)
         photoTableView.delegate = self
         photoTableView.dataSource = self
+        photoTableView.tintColor = .primary()
         photoTableView.showsVerticalScrollIndicator = false
         photoTableView.register(WantAddPhotoTableViewCell.self, forCellReuseIdentifier: "wantAddPhotoTableViewCell")
         photoTableView.rowHeight = 122
@@ -226,31 +229,22 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }else if iWantType == .Buy{
                 label.text = "任務名稱"
             }
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
-            label.font = UIFont(name: "HelveticaNeue", size: 16)
-            label.frame = CGRect(x: 14, y: tableViewContainer.frame.maxY + 3, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.textColor = .on().withAlphaComponent(0.9)
+            label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+            label.frame = CGRect(x: 16, y: tableViewContainer.frame.maxY + 3, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemNameLabel)
         
-        let separator2_1 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: -20, y:itemNameLabel.frame.origin.y + itemNameLabel.frame.height + 7, width: view.frame.width + 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            return imageView
+        let separator2_1 = { () -> UIView in
+            let separator = UIView()
+            separator.backgroundColor = .on().withAlphaComponent(0.08)
+            separator.frame = CGRect(x: 15, y:itemNameLabel.frame.origin.y + itemNameLabel.frame.height + 7, width: view.frame.width - 30, height: 1)
+            
+            return separator
         }()
         scrollView.addSubview(separator2_1)
         
-        let separator2_2 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: 15, y:separator2_1.frame.origin.y + 60, width: view.frame.width - 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
-        }()
-        scrollView.addSubview(separator2_2)
         
         
         
@@ -260,7 +254,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
-            label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator2_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator2_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemNameTextFieldCountLabel)
@@ -269,7 +263,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         itemNameTextField = { () -> UITextField in
             let textField = UITextField()
-            textField.tintColor = .white
+            textField.tintColor = .primary()
             textField.frame = CGRect(x:20, y: separator2_1.frame.origin.y + separator2_1.frame.height, width: view.frame.width - 20 * 2, height: 60)
             
             if iWantType == .Sell{
@@ -296,25 +290,15 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }()
         scrollView.addSubview(itemNameTextField)
         
-        
-        let separator3_1 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: -20, y:separator2_2.frame.origin.y + 60, width: view.frame.width + 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            return imageView
+        let separator3_1 = { () -> UIView in
+            let separator = UIView()
+            separator.backgroundColor = .on().withAlphaComponent(0.08)
+            separator.frame = CGRect(x: 15, y:separator2_1.frame.origin.y + 120, width: view.frame.width - 30, height: 1)
+            
+            return separator
         }()
         scrollView.addSubview(separator3_1)
         
-        let separator3_2 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: 15, y:separator3_1.frame.origin.y + 60, width: view.frame.width - 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            return imageView
-        }()
-        scrollView.addSubview(separator3_2)
         
         let priceLabel = { () -> UILabel in
             let label = UILabel()
@@ -323,9 +307,9 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }else if iWantType == .Buy{
                 label.text = "任務報酬"
             }
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
-            label.font = UIFont(name: "HelveticaNeue", size: 16)
-            label.frame = CGRect(x: 14, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.textColor = .on().withAlphaComponent(0.9)
+            label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+            label.frame = CGRect(x: 16, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(priceLabel)
@@ -336,14 +320,14 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
-            label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(priceTextFieldCountLabel)
         
         priceTextField = { () -> UITextField in
             let textField = UITextField()
-            textField.tintColor = .white
+            textField.tintColor = .primary()
             textField.frame = CGRect(x:20, y: separator3_1.frame.origin.y + separator3_1.frame.height, width: view.frame.width - 20 * 2, height: 60)
             textField.attributedPlaceholder = NSAttributedString(string:
                                                                     "    ex：一杯咖啡、一頓飯、250元、聊天室談⋯⋯", attributes:
@@ -362,26 +346,15 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         scrollView.addSubview(priceTextField)
         
         
-        let separator4_1 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: -20, y:separator3_2.frame.origin.y + 60, width: view.frame.width + 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            imageView.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
-            return imageView
+        
+        let separator4_1 = { () -> UIView in
+            let separator = UIView()
+            separator.backgroundColor = .on().withAlphaComponent(0.08)
+            separator.frame = CGRect(x: 15, y:separator3_1.frame.origin.y + 120, width: view.frame.width - 30, height: 1)
+            
+            return separator
         }()
         scrollView.addSubview(separator4_1)
-        
-        let separator4_2 = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "分隔線擦痕")
-            imageView.frame = CGRect(x: -20, y:separator4_1.frame.origin.y + 605, width: view.frame.width + 40, height: 1.3)
-            imageView.contentMode = .scaleToFill
-            
-            return imageView
-        }()
-        scrollView.addSubview(separator4_2)
-        
         
         
         let itemInfoLabel = { () -> UILabel in
@@ -391,9 +364,9 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }else if iWantType == .Buy{
                 label.text = "任務資訊"
             }
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
-            label.font = UIFont(name: "HelveticaNeue", size: 16)
-            label.frame = CGRect(x: 14, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.textColor = .on().withAlphaComponent(0.9)
+            label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+            label.frame = CGRect(x: 16, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemInfoLabel)
@@ -404,7 +377,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
-            label.frame = CGRect(x:view.frame.width - 14 - 26, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemInfoTextFieldCountLabel)
@@ -417,8 +390,8 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         itemInfoTextView = { () -> UITextView in
             let textView = UITextView()
-            textView.tintColor = .white
-            textView.frame = CGRect(x:20, y: separator4_1.frame.origin.y + separator4_1.frame.height, width: view.frame.width - 20 * 2, height: 600)
+            textView.tintColor = .primary()
+            textView.frame = CGRect(x:20, y: separator4_1.frame.origin.y + separator4_1.frame.height, width: view.frame.width - 20 * 2, height: 400)
             textView.returnKeyType = .default
             textView.textColor =  .on().withAlphaComponent(0.5)
             textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)
@@ -435,7 +408,16 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         scrollView.addSubview(itemInfoTextView)
         
         
-        scrollView.contentSize = CGSize(width: view.frame.width,height: separator4_2.frame.origin.y + 400)
+        let separator5_1 = { () -> UIView in
+            let separator = UIView()
+            separator.backgroundColor = .on().withAlphaComponent(0.08)
+            separator.frame = CGRect(x: 15, y:separator4_1.frame.origin.y + 400, width: view.frame.width - 30, height: 1)
+            
+            return separator
+        }()
+        scrollView.addSubview(separator5_1)
+        
+        scrollView.contentSize = CGSize(width: view.frame.width,height: separator5_1.frame.origin.y + 500)
     }
     
     @objc fileprivate func endEditTouch() {
@@ -447,65 +429,21 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         
         
-        addPhotoBtn.frame = CGRect(x: 6, y:2 * view.frame.height - 177, width: rootWidth - 12, height: 53)
-        addPhotoBtn.setImage(UIImage(named: "ActionSheet_上方有弧度"), for: .normal)
-        addPhotoBtn.imageView?.contentMode = .scaleToFill
-        let addPhotoLabel = UILabel()
-        addPhotoLabel.text = "從相簿找圖"
-        addPhotoLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        addPhotoLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        addPhotoLabel.frame = CGRect(x: addPhotoBtn.frame.width/2 - addPhotoLabel.intrinsicContentSize.width/2, y: addPhotoBtn.frame.height/2 -  addPhotoLabel.intrinsicContentSize.height/2, width: addPhotoLabel.intrinsicContentSize.width, height: addPhotoLabel.intrinsicContentSize.height)
-        addPhotoBtn.addSubview(addPhotoLabel)
-        view.addSubview(addPhotoBtn)
-        addPhotoBtn.addTarget(self, action: #selector(addPhotoBtnAct), for: .touchUpInside)
+        let actionSheetText = ["取消","從相簿找圖","拍照"]
+        actionSheetKit_addPhoto.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        actionSheetKit_addPhoto.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addPhotoBtnAct), for: .touchUpInside)
+        actionSheetKit_addPhoto.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(takePhotoBtnAct), for: .touchUpInside)
+
         
-        takePhotoBtn.frame = CGRect(x: 6, y:2 * view.frame.height - 124, width: rootWidth - 12, height: 53)
-        takePhotoBtn.setImage(UIImage(named: "ActionSheet_下方有弧度"), for: .normal)
-        takePhotoBtn.imageView?.contentMode = .scaleToFill
-        let takePhotLabel = UILabel()
-        takePhotLabel.text = "拍照"
-        takePhotLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        takePhotLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        takePhotLabel.frame = CGRect(x: takePhotoBtn.frame.width/2 - takePhotLabel.intrinsicContentSize.width/2, y: takePhotoBtn.frame.height/2 -  takePhotLabel.intrinsicContentSize.height/2, width: takePhotLabel.intrinsicContentSize.width, height: takePhotLabel.intrinsicContentSize.height)
-        takePhotoBtn.addSubview(takePhotLabel)
-        view.addSubview(takePhotoBtn)
-        takePhotoBtn.addTarget(self, action: #selector(takePhotoBtnAct), for: .touchUpInside)
         
         
     }
     
     fileprivate func addDeleteAndCancealBtn() {
         
-        fullScreenGrayBG.isHidden = true
-        fullScreenGrayBG.frame = CGRect(x: 0, y: 0, width: UIScreen.main.bounds.size.width, height: UIScreen.main.bounds.size.height)
-        fullScreenGrayBG.backgroundColor = UIColor(red: 74/255, green: 74/255, blue: 74/255, alpha: 0.56)
-        fullScreenGrayBG.addTarget(self, action: #selector(concealBtnAct), for: .touchUpInside)
-        view.addSubview(fullScreenGrayBG)
-        
-        rootWidth = UIScreen.main.bounds.size.width
-        concealBtn.frame = CGRect(x: 6, y: 2 * view.frame.height - 53 - 9, width: rootWidth - 12, height: 53)
-        concealBtn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"), for: .normal)
-        concealBtn.imageView?.contentMode = .scaleToFill
-        let concealLabel = UILabel()
-        concealLabel.text = "取消"
-        concealLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        concealLabel.textColor = UIColor.hexStringToUIColor(hex: "6D6D6D")
-        concealLabel.frame = CGRect(x: concealBtn.frame.width/2 - concealLabel.intrinsicContentSize.width/2, y: concealBtn.frame.height/2 -  concealLabel.intrinsicContentSize.height/2, width: concealLabel.intrinsicContentSize.width, height: concealLabel.intrinsicContentSize.height)
-        concealBtn.addSubview(concealLabel)
-        view.addSubview(concealBtn)
-        concealBtn.addTarget(self, action: #selector(concealBtnAct), for: .touchUpInside)
-        //
-        deleteBtn.frame = CGRect(x: 6, y:2 * view.frame.height - 124, width: rootWidth - 12, height: 53)
-        deleteBtn.setImage(UIImage(named: "ActionSheet_兩邊有弧度"), for: .normal)
-        deleteBtn.imageView?.contentMode = .scaleToFill
-        let deleteLabel = UILabel()
-        deleteLabel.text = "刪除"
-        deleteLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        deleteLabel.textColor = UIColor.hexStringToUIColor(hex: "751010")
-        deleteLabel.frame = CGRect(x: deleteBtn.frame.width/2 - deleteLabel.intrinsicContentSize.width/2, y: deleteBtn.frame.height/2 -  deleteLabel.intrinsicContentSize.height/2, width: deleteLabel.intrinsicContentSize.width, height: deleteLabel.intrinsicContentSize.height)
-        deleteBtn.addSubview(deleteLabel)
-        view.addSubview(deleteBtn)
-        deleteBtn.addTarget(self, action: #selector(deleteBtnAct), for: .touchUpInside)
+        let actionSheetText = ["取消","刪除"]
+        actionSheetKit_deletePhoto.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        actionSheetKit_deletePhoto.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(deleteBtnAct), for: .touchUpInside)
         
     }
     
@@ -541,13 +479,13 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             let loadingViewBorder = UIView(frame: CGRect(x: -cell.loadingView.frame.width * 0.2, y: -cell.loadingView.frame.height * 0.2, width: cell.loadingView.frame.width/0.55, height: cell.loadingView.frame.height/0.55))
             loadingViewBorder.layer.cornerRadius = 7/0.7
             loadingViewBorder.layer.borderWidth = 2.5/0.7
-            loadingViewBorder.layer.borderColor = UIColor.hexStringToUIColor(hex: "5E1A11").cgColor
+            loadingViewBorder.layer.borderColor = UIColor.lightGray.cgColor
             loadingViewBorder.backgroundColor = .clear
             cell.loadingView.addSubview(loadingViewBorder)
             
         }else{
             cell.deleteIcon.image = UIImage()
-            cell.photo.image = UIImage(named: "AddPhotoIcon")
+            cell.photo.image = UIImage(named: "AddPhotoIcon")?.withRenderingMode(.alwaysTemplate)
             cell.loadingView.alpha = 0
         }
         
@@ -644,38 +582,16 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     @objc fileprivate func showDeletePhotoBtn() {
         //跳出是否要刪除照片鈕
         self.view.endEditing(true)
-        fullScreenGrayBG.isHidden = false
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            self.deleteBtn.frame = CGRect(x: 6, y: self.view.frame.height - 53 - 9 - 53 - 9, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: self.view.frame.height - 53 - 9, width: self.rootWidth - 12, height: 53)
-        })
+        actionSheetKit_deletePhoto.allBtnSlideIn()
     }
     
     @objc fileprivate func showSelectPhotoBtn() {
-        
         //跳出是否要新增照片鈕 從相簿、從相機
         self.view.endEditing(true)
-        fullScreenGrayBG.isHidden = false
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            
-            
-            self.addPhotoBtn.frame = CGRect(x: 6, y: self.view.frame.height - 177, width: self.rootWidth - 12, height: 53)
-            self.takePhotoBtn.frame = CGRect(x: 6, y: self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: self.view.frame.height - 62, width: self.rootWidth - 12, height: 53)
-        })
-        
+        actionSheetKit_addPhoto.allBtnSlideIn()
     }
     
     
-    @objc fileprivate func concealBtnAct(){
-        fullScreenGrayBG.isHidden = true
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            self.deleteBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 53 - 9, width: self.rootWidth - 12, height: 53)
-            self.addPhotoBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 177, width: self.rootWidth - 12, height: 53)
-            self.takePhotoBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-        })
-    }
     @objc fileprivate func deleteBtnAct(){
         
         photos.remove(at: currentSelectPhotoNumber)
@@ -687,12 +603,6 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }
         //刪除photoUrl
         photoUrls.remove(at: currentSelectPhotoNumber)
-        
-        fullScreenGrayBG.isHidden = true
-        UIView.animate(withDuration: 0.2, delay: 0, animations: {
-            self.deleteBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 124, width: self.rootWidth - 12, height: 53)
-            self.concealBtn.frame = CGRect(x: 6, y: 2 * self.view.frame.height - 53 - 9, width: self.rootWidth - 12, height: 53)
-        })
         
         whenEditDoSomeThing() 
     }
@@ -706,7 +616,6 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             picker.modalPresentationStyle = .overCurrentContext
             self.present(picker, animated: true, completion: nil)
         }
-        concealBtnAct()
     }
     @objc fileprivate func addPhotoBtnAct(){
         if UIImagePickerController.isSourceTypeAvailable(UIImagePickerController.SourceType.photoLibrary) {
@@ -716,7 +625,6 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             picker.modalPresentationStyle = .overCurrentContext
             self.present(picker, animated: true, completion: nil)
         }
-        concealBtnAct()
     }
     
     

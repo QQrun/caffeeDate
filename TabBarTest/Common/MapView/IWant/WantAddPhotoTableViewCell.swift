@@ -49,11 +49,15 @@ class WantAddPhotoTableViewCell: UITableViewCell {
         
         deleteIcon = {
             let imageView = UIImageView()
-            imageView.frame = CGRect(x: 0, y: 89, width: 23, height: 23)
+            imageView.frame = CGRect(x: 1.5, y: 85, width: 23, height: 23)
             let oneDegree = CGFloat.pi / 180
             imageView.transform = CGAffineTransform(rotationAngle: oneDegree * 90)
             imageView.contentMode = .scaleAspectFit
             imageView.backgroundColor = .clear
+            imageView.layer.shadowRadius = 2
+            imageView.layer.shadowColor = UIColor.on().cgColor
+            imageView.layer.shadowOpacity = 0.3
+            imageView.layer.shadowOffset = CGSize(width: 1, height:1)
             return imageView
         }()
         contentView.addSubview(deleteIcon)
