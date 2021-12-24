@@ -37,7 +37,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
                               NSAttributedString.Key.paragraphStyle: paraph]
             label.attributedText = NSAttributedString(string: str, attributes: attributes)
             label.numberOfLines = 2
-            label.textColor = UIColor.hexStringToUIColor(hex: "472411")
+            label.textColor = .gray
             label.textAlignment = .center
             label.font = UIFont(name: "HelveticaNeue", size: 16)
             label.frame = CGRect(x: tableView.frame.width/2 - label.intrinsicContentSize.width/2, y: 45, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)

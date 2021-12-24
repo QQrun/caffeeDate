@@ -179,14 +179,14 @@ extension RootCoordinator: ShopEditViewControllerViewDelegate {
         Analytics.logEvent("編輯商店_點擊商品_查看", parameters:nil)
         let itemViewController = ItemViewController(item : item , personInfo: personDetail)
         itemViewController.modalPresentationStyle = .overCurrentContext
-        settingTab.pushViewController(itemViewController, animated: true)
+        mapTab.pushViewController(itemViewController, animated: true)
     }
     
     func gotoProfileViewController_shopEditView(personDetail:PersonDetailInfo){
         Analytics.logEvent("編輯商店_前往個人檔案", parameters:nil)
         let profileViewController = ProfileViewController(personDetail: personDetail)
         profileViewController.modalPresentationStyle = .overCurrentContext
-        settingTab.pushViewController(profileViewController, animated: true)
+        mapTab.pushViewController(profileViewController, animated: true)
         
         
     }
@@ -196,7 +196,7 @@ extension RootCoordinator: ShopEditViewControllerViewDelegate {
         wantSellViewController.modalPresentationStyle = .overCurrentContext
         wantSellViewController.shopEditViewController = shopEditViewController
         wantSellViewController.iWantType = .Sell
-        settingTab.pushViewController(wantSellViewController, animated: true)
+        mapTab.pushViewController(wantSellViewController, animated: true)
     }
     
     func gotoWantBuyViewController_shopEditView(defaultItem:Item?){
@@ -204,7 +204,7 @@ extension RootCoordinator: ShopEditViewControllerViewDelegate {
         wantBuyViewController.modalPresentationStyle = .overCurrentContext
         wantBuyViewController.shopEditViewController = shopEditViewController
         wantBuyViewController.iWantType = .Buy
-        settingTab.pushViewController(wantBuyViewController, animated: true)
+        mapTab.pushViewController(wantBuyViewController, animated: true)
     }
 }
 

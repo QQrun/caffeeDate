@@ -51,6 +51,9 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     private let actionSheetKit_addBtn = ActionSheetKit()
     private let actionSheetKit_wantCloseUpShop = ActionSheetKit()
     
+    
+    var bookMarks_segmented = SSSegmentedControl(items: [],type: .pure)
+    
     var openingStore = false {
         didSet{
             if openingStore{
@@ -78,14 +81,18 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     }
     
     override func viewDidLoad() {
-        let bgKit = CustomBGKit()
-        bgKit.CreatParchmentBG(view: view)
-        bgKit.GetScrollView().isHidden = true
+        
+        view.backgroundColor = .surface()
         
         shopModel.viewDelegate = self
         shopModel.fetchPersonDetail(completion: {() -> () in
             self.setProfileAndShopInfo()
             self.view.addSubview(self.circleButton_add)
+            self.circleButton_add.snp.makeConstraints { make in
+                make.height.width.equalTo(52)
+                make.centerX.equalToSuperview()
+                make.bottom.equalTo(self.view.snp.bottomMargin).offset(-36)
+            }
         })
         
         
@@ -107,7 +114,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     override func viewWillAppear(_ animated: Bool) {
         
         if !isSettedTopBar{
-            customTopBarKit.CreatTopBar(view: view)
+            customTopBarKit.CreatTopBar(view: view,showSeparator: true)
             customTopBarKit.CreatDoSomeThingTextBtn(text: "擺攤")
             openOrCloseStoreBtn = customTopBarKit.getDoSomeThingBtn()
             openOrCloseStoreBtn.addTarget(self, action: #selector(openOrCloseStoreBtnAct), for: .touchUpInside)
@@ -134,9 +141,15 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     }
     
     
+    
     lazy var circleButton_add : UIButton = {
-        let btn = UIButton(frame:CGRect(x: view.frame.width/2 - 53/2, y: view.frame.height - 53 - 40, width: 53, height: 53))
-        btn.setImage(UIImage(named: "開攤販button")!, for: [])
+        let btn = UIButton()
+        btn.setImage(UIImage(named: "icons24PlusFilledWt24"), for: .normal)
+        btn.backgroundColor = .primary()
+        btn.layer.cornerRadius = 26
+        btn.layer.shadowRadius = 2
+        btn.layer.shadowOffset = CGSize(width: 2, height: 2)
+        btn.layer.shadowOpacity = 0.3
         btn.isEnabled = true
         btn.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         return btn
@@ -163,14 +176,14 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         }else{
             loadingView.image = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
         }
-        loadingView.tintColor = UIColor.hexStringToUIColor(hex: "472411")
+        loadingView.tintColor = .lightGray
         bulletinBoard.addSubview(loadingView)
         bulletinBoard.addSubview(mediumSizeHeadShot)
         
         //姓名
         let nameLabel = UILabel()
         nameLabel.font = UIFont(name: "HelveticaNeue", size: 18)
-        nameLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        nameLabel.textColor = .on().withAlphaComponent(0.9)
         nameLabel.text = shopModel.personInfo.name
         nameLabel.frame = CGRect(x: 9 + 120 + 6, y: 47 + offsetY, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
         bulletinBoard.addSubview(nameLabel)
@@ -178,7 +191,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         //年齡
         let ageLabel = UILabel()
         ageLabel.font = UIFont(name: "HelveticaNeue", size: 16)
-        ageLabel.textColor = UIColor.hexStringToUIColor(hex: "000000")
+        ageLabel.textColor = .on().withAlphaComponent(0.9)
         let birthdayFormatter = DateFormatter()
         birthdayFormatter.dateFormat = "yyyy/MM/dd"
         let currentTime = Date()
@@ -192,7 +205,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         
         let selfIntroductionLabel = UILabel()
         selfIntroductionLabel.font = UIFont(name: "HelveticaNeue-Light", size: 14)
-        selfIntroductionLabel.textColor = .black
+        selfIntroductionLabel.textColor = .on().withAlphaComponent(0.7)
         selfIntroductionLabel.text = shopModel.personInfo.selfIntroduction
         selfIntroductionLabel.numberOfLines = 0
         selfIntroductionLabel.textAlignment = .left
@@ -224,13 +237,16 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         
         
         //製作書籤
-        let bookMarkContainerView = UIView()
-        bookMarkContainerView.frame = CGRect(x: 0, y: 240 + offsetY - 60, width: view.frame.width, height: 44)
-        let bookMarkKit = CustomBookMarkKit(title: ["擺攤","任務"], containerView: bookMarkContainerView)
-        bookMarkKit.titleBtns[0].addTarget(self, action: #selector(bookMarkAct_OpenStore_FullExpand), for: .touchUpInside)
-        bookMarkKit.titleBtns[1].addTarget(self, action: #selector(bookMarkAct_Request_FullExpand), for: .touchUpInside)
-        shopModel.customBookMarkKit = bookMarkKit
-        bulletinBoard.addSubview(bookMarkContainerView)
+        let bookMarks = ["擺攤","任務"]
+        bookMarks_segmented = SSSegmentedControl(items: bookMarks,type: .pure)
+        bookMarks_segmented.translatesAutoresizingMaskIntoConstraints = false
+        bookMarks_segmented.selectedSegmentIndex = 0
+        bulletinBoard.addSubview(bookMarks_segmented)
+        bookMarks_segmented.centerXAnchor.constraint(equalTo: bulletinBoard.centerXAnchor).isActive = true
+        bookMarks_segmented.topAnchor.constraint(equalTo: bulletinBoard.topAnchor, constant: 240 + offsetY - 60).isActive = true
+        bookMarks_segmented.widthAnchor.constraint(equalToConstant: CGFloat(80 * bookMarks.count)).isActive = true
+        bookMarks_segmented.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        bookMarks_segmented.addTarget(self, action: #selector(segmentedOnValueChanged), for: .valueChanged)
         
         bigItemDelegate.personDetail = shopModel.personInfo
         bigItemDelegate.currentItemType = shopModel.currentItemType
@@ -244,6 +260,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         bigItemTableView.register(BigItemTableViewCell.self, forCellReuseIdentifier: "bigItemTableViewCell")
         bigItemTableView.rowHeight = 110
         bigItemTableView.estimatedRowHeight = 0
+        bigItemTableView.tintColor = .primary()
         bigItemTableView.backgroundColor = .clear
         bigItemTableView.separatorColor = .clear
         bigItemTableView.separatorInset = .zero
@@ -262,10 +279,20 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         viewDelegate?.gotoProfileViewController_shopEditView(personDetail: shopModel.personInfo)
     }
     
-    @objc private func bookMarkAct_OpenStore_FullExpand(){
+    
+    @objc private func segmentedOnValueChanged(_ segmented: UISegmentedControl){
+        
+        if(segmented.selectedSegmentIndex == 0){
+            bookMarkAct_OpenStore()
+        }else if(segmented.selectedSegmentIndex == 1){
+            bookMarkAct_Request()
+        }
+    }
+    
+    @objc private func bookMarkAct_OpenStore(){
         shopModel.currentItemType = .Sell
     }
-    @objc private func bookMarkAct_Request_FullExpand(){
+    @objc private func bookMarkAct_Request(){
         shopModel.currentItemType = .Buy
     }
     
@@ -327,7 +354,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
     }
     
     func reloadTableView(indexPath:IndexPath){
-
+        
     }
     
     func updateHeadShot() {

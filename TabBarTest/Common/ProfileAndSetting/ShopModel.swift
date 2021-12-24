@@ -28,11 +28,11 @@ class ShopModel {
     var currentItemType : Item.ItemType = .Sell {
         didSet{
             viewDelegate?.reloadTableView()
-            if currentItemType == .Sell{
-                customBookMarkKit?.pressBookMark(at: 0)
-            }else if currentItemType == .Buy{
-                customBookMarkKit?.pressBookMark(at: 1)
-            }
+//            if currentItemType == .Sell{
+//                customBookMarkKit?.pressBookMark(at: 0)
+//            }else if currentItemType == .Buy{
+//                customBookMarkKit?.pressBookMark(at: 1)
+//            }
         }
     }
     var personInfo : PersonDetailInfo! {

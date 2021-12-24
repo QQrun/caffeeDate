@@ -56,7 +56,7 @@ class BigItemTableViewCell: UITableViewCell{
                 let label = UILabel()
                 label.text = ""
                 label.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
-                label.textColor = UIColor(red: 117/255, green: 16/255, blue: 16/255, alpha: 1)
+                label.textColor = .primary()
                 label.frame = CGRect(x: btn.frame.width/2 - label.intrinsicContentSize.width/2, y: 8, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
                 return label
             }()
@@ -433,7 +433,8 @@ class BigItemTableViewCell: UITableViewCell{
         if let reorderView = findReorderView(self) {
             for sv in reorderView.subviews {
                 if sv is UIImageView {
-                    (sv as! UIImageView).image = UIImage(named: "bk_icon_order_20_n2")
+                    (sv as! UIImageView).image = UIImage(named: "bk_icon_order_20_n2")?.withRenderingMode(.alwaysTemplate)
+                    (sv as! UIImageView).tintColor = .primary()
                     (sv as! UIImageView).contentMode = .center
                 }
             }
