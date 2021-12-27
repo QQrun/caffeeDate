@@ -364,7 +364,7 @@ class SettingViewController: UIViewController {
     }
     
     @objc private func showTabBar(){
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
+//        CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
     }
     
     //MARK:- ButtonAct
@@ -477,7 +477,7 @@ class SettingViewController: UIViewController {
         
         Analytics.logEvent("我_登出_確定登出", parameters:nil)
         
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
+//        CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
         
         let dic = ["alreadyUpdatePersonDetail":false,
                    "UID":"",

@@ -14,6 +14,7 @@ class WordLimitUITextFieldDelegate : NSObject, UITextFieldDelegate, UITextViewDe
     var wordLimitLabel : UILabel!
     var wordLimit = 0
     var wordLimitForTypeDelegate : WordLimitForTypeDelegate?
+    var placeholder = "在這寫下您提供的商品資訊與細節⋯⋯"
     
     func textField(_ textField: UITextField, shouldChangeCharactersIn range: NSRange, replacementString string: String) -> Bool {
         
@@ -56,12 +57,11 @@ class WordLimitUITextFieldDelegate : NSObject, UITextFieldDelegate, UITextViewDe
     
     
     
-    var placeholder = "在這寫下您提供的商品資訊與細節⋯⋯"
     var placeholderColor = UIColor.on().withAlphaComponent(0.5)
     
     func textViewDidBeginEditing(_ textView: UITextView)
     {
-        if (textView.text == placeholder && textView.textColor == placeholderColor)
+        if (textView.text == placeholder || textView.textColor == placeholderColor)
         {
             textView.text = ""
             textView.textColor = .black

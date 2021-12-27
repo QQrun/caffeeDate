@@ -155,6 +155,9 @@ class FirebaseHelper{
     }
     
     static func updatePersonAnnotation(){
+        
+        
+        print("updatePersonAnnotation")
         //上傳personAnnotation
         let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
         if mapViewController != nil{

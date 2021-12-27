@@ -59,12 +59,12 @@ class RootTabBarController: UITabBarController {
     }
     
     fileprivate func configTapBarColor() {
-        let gradientLayer = CAGradientLayer()
-        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 49)
-        gradientLayer.colors = [UIColor(red: 69/255, green: 67/255, blue: 67/255, alpha: 0).cgColor,UIColor(red: 30/255, green: 14/255, blue: 1/255, alpha: 1).cgColor]
-        tabBar.layer.insertSublayer(gradientLayer, at: 0)
-        tabBar.tintColor = .white
-        tabBar.unselectedItemTintColor = UIColor(red: 219/255, green: 211/255, blue: 198/255, alpha: 1)
+//        let gradientLayer = CAGradientLayer()
+//        gradientLayer.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: 49)
+//        gradientLayer.colors = [UIColor(red: 69/255, green: 67/255, blue: 67/255, alpha: 0).cgColor,UIColor(red: 30/255, green: 14/255, blue: 1/255, alpha: 1).cgColor]
+//        tabBar.layer.insertSublayer(gradientLayer, at: 0)
+//        tabBar.tintColor = .white
+//        tabBar.unselectedItemTintColor = UIColor(red: 219/255, green: 211/255, blue: 198/255, alpha: 1)
         
         view.bringSubviewToFront(tabBar)
     }

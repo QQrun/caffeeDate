@@ -17,12 +17,14 @@ class MailListTableViewCell: UITableViewCell {
     @IBOutlet weak var age: UILabel!
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var arrowIcon: UIImageView!
-    @IBOutlet weak var separator: UIImageView!
+//    @IBOutlet weak var separator: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
 
         contentView.backgroundColor = .clear
+        
+//        separator.backgroundColor = .on().withAlphaComponent(0.08)
         
         headShot.contentMode = .scaleAspectFill
         headShot.backgroundColor = .clear

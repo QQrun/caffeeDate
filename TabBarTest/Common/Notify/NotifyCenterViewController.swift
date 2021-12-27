@@ -21,6 +21,7 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
     var notifyListTableView = UITableView()
     weak var viewDelegate: NotifyCenterViewControllerDelegate?
     var vm = NotifyCenterViewControllerModel()
+    var customTopBarKit = CustomTopBarKit()
     
     //一起動App需要先監聽
     override func awakeFromNib() {
@@ -30,11 +31,27 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
         vm.startListenPostNotifcations()
     }
     
+    
+    
+    override func viewWillAppear(_ animated: Bool) {
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.hiddenTabBar()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
-        CustomBGKit().CreatDarkStyleBG(view: view)
+        
+        view.backgroundColor = .surface()
+        configTopBar()
         configNotifyListTableViewFrame()
+    }
+    
+    
+    fileprivate func configTopBar() {
+        customTopBarKit.CreatTopBar(view: view,showSeparator:true)
+        customTopBarKit.showGobackBtn()
+        customTopBarKit.getGobackBtn().addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
+        customTopBarKit.CreatCenterTitle(text: "通知")
     }
     
     
@@ -53,7 +70,7 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         let topPadding = window?.safeAreaInsets.top ?? 0
-        notifyListTableView.frame = CGRect(x: 0, y: topPadding + 1, width: view.frame.width, height: view.frame.height - topPadding - bottomPadding - 1)
+        notifyListTableView.frame = CGRect(x: 0, y: topPadding + 45, width: view.frame.width, height: view.frame.height - topPadding - bottomPadding - 1)
         view.addSubview(notifyListTableView)
     }
     
@@ -77,7 +94,7 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
                                   NSAttributedString.Key.paragraphStyle: paraph]
                 label.attributedText = NSAttributedString(string: str, attributes: attributes)
                 label.numberOfLines = 0
-                label.textColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
+                label.textColor = .gray
                 label.textAlignment = .center
                 label.font = UIFont(name: "HelveticaNeue", size: 16)
                 label.frame = CGRect(x: tableView.frame.width/2 - label.intrinsicContentSize.width/2, y: 45, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
@@ -110,6 +127,10 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
         
     }
     
+    
+    @objc func gobackBtnAct(){
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapTab
+    }
     
 }
 

@@ -1,15 +1,17 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="16097.2" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="16087"/>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
         <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
-        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="66" id="KGk-i7-Jjw" customClass="NotifyTableViewCell" customModule="MapWe" customModuleProvider="target">
+        <tableViewCell contentMode="scaleToFill" selectionStyle="default" indentationWidth="10" rowHeight="66" id="KGk-i7-Jjw" customClass="NotifyTableViewCell" customModule="面交人" customModuleProvider="target">
             <rect key="frame" x="0.0" y="0.0" width="315" height="66"/>
             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
             <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="KGk-i7-Jjw" id="H2p-sc-9uM">
@@ -23,41 +25,44 @@
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3/20 04:27" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="gxy-4A-UI3">
-                        <rect key="frame" x="236.5" y="23" width="67.5" height="20"/>
+                        <rect key="frame" x="237" y="23" width="67" height="20"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.60784313725490191" green="0.60784313725490191" blue="0.60784313725490191" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="分隔線擦痕" translatesAutoresizingMaskIntoConstraints="NO" id="utP-f5-wTw" userLabel="Separator">
-                        <rect key="frame" x="5" y="64.5" width="297" height="1.5"/>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Hdo-FU-bkZ">
+                        <rect key="frame" x="15" y="65" width="285" height="1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         <constraints>
-                            <constraint firstAttribute="height" constant="1.3" id="nDV-T4-cNm"/>
+                            <constraint firstAttribute="height" constant="1" id="BQz-IS-NBF"/>
                         </constraints>
-                    </imageView>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstAttribute="bottom" secondItem="xLp-55-AZV" secondAttribute="bottom" constant="23" id="6w9-kp-nXX"/>
                     <constraint firstItem="xLp-55-AZV" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="23" id="Wji-cf-mGV"/>
-                    <constraint firstAttribute="bottom" secondItem="utP-f5-wTw" secondAttribute="bottom" id="XOT-36-iWl"/>
                     <constraint firstItem="gxy-4A-UI3" firstAttribute="leading" relation="greaterThanOrEqual" secondItem="xLp-55-AZV" secondAttribute="trailing" constant="20" id="bPE-cb-spG"/>
-                    <constraint firstItem="utP-f5-wTw" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="5" id="f9E-dr-x7D"/>
-                    <constraint firstAttribute="trailing" secondItem="utP-f5-wTw" secondAttribute="trailing" constant="13" id="ojp-37-DWL"/>
+                    <constraint firstItem="Hdo-FU-bkZ" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="15" id="ddF-ki-Fwc"/>
                     <constraint firstItem="gxy-4A-UI3" firstAttribute="top" secondItem="H2p-sc-9uM" secondAttribute="top" constant="23" id="qGa-CM-Ygs"/>
                     <constraint firstAttribute="bottom" secondItem="gxy-4A-UI3" secondAttribute="bottom" constant="23" id="rdh-bQ-btd"/>
+                    <constraint firstAttribute="bottom" secondItem="Hdo-FU-bkZ" secondAttribute="bottom" id="vpb-tt-diA"/>
                     <constraint firstItem="xLp-55-AZV" firstAttribute="leading" secondItem="H2p-sc-9uM" secondAttribute="leading" constant="11" id="wDC-Ms-nPu"/>
                     <constraint firstAttribute="trailing" secondItem="gxy-4A-UI3" secondAttribute="trailing" constant="11" id="wUM-mT-7qp"/>
+                    <constraint firstAttribute="trailing" secondItem="Hdo-FU-bkZ" secondAttribute="trailing" constant="15" id="xbT-7E-eiJ"/>
                 </constraints>
             </tableViewCellContentView>
             <viewLayoutGuide key="safeArea" id="njF-e1-oar"/>
             <connections>
                 <outlet property="body" destination="xLp-55-AZV" id="0nl-2f-RIP"/>
-                <outlet property="separator" destination="utP-f5-wTw" id="2Zd-RH-oSL"/>
+                <outlet property="separator" destination="Hdo-FU-bkZ" id="86t-Yq-X3V"/>
                 <outlet property="time" destination="gxy-4A-UI3" id="Kdo-qO-324"/>
             </connections>
             <point key="canvasLocation" x="132.60869565217394" y="152.00892857142856"/>
         </tableViewCell>
     </objects>
     <resources>
-        <image name="分隔線擦痕" width="358" height="1"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

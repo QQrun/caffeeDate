@@ -52,7 +52,7 @@ class ProfilePop {
                 (profilePopView as! ProfilePopView).loadingView.image = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
             }
             
-            (profilePopView as! ProfilePopView).loadingView.tintColor = .primary()
+            (profilePopView as! ProfilePopView).loadingView.tintColor = .lightGray
             
             
             (profilePopView as! ProfilePopView).photoView.clipsToBounds = true

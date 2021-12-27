@@ -53,7 +53,7 @@ class NotifyCenterViewControllerModel{
         if indexPath.row % 2 == 1{
             cell.separator.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
         }
-        cell.time.textColor = UIColor.hexStringToUIColor(hex: "FFFFFF")
+        cell.time.textColor = .on().withAlphaComponent(0.9)
         cell.time.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
         cell.time.text = postNotifcations[indexPath.row].time
         let currentTime = Date()
@@ -91,12 +91,12 @@ class NotifyCenterViewControllerModel{
         cell.time.text = finalTimeString
         
         
-        cell.body.textColor = UIColor.hexStringToUIColor(hex: "FFFFFF")
+        cell.body.textColor = .on().withAlphaComponent(0.9)
         cell.body.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
         
         if postNotifcations[indexPath.row].isRead{
-            cell.time.textColor = UIColor.hexStringToUIColor(hex: "9B9B9B")
-            cell.body.textColor = UIColor.hexStringToUIColor(hex: "9B9B9B")
+            cell.time.textColor = .on().withAlphaComponent(0.5)
+            cell.body.textColor = .on().withAlphaComponent(0.5)
         }
         postNotifcations[indexPath.row].reviewers.sort{ (date1, date2) -> Bool in
             return date1.time.compare(date2.time) == ComparisonResult.orderedDescending

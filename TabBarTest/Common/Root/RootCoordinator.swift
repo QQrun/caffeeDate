@@ -75,9 +75,7 @@ class RootCoordinator: Coordinator {
             mapViewController.viewDelegate = self
             let mapTab = UINavigationController.init(rootViewController: mapViewController)
             mapTab.setNavigationBarHidden(true, animated: false)
-            mapTab.title = "地圖"
-            mapTab.tabBarItem.image = UIImage(named: "tapbar_map_unactive")?.withRenderingMode(.alwaysOriginal)
-            mapTab.tabBarItem.selectedImage = UIImage(named: "tapbar_map_active")?.withRenderingMode(.alwaysOriginal)
+            mapTab.title = ""
             return mapTab
         }()
         
@@ -86,9 +84,7 @@ class RootCoordinator: Coordinator {
             notifyCenterViewController.viewDelegate = self
             let notifyTab = UINavigationController.init(rootViewController: notifyCenterViewController)
             notifyTab.setNavigationBarHidden(true, animated: false)
-            notifyTab.title = "通知"
-            notifyTab.tabBarItem.image = UIImage(named: "tapbar_star_unactive")?.withRenderingMode(.alwaysOriginal)
-            notifyTab.tabBarItem.selectedImage = UIImage(named: "tapbar_star_active")?.withRenderingMode(.alwaysOriginal)
+            notifyTab.title = ""
             return notifyTab
         }()
         
@@ -98,9 +94,7 @@ class RootCoordinator: Coordinator {
             mailListViewController.viewDelegate = self
             let mailTab = UINavigationController.init(rootViewController: mailListViewController)
             mailTab.setNavigationBarHidden(true, animated: false)
-            mailTab.title = "訊息"
-            mailTab.tabBarItem.image = UIImage(named: "tapbar_email_unactive")?.withRenderingMode(.alwaysOriginal)
-            mailTab.tabBarItem.selectedImage = UIImage(named: "tapbar_email_active")?.withRenderingMode(.alwaysOriginal)
+            mailTab.title = ""
             return mailTab
         }()
         
@@ -110,10 +104,7 @@ class RootCoordinator: Coordinator {
             settingViewController.viewDelegate = self
             let settingTab = UINavigationController.init(rootViewController: settingViewController)
             settingTab.setNavigationBarHidden(true, animated: false)
-            settingTab.title = "我"
-            settingTab.tabBarItem.image = UIImage(named: "tapbar_user_unactive")?.withRenderingMode(.alwaysOriginal)
-            settingTab.tabBarItem.selectedImage = UIImage(named: "tapbar_user_active")?.withRenderingMode(.alwaysOriginal)
-            
+            settingTab.title = ""
             return settingTab
         }()
         

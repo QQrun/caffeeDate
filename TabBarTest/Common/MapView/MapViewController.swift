@@ -1330,10 +1330,14 @@ class MapViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMddHHmmss"
         
+        print("storeOpenTimeString:" + "\(storeOpenTimeString)")
+        
         storeRemainingTimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {_ in
             
             if formatter.date(from: storeOpenTimeString) != nil{
                 let seconds = Date().seconds(sinceDate: formatter.date(from: storeOpenTimeString)!)
+            
+                
                 let remainingHour = (durationOfAuction - seconds!) / (60 * 60)
                 let remainingMin = ((durationOfAuction - seconds!) % (60 * 60)) / 60
                 let remainingSecond = ((durationOfAuction - seconds!) % (60 * 60)) % 60
@@ -1916,6 +1920,7 @@ class MapViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMddHHmmss"
         let currentTimeString = dateFormatter.string(from: currentTime)
+        
         if UserSetting.storeName == ""{
             UserSetting.storeName = bookMarkName_MakeFriend
         }

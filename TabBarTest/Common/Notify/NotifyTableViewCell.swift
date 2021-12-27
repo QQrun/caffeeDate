@@ -12,10 +12,14 @@ class NotifyTableViewCell: UITableViewCell {
 
     @IBOutlet weak var body: UILabel!
     @IBOutlet weak var time: UILabel!
-    @IBOutlet weak var separator: UIImageView!
+    @IBOutlet weak var separator: UIView!
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        
+        body.textColor = .on().withAlphaComponent(0.9)
+        time.textColor = .on().withAlphaComponent(0.7)
+        separator.backgroundColor = .on().withAlphaComponent(0.08)
         // Initialization code
     }
 

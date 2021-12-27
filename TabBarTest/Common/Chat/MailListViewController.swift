@@ -26,23 +26,36 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     weak var viewDelegate : MailListViewControllerDelegate?
     
+    var customTopBarKit = CustomTopBarKit()
+    
     var requestBtn = UIButton()
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        view.backgroundColor = .surface()
+        configTopBar()
         configTableView()
         activeMailListObserver()
         requestNotiAuthorization()
-        CustomBGKit().CreatDarkStyleBG(view: view)
         configMailListTableViewFrame()
         configNotificationRequestBtn()
     }
+    
+    
+    fileprivate func configTopBar() {
+        customTopBarKit.CreatTopBar(view: view,showSeparator:true)
+        customTopBarKit.showGobackBtn()
+        customTopBarKit.getGobackBtn().addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
+        customTopBarKit.CreatCenterTitle(text: "訊息")
+    }
+    
     
     fileprivate func configMailListTableViewFrame() {
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
         let topPadding = window?.safeAreaInsets.top ?? 0
-        mailListTableView.frame = CGRect(x: 0, y: topPadding + 1, width: view.frame.width, height: view.frame.height - topPadding - bottomPadding - 1)
+        mailListTableView.frame = CGRect(x: 0, y: topPadding + 45, width: view.frame.width, height: view.frame.height - topPadding - bottomPadding - 1)
         view.addSubview(mailListTableView)
     }
     
@@ -66,7 +79,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
             let btnColor = UIColor.hexStringToUIColor(hex: "#4F1E1F",alpha: 0.9)
             btn.setBackgroundColor(btnColor, forState: .normal)
             btn.setTitle("尚未開啟通知功能，點擊開啟", for: .normal)
-            btn.setTitleColor(UIColor.hexStringToUIColor(hex: "#FFFFFF",alpha: 0.7), for: .normal)
+            btn.setTitleColor(.on().withAlphaComponent(0.7), for: .normal)
             btn.titleLabel?.font =  UIFont(name: "HelveticaNeue", size: 15)
             btn.addTarget(self, action: #selector(requestBtnAct), for: .touchUpInside)
             return btn
@@ -222,20 +235,24 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         })
     }
     
+    
     fileprivate func packageMailData(targetUID:String,personDetail:PersonDetailInfo,headShotImage:UIImage?,shopName:String,lastMessage:ChatMessage) {
         
         let headShot : UIImage!
         if headShotImage == nil{
             if personDetail.gender == 0{
-                headShot = UIImage(named: "girlIcon")
+                headShot = UIImage(named: "girlIcon")?.withRenderingMode(.alwaysTemplate)
             }else{
-                headShot = UIImage(named: "boyIcon")
+                headShot = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
             }
+            let mailData = MailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,isDefaultHeadShot: true)
+            mailDatas.append(mailData)
+
         }else{
             headShot = headShotImage
+            let mailData = MailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage)
+            mailDatas.append(mailData)
         }
-        let mailData = MailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage)
-        mailDatas.append(mailData)
         mailDatas = Util.quicksort_MailData(mailDatas)
         mailDatas.reverse()
         mailListTableView.reloadData()
@@ -245,12 +262,17 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         //先將tableView除了frame的部分都設置好
         mailListTableView.delegate = self
         mailListTableView.dataSource = self
-        mailListTableView.rowHeight = 85
+        mailListTableView.rowHeight = 104
         mailListTableView.isScrollEnabled = true
         mailListTableView.backgroundColor = .clear
         mailListTableView.separatorColor = .clear
         mailListTableView.bounces = false
         mailListTableView.register(UINib(nibName: "MailListTableViewCell", bundle: nil), forCellReuseIdentifier: "mailListTableViewCell")
+    }
+    
+    
+    @objc func gobackBtnAct(){
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapTab
     }
     
     
@@ -272,7 +294,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                                   NSAttributedString.Key.paragraphStyle: paraph]
                 label.attributedText = NSAttributedString(string: str, attributes: attributes)
                 label.numberOfLines = 0
-                label.textColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
+                label.textColor = .gray
                 label.textAlignment = .center
                 label.font = UIFont(name: "HelveticaNeue", size: 16)
                 label.frame = CGRect(x: tableView.frame.width/2 - label.intrinsicContentSize.width/2, y: 45, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
@@ -292,23 +314,27 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         cell.backgroundColor = .clear
         //大頭貼
         cell.headShot.image = mailDatas[indexPath.row].headShotImage
+        if(mailDatas[indexPath.row].isDefaultHeadShot){
+            cell.headShot.tintColor = .lightGray
+        }
         //人名
         cell.name.text = mailDatas[indexPath.row].personDetail.name
+        cell.name.textColor = .on().withAlphaComponent(0.9)
         if mailDatas[indexPath.row].shopName != ""{
             cell.shopName.text = "《" + mailDatas[indexPath.row].shopName + "》"
+            cell.shopName.textColor = .on().withAlphaComponent(0.9)
         }else{
             cell.shopName.text = ""
         }
         
         
-        if indexPath.row % 2 == 1{
-            cell.separator.transform = CGAffineTransform(rotationAngle: CGFloat.pi)}
         
         //更新時間
         let dateFormat : String = "MM/dd HH:mm"
         let formatter = DateFormatter()
         formatter.dateFormat = dateFormat
         cell.time.text = formatter.string(from: mailDatas[indexPath.row].lastMessage.sentDate)
+        cell.time.textColor = .on().withAlphaComponent(0.9)
         //訊息
         switch mailDatas[indexPath.row].lastMessage.kind {
         case .text(let text):
@@ -334,19 +360,19 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                 
                 if lastMessagetimeInt > readTimeInt{
                     if UserSetting.UID != mailDatas[indexPath.row].lastMessage.user.senderId{
-                        cell.lastMessage.textColor = UIColor.hexStringToUIColor(hex: "FFFFFF")
-                        cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
+                        cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
+                        cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
                     }else{
-                        cell.lastMessage.textColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
-                        cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 13)
+                        cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
+                        cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 14)
                     }
                 }else{
-                    cell.lastMessage.textColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
-                    cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 13)
+                    cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
+                    cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 14)
                 }
             }else{
-                cell.lastMessage.textColor = UIColor.hexStringToUIColor(hex: "FFFFFF")
-                cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 13)
+                cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
+                cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
             }
             
             
@@ -365,8 +391,8 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
         viewDelegate?.gotoOneToOneChatRoom(chatroomID: chatroomID, personInfo: mailDatas[indexPath.row].personDetail, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MailListTableViewCell
-        cell.lastMessage.textColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
-        cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 13)
+        cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
+        cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 14)
     }
     
     /*
@@ -391,12 +417,14 @@ class MailData {
     let headShotImage : UIImage!
     let shopName : String
     let lastMessage : ChatMessage!
+    var isDefaultHeadShot : Bool = false
     
-    init(targetUID:String,personDetail:PersonDetailInfo,headShotImage:UIImage,shopName:String,lastMessage:ChatMessage) {
+    init(targetUID:String,personDetail:PersonDetailInfo,headShotImage:UIImage,shopName:String,lastMessage:ChatMessage,isDefaultHeadShot:Bool = false) {
         self.targetUID = targetUID
         self.personDetail = personDetail
         self.headShotImage = headShotImage
         self.shopName = shopName
         self.lastMessage = lastMessage
+        self.isDefaultHeadShot = isDefaultHeadShot
     }
 }
