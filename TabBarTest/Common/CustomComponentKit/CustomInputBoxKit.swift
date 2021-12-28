@@ -67,7 +67,7 @@ class CustomInputBoxKit : NSObject{
         
         let window = UIApplication.shared.keyWindow
         bottomPadding = window?.safeAreaInsets.bottom ?? 0
-        inputBox = UIView(frame: CGRect(x: 0, y: containerView.frame.height + 10 - 70 - bottomPadding, width: containerView.frame.width, height: 70))
+        inputBox = UIView(frame: CGRect(x: 0, y: containerView.frame.height + 10 - 50 - bottomPadding, width: containerView.frame.width, height: 50))
         if isInMessageKit{
             let topPadding = window?.safeAreaInsets.top ?? 0
             inputBox.frame.origin.y -= 45
@@ -111,7 +111,7 @@ class CustomInputBoxKit : NSObject{
             let btn = UIButton()
             btn.setImage(UIImage(named: "icons24SendPress24")?.withRenderingMode(.alwaysTemplate), for: [])
             btn.tintColor = .primary()
-            btn.frame = CGRect(x: inputBox.frame.width - 15 - 25, y: inputBox.frame.height/2 - 25/2, width: 25, height: 25)
+            btn.frame = CGRect(x: inputBox.frame.width - 15 - 25, y: 6, width: 25, height: 25)
             btn.isEnabled = false
             btn.alpha = 0.4
             btn.addTarget(self, action: #selector(publishBtnAct), for: .touchUpInside)
@@ -144,9 +144,9 @@ class CustomInputBoxKit : NSObject{
             textView.returnKeyType = .default
             textView.sizeToFit()
             if withAddBtn{
-                inputBoxTextViewOriginFrame = CGRect(x:18 + 25, y: 16, width: inputBox.frame.width - 18 - 15 - 25 - 25, height: textView.frame.height)
+                inputBoxTextViewOriginFrame = CGRect(x:18 + 25, y: 0, width: inputBox.frame.width - 18 - 15 - 25 - 25, height: textView.frame.height)
             }else{
-                inputBoxTextViewOriginFrame = CGRect(x:18, y: 16, width: inputBox.frame.width - 18 - 15 - 25, height: textView.frame.height)
+                inputBoxTextViewOriginFrame = CGRect(x:18, y: 0, width: inputBox.frame.width - 18 - 15 - 25, height: textView.frame.height)
             }
             inputBoxTextViewTempHeight = textView.frame.height
             textView.frame = inputBoxTextViewOriginFrame
