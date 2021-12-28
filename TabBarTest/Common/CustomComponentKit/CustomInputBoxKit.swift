@@ -263,7 +263,7 @@ extension CustomInputBoxKit : UITextViewDelegate{
         if (textView.text == placeholder && textView.textColor == placeholderColor)
         {
             textView.text = ""
-            textView.textColor = .black
+            textView.textColor = .on()
         }
         
     }

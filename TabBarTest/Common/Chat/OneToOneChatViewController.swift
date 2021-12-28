@@ -64,7 +64,7 @@ final class OneToOneChatViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CustomBGKit().CreatDarkStyleBG(view: view)
+        view.backgroundColor = .surface()
         UserSetting.currentChatTarget = targetPersonInfo.name
         addConversationView()
     }
@@ -79,13 +79,13 @@ final class OneToOneChatViewController: UIViewController {
         super.viewWillDisappear(animated)
         UserSetting.currentChatTarget = ""
         navigationController?.navigationBar.isTranslucent = false
-        navigationController?.navigationBar.barTintColor = UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1)
+//        navigationController?.navigationBar.barTintColor = UIColor(red: 69/255, green: 193/255, blue: 89/255, alpha: 1)
     }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let headerHeight: CGFloat = 45
-        customTopBarKit.CreatTopBar(view: view)
+        customTopBarKit.CreatTopBar(view: view,showSeparator: true)
         customTopBarKit.CreatHeatShotAndName(personDetailInfo: targetPersonInfo, canGoProfileView: true)
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)

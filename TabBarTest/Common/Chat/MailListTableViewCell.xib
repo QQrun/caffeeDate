@@ -4,6 +4,7 @@
     <dependencies>
         <deployment identifier="iOS"/>
         <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="System colors in document resources" minToolsVersion="11.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
@@ -63,16 +64,25 @@
                             <constraint firstAttribute="height" constant="19.5" id="z04-4H-DD3"/>
                         </constraints>
                     </imageView>
+                    <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Jog-mB-p74">
+                        <rect key="frame" x="15" y="103" width="384" height="1"/>
+                        <color key="backgroundColor" systemColor="systemBackgroundColor"/>
+                        <constraints>
+                            <constraint firstAttribute="height" constant="1" id="dZK-pP-LmG"/>
+                        </constraints>
+                    </view>
                 </subviews>
                 <constraints>
                     <constraint firstItem="c6k-r6-USg" firstAttribute="top" secondItem="U0k-oi-Ukb" secondAttribute="bottom" priority="2" constant="2" id="3f2-Ni-qPT"/>
                     <constraint firstItem="7JY-94-1f1" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="10" id="Dyi-RP-VY8"/>
                     <constraint firstItem="7A2-sD-1Vz" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="9" id="Jfy-uR-cIn"/>
                     <constraint firstItem="U0k-oi-Ukb" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="8" id="OGp-g6-6XY"/>
+                    <constraint firstAttribute="trailing" secondItem="Jog-mB-p74" secondAttribute="trailing" constant="15" id="OPP-bI-ByY"/>
                     <constraint firstItem="7JY-94-1f1" firstAttribute="leading" secondItem="G7P-NE-bbq" secondAttribute="leading" constant="10" id="PS1-C6-WbE"/>
                     <constraint firstItem="QVS-pB-UQQ" firstAttribute="top" secondItem="c6k-r6-USg" secondAttribute="bottom" priority="1" constant="2" id="RLi-H9-6Or"/>
                     <constraint firstItem="U0k-oi-Ukb" firstAttribute="leading" secondItem="7JY-94-1f1" secondAttribute="trailing" constant="10" id="XQH-K3-6WR"/>
                     <constraint firstItem="c6k-r6-USg" firstAttribute="leading" secondItem="7JY-94-1f1" secondAttribute="trailing" constant="10" id="aRW-vE-JYl"/>
+                    <constraint firstAttribute="bottom" secondItem="Jog-mB-p74" secondAttribute="bottom" id="ckX-Z3-cLo"/>
                     <constraint firstAttribute="trailing" secondItem="QVS-pB-UQQ" secondAttribute="trailing" constant="9" id="n3l-Lk-gpM"/>
                     <constraint firstItem="7A2-sD-1Vz" firstAttribute="leading" secondItem="U0k-oi-Ukb" secondAttribute="trailing" constant="2" id="ool-Rh-Ibt"/>
                     <constraint firstItem="MBZ-u9-4fL" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="10" id="p70-NI-4Xt"/>
@@ -80,22 +90,27 @@
                     <constraint firstAttribute="trailing" secondItem="MBZ-u9-4fL" secondAttribute="trailing" constant="18" id="r7Q-5v-gSG"/>
                     <constraint firstItem="jh6-2J-S7M" firstAttribute="top" secondItem="c6k-r6-USg" secondAttribute="bottom" constant="2" id="xIo-td-9Sc"/>
                     <constraint firstItem="jh6-2J-S7M" firstAttribute="leading" secondItem="7JY-94-1f1" secondAttribute="trailing" constant="4" id="yWI-ff-d2T"/>
+                    <constraint firstItem="Jog-mB-p74" firstAttribute="leading" secondItem="G7P-NE-bbq" secondAttribute="leading" constant="15" id="zay-rt-m6u"/>
                 </constraints>
             </tableViewCellContentView>
             <connections>
                 <outlet property="age" destination="7A2-sD-1Vz" id="aCN-Zq-FuH"/>
                 <outlet property="arrowIcon" destination="jh6-2J-S7M" id="4Ig-9Y-7XC"/>
+                <outlet property="bottom_separator" destination="Jog-mB-p74" id="HYX-dv-6BY"/>
                 <outlet property="headShot" destination="7JY-94-1f1" id="Z7G-8k-NgT"/>
                 <outlet property="lastMessage" destination="QVS-pB-UQQ" id="bS3-UQ-DGb"/>
                 <outlet property="name" destination="U0k-oi-Ukb" id="BGM-qh-OP7"/>
                 <outlet property="shopName" destination="c6k-r6-USg" id="bye-bx-3CC"/>
                 <outlet property="time" destination="MBZ-u9-4fL" id="SD8-fA-rff"/>
             </connections>
-            <point key="canvasLocation" x="240.57971014492756" y="-255.46875"/>
+            <point key="canvasLocation" x="240.57971014492756" y="-255.80357142857142"/>
         </tableViewCell>
     </objects>
     <resources>
         <image name="arrow.turn.up.left" catalog="system" width="128" height="99"/>
         <image name="girlPhotoIcon" width="30" height="29"/>
+        <systemColor name="systemBackgroundColor">
+            <color white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+        </systemColor>
     </resources>
 </document>

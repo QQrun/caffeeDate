@@ -26,7 +26,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     
     let refreshControl = UIRefreshControl()
     
-    let primaryColor = UIColor(red: 43/255, green: 45/255, blue: 47/255, alpha: 0.6)
+    let primaryColor = UIColor.primary()
     let user = ChatUser(senderId: UserSetting.UID, displayName: UserSetting.userName)
     var userAvatar =  Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: UserSetting.userName)
     lazy var targetAvatar =  Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: targetPersonInfo.name)
@@ -54,7 +54,9 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        creatBackGround()
+        
+        view.backgroundColor = .surface()
+        
         getTargetToken()
         
         configureMessageCollectionView()
@@ -105,17 +107,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
             UserDefaults.standard.synchronize()
         }
         
-    }
-    
-    
-    fileprivate func creatBackGround() {
-        let bulletinBoardBG = UIImageView(frame: view.frame)
-        bulletinBoardBG.contentMode = .scaleToFill
-        bulletinBoardBG.image = UIImage(named: "bulletinBoardParchmentBG")
-        let oneDegree = CGFloat.pi / 180
-        bulletinBoardBG.transform = CGAffineTransform(rotationAngle: oneDegree * 180)
-        view.addSubview(bulletinBoardBG)
-        view.sendSubviewToBack(bulletinBoardBG)
     }
     
     fileprivate func getTargetToken() {
@@ -194,7 +185,8 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         //        messagesCollectionView.backgroundView = bulletinBoardBG
         messagesCollectionView.backgroundColor = .clear
         
-        maintainPositionOnKeyboardFrameChanged = true // default false
+        //這個在只有行時是對的，但多行後，改成true更好？
+        maintainPositionOnKeyboardFrameChanged = false // default false
         
         let layout = messagesCollectionView.collectionViewLayout as? MessagesCollectionViewFlowLayout
         layout?.sectionInset = UIEdgeInsets(top: 1, left: 8, bottom: 1, right: 8)

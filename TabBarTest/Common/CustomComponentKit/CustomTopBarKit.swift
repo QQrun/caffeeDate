@@ -142,10 +142,10 @@ class CustomTopBarKit {
         }()
         topBar.addSubview(nameLabel)
         
-        let genderIcon = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 7.5, width: 36, height: 36))
-        let headShot = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 7.5, width: 36, height: 36))
+        let genderIcon = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 45/2 - 36/2, width: 36, height: 36))
+        let headShot = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - (nameLabel.intrinsicContentSize.width + 36 + 6)/2, y: 45/2 - 36/2, width: 36, height: 36))
         
-        nameLabel.frame = CGRect(x: headShot.frame.maxX + 6, y: 15, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
+        nameLabel.frame = CGRect(x: headShot.frame.maxX + 6, y: 45/2 - nameLabel.intrinsicContentSize.height/2, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
         
         
         
@@ -162,21 +162,23 @@ class CustomTopBarKit {
         else{
             genderIcon.contentMode = .scaleAspectFit
             if personDetailInfo.gender == 0{
-                genderIcon.image = UIImage(named:"girlIcon")
+                genderIcon.image = UIImage(named:"girlIcon")?.withRenderingMode(.alwaysTemplate)
             }else{
-                genderIcon.image = UIImage(named:"boyIcon")
+                genderIcon.image = UIImage(named:"boyIcon")?.withRenderingMode(.alwaysTemplate)
             }
+            genderIcon.tintColor = .lightGray
             
             if let headShotUrl = personDetailInfo.headShot {
                 AF.request(headShotUrl).response { (response) in
                     guard let data = response.data, let image = UIImage(data: data)
                     else {
                         if personDetailInfo.gender == 0{
-                            headShot.image = UIImage(named:"girlIcon")
+                            headShot.image = UIImage(named:"girlIcon")?.withRenderingMode(.alwaysTemplate)
                         }else{
-                            headShot.image = UIImage(named:"boyIcon")
+                            headShot.image = UIImage(named:"boyIcon")?.withRenderingMode(.alwaysTemplate)
                         }
                         headShot.contentMode = .scaleAspectFit
+                        headShot.tintColor = .lightGray
                         return }
                     headShot.contentMode = .scaleAspectFill
                     headShot.image = image
