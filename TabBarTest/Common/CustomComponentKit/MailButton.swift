@@ -17,12 +17,20 @@ class MailButton : UIButton {
     convenience init(personInfo:PersonDetailInfo) {
         self.init()
         self.personInfo = personInfo
-        self.setImage(UIImage(named: "飛鴿傳書icon"), for: .normal)
-        self.isEnabled = true
+        var mailImage = UIImage(named: "icons24MessageFilledGrey24")?.withRenderingMode(.alwaysTemplate)
+        self.setImage(mailImage, for: .normal)
+        self.contentMode = .scaleAspectFit
+        self.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
+        self.backgroundColor = .primary()
+        self.layer.cornerRadius = 14
+        self.tintColor = .white
         self.addTarget(self, action: #selector(self.mailBtnAct), for: .touchUpInside)
     }
     
     @objc func mailBtnAct(){
+        
+        print("mailBtnAct")
+        
         let sortedIDs = [personInfo.UID,UserSetting.UID].sorted()
         let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
         

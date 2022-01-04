@@ -625,6 +625,7 @@ extension ChatViewController : CustomInputBoxKitDelegate{
     
     func textViewBeginEditing() {
         
+        self.messagesCollectionView.scrollToBottom(animated: true)
     }
     
     
