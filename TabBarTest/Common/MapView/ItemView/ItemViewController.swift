@@ -105,8 +105,9 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         
         if personInfo != nil{
 //            customTopBarKit.CreatHeatShotAndName(personDetailInfo: personInfo!, canGoProfileView: true)
-            customTopBarKit.CreatMailBtn(personDetailInfo: personInfo!)
-            customTopBarKit.getMailBtn()?.addTarget(self, action: #selector(mailBtnAct), for: .touchUpInside)
+//            customTopBarKit.CreatMailBtn(personDetailInfo: personInfo!)
+//            customTopBarKit.getMailBtn()?.addTarget(self, action: #selector(mailBtnAct), for: .touchUpInside)
+            
         }else {
             let ref = Database.database().reference(withPath: "PersonDetail/" + "\(itemOwnerID)")
             ref.observeSingleEvent(of: .value,  with: {(snapshot) in
@@ -301,7 +302,7 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             }
             let photoLeftBtn = { () -> UIButton in
                 let btn = UIButton()
-                btn.frame = CGRect(x: 38, y: photo.frame.minY, width: (view.frame.width -  38 * 2)/2, height: view.frame.width -  38 * 2)
+                btn.frame = CGRect(x: 0, y: photo.frame.minY, width: (view.frame.width)/2, height: view.frame.width)
                 btn.addTarget(self, action: #selector(photoLeftBtnAct), for: .touchUpInside)
                 return btn
             }()
@@ -309,7 +310,7 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
             
             let photoRightBtn = { () -> UIButton in
                 let btn = UIButton()
-                btn.frame = CGRect(x: 38 + (view.frame.width -  38 * 2)/2, y: photo.frame.minY , width: (view.frame.width -  38 * 2)/2, height: view.frame.width -  38 * 2)
+                btn.frame = CGRect(x: view.frame.width/2, y: photo.frame.minY , width: view.frame.width/2, height: view.frame.width)
                 btn.addTarget(self, action: #selector(photoRightBtnAct), for: .touchUpInside)
                 return btn
             }()

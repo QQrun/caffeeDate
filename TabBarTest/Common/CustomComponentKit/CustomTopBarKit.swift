@@ -53,7 +53,7 @@ class CustomTopBarKit {
             }()
             topBar.addSubview(separator)}
         
-        gobackImageView = UIImageView(frame: CGRect(x: 16, y: topBar.frame.height/2 - 28/2, width: 28, height: 28))
+        gobackImageView = UIImageView(frame: CGRect(x: 16, y: topBar.frame.height/2 - 32/2, width: 32, height: 32))
         gobackImageView.image = UIImage(named: "icons24NavigateBack24")?.withRenderingMode(.alwaysTemplate)
         gobackImageView.tintColor = .primary()
         gobackImageView.contentMode = .scaleToFill
@@ -73,9 +73,13 @@ class CustomTopBarKit {
             btn.setImage(UIImage(named: "icons24MoreDotFilledGrey24")?.withRenderingMode(.alwaysTemplate), for: .normal)
             btn.tintColor = .white
             btn.layer.backgroundColor = UIColor.primary().cgColor
-            btn.layer.cornerRadius = 12
+            btn.layer.cornerRadius = 14
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue-Bold", size: 17)
-            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 24 - 16, y: topBar.frame.height/2 - 24/2, width: 24, height: 24)
+            if(mailBtn != nil){
+                btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 28 - 16 - 28 - 12, y: topBar.frame.height/2 - 28/2, width: 28, height: 28)
+            }else{
+                btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 28 - 16, y: topBar.frame.height/2 - 28/2, width: 28, height: 28)
+            }
             btn.isEnabled = true
             return btn
         }()
@@ -102,9 +106,16 @@ class CustomTopBarKit {
             return
         }
         mailBtn = MailButton(personInfo: personDetailInfo)
-        mailBtn!.setImage(UIImage(named: "飛鴿傳書icon"), for: .normal)
-        mailBtn!.frame = CGRect(x: topBar.frame.width - 50 - 9, y: topBar.frame.height/2 - 42/2 - 5, width: 50, height: 42)
-        mailBtn!.transform = CGAffineTransform(rotationAngle: CGFloat.pi)
+        var mailImage = UIImage(named: "icons24MessageFilledGrey24")?.withRenderingMode(.alwaysTemplate)
+        mailBtn?.setImage(mailImage, for: .normal)
+        mailBtn?.contentMode = .scaleAspectFit
+        mailBtn?.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
+        mailBtn?.backgroundColor = .primary()
+        mailBtn?.layer.cornerRadius = 14
+        mailBtn?.tintColor = .white
+        mailBtn?.frame = CGRect(x: UIScreen.main.bounds.size.width - 28 - 16, y: topBar.frame.height/2 - 28/2, width: 28, height: 28)
+//        mailBtn?.frame = CGRect(x: topBar.frame.width - 28 - 9, y: topBar.frame.height/2 - 28/2 - 5, width: 28, height: 28)
+        
         topBar.addSubview(mailBtn!)
         
     }

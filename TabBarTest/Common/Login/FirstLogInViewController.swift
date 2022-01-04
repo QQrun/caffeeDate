@@ -18,6 +18,7 @@ import CryptoKit
 class FirstLogInViewController: UIViewController, ASAuthorizationControllerDelegate, ASAuthorizationControllerPresentationContextProviding {
     
     
+    @IBOutlet weak var titleImageView: UIImageView!
     @IBOutlet weak var fbLogInBtn: UIButton!
     @IBOutlet weak var googleLogInBtn: UIButton!
     @IBOutlet weak var appleLogInBtnContainer: UIView!
@@ -35,6 +36,10 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         //樣式設定
         CustomBGKit().CreatDarkStyleBG(view: view)
         
+        
+        titleImageView.image = UIImage(named: "Travel Trader")?.withRenderingMode(.alwaysTemplate)
+        titleImageView.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
+        
         googleLogInBtn.layer.cornerRadius = 7
         fbLogInBtn.layer.cornerRadius = 7
         
@@ -43,7 +48,7 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         GIDSignIn.sharedInstance()?.presentingViewController = self
         
         //for apple
-        let appleSignInBtn = ASAuthorizationAppleIDButton()
+        let appleSignInBtn = ASAuthorizationAppleIDButton(type: .default, style: .white)
         appleSignInBtn.frame = CGRect(x: 0, y: 0, width: view.frame.width - 80, height: appleLogInBtnContainer.frame.height)
         appleLogInBtnContainer.addSubview(appleSignInBtn)
         appleLogInBtnContainer.layer.cornerRadius = 7

@@ -35,6 +35,11 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     
     let actionSheetKit = ActionSheetKit()
     
+    var bookMarks_segmented = SSSegmentedControl(items: [],type: .pure)
+    var bookMarks : [String] = []
+    
+    let bookMarkName_Sell = "擺攤"
+    let bookMarkName_Buy = "任務"
     
     init(UID: String) {
         self.UID = UID
@@ -91,21 +96,31 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     }
     
     
+    
     fileprivate func setBackground() {
         
-        let bgKit = CustomBGKit()
-        bgKit.CreatParchmentBG(view: view)
-        scrollView = bgKit.GetScrollView()
+        view.backgroundColor = .surface()
+        
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0
+        scrollView = UIScrollView(frame: CGRect(x: 0, y: 0 + topPadding, width: view.frame.width, height: view.frame.height - topPadding))
+        scrollView.contentSize = CGSize(width: view.frame.width,height: view.frame.height)
+        view.addSubview(scrollView)
         scrollView.isScrollEnabled = true
         scrollView.bounces = false
+        view.addSubview(scrollView)
         
     }
     
     fileprivate func configProfileTopBar() {
         customTopBarKit.CreatTopBar(view: view)
-        customTopBarKit.CreatCenterTitle(text: personDetail!.name)
         customTopBarKit.CreatMailBtn(personDetailInfo: personDetail!)
         customTopBarKit.getGobackBtn().addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
+        
+        if personDetail!.UID != UserSetting.UID{
+            customTopBarKit.CreatMoreBtn()
+            customTopBarKit.getMoreBtn().addTarget(self, action: #selector(reportBtnAct), for: .touchUpInside)
+        }
     }
     
     
@@ -120,9 +135,8 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     
     fileprivate func configScrollContent() {
         
-        let photoWidth : CGFloat = view.frame.width -  76
-        
-        let photoTopMargin : CGFloat = 20
+        let photoWidth : CGFloat = view.frame.width
+        let photoTopMargin : CGFloat = 0
         
         if let urls = personDetail!.photos {
             let photoLoadingView = UIView(frame: CGRect(x: 38 + photoWidth/4, y: photoTopMargin + photoWidth/4, width: photoWidth/2, height: photoWidth/2))
@@ -135,7 +149,11 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
                     else {
                         return }
                     self.photosContainer[i] = image
+                    self.photo.alpha = 0
                     self.photo.image = self.photosContainer[self.currentPhotoNumber]
+                    UIView.animate(withDuration: 0.3, animations: {
+                        self.photo.alpha = 1
+                    })
                 }
             }
         }
@@ -143,11 +161,10 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
         if photosContainer.count > 0 {
             photo = { () -> UIImageView in
                 let imageView = UIImageView()
-                imageView.frame = CGRect(x: 38, y: photoTopMargin, width: photoWidth, height: photoWidth)
+                imageView.frame = CGRect(x: 0, y: photoTopMargin, width: photoWidth, height: photoWidth)
                 imageView.contentMode = .scaleAspectFill
                 imageView.backgroundColor = .clear
                 imageView.image = photosContainer[0]
-                imageView.layer.cornerRadius = 12
                 imageView.clipsToBounds = true
                 return imageView
             }()
@@ -169,7 +186,7 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
             }
             let photoLeftBtn = { () -> UIButton in
                 let btn = UIButton()
-                btn.frame = CGRect(x: 38, y: photo.frame.minY, width: (view.frame.width -  38 * 2)/2, height: view.frame.width -  38 * 2)
+                btn.frame = CGRect(x: 0, y: photo.frame.minY, width: view.frame.width/2, height: view.frame.width)
                 btn.addTarget(self, action: #selector(photoLeftBtnAct), for: .touchUpInside)
                 return btn
             }()
@@ -177,19 +194,44 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
             
             let photoRightBtn = { () -> UIButton in
                 let btn = UIButton()
-                btn.frame = CGRect(x: 38 + (view.frame.width -  38 * 2)/2, y: photo.frame.minY, width: (view.frame.width -  38 * 2)/2, height: view.frame.width -  38 * 2)
+                btn.frame = CGRect(x: view.frame.width/2, y: photo.frame.minY, width: view.frame.width/2, height: view.frame.width)
                 btn.addTarget(self, action: #selector(photoRightBtnAct), for: .touchUpInside)
                 return btn
             }()
             scrollView.addSubview(photoRightBtn)
         }
         
+        let nameLabel = UILabel()
+        nameLabel.font = UIFont(name: "HelveticaNeue", size: 24)
+        nameLabel.textColor = .on()
+        nameLabel.text = personDetail!.name
+        nameLabel.frame = CGRect(x: 16, y: currentScrollHeignt + 16, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
+        scrollView.addSubview(nameLabel)
+        
+        //年齡
+        let ageLabel = UILabel()
+        ageLabel.font = UIFont(name: "HelveticaNeue", size: 24)
+        ageLabel.textColor = .on()
+        let birthdayFormatter = DateFormatter()
+        birthdayFormatter.dateFormat = "yyyy/MM/dd"
+        let currentTime = Date()
+        let birthDayDate = birthdayFormatter.date(from: personDetail!.birthday)
+        let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+        if age != 0 {
+            ageLabel.text = "\(age)"
+        }
+        ageLabel.frame = CGRect(x: 16 + nameLabel.intrinsicContentSize.width + 8, y: currentScrollHeignt + 16, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
+        scrollView.addSubview(ageLabel)
+        
+        currentScrollHeignt += 16
+        currentScrollHeignt += nameLabel.frame.height
+        
         let selfIntroductionLabel = { () -> UILabel in
             let label = UILabel()
             label.text = personDetail!.selfIntroduction
-            label.textColor = UIColor.hexStringToUIColor(hex: "000000")
+            label.textColor = .on().withAlphaComponent(0.7)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
-            label.frame = CGRect(x: 38, y: currentScrollHeignt + 25, width: photoWidth, height: 0)
+            label.frame = CGRect(x: 16, y: currentScrollHeignt + 16, width: photoWidth - 32, height: 0)
             label.numberOfLines = 0
             label.sizeToFit()
             return label
@@ -200,58 +242,53 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
             return
         }
         
-        let reportBtn = { () -> UIButton in
-            let btn = UIButton()
-            btn.frame = CGRect(x: view.frame.width - 38 - 20, y:currentScrollHeignt + 8, width: 20, height: 20)
-            let icon = UIImage(named: "reportIcon")?.withRenderingMode(.alwaysTemplate)
-            btn.setImage(icon, for: .normal)
-            btn.tintColor = UIColor.hexStringToUIColor(hex: "#751010")
-            btn.contentMode = .center
-            btn.addTarget(self, action: #selector(reportBtnAct), for: .touchUpInside)
-            return btn
-        }()
-        scrollView.addSubview(reportBtn)
-        
-        currentScrollHeignt += 20
+        currentScrollHeignt += 16
         currentScrollHeignt += selfIntroductionLabel.frame.height
         
         shopModel.viewDelegate = self
         shopModel.personInfo = personDetail!
         
         //製作書籤
-        var title : [String] = []
+        
+        
+        bookMarks = []
         if personDetail!.sellItems.count > 0{
-            title.append("擺攤")
+            bookMarks.append("擺攤")
         }
         if personDetail!.buyItems.count > 0{
-            title.append("任務")
+            bookMarks.append("任務")
         }
-        if title.count == 0 {
+        if bookMarks.count == 0 {
             return
         }
         
-        let bookMarkContainerView = UIView()
-        bookMarkContainerView.frame = CGRect(x: 0, y: selfIntroductionLabel.frame.maxY + 20, width: view.frame.width, height: 44)
-        let bookMarkKit = CustomBookMarkKit(title:title, containerView: bookMarkContainerView)
+        //做出書頁標籤
+        bookMarks_segmented = SSSegmentedControl(items: bookMarks,type: .pure)
+        bookMarks_segmented.translatesAutoresizingMaskIntoConstraints = false
+        bookMarks_segmented.selectedSegmentIndex = 0
+        scrollView.addSubview(bookMarks_segmented)
+        bookMarks_segmented.centerXAnchor.constraint(equalTo: scrollView.centerXAnchor).isActive = true
+        bookMarks_segmented.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: selfIntroductionLabel.frame.maxY + 20).isActive = true
+        bookMarks_segmented.widthAnchor.constraint(equalToConstant: CGFloat(80 * bookMarks.count)).isActive = true
+        bookMarks_segmented.heightAnchor.constraint(equalToConstant: 30).isActive = true
+        bookMarks_segmented.addTarget(self, action: #selector(segmentedOnValueChanged), for: .valueChanged)
         
-        for i in 0 ... title.count - 1 {
-            if title[i] == "擺攤"{
-                bookMarkKit.titleBtns[i].addTarget(self, action: #selector(bookMarkAct_OpenStore), for: .touchUpInside)
-            }else if title[i] == "任務"{
-                bookMarkKit.titleBtns[i].addTarget(self, action: #selector(bookMarkAct_Request), for: .touchUpInside)
-            }
-        }
-        shopModel.customBookMarkKit = bookMarkKit
-        scrollView.addSubview(bookMarkContainerView)
         
+    
         currentScrollHeignt += 20
-        currentScrollHeignt += bookMarkContainerView.frame.height
+        currentScrollHeignt += 30
         
+        print("GOGOGO")
+        
+        var maxCount = personDetail!.sellItems.count
+        if(personDetail!.buyItems.count > personDetail!.sellItems.count){
+            maxCount = personDetail!.buyItems.count
+        }
         
         bigItemDelegate.personDetail = shopModel.personInfo
         bigItemDelegate.currentItemType = shopModel.currentItemType
         bigItemTableView = UITableView()
-        bigItemTableView.frame = CGRect(x: 0, y: bookMarkContainerView.frame.maxY, width: view.frame.width, height: CGFloat(110 * personDetail!.sellItems.count))
+        bigItemTableView.frame = CGRect(x: 0, y: currentScrollHeignt + 20, width: view.frame.width, height: CGFloat(110 * maxCount))
         bigItemTableView.delegate = bigItemDelegate
         bigItemTableView.dataSource = bigItemDelegate
         bigItemTableView.showsVerticalScrollIndicator = false
@@ -268,6 +305,16 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
         shopModel.currentItemType = .Sell
     }
     
+    
+    @objc func segmentedOnValueChanged(_ segmented: UISegmentedControl) {
+        
+        if(bookMarks[segmented.selectedSegmentIndex] == bookMarkName_Sell){
+            bookMarkAct_OpenStore()
+        }else if(bookMarks[segmented.selectedSegmentIndex] == bookMarkName_Buy){
+            bookMarkAct_Request()
+        }
+        
+    }
     
     @objc private func photoLeftBtnAct(){
         
@@ -309,17 +356,9 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     }
     
     @objc private func bookMarkAct_OpenStore(){
-        currentScrollHeignt -= bigItemTableView.frame.height
-        bigItemTableView.frame = CGRect(x: bigItemTableView.frame.minX, y: bigItemTableView.frame.minY, width: bigItemTableView.frame.width, height: CGFloat(110 * personDetail!.sellItems.count))
-        currentScrollHeignt += bigItemTableView.frame.height
-        scrollView.contentSize = CGSize(width: view.frame.width, height: currentScrollHeignt)
         shopModel.currentItemType = .Sell
     }
     @objc private func bookMarkAct_Request(){
-        currentScrollHeignt -= bigItemTableView.frame.height
-        bigItemTableView.frame = CGRect(x: bigItemTableView.frame.minX, y: bigItemTableView.frame.minY, width: bigItemTableView.frame.width, height: CGFloat(110 * personDetail!.buyItems.count))
-        currentScrollHeignt += bigItemTableView.frame.height
-        scrollView.contentSize = CGSize(width: view.frame.width, height: currentScrollHeignt)
         shopModel.currentItemType = .Buy
     }
     //假帳號

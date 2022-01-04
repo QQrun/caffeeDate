@@ -133,7 +133,6 @@ class ActionSheetKit{
     }
     
     func getActionSheetBtn(i:Int) -> UIButton?{
-        print("btns.count:" + "\(btns.count)")
         if btns.count >= i + 1{
             return btns[i]
         }else{

@@ -1152,7 +1152,7 @@ class MapViewController: UIViewController {
         //點擊照片或是自我介紹，前往PhotoProfileView
         let gotoPhotoProfileViewBtn = { () -> UIButton in
             let btn = UIButton()
-            btn.frame = CGRect(x: 0, y: 47, width: view.frame.width, height: 120)
+            btn.frame = CGRect(x: 0, y: 70, width: view.frame.width, height: 150)
             btn.addTarget(self, action: #selector(gotoPhotoProfileViewBtnAct), for: .touchUpInside)
             return btn
         }()
@@ -1161,12 +1161,12 @@ class MapViewController: UIViewController {
         
         if UserSetting.UID != UID{
             let mailBtn = MailButton(personInfo: personInfo)
-            var mailImage = UIImage(named: "icons24MessageFilledGrey24")
+            var mailImage = UIImage(named: "icons24MessageFilledGrey24")?.withRenderingMode(.alwaysTemplate)
             mailBtn.contentMode = .scaleAspectFit
             mailBtn.setImage(mailImage?.imageWithInsets(insets: UIEdgeInsets(top: 8, left: 8, bottom: 8, right: 8))?.withRenderingMode(.alwaysTemplate), for: .normal)
             mailBtn.backgroundColor = .primary()
             mailBtn.layer.cornerRadius = 14
-            mailBtn.tintColor = .surface()
+            mailBtn.tintColor = .white
             mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 21 - 28, y: 72, width: 28, height: 28)
             mailBtn.isEnabled = true
             bulletinBoard_ProfilePart.addSubview(mailBtn)
@@ -1276,9 +1276,6 @@ class MapViewController: UIViewController {
         bookMarks_segmented_forFullStatus.widthAnchor.constraint(equalToConstant: CGFloat(80 * bookMarks_temp.count)).isActive = true
         bookMarks_segmented_forFullStatus.heightAnchor.constraint(equalToConstant: 30).isActive = true
         bookMarks_segmented_forFullStatus.addTarget(self, action: #selector(segmentedOnValueChanged_half), for: .valueChanged)
-        //                bookMarks_segmented_forFullStatus.addTarget(self, action: #selector(segmentedOnValueChanged), for: .valueChanged)
-        
-        
         
         
         let bigItemTableViewContainer = UIView()

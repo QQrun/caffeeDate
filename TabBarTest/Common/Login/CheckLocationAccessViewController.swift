@@ -11,6 +11,7 @@ import CoreLocation
 
 class CheckLocationAccessViewController: UIViewController {
     
+    @IBOutlet weak var relocationImage: UIImageView!
     @IBOutlet weak var continueBtn: UIButton!
     
     @IBOutlet weak var laterBtn: UIButton!
@@ -23,6 +24,11 @@ class CheckLocationAccessViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         CustomBGKit().CreatDarkStyleBG(view: view)
+        
+        relocationImage.image = UIImage(named: "定位icon")?.withRenderingMode(.alwaysTemplate)
+        relocationImage.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
+
+        
         // Do any additional setup after loading the view.
     }
     
