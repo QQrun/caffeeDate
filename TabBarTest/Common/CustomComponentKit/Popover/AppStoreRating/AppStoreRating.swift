@@ -50,6 +50,11 @@ class AppStoreRating {
         if let appStoreRatingAlertView = Bundle.main.loadNibNamed("AppStoreRatingAlertView", owner: nil, options: nil)?.first as? UIView {
             appStoreRatingAlertView.translatesAutoresizingMaskIntoConstraints = false
             
+
+            (appStoreRatingAlertView as! AppStoreRatingAlertView).commitIcon.image = UIImage(named: "commitIcon")?.withRenderingMode(.alwaysTemplate)
+            
+            (appStoreRatingAlertView as! AppStoreRatingAlertView).commitIcon.tintColor = .primary()
+            
             let popoverVC = SSPopoverViewController()
             popoverVC.tapToDismiss = false
             popoverVC.containerView.addSubview(appStoreRatingAlertView)

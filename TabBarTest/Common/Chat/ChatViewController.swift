@@ -223,6 +223,14 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
             
             for snap in snapshots{
                 self.messageList.append(ChatMessage(snapshot: snap))
+                print("insertMessage")
+                print(self.messagesCollectionView.frame.height)
+
+                
+            }
+            
+            if(self.messageList.count > 6){
+                self.maintainPositionOnKeyboardFrameChanged = true
             }
             
             self.messagesCollectionView.reloadData()
@@ -247,7 +255,14 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
                 let message = ChatMessage(snapshot: snapshot)
                 self.messageList.append(message)
                 self.messagesCollectionView.reloadData()
-                self.messagesCollectionView.scrollToBottom(animated: false)
+                self.messagesCollectionView.scrollToBottom(animated: true)
+                
+                
+                
+                if(self.messageList.count > 6){
+                    self.maintainPositionOnKeyboardFrameChanged = true
+                }
+
             }
             )
             
@@ -282,6 +297,8 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     
     func insertMessage(_ message: ChatMessage) {
         //        print("insertMessage")
+        
+    
         messageList.append(message)
         // Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
