@@ -598,7 +598,7 @@ class MapViewController: UIViewController {
             attentionBtn.tag = 1
         }
         attentionBtn.setImage(attentionIcon, for: .normal)
-        attentionBtn.tintColor = .primary()
+        attentionBtn.tintColor = .sksPink()
         attentionBtn.isEnabled = true
         attentionBtn.addTarget(self, action: #selector(attentionBtnAct), for: .touchUpInside)
         bulletinBoard_CoffeeShop.addSubview(attentionBtn)
@@ -2279,7 +2279,7 @@ extension MapViewController: MKMapViewDelegate {
             
             mkMarker?.glyphTintColor = markColor
             if(UserSetting.attentionCafe.contains((annotation as! CoffeeAnnotation).name)){
-                mkMarker?.glyphTintColor = .primary()
+                mkMarker?.glyphTintColor = .sksPink()
             }
             mkMarker?.glyphImage = UIImage(named: "咖啡小icon_紫")
         }
