@@ -100,6 +100,10 @@ class MapViewController: UIViewController {
     var bookMarks_segmented_forHalfStatus = SSSegmentedControl(items: [],type: .pure)
     var bookMarks_segmented_forFullStatus = SSSegmentedControl(items: [],type: .pure)
     
+    //以下是關注咖啡店用的
+    var loveShopLabel = UILabel()
+    var currentCoffeeAnnotation : CoffeeAnnotation? = nil
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -279,9 +283,7 @@ class MapViewController: UIViewController {
     
     @objc func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
         
-        print("handleSwipeGesture")
         if sender.direction == .up {
-            print("sender.direction == .up")
             //如果是在CoffeeShop頁，不能上滑
             if bulletinBoard_CoffeeShop.subviews.count > 0{
                 return
@@ -545,6 +547,8 @@ class MapViewController: UIViewController {
     }
     
     fileprivate func setBulletinBoard_coffeeData(coffeeAnnotation : CoffeeAnnotation){
+    
+        currentCoffeeAnnotation = coffeeAnnotation
         
         bulletinBoard_CoffeeShop.isHidden = false
         bulletinBoard_TeamUpPart.isHidden = true
@@ -570,6 +574,8 @@ class MapViewController: UIViewController {
         bulletinBoard_CoffeeShop.addSubview(addressLabel)
         
         
+        var attentionBtnX = view.frame.width - 24 - 12
+        
         if verifyUrl(urlString: coffeeAnnotation.url){
             coffeeShop_url = coffeeAnnotation.url
             let fbBtn = UIButton()
@@ -580,7 +586,24 @@ class MapViewController: UIViewController {
             fbBtn.isEnabled = true
             fbBtn.addTarget(self, action: #selector(fbBtnAct), for: .touchUpInside)
             bulletinBoard_CoffeeShop.addSubview(fbBtn)
+            attentionBtnX = attentionBtnX - 24 - 12
         }
+        
+        let attentionBtn = UIButton()
+        attentionBtn.frame = CGRect(x: attentionBtnX, y: 22, width: 24, height: 24)
+        var attentionIcon = UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate)
+        attentionBtn.tag = 0
+        if(UserSetting.attentionCafe.contains(coffeeAnnotation.name)){
+            attentionIcon = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
+            attentionBtn.tag = 1
+        }
+        attentionBtn.setImage(attentionIcon, for: .normal)
+        attentionBtn.tintColor = .primary()
+        attentionBtn.isEnabled = true
+        attentionBtn.addTarget(self, action: #selector(attentionBtnAct), for: .touchUpInside)
+        bulletinBoard_CoffeeShop.addSubview(attentionBtn)
+        
+        
         
         let commitIcon = UIImageView(frame: CGRect(x: 9, y: 58, width: 20, height: 18))
         commitIcon.image = UIImage(named: "commitIcon")?.withRenderingMode(.alwaysTemplate)
@@ -597,8 +620,11 @@ class MapViewController: UIViewController {
         loveShopIcon.image = UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate)
         loveShopIcon.tintColor = .sksIndigo()
         bulletinBoard_CoffeeShop.addSubview(loveShopIcon)
-        let loveShopLabel = UILabel()
+        loveShopLabel = UILabel()
         loveShopLabel.text = "愛店：" + "\(coffeeAnnotation.favorites)" + "人"
+        if(UserSetting.attentionCafe.contains(coffeeAnnotation.name)){
+            loveShopLabel.text = "愛店：" + "\(coffeeAnnotation.favorites + 1)" + "人"
+        }
         loveShopLabel.textColor = .on()
         loveShopLabel.font = UIFont(name: "HelveticaNeue", size: 13)
         loveShopLabel.frame = CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3, y: 61, width: loveShopLabel.intrinsicContentSize.width, height: loveShopLabel.intrinsicContentSize.height)
@@ -889,6 +915,7 @@ class MapViewController: UIViewController {
                         photoURLs.append(data.value)
                     }
                 }
+                
                 
                 let dic = ["alreadyUpdatePersonDetail":true,
                            "UID":UserSetting.UID,
@@ -1875,6 +1902,29 @@ class MapViewController: UIViewController {
     
     
     
+    @objc private func attentionBtnAct(_ btn: UIButton){
+        Analytics.logEvent("地圖_咖啡_加入關注", parameters:nil)
+        
+        var attentionCafe = UserSetting.attentionCafe
+        
+        if(btn.tag == 0){
+            btn.tag = 1
+            attentionCafe.append(currentCoffeeAnnotation!.name)
+            btn.setImage(UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            loveShopLabel.text = "愛店：" + "\(currentCoffeeAnnotation!.favorites + 1)" + "人"
+        }else{
+            btn.tag = 0
+            if(attentionCafe.firstIndex(of: currentCoffeeAnnotation!.name) != nil){
+                attentionCafe.remove(at: attentionCafe.firstIndex(of: currentCoffeeAnnotation!.name)!)
+            }
+            btn.setImage(UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
+            loveShopLabel.text = "愛店：" + "\(currentCoffeeAnnotation!.favorites)" + "人"
+            
+        }
+        
+        UserSetting.attentionCafe = attentionCafe
+    }
+    
     @objc private func fbBtnAct(){
         Analytics.logEvent("地圖_咖啡_前往FB", parameters:nil)
         UIApplication.shared.open(URL(string:coffeeShop_url)!, completionHandler: nil)
@@ -2043,6 +2093,12 @@ extension MapViewController: MKMapViewDelegate {
         
         if view.annotation is CustomPointAnnotation{
             view.subviews[0].alpha = 0
+        }
+        
+        if view.annotation is CoffeeAnnotation{
+            //因為可能加入關注，這時caffeeIcon需要變色
+            mapView.removeAnnotation(currentCoffeeAnnotation!)
+            mapView.addAnnotation(currentCoffeeAnnotation!)
         }
         
         ////如果有imageView（小頭像）存在，就用動畫將它下移還原位置
@@ -2221,8 +2277,10 @@ extension MapViewController: MKMapViewDelegate {
             distanceLabel.alpha = 0
             mkMarker?.addSubview(distanceLabel)
             
-            
             mkMarker?.glyphTintColor = markColor
+            if(UserSetting.attentionCafe.contains((annotation as! CoffeeAnnotation).name)){
+                mkMarker?.glyphTintColor = .primary()
+            }
             mkMarker?.glyphImage = UIImage(named: "咖啡小icon_紫")
         }
         

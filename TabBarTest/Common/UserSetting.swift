@@ -151,6 +151,15 @@ class UserSetting{
         }
     }
     
+    static var attentionCafe: [String] {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "attentionCafe")
+        }
+        get {
+            return (UserDefaults.standard.value(forKey: "attentionCafe") as? [String] ?? [])
+        }
+    }
+    
     static var sellItemsID: [String] {
         set {
             UserDefaults.standard.set(newValue, forKey: "sellItemsID")
