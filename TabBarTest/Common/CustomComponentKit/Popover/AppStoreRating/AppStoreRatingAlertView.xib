@@ -51,9 +51,6 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="5Iw-jC-spn" secondAttribute="trailing" constant="15" id="ymv-ZQ-oUh"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
-            <connections>
-                <outlet property="commitIcon" destination="esk-Hy-ika" id="MxI-Zd-HJ3"/>
-            </connections>
             <point key="canvasLocation" x="99.275362318840592" y="144.64285714285714"/>
         </view>
     </objects>

@@ -10,6 +10,4 @@ import UIKit
 
 class AppStoreRatingAlertView: UIView {
     
-    @IBOutlet weak var commitIcon: UIImageView!
-    
 }

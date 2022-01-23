@@ -51,9 +51,9 @@ class AppStoreRating {
             appStoreRatingAlertView.translatesAutoresizingMaskIntoConstraints = false
             
 
-            (appStoreRatingAlertView as! AppStoreRatingAlertView).commitIcon.image = UIImage(named: "commitIcon")?.withRenderingMode(.alwaysTemplate)
-            
-            (appStoreRatingAlertView as! AppStoreRatingAlertView).commitIcon.tintColor = .primary()
+//            (appStoreRatingAlertView as! AppStoreRatingAlertView).commitIcon.image = UIImage(named: "commitIcon")?.withRenderingMode(.alwaysTemplate)
+//
+//            (appStoreRatingAlertView as! AppStoreRatingAlertView).commitIcon.tintColor = .primary()
             
             let popoverVC = SSPopoverViewController()
             popoverVC.tapToDismiss = false
