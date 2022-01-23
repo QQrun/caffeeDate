@@ -592,10 +592,8 @@ class MapViewController: UIViewController {
         let attentionBtn = UIButton()
         attentionBtn.frame = CGRect(x: attentionBtnX, y: 22, width: 24, height: 24)
         var attentionIcon = UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate)
-        attentionBtn.tag = 0
         if(UserSetting.attentionCafe.contains(coffeeAnnotation.name)){
             attentionIcon = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
-            attentionBtn.tag = 1
         }
         attentionBtn.setImage(attentionIcon, for: .normal)
         attentionBtn.tintColor = .sksPink()
@@ -1645,7 +1643,72 @@ class MapViewController: UIViewController {
         
     }
     
-    
+    func checkIsOpenTimeOrNot(business_hours:Business_hours?) -> Bool{
+      
+        let calendar:Calendar = Calendar(identifier: .gregorian)
+        var comps:DateComponents = DateComponents()
+        comps = calendar.dateComponents([.weekday,.hour,.minute], from: Date())
+        let currentHour = comps.hour!
+        let currentMinute = comps.minute!
+        let weekDay = comps.weekday! - 1
+        
+        var open : String?
+        var close : String?
+        if(weekDay == 0){
+            open = business_hours?.sunday.open
+            close = business_hours?.sunday.close
+        }else if(weekDay == 1){
+            open = business_hours?.monday.open
+            close = business_hours?.monday.close
+        }else if(weekDay == 2){
+            open = business_hours?.tuesday.open
+            close = business_hours?.tuesday.close
+        }else if(weekDay == 3){
+            open = business_hours?.wednesday.open
+            close = business_hours?.wednesday.close
+        }else if(weekDay == 4){
+            open = business_hours?.thursday.open
+            close = business_hours?.thursday.close
+        }else if(weekDay == 5){
+            open = business_hours?.friday.open
+            close = business_hours?.friday.close
+        }else if(weekDay == 6){
+            open = business_hours?.saturday.open
+            close = business_hours?.saturday.close
+        }
+        if(open == nil || close == nil){
+            return false
+        }
+        if(open == "00:00" && close == "00:00"){
+            return true
+        }
+        var open_hour  = Int(open!.components(separatedBy: ":").first ?? "0") ?? 0
+        var close_hour = Int(close!.components(separatedBy: ":").first ?? "0") ?? 0
+        
+        if(close_hour == 0){
+            close_hour += 24
+        }
+        
+        if(currentHour < open_hour){
+            return false
+        }else if(currentHour == open_hour){
+            var open_min  = Int(open!.components(separatedBy: ":").last ?? "0") ?? 0
+            if(currentMinute < open_min){
+                return false
+            }
+        }
+        
+        if(currentHour > close_hour){
+            return false
+        }else if(currentHour == close_hour){
+            var close_min = Int(close!.components(separatedBy: ":").last ?? "0") ?? 0
+            if(currentMinute > close_min){
+                return false
+            }
+        }
+        
+        return true
+    }
     
     fileprivate func configureMapView() {
         mapView.showsUserLocation = true
@@ -1907,13 +1970,11 @@ class MapViewController: UIViewController {
         
         var attentionCafe = UserSetting.attentionCafe
         
-        if(btn.tag == 0){
-            btn.tag = 1
+        if(!attentionCafe.contains(currentCoffeeAnnotation!.name)){
             attentionCafe.append(currentCoffeeAnnotation!.name)
             btn.setImage(UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate), for: .normal)
             loveShopLabel.text = "愛店：" + "\(currentCoffeeAnnotation!.favorites + 1)" + "人"
         }else{
-            btn.tag = 0
             if(attentionCafe.firstIndex(of: currentCoffeeAnnotation!.name) != nil){
                 attentionCafe.remove(at: attentionCafe.firstIndex(of: currentCoffeeAnnotation!.name)!)
             }
@@ -2277,9 +2338,20 @@ extension MapViewController: MKMapViewDelegate {
             distanceLabel.alpha = 0
             mkMarker?.addSubview(distanceLabel)
             
-            mkMarker?.glyphTintColor = markColor
+            
             if(UserSetting.attentionCafe.contains((annotation as! CoffeeAnnotation).name)){
-                mkMarker?.glyphTintColor = .sksPink()
+                if(checkIsOpenTimeOrNot(business_hours: (annotation as! CoffeeAnnotation).business_hours)){
+                    mkMarker?.glyphTintColor = .sksPink()
+                }else{
+                    mkMarker?.glyphTintColor = .sksPink().withAlphaComponent(0.3)
+                }
+                mkMarker?.displayPriority = .defaultHigh
+            }else{
+                if(checkIsOpenTimeOrNot(business_hours: (annotation as! CoffeeAnnotation).business_hours)){
+                    mkMarker?.glyphTintColor = markColor
+                }else{
+                    mkMarker?.glyphTintColor = markColor.withAlphaComponent(0.3)
+                }
             }
             mkMarker?.glyphImage = UIImage(named: "咖啡小icon_紫")
         }
