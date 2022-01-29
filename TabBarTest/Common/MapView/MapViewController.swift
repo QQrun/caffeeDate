@@ -19,6 +19,7 @@ protocol MapViewControllerViewDelegate: class {
     func gotoProfileViewController_mapView(personDetail:PersonDetailInfo)
     func gotoWantSellViewController_mapView(defaultItem:Item?)
     func gotoWantBuyViewController_mapView(defaultItem:Item?)
+    func gotoScoreCoffeeController_mapView(annotation:CoffeeAnnotation)
 }
 
 class MapViewController: UIViewController {
@@ -99,6 +100,9 @@ class MapViewController: UIViewController {
     
     var bookMarks_segmented_forHalfStatus = SSSegmentedControl(items: [],type: .pure)
     var bookMarks_segmented_forFullStatus = SSSegmentedControl(items: [],type: .pure)
+    
+    
+    var firebaseCoffeeScoreDatas : [CoffeeScoreData] = []
     
     //以下是關注咖啡店用的
     var loveShopLabel = UILabel()
@@ -440,7 +444,7 @@ class MapViewController: UIViewController {
         
     }
     
-    fileprivate func DrawStarsAfterLabel(_ board: UIView,_ label: UILabel,_ point:CGFloat) {
+    fileprivate func drawStarsAfterLabel(_ board: UIView,_ label: UILabel,_ point:CGFloat) {
         
         
         let interval : CGFloat = 2
@@ -493,62 +497,16 @@ class MapViewController: UIViewController {
             wifiStar_5.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
         }
         wifiStar_5.tintColor = .sksIndigo()
-        bulletinBoard_CoffeeShop.addSubview(wifiStar_5)
-    }
-    
-    fileprivate func DrawStarsUnderLabel(_ board: UIView,_ label: UILabel,_ point:CGFloat) {
-        
-        let interval : CGFloat = 18
-        let wifiStar_1 = UIImageView(frame: CGRect(x: label.frame.origin.x + label.intrinsicContentSize.width/2 - 88/2, y: label.frame.origin.y + 22, width: 16, height: 14.4))
-        if point == 0{
-            wifiStar_1.image = UIImage(named: "EmptyStar")
-        }else if point == 0.5{
-            wifiStar_1.image = UIImage(named: "HalfStar")
-        }else {
-            wifiStar_1.image = UIImage(named: "FullStar")
-        }
-        board.addSubview(wifiStar_1)
-        let wifiStar_2 = UIImageView(frame: CGRect(x: label.frame.origin.x + label.intrinsicContentSize.width/2 - 88/2 + interval, y: label.frame.origin.y + 22, width: 16, height: 14.4))
-        if point <= 1{
-            wifiStar_2.image = UIImage(named: "EmptyStar")
-        }else if point == 1.5{
-            wifiStar_2.image = UIImage(named: "HalfStar")
-        }else {
-            wifiStar_2.image = UIImage(named: "FullStar")
-        }
-        board.addSubview(wifiStar_2)
-        let wifiStar_3 = UIImageView(frame: CGRect(x: label.frame.origin.x + label.intrinsicContentSize.width/2 - 88/2 + interval * 2, y: label.frame.origin.y + 22, width: 16, height: 14.4))
-        if point <= 2{
-            wifiStar_3.image = UIImage(named: "EmptyStar")
-        }else if point == 2.5{
-            wifiStar_3.image = UIImage(named: "HalfStar")
-        }else {
-            wifiStar_3.image = UIImage(named: "FullStar")
-        }
-        board.addSubview(wifiStar_3)
-        let wifiStar_4 = UIImageView(frame: CGRect(x: label.frame.origin.x + label.intrinsicContentSize.width/2 - 88/2 + interval * 3, y: label.frame.origin.y + 22, width: 16, height: 14.4))
-        if point <= 3{
-            wifiStar_4.image = UIImage(named: "EmptyStar")
-        }else if point == 3.5{
-            wifiStar_4.image = UIImage(named: "HalfStar")
-        }else {
-            wifiStar_4.image = UIImage(named: "FullStar")
-        }
-        board.addSubview(wifiStar_4)
-        let wifiStar_5 = UIImageView(frame: CGRect(x: label.frame.origin.x + label.intrinsicContentSize.width/2 - 88/2 + interval * 4, y: label.frame.origin.y + 22, width: 16, height: 14.4))
-        if point <= 4{
-            wifiStar_5.image = UIImage(named: "EmptyStar")
-        }else if point == 4.5{
-            wifiStar_5.image = UIImage(named: "HalfStar")
-        }else {
-            wifiStar_5.image = UIImage(named: "FullStar")
-        }
         board.addSubview(wifiStar_5)
     }
     
-    fileprivate func setBulletinBoard_coffeeData(coffeeAnnotation : CoffeeAnnotation){
     
-        currentCoffeeAnnotation = coffeeAnnotation
+    func refresh_bulletinBoard_CoffeeShop(){
+        bulletinBoard_CoffeeShop.removeAllSubviews()
+        setBulletinBoard_coffeeData(coffeeAnnotation: currentCoffeeAnnotation!)
+    }
+        
+    fileprivate func setCoffeeDataAfterFetch(_ coffeeAnnotation: CoffeeAnnotation) {
         
         bulletinBoard_CoffeeShop.isHidden = false
         bulletinBoard_TeamUpPart.isHidden = true
@@ -574,33 +532,39 @@ class MapViewController: UIViewController {
         bulletinBoard_CoffeeShop.addSubview(addressLabel)
         
         
-        var attentionBtnX = view.frame.width - 24 - 12
-        
         if verifyUrl(urlString: coffeeAnnotation.url){
             coffeeShop_url = coffeeAnnotation.url
             let fbBtn = UIButton()
-            fbBtn.frame = CGRect(x: view.frame.width - 24 - 12, y: 22, width: 24, height: 24)
+            fbBtn.frame = CGRect(x: 10 + shopNameLabel.intrinsicContentSize.width + 4, y: 18.5, width: 20, height: 20)
             let fbIcon = UIImage(named: "facebookIcon")?.withRenderingMode(.alwaysTemplate)
             fbBtn.setImage(fbIcon, for: .normal)
             fbBtn.tintColor = .primary()
             fbBtn.isEnabled = true
             fbBtn.addTarget(self, action: #selector(fbBtnAct), for: .touchUpInside)
             bulletinBoard_CoffeeShop.addSubview(fbBtn)
-            attentionBtnX = attentionBtnX - 24 - 12
         }
         
         let attentionBtn = UIButton()
-        attentionBtn.frame = CGRect(x: attentionBtnX, y: 22, width: 24, height: 24)
+        attentionBtn.frame = CGRect(x: view.frame.width - 24 - 12, y: 22, width: 24, height: 24)
         var attentionIcon = UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate)
-        if(UserSetting.attentionCafe.contains(coffeeAnnotation.name)){
+        if(UserSetting.attentionCafe.contains(coffeeAnnotation.address)){
             attentionIcon = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
         }
         attentionBtn.setImage(attentionIcon, for: .normal)
-        attentionBtn.tintColor = .sksPink()
+        attentionBtn.tintColor = .primary()
         attentionBtn.isEnabled = true
         attentionBtn.addTarget(self, action: #selector(attentionBtnAct), for: .touchUpInside)
         bulletinBoard_CoffeeShop.addSubview(attentionBtn)
         
+        
+        let scoreBtn = UIButton()
+        scoreBtn.frame = CGRect(x: view.frame.width - 48 - 24, y: 22, width: 24, height: 24)
+        var scoreImg = UIImage(named: "commitIcon")?.withRenderingMode(.alwaysTemplate)
+        scoreBtn.setImage(scoreImg, for: .normal)
+        scoreBtn.tintColor = .primary()
+        scoreBtn.isEnabled = true
+        scoreBtn.addTarget(self, action: #selector(scoreBtnAct), for: .touchUpInside)
+        bulletinBoard_CoffeeShop.addSubview(scoreBtn)
         
         
         let commitIcon = UIImageView(frame: CGRect(x: 9, y: 58, width: 20, height: 18))
@@ -608,11 +572,12 @@ class MapViewController: UIViewController {
         commitIcon.tintColor = .sksIndigo()
         bulletinBoard_CoffeeShop.addSubview(commitIcon)
         let commitLabel = UILabel()
-        commitLabel.text = "評分：" + "\(coffeeAnnotation.reviews)" + "人"
+        commitLabel.text = "評分：" + "\(coffeeAnnotation.reviews + firebaseCoffeeScoreDatas.count)" + "人"
         commitLabel.textColor = .on()
         commitLabel.font = UIFont(name: "HelveticaNeue", size: 13)
         commitLabel.frame = CGRect(x: 9 + 20 + 2, y: 61, width: commitLabel.intrinsicContentSize.width, height: commitLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(commitLabel)
+        
         
         let loveShopIcon = UIImageView(frame: CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4, y: 58, width: 18, height: 16))
         loveShopIcon.image = UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate)
@@ -620,7 +585,7 @@ class MapViewController: UIViewController {
         bulletinBoard_CoffeeShop.addSubview(loveShopIcon)
         loveShopLabel = UILabel()
         loveShopLabel.text = "愛店：" + "\(coffeeAnnotation.favorites)" + "人"
-        if(UserSetting.attentionCafe.contains(coffeeAnnotation.name)){
+        if(UserSetting.attentionCafe.contains(coffeeAnnotation.address)){
             loveShopLabel.text = "愛店：" + "\(coffeeAnnotation.favorites + 1)" + "人"
         }
         loveShopLabel.textColor = .on()
@@ -639,6 +604,39 @@ class MapViewController: UIViewController {
         checkInLabel.frame = CGRect(x: 9 + 20 + 2 + commitLabel.intrinsicContentSize.width + 4 + 18 + 3 + loveShopLabel.intrinsicContentSize.width + 4 + 15 + 3, y: 61, width: checkInLabel.intrinsicContentSize.width, height: checkInLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(checkInLabel)
         
+        
+        //平均firebase上的評分跟原先的評分
+        var wifiScore : CGFloat = 0
+        var quietScore : CGFloat = 0
+        var seatScore : CGFloat = 0
+        var tastyScore : CGFloat = 0
+        var cheapScore : CGFloat = 0
+        var musicScore : CGFloat = 0
+        
+        for firebaseCoffeeScoreData in firebaseCoffeeScoreDatas{
+            wifiScore += CGFloat(firebaseCoffeeScoreData.wifiScore)
+            quietScore += CGFloat(firebaseCoffeeScoreData.quietScore)
+            seatScore += CGFloat(firebaseCoffeeScoreData.seatScore)
+            tastyScore += CGFloat(firebaseCoffeeScoreData.tastyScore)
+            cheapScore += CGFloat(firebaseCoffeeScoreData.cheapScore)
+            musicScore += CGFloat(firebaseCoffeeScoreData.musicScore)
+        }
+        wifiScore += coffeeAnnotation.wifi * CGFloat(coffeeAnnotation.reviews)
+        quietScore += coffeeAnnotation.quiet * CGFloat(coffeeAnnotation.reviews)
+        seatScore += coffeeAnnotation.seat * CGFloat(coffeeAnnotation.reviews)
+        tastyScore += coffeeAnnotation.tasty * CGFloat(coffeeAnnotation.reviews)
+        cheapScore += coffeeAnnotation.cheap * CGFloat(coffeeAnnotation.reviews)
+        musicScore += coffeeAnnotation.music * CGFloat(coffeeAnnotation.reviews)
+        
+        if(!(firebaseCoffeeScoreDatas.count == 0 && coffeeAnnotation.reviews == 0)){
+            wifiScore = wifiScore/(CGFloat(firebaseCoffeeScoreDatas.count) + CGFloat(coffeeAnnotation.reviews))
+            quietScore = quietScore/(CGFloat(firebaseCoffeeScoreDatas.count) + CGFloat(coffeeAnnotation.reviews))
+            seatScore = seatScore/(CGFloat(firebaseCoffeeScoreDatas.count) + CGFloat(coffeeAnnotation.reviews))
+            tastyScore = tastyScore/(CGFloat(firebaseCoffeeScoreDatas.count) + CGFloat(coffeeAnnotation.reviews))
+            cheapScore = cheapScore/(CGFloat(firebaseCoffeeScoreDatas.count) + CGFloat(coffeeAnnotation.reviews))
+            musicScore = musicScore/(CGFloat(firebaseCoffeeScoreDatas.count) + CGFloat(coffeeAnnotation.reviews))
+        }
+        
         let wifiLabel = UILabel()
         wifiLabel.text = "WIFI穩定"
         wifiLabel.textColor = .on()
@@ -646,7 +644,8 @@ class MapViewController: UIViewController {
         wifiLabel.frame = CGRect(x: 10, y: 83, width: wifiLabel.intrinsicContentSize.width, height: wifiLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(wifiLabel)
         let labelHeightWithInterval = wifiLabel.intrinsicContentSize.height + 8
-        DrawStarsAfterLabel(bulletinBoard_CoffeeShop,wifiLabel,coffeeAnnotation.wifi)
+        
+        drawStarsAfterLabel(bulletinBoard_CoffeeShop,wifiLabel,wifiScore)
         
         
         let quietLabel = UILabel()
@@ -655,7 +654,7 @@ class MapViewController: UIViewController {
         quietLabel.font = UIFont(name: "HelveticaNeue", size: 15)
         quietLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval, width: quietLabel.intrinsicContentSize.width, height: quietLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(quietLabel)
-        DrawStarsAfterLabel(bulletinBoard_CoffeeShop,quietLabel,coffeeAnnotation.quiet)
+        drawStarsAfterLabel(bulletinBoard_CoffeeShop,quietLabel,quietScore)
         
         let seatLabel = UILabel()
         seatLabel.text = "通常有位"
@@ -663,7 +662,7 @@ class MapViewController: UIViewController {
         seatLabel.font = UIFont(name: "HelveticaNeue", size: 15)
         seatLabel.frame = CGRect(x: 10, y: 83 + labelHeightWithInterval * 2, width: seatLabel.intrinsicContentSize.width, height: seatLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(seatLabel)
-        DrawStarsAfterLabel(bulletinBoard_CoffeeShop,seatLabel,coffeeAnnotation.seat)
+        drawStarsAfterLabel(bulletinBoard_CoffeeShop,seatLabel,seatScore)
         
         let mondayLabel = UILabel()
         mondayLabel.text = "週一"
@@ -757,7 +756,7 @@ class MapViewController: UIViewController {
         tastyLabel.font = UIFont(name: "HelveticaNeue", size: 15)
         tastyLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 83, width: tastyLabel.intrinsicContentSize.width, height: tastyLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(tastyLabel)
-        DrawStarsAfterLabel(bulletinBoard_CoffeeShop,tastyLabel,coffeeAnnotation.tasty)
+        drawStarsAfterLabel(bulletinBoard_CoffeeShop,tastyLabel,tastyScore)
         
         let cheapLabel = UILabel()
         cheapLabel.text = "價格便宜"
@@ -765,7 +764,7 @@ class MapViewController: UIViewController {
         cheapLabel.font = UIFont(name: "HelveticaNeue", size: 15)
         cheapLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 83 + labelHeightWithInterval, width: cheapLabel.intrinsicContentSize.width, height: cheapLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(cheapLabel)
-        DrawStarsAfterLabel(bulletinBoard_CoffeeShop,cheapLabel,coffeeAnnotation.cheap)
+        drawStarsAfterLabel(bulletinBoard_CoffeeShop,cheapLabel,cheapScore)
         
         let musicLabel = UILabel()
         musicLabel.text = "裝潢音樂"
@@ -773,7 +772,7 @@ class MapViewController: UIViewController {
         musicLabel.font = UIFont(name: "HelveticaNeue", size: 15)
         musicLabel.frame = CGRect(x: view.frame.width/2 + 10, y: 83 + labelHeightWithInterval * 2, width: musicLabel.intrinsicContentSize.width, height: musicLabel.intrinsicContentSize.height)
         bulletinBoard_CoffeeShop.addSubview(musicLabel)
-        DrawStarsAfterLabel(bulletinBoard_CoffeeShop,musicLabel,coffeeAnnotation.music)
+        drawStarsAfterLabel(bulletinBoard_CoffeeShop,musicLabel,musicScore)
         
         let saturdayLabel = UILabel()
         saturdayLabel.text = "週六"
@@ -828,6 +827,23 @@ class MapViewController: UIViewController {
                 currentTagX += lbl.intrinsicContentSize.width + 5 //5為tag間隔
                 bulletinBoard_CoffeeShop.addSubview(lbl)
             }}
+    }
+    
+    fileprivate func setBulletinBoard_coffeeData(coffeeAnnotation : CoffeeAnnotation){
+    
+        currentCoffeeAnnotation = coffeeAnnotation
+        //取得firebase部分的評分
+        let ref =  Database.database().reference().child("CoffeeScore/" +  coffeeAnnotation.address)
+        firebaseCoffeeScoreDatas = []
+        ref.observeSingleEvent(of: .value, with: { [self] (snapshot) in
+            for user_child in (snapshot.children){
+                let user_snap = user_child as! DataSnapshot
+                let coffeeScoreData = CoffeeScoreData(snapshot: user_snap)
+                self.firebaseCoffeeScoreDatas.append(coffeeScoreData)
+            }
+            setCoffeeDataAfterFetch(coffeeAnnotation)
+        })
+        
         
     }
     
@@ -1685,7 +1701,7 @@ class MapViewController: UIViewController {
         var open_hour  = Int(open!.components(separatedBy: ":").first ?? "0") ?? 0
         var close_hour = Int(close!.components(separatedBy: ":").first ?? "0") ?? 0
         
-        if(close_hour == 0){
+        if(close_hour < 6){
             close_hour += 24
         }
         
@@ -1970,13 +1986,13 @@ class MapViewController: UIViewController {
         
         var attentionCafe = UserSetting.attentionCafe
         
-        if(!attentionCafe.contains(currentCoffeeAnnotation!.name)){
-            attentionCafe.append(currentCoffeeAnnotation!.name)
+        if(!attentionCafe.contains(currentCoffeeAnnotation!.address)){
+            attentionCafe.append(currentCoffeeAnnotation!.address)
             btn.setImage(UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate), for: .normal)
             loveShopLabel.text = "愛店：" + "\(currentCoffeeAnnotation!.favorites + 1)" + "人"
         }else{
-            if(attentionCafe.firstIndex(of: currentCoffeeAnnotation!.name) != nil){
-                attentionCafe.remove(at: attentionCafe.firstIndex(of: currentCoffeeAnnotation!.name)!)
+            if(attentionCafe.firstIndex(of: currentCoffeeAnnotation!.address) != nil){
+                attentionCafe.remove(at: attentionCafe.firstIndex(of: currentCoffeeAnnotation!.address)!)
             }
             btn.setImage(UIImage(named: "loveIcon")?.withRenderingMode(.alwaysTemplate), for: .normal)
             loveShopLabel.text = "愛店：" + "\(currentCoffeeAnnotation!.favorites)" + "人"
@@ -1984,6 +2000,11 @@ class MapViewController: UIViewController {
         }
         
         UserSetting.attentionCafe = attentionCafe
+    }
+    
+    @objc private func scoreBtnAct(){
+        Analytics.logEvent("地圖_咖啡_評分", parameters:nil)
+        viewDelegate?.gotoScoreCoffeeController_mapView(annotation: currentCoffeeAnnotation!)
     }
     
     @objc private func fbBtnAct(){
@@ -2339,7 +2360,7 @@ extension MapViewController: MKMapViewDelegate {
             mkMarker?.addSubview(distanceLabel)
             
             
-            if(UserSetting.attentionCafe.contains((annotation as! CoffeeAnnotation).name)){
+            if(UserSetting.attentionCafe.contains((annotation as! CoffeeAnnotation).address)){
                 if(checkIsOpenTimeOrNot(business_hours: (annotation as! CoffeeAnnotation).business_hours)){
                     mkMarker?.glyphTintColor = .sksPink()
                 }else{

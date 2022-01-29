@@ -111,7 +111,7 @@ extension UIView {
         
         cycleLayer.lineWidth = 4
         cycleLayer.fillColor = UIColor.clear.cgColor
-        cycleLayer.strokeColor = UIColor.white.cgColor
+        cycleLayer.strokeColor = UIColor.on().cgColor
         
         cycleLayer.lineCap = CAShapeLayerLineCap.round
         cycleLayer.lineJoin = CAShapeLayerLineJoin.round
@@ -340,17 +340,18 @@ extension UIViewController {
     
     func showToast(message : String, font: UIFont) {
         
-        let toastLabel = UILabel(frame: CGRect(x: self.view.frame.size.width/2 - 75, y: self.view.frame.size.height-100, width: 150, height: 35))
+        let toastLabel = UILabel()
         toastLabel.backgroundColor = .on().withAlphaComponent(0.6)
         toastLabel.textColor = .baseBackground()
         toastLabel.font = font
         toastLabel.textAlignment = .center;
         toastLabel.text = message
+        toastLabel.frame = CGRect(x: self.view.frame.size.width/2 - (toastLabel.intrinsicContentSize.width + 8)/2, y: self.view.frame.size.height-100, width: toastLabel.intrinsicContentSize.width + 8, height: 35)
         toastLabel.alpha = 1.0
         toastLabel.layer.cornerRadius = 10;
         toastLabel.clipsToBounds  =  true
         self.view.addSubview(toastLabel)
-        UIView.animate(withDuration: 2.0, delay: 0.1, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1.5, delay: 1.5, options: .curveEaseOut, animations: {
             toastLabel.alpha = 0.0
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()

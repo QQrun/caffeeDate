@@ -161,6 +161,13 @@ extension RootCoordinator: MapViewControllerViewDelegate {
         wantBuyViewController.iWantType = .Buy
         mapTab.pushViewController(wantBuyViewController, animated: true)
     }
+    
+    
+    func gotoScoreCoffeeController_mapView(annotation:CoffeeAnnotation){
+        let scoreCoffeeViewController = ScoreCoffeeViewController(annotation:annotation)
+        scoreCoffeeViewController.modalPresentationStyle = .overCurrentContext
+        mapTab.pushViewController(scoreCoffeeViewController, animated: true)
+    }
 }
 
 
