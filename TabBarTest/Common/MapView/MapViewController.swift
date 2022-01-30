@@ -71,7 +71,7 @@ class MapViewController: UIViewController {
     var photoDelegate = PhotoTableViewDelegate()
     var smallItemDelegate = ItemTableViewDelegate()
     var bigItemDelegate = BigItemTableViewDelegate()
-    var bigItemTableViewRefreshControl : UIRefreshControl!
+    var tableViewRefreshControl : UIRefreshControl!
     
     var currentBulletinBoard : CurrentBulletinBoard = .Profile
     
@@ -833,13 +833,20 @@ class MapViewController: UIViewController {
         
         
         //留言
-        var commentTableView  =  UITableView()
-        commentTableView.frame = CGRect(x: 0, y: 300 + 8, width: view.frame.width, height: commentTableView.contentSize.height)
-        bulletinBoard_CoffeeShop.addSubview(commentTableView)
+        let commentTableView  =  UITableView()
+        
+        let scrollView = UIScrollView(frame: CGRect(x: 0, y: 300 + 8, width: view.frame.width, height: bulletinBoard_CoffeeShop.frame.height - 300 - 8))
+        scrollView.contentSize = CGSize(width: view.frame.width,height: commentTableView.contentSize.height)
+        bulletinBoard_CoffeeShop.addSubview(scrollView)
+        scrollView.isScrollEnabled = true
+        scrollView.bounces = true
+        
+        commentTableView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: commentTableView.contentSize.height)
+        scrollView.addSubview(commentTableView)
+        
         
         commentTableView.delegate = self
         commentTableView.dataSource = self
-        commentTableView.frame = CGRect(x: 0, y: 300 + 8, width: view.frame.width, height: view.frame.height) //currentScrollHeignt
         commentTableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "commentTableViewCell")
         commentTableView.backgroundColor = .clear
         commentTableView.separatorColor = .clear
@@ -848,6 +855,7 @@ class MapViewController: UIViewController {
         commentTableView.isScrollEnabled = false
         commentTableView.rowHeight = UITableView.automaticDimension
         commentTableView.estimatedRowHeight = 54.0
+        
         
         self.coffeeComments = []
         
@@ -874,6 +882,7 @@ class MapViewController: UIViewController {
             }
             let indexPath = IndexPath(row: index, section: 0)
             commentTableView.insertRows(at: [indexPath], with: .automatic)
+            print("coffeeComments:" + "\(self.coffeeComments.count)")
             print("index:" + "\(index)")
             commentTableView.endUpdates()
             
@@ -889,7 +898,7 @@ class MapViewController: UIViewController {
             commentTableView.frame = CGRect(x: 0, y: commentTableView.frame.origin.y, width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
 //            self.currentScrollHeignt += self.commentTableView.contentSize.height
             
-//            self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.currentScrollHeignt)
+            scrollView.contentSize = CGSize(width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
 //
             
             //確認是否commenterHeadShot已經抓過圖了
@@ -1434,10 +1443,10 @@ class MapViewController: UIViewController {
         bigItemTableViewContainer.addSubview(bigItemTableView)
         bulletinBoard_ProfilePart_Bottom.addSubview(bigItemTableViewContainer)
         
-        bigItemTableViewRefreshControl = UIRefreshControl()
-        bigItemTableView.addSubview(bigItemTableViewRefreshControl)
-        bigItemTableViewRefreshControl.addTarget(self, action: #selector(useRefreshControlToSwipeDown), for: .valueChanged)
-        bigItemTableViewRefreshControl.tintColor = .clear
+        tableViewRefreshControl = UIRefreshControl()
+        bigItemTableView.addSubview(tableViewRefreshControl)
+        tableViewRefreshControl.addTarget(self, action: #selector(useRefreshControlToSwipeDown), for: .valueChanged)
+        tableViewRefreshControl.tintColor = .clear
         
         bulletinBoard_ProfilePart_Bottom.isHidden = true
         bulletinBoard_ProfilePart.isHidden = true
@@ -1490,7 +1499,7 @@ class MapViewController: UIViewController {
     }
     
     @objc func useRefreshControlToSwipeDown(){
-        bigItemTableViewRefreshControl.endRefreshing()
+        tableViewRefreshControl.endRefreshing()
         
         smallItemTableView.reloadData()
         
@@ -2105,6 +2114,9 @@ class MapViewController: UIViewController {
     
     @objc private func scoreBtnAct(){
         Analytics.logEvent("地圖_咖啡_評分", parameters:nil)
+        
+        coffeeCommentObserverRef.removeObserver(withHandle: coffeeCommentObserver)
+        
         viewDelegate?.gotoScoreCoffeeController_mapView(annotation: currentCoffeeAnnotation!)
     }
     
