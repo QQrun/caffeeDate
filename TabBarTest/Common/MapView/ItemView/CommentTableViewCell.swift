@@ -24,6 +24,7 @@ class CommentTableViewCell: UITableViewCell {
     
     var commentID : String!
     var itemID : String!
+    var coffeeAddress : String!
     var UID : String? {
         didSet{
             let profileBtn = ProfileButton(UID: UID!)
@@ -59,8 +60,15 @@ class CommentTableViewCell: UITableViewCell {
     
     @IBAction func heartBtnAct(_ sender: Any) {
         
-        let likeRef = Database.database().reference().child("Comment/" + itemID + "/" + commentID + "/likeUIDs/" + UserSetting.UID)
+        var likeRef : DatabaseReference!
+        if(itemID != nil){
+            likeRef = Database.database().reference().child("Comment/" + itemID + "/" + commentID + "/likeUIDs/" + UserSetting.UID)
         
+        }
+        if(coffeeAddress != nil){
+            likeRef = Database.database().reference().child("CoffeeComment/" + coffeeAddress + "/" + commentID + "/likeUIDs/" + UserSetting.UID)
+        }
+            
         let heartNumberLabelText = heartNumberLabel.text!.trimmingCharacters(in: ["+"])
         var heartNumber = Int(heartNumberLabelText)!
         

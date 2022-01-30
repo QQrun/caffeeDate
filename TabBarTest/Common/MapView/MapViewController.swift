@@ -103,6 +103,9 @@ class MapViewController: UIViewController {
     
     
     var firebaseCoffeeScoreDatas : [CoffeeScoreData] = []
+    var coffeeCommentObserver : UInt!
+    var coffeeComments : [Comment] = []
+    var coffeeCommentObserverRef : DatabaseReference!
     
     //以下是關注咖啡店用的
     var loveShopLabel = UILabel()
@@ -289,9 +292,9 @@ class MapViewController: UIViewController {
         
         if sender.direction == .up {
             //如果是在CoffeeShop頁，不能上滑
-            if bulletinBoard_CoffeeShop.subviews.count > 0{
-                return
-            }
+//            if bulletinBoard_CoffeeShop.subviews.count > 0{
+//                return
+//            }
             
             if bulletinBoardExpansionState == .NotExpanded {
                 let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
@@ -312,16 +315,13 @@ class MapViewController: UIViewController {
                     self.bulletinBoard_ProfilePart.alpha = 1
                     self.bulletinBoard_TeamUpPart.alpha = 0
                     self.bulletinBoard_BuySellPart.alpha = 0
-                    self.bulletinBoard_CoffeeShop.alpha = 0
                     self.bookMarks_segmented_forHalfStatus.alpha = 0
                 }, completion:  { _ in
                     self.bulletinBoard_TeamUpPart.isHidden = true
                     self.bulletinBoard_BuySellPart.isHidden = true
-                    self.bulletinBoard_CoffeeShop.isHidden = true
                     self.bookMarks_segmented_forHalfStatus.isHidden = true
                     self.bulletinBoard_TeamUpPart.alpha = 1
                     self.bulletinBoard_BuySellPart.alpha = 1
-                    self.bulletinBoard_CoffeeShop.alpha = 1
                 })
                 
                 
@@ -340,7 +340,9 @@ class MapViewController: UIViewController {
                 
                 
                 var bookMarks_temp = bookMarks_half
-                bookMarks_temp.remove(at: 0)
+                if(bookMarks_temp.count > 0){
+                    bookMarks_temp.remove(at: 0)
+                }
                 switch currentBulletinBoard {
                 case .Profile:
                     break
@@ -503,6 +505,7 @@ class MapViewController: UIViewController {
     
     func refresh_bulletinBoard_CoffeeShop(){
         bulletinBoard_CoffeeShop.removeAllSubviews()
+        coffeeCommentObserverRef.removeObserver(withHandle: coffeeCommentObserver)
         setBulletinBoard_coffeeData(coffeeAnnotation: currentCoffeeAnnotation!)
     }
         
@@ -827,6 +830,104 @@ class MapViewController: UIViewController {
                 currentTagX += lbl.intrinsicContentSize.width + 5 //5為tag間隔
                 bulletinBoard_CoffeeShop.addSubview(lbl)
             }}
+        
+        
+        //留言
+        var commentTableView  =  UITableView()
+        commentTableView.frame = CGRect(x: 0, y: 300 + 8, width: view.frame.width, height: commentTableView.contentSize.height)
+        bulletinBoard_CoffeeShop.addSubview(commentTableView)
+        
+        commentTableView.delegate = self
+        commentTableView.dataSource = self
+        commentTableView.frame = CGRect(x: 0, y: 300 + 8, width: view.frame.width, height: view.frame.height) //currentScrollHeignt
+        commentTableView.register(UINib(nibName: "CommentTableViewCell", bundle: nil), forCellReuseIdentifier: "commentTableViewCell")
+        commentTableView.backgroundColor = .clear
+        commentTableView.separatorColor = .clear
+        commentTableView.allowsSelection = false
+        commentTableView.bounces = false
+        commentTableView.isScrollEnabled = false
+        commentTableView.rowHeight = UITableView.automaticDimension
+        commentTableView.estimatedRowHeight = 54.0
+        
+        self.coffeeComments = []
+        
+        var commenterHeadShotDict = [String:UIImage]()
+        coffeeCommentObserverRef = Database.database().reference(withPath: "CoffeeComment/" + coffeeAnnotation.address)
+        coffeeCommentObserver = coffeeCommentObserverRef.queryOrdered(byChild: "time").observe(.childAdded, with: { (snapshot) in
+            
+            var comment = Comment(snapshot: snapshot)
+            comment.commentID = snapshot.key
+            
+            if let childSnapshots = snapshot.childSnapshot(forPath: "likeUIDs").children.allObjects as? [DataSnapshot]{
+                comment.likeUIDs = []
+                for childSnapshot in childSnapshots{
+                    comment.likeUIDs!.append(childSnapshot.key as String)
+                }
+            }
+            
+            commentTableView.beginUpdates()
+            self.coffeeComments.insert(comment, at: 0)
+            let index = self.coffeeComments.count - 1
+            //插入新的comment時，先確認是否smallHeadshot已經下載了
+            if commenterHeadShotDict[self.coffeeComments[index].UID] != nil && commenterHeadShotDict[self.coffeeComments[index].UID] != UIImage(named: "Thumbnail"){
+                self.coffeeComments[index].smallHeadshot = commenterHeadShotDict[self.coffeeComments[index].UID]
+            }
+            let indexPath = IndexPath(row: index, section: 0)
+            commentTableView.insertRows(at: [indexPath], with: .automatic)
+            print("index:" + "\(index)")
+            commentTableView.endUpdates()
+            
+            for i in 0 ... self.coffeeComments.count - 1 {
+                let indexPathForSameIDComment = IndexPath(row: i, section: 0)
+                commentTableView.reloadRows(at: [indexPathForSameIDComment], with: .none)
+            }
+            
+            //調整tableView跟scrollView高度
+            commentTableView.invalidateIntrinsicContentSize()
+            commentTableView.layoutIfNeeded()
+//            self.currentScrollHeignt -= self.commentTableView.frame.height
+            commentTableView.frame = CGRect(x: 0, y: commentTableView.frame.origin.y, width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
+//            self.currentScrollHeignt += self.commentTableView.contentSize.height
+            
+//            self.scrollView.contentSize = CGSize(width: self.view.frame.width, height: self.currentScrollHeignt)
+//
+            
+            //確認是否commenterHeadShot已經抓過圖了
+            if commenterHeadShotDict[self.coffeeComments[index].UID] == nil{
+                commenterHeadShotDict[self.coffeeComments[index].UID] = UIImage(named: "Thumbnail") //這只是隨便一張圖，來確認是否下載過了
+                //去storage那邊找到URL
+                let smallHeadshotRef = Storage.storage().reference().child("userSmallHeadShot/" + self.coffeeComments[index].UID)
+                smallHeadshotRef.downloadURL(completion: { (url, error) in
+                    guard let downloadURL = url else {
+                        return
+                    }
+                    //下載URL的圖
+                    AF.request(downloadURL).response { (response) in
+                        guard let data = response.data, let image = UIImage(data: data)
+                        else { return }
+                        //裝進commenterHeadShotDict
+                        commenterHeadShotDict[self.coffeeComments[index].UID] = image
+                        
+                        //替換掉所有有相同ID的Comment的headShot
+                        for i in 0 ... self.coffeeComments.count - 1 {
+                            if self.coffeeComments[i].UID == self.coffeeComments[index].UID{
+                                let indexPathForSameIDComment = IndexPath(row: i, section: 0)
+                                self.coffeeComments[i].smallHeadshot = image
+                                commentTableView.reloadRows(at: [indexPathForSameIDComment], with: .none)
+                                let cell = commentTableView.cellForRow(at: indexPathForSameIDComment) as! CommentTableViewCell
+                                cell.photo.alpha = 0
+                                UIView.animate(withDuration: 0.3, animations: {
+                                    cell.photo.alpha = 1
+                                    cell.genderIcon.alpha = 0
+                                })
+                                
+                            }
+                        }
+                    }
+                })
+            }
+        })
+        
     }
     
     fileprivate func setBulletinBoard_coffeeData(coffeeAnnotation : CoffeeAnnotation){
@@ -2551,4 +2652,118 @@ extension MapViewController: MFMailComposeViewControllerDelegate {
     func mailComposeController(_ controller: MFMailComposeViewController, didFinishWith result: MFMailComposeResult, error: Error?) {
         dismiss(animated: true, completion: nil)
     }
+}
+
+
+// MARK: - CoffeeComment用
+
+extension MapViewController: UITableViewDelegate,UITableViewDataSource{
+    
+    public func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        return coffeeComments.count
+    }
+    
+    public func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: "commentTableViewCell", for: indexPath) as! CommentTableViewCell
+        
+        cell.UID = coffeeComments[indexPath.row].UID
+        cell.genderIcon.frame = cell.photo.frame
+        cell.genderIcon.contentMode = .scaleAspectFit
+        cell.genderIcon.tag = 1
+        if coffeeComments[indexPath.row].gender == 0{
+            cell.genderIcon.image = UIImage(named: "girlIcon")?.withRenderingMode(.alwaysTemplate)
+        }else if coffeeComments[indexPath.row].gender == 1{
+            cell.genderIcon.image = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
+        }
+        cell.genderIcon.tintColor = .lightGray
+        cell.addSubview(cell.genderIcon)
+        cell.sendSubviewToBack(cell.genderIcon)
+        
+        if coffeeComments[indexPath.row].smallHeadshot != nil{
+            //girlIcon和boyIcon需要Fit,照片需要Fill
+            cell.photo.image =  coffeeComments[indexPath.row].smallHeadshot
+            cell.photo.contentMode = .scaleAspectFill
+            cell.photo.alpha = 0
+            UIView.animate(withDuration: 0.3, animations: {
+                cell.photo.alpha = 1
+                cell.genderIcon.alpha = 0
+            })
+        }
+        
+        if coffeeComments[indexPath.row].likeUIDs!.count < 100{
+            cell.heartNumberLabel.text = "\(coffeeComments[indexPath.row].likeUIDs!.count)"
+        }else{
+            cell.heartNumberLabel.text = "99+"
+        }
+        
+        cell.heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
+        for likeUID in coffeeComments[indexPath.row].likeUIDs!{
+            if likeUID == UserSetting.UID{
+                cell.heartImage.image = UIImage(named: "實愛心")?.withRenderingMode(.alwaysTemplate)
+                cell.userPressLike = true
+            }
+        }
+        
+        let currentTime = Date()
+        
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYYMMddHHmmss"
+        var currentTimeString = dateFormatter.string(from: currentTime)
+        
+        let commmentTime = dateFormatter.date(from: coffeeComments[indexPath.row].time)!
+        
+        let elapsedYear = currentTime.years(sinceDate: commmentTime) ?? 0
+        var elapsedMonth = currentTime.months(sinceDate: commmentTime) ?? 0
+        elapsedMonth %= 12
+        var elapsedDay = currentTime.days(sinceDate: commmentTime) ?? 0
+        elapsedDay %= 30
+        var elapsedHour = currentTime.hours(sinceDate: commmentTime) ?? 0
+        elapsedHour %= 24
+        var elapsedMinute = currentTime.minutes(sinceDate: commmentTime) ?? 0
+        elapsedMinute %= 60
+        var elapsedSecond = currentTime.seconds(sinceDate: commmentTime) ?? 0
+        elapsedSecond %= 60
+        
+        var finalTimeString : String = ""
+        if elapsedYear > 0 {
+            finalTimeString = "\(elapsedYear)" + "年前"
+        }else if elapsedMonth > 0{
+            finalTimeString = "\(elapsedMonth)" + "個月前"
+        }else if elapsedDay > 0{
+            finalTimeString = "\(elapsedDay)" + "天前"
+        }else if elapsedHour > 0{
+            finalTimeString = "\(elapsedHour)" + "小時前"
+        }else if elapsedMinute > 0{
+            finalTimeString = "\(elapsedMinute)" + "分前"
+        }else {
+            finalTimeString = "剛剛"
+        }
+        
+        cell.nameLabel.text = coffeeComments[indexPath.row].name + " - " + finalTimeString
+        cell.commentLabel.text = coffeeComments[indexPath.row].content
+        cell.commentID = coffeeComments[indexPath.row].commentID!
+        
+        cell.coffeeAddress = currentCoffeeAnnotation?.address
+        
+        let bg = UIView()
+        bg.backgroundColor = .clear
+        cell.backgroundView = bg
+        
+        
+        return cell
+    }
+    
+    public func tableView(_ tableView: UITableView,
+                          didSelectRowAt indexPath: IndexPath) {
+    }
+    
+    private func tableView(tableView: UITableView, heightForRowAtIndexPath indexPath: NSIndexPath) -> CGFloat {
+        return 110;//Choose your custom row height
+    }
+    
+    
+    
+    
 }

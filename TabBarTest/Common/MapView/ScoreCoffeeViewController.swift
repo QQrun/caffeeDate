@@ -17,6 +17,7 @@ class ScoreCoffeeViewController : UIViewController{
     var annotation : CoffeeAnnotation
     var scoreBoard : UIView = UIView()
     var finishBtn : UIButton = UIButton()
+    var commentTextView : UITextView = UITextView()
     
     var wifiScore : Int = 0
     var quietScore : Int = 0
@@ -24,6 +25,10 @@ class ScoreCoffeeViewController : UIViewController{
     var tastyScore : Int = 0
     var cheapScore : Int = 0
     var musicScore : Int = 0
+    
+    let commentTextViewDelegate = WordLimitUITextFieldDelegate()
+    
+    var commentPlaceholder = "您可以在這寫下您對這間店的評價、建議或是鼓勵。"
     
     init(annotation:CoffeeAnnotation) {
         self.annotation = annotation
@@ -38,6 +43,46 @@ class ScoreCoffeeViewController : UIViewController{
         super.viewDidLoad()
         setBackground()
         setScoreBoard()
+        setCommentTextView()
+    }
+    
+    fileprivate func setCommentTextView() {
+        let itemNameLabel = { () -> UILabel in
+            let label = UILabel()
+            label.text = "留言"
+            label.textColor = .on().withAlphaComponent(0.9)
+            label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+            label.frame = CGRect(x: 16, y: 220, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            return label
+        }()
+        view.addSubview(itemNameLabel)
+        
+        let separator = { () -> UIView in
+            let separator = UIView()
+            separator.backgroundColor = .on().withAlphaComponent(0.08)
+            separator.frame = CGRect(x: 15, y:itemNameLabel.frame.origin.y + itemNameLabel.frame.height + 7, width: view.frame.width - 30, height: 1)
+            
+            return separator
+        }()
+        view.addSubview(separator)
+        
+        commentTextView = { () -> UITextView in
+            let textView = UITextView()
+            textView.tintColor = .primary()
+            textView.frame = CGRect(x:20, y: separator.frame.origin.y + separator.frame.height, width: view.frame.width - 20 * 2, height: 400)
+            textView.returnKeyType = .default
+            textView.textColor =  .on().withAlphaComponent(0.5)
+            textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+            textView.backgroundColor = .clear
+            textView.text = commentPlaceholder
+            commentTextViewDelegate.placeholder = commentPlaceholder
+            commentTextViewDelegate.placeholderColor = .on().withAlphaComponent(0.5)
+            commentTextViewDelegate.wordLimit = 1000
+            textView.delegate = commentTextViewDelegate
+            textView.tintColor = .on().withAlphaComponent(0.3)
+            return textView
+        }()
+        view.addSubview(commentTextView)
     }
     
     fileprivate func setBackground() {
@@ -201,6 +246,23 @@ class ScoreCoffeeViewController : UIViewController{
             CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "已完成對" + "\(self.annotation.name)" + "的評分", font: .systemFont(ofSize: 14.0))
             self.navigationController?.popViewController(animated: true)
         }
+        
+        
+        //上傳留言
+        let commentContent = commentTextView.text
+        if commentContent! == commentPlaceholder{
+            return
+        }
+        if commentContent!.trimmingCharacters(in: [" "]) == ""{
+            return
+        }
+        let commentID = NSUUID().uuidString
+        let commentRef = Database.database().reference(withPath: "CoffeeComment/" + annotation.address + "/" + commentID)
+        let currentTimeString = Date().getCurrentTimeString()
+        let comment = Comment(time: currentTimeString, UID: UserSetting.UID, name: UserSetting.userName,
+                              gender: UserSetting.userGender,smallHeadshotURL: UserSetting.userSmallHeadShotURL, content: commentContent!, likeUIDs: nil)
+        commentRef.setValue(comment.toAnyObject())
+        
         
     }
     
