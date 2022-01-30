@@ -165,16 +165,17 @@ class MapViewController: UIViewController {
         iWantActionSheetContainer.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
         //        view.addSubview(iWantActionSheetContainer)
         
-        let actionSheetText = ["取消","發布任務(徵求一場約會、二手物品⋯⋯)","擺攤(賣全新或二手商品、技術)","向周遭Say Hi交朋友"]
+        let actionSheetText = ["取消","新增咖啡店","發布任務(徵求一場約會、二手物品⋯⋯)","擺攤(賣全新或二手商品、技術)","向周遭Say Hi交朋友"]
         actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
         actionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
         actionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
         iWantActionSheetContainer.addTarget(self, action: #selector(iWantActionSheetContainerAct), for: .touchUpInside)
         
         actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
         
         
         
@@ -855,7 +856,6 @@ class MapViewController: UIViewController {
         commentTableView.isScrollEnabled = false
         commentTableView.rowHeight = UITableView.automaticDimension
         commentTableView.estimatedRowHeight = 54.0
-        
         
         self.coffeeComments = []
         
@@ -2123,6 +2123,14 @@ class MapViewController: UIViewController {
     @objc private func fbBtnAct(){
         Analytics.logEvent("地圖_咖啡_前往FB", parameters:nil)
         UIApplication.shared.open(URL(string:coffeeShop_url)!, completionHandler: nil)
+    }
+    
+    @objc private func addCoffeeBtnAct(){
+        Analytics.logEvent("地圖_加號按鈕_新增咖啡店", parameters:nil)
+        mapView.deselectAnnotation(mapView.userLocation, animated: true)
+        view.endEditing(true)
+        UIApplication.shared.open(URL(string:"https://cafenomad.tw/contribute")!, completionHandler: nil)
+        
     }
     
     @objc private func iWantConcealBtnAct(){
