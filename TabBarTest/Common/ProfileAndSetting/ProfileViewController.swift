@@ -39,7 +39,7 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     var bookMarks : [String] = []
     
     let bookMarkName_Sell = "擺攤"
-    let bookMarkName_Buy = "任務"
+    let bookMarkName_Buy = "徵求"
     
     init(UID: String) {
         self.UID = UID
@@ -256,7 +256,7 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
             bookMarks.append("擺攤")
         }
         if personDetail!.buyItems.count > 0{
-            bookMarks.append("任務")
+            bookMarks.append("徵求")
         }
         if bookMarks.count == 0 {
             return

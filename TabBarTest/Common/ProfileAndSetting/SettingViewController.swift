@@ -416,7 +416,7 @@ class SettingViewController: UIViewController {
     
     @objc fileprivate func preferRequestMarkBtnAct(){
         
-        Analytics.logEvent("我_地圖上優先被顯示為_任務", parameters:nil)
+        Analytics.logEvent("我_地圖上優先被顯示為_徵求", parameters:nil)
         
         preferOpenStoreMarkView.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
         preferRequestMarkView.tintColor = UIColor.hexStringToUIColor(hex: "D8D8D8")

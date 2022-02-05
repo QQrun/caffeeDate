@@ -76,7 +76,7 @@ class MapViewController: UIViewController {
     var currentBulletinBoard : CurrentBulletinBoard = .Profile
     
     let bookMarkName_Sell = "擺攤"
-    let bookMarkName_Buy = "任務"
+    let bookMarkName_Buy = "徵求"
     let bookMarkName_TeamUp = "號召"
     let bookMarkName_MakeFriend = "Hi！"
     var currentItemType : Item.ItemType = .Sell
@@ -165,7 +165,7 @@ class MapViewController: UIViewController {
         iWantActionSheetContainer.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
         //        view.addSubview(iWantActionSheetContainer)
         
-        let actionSheetText = ["取消","新增咖啡店","發布任務(徵求一場約會、二手物品⋯⋯)","擺攤(賣全新或二手商品、技術)","向周遭Say Hi交朋友"]
+        let actionSheetText = ["取消","新增咖啡店","徵求某東西","擺攤賣東西","向周遭Say Hi交朋友"]
         actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
         actionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
         actionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
@@ -2199,7 +2199,7 @@ class MapViewController: UIViewController {
     
     @objc private func iWantRequestBtnAct(){
         
-        Analytics.logEvent("地圖_加號按鈕_發布任務", parameters:nil)
+        Analytics.logEvent("地圖_加號按鈕_徵求物品", parameters:nil)
         
         viewDelegate?.gotoWantBuyViewController_mapView(defaultItem:nil)
         mapView.deselectAnnotation(mapView.userLocation, animated: true)

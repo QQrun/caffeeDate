@@ -30,7 +30,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
         
         noDataLabel = { () -> UILabel in
             let label = UILabel()
-            let str = "沒有資料喔。\n點擊下方按鈕來刊登第一個商品或任務吧！"
+            let str = "沒有資料喔。\n點擊下方按鈕來刊登第一個商品吧！"
             let paraph = NSMutableParagraphStyle()
             paraph.lineSpacing = 8
             let attributes = [NSAttributedString.Key.font:UIFont.systemFont(ofSize: 15),

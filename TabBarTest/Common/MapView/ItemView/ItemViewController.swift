@@ -315,6 +315,8 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
                 return btn
             }()
             scrollView.addSubview(photoRightBtn)
+        }else{
+            currentScrollHeignt = 50
         }
         
         let itemNameLabel = { () -> UILabel in

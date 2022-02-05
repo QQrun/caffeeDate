@@ -227,7 +227,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if iWantType == .Sell{
                 label.text = "商品名稱"
             }else if iWantType == .Buy{
-                label.text = "任務名稱"
+                label.text = "徵求的物品名稱"
             }
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
@@ -273,7 +273,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 
             }else if iWantType == .Buy{
                 textField.attributedPlaceholder = NSAttributedString(string:
-                                                                        "    ex：一場約會、二手Switch、某項正職、打工⋯⋯", attributes:
+                                                                        "    ex：二手Switch、一場約會、某項正職、打工⋯⋯", attributes:
                                                                             [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
                 
             }
@@ -305,7 +305,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if iWantType == .Sell{
                 label.text = "商品價格"
             }else if iWantType == .Buy{
-                label.text = "任務報酬"
+                label.text = "給予報酬"
             }
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
@@ -362,7 +362,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             if iWantType == .Sell{
                 label.text = "商品資訊"
             }else if iWantType == .Buy{
-                label.text = "任務資訊"
+                label.text = "物品資訊"
             }
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
@@ -385,7 +385,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         if iWantType == .Sell{
             itemInfoPlaceholder = "\n   在這寫下您提供的商品資訊與細節⋯⋯"
         }else if iWantType == .Buy{
-            itemInfoPlaceholder = "\n   在這寫下您發布的任務細節⋯⋯"
+            itemInfoPlaceholder = "\n   在這寫下您想徵求的物品細節⋯⋯"
         }
         
         itemInfoTextView = { () -> UITextView in

@@ -101,7 +101,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         actionSheetKit_wantCloseUpShop.creatActionSheet(containerView: viewController.view, actionSheetText: ["取消","確認要收攤"])
         actionSheetKit_wantCloseUpShop.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(iWantCloseStoreBtnAct), for: .touchUpInside)
         
-        actionSheetKit_addBtn.creatActionSheet(containerView: viewController.view, actionSheetText: ["取消","發布任務(徵求一場約會、二手物品⋯⋯)","擺攤(賣全新或二手商品、技術)"])
+        actionSheetKit_addBtn.creatActionSheet(containerView: viewController.view, actionSheetText: ["取消","徵求某東西","擺攤賣東西"])
         actionSheetKit_addBtn.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
         actionSheetKit_addBtn.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
     }
@@ -237,7 +237,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         
         
         //製作書籤
-        let bookMarks = ["擺攤","任務"]
+        let bookMarks = ["擺攤","徵求"]
         bookMarks_segmented = SSSegmentedControl(items: bookMarks,type: .pure)
         bookMarks_segmented.translatesAutoresizingMaskIntoConstraints = false
         bookMarks_segmented.selectedSegmentIndex = 0
@@ -325,7 +325,7 @@ class ShopEditViewController : UIViewController , ShopModelDelegate{
         viewDelegate?.gotoWantSellViewController_shopEditView(defaultItem:nil)
     }
     @objc private func iWantRequestBtnAct(){
-        Analytics.logEvent("編輯商店_加號_發布任務", parameters:nil)
+        Analytics.logEvent("編輯商店_加號_徵求物品", parameters:nil)
         viewDelegate?.gotoWantBuyViewController_shopEditView(defaultItem:nil)
     }
     
