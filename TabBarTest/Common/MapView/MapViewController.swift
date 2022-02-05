@@ -915,6 +915,8 @@ class MapViewController: UIViewController {
                         guard let data = response.data, let image = UIImage(data: data)
                         else { return }
                         //裝進commenterHeadShotDict
+                        
+                        if(index > self.coffeeComments.count - 1) { return }
                         commenterHeadShotDict[self.coffeeComments[index].UID] = image
                         
                         //替換掉所有有相同ID的Comment的headShot

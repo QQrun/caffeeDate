@@ -139,7 +139,7 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
         let photoTopMargin : CGFloat = 0
         
         if let urls = personDetail!.photos {
-            let photoLoadingView = UIView(frame: CGRect(x: 38 + photoWidth/4, y: photoTopMargin + photoWidth/4, width: photoWidth/2, height: photoWidth/2))
+            let photoLoadingView = UIView(frame: CGRect(x: photoWidth/4, y: photoTopMargin + photoWidth/4, width: photoWidth/2, height: photoWidth/2))
             photoLoadingView.setupToLoadingView()
             scrollView.addSubview(photoLoadingView)
             for i in 0 ... urls.count - 1{
