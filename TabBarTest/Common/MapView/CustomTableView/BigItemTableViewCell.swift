@@ -307,6 +307,9 @@ class BigItemTableViewCell: UITableViewCell{
         removeOffShelfActionSheetBtns()
         ////firebase Remove
         
+    
+    
+        
         var ref = Database.database().reference()
         if currentItemType == .Sell{
             ref = Database.database().reference().child("PersonDetail/" +  personInfo.UID + "/SellItems/" + itemID )

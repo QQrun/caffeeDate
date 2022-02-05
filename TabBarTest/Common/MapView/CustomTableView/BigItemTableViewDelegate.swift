@@ -262,7 +262,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
     // 編輯狀態時 拖曳切換 cell 位置後執行動作的方法
     // (必須實作這個方法才會出現排序功能)
     public func tableView(_ tableView: UITableView, moveRowAt sourceIndexPath: IndexPath, to destinationIndexPath: IndexPath) {
-        
+                
         if currentItemType == .Sell{
             let tempItem = personDetail.sellItems[sourceIndexPath.row]
             personDetail.sellItems.remove(at: sourceIndexPath.row)
@@ -279,6 +279,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
             }
         }
         orderChanged = true
+        tableView.reloadData() //因為要改變cell.indexOfRow
         Analytics.logEvent("編輯商店_拖曳改變商品順序", parameters:nil)
     }
     

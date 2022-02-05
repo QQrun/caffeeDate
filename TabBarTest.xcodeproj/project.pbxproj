@@ -1424,7 +1424,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022011201;
+				CURRENT_PROJECT_VERSION = 2022020401;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3Q933PK69P;
 				INFOPLIST_FILE = TabBarTest/Info.plist;
@@ -1433,7 +1433,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
 				SWIFT_ENABLE_BATCH_MODE = NO;
@@ -1449,7 +1449,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
 				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 2022011201;
+				CURRENT_PROJECT_VERSION = 2022020401;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3Q933PK69P;
 				INFOPLIST_FILE = TabBarTest/Info.plist;
@@ -1458,7 +1458,7 @@
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
-				MARKETING_VERSION = 1.1.1;
+				MARKETING_VERSION = 1.1.2;
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
 				SWIFT_ENABLE_BATCH_MODE = NO;
