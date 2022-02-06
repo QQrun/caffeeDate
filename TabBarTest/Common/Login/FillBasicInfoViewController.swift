@@ -46,7 +46,8 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        CustomBGKit().CreatDarkStyleBG(view: view)
+        view.backgroundColor = .surface()
+        
     }
     
     
@@ -87,29 +88,35 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         birthDayPicker.locale = NSLocale(localeIdentifier: "zh_TW") as Locale
         birthDayPicker.addTarget(self,action:#selector(datePickerChanged),for: .valueChanged)
         view.addSubview(birthDayPicker)
-        birthDayPicker.tintColor = .white
+        birthDayPicker.tintColor = .on()
     }
     
     
     
     fileprivate func configIconAndBtnStyle() {
         boyIcon.image = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
-        boyIcon.tintColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
+        boyIcon.tintColor = .primary()
         girlIcon.image = UIImage(named: "girlIcon")?.withRenderingMode(.alwaysTemplate)
-        girlIcon.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
+        girlIcon.tintColor = .on().withAlphaComponent(0.5)
         continueBtn.layer.cornerRadius = 7
+        continueBtn.backgroundColor = .primary()
+        continueBtn.setTitleColor(.white, for: .normal)
         nameTextField.backgroundColor = .clear
         nameTextField.borderStyle = .none
         nameTextField.delegate = self
         nameTextField.returnKeyType = .done
-        nameTextField.tintColor = .white
+        nameTextField.tintColor = .primary()
+        nameTextField.textColor = .on().withAlphaComponent(0.7)
         if nameTextField.text == ""{
-            continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
+            continueBtn.alpha = 0.2
             continueBtn.isEnabled = false
         }else{
-            continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "AEA9A0")
+            continueBtn.alpha = 1
             continueBtn.isEnabled = true
         }
+        
+        birthdayBtn.setTitleColor(.on(), for: .normal)
+        birthdayLabel.textColor = .on()
     }
     
     //這個是因為直接換photoImageView的image 不知道為啥會跑版 懶得研究
@@ -154,14 +161,14 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
     
     @IBAction func boyBtnAct(_ sender: Any) {
         userGender = 1
-        boyIcon.tintColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
-        girlIcon.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
+        boyIcon.tintColor = .primary()
+        girlIcon.tintColor = .on().withAlphaComponent(0.5)
     }
     
     @IBAction func girlBtnAct(_ sender: Any) {
         userGender = 0
-        boyIcon.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
-        girlIcon.tintColor = UIColor.hexStringToUIColor(hex: "D8D8D8")
+        boyIcon.tintColor = .on().withAlphaComponent(0.5)
+        girlIcon.tintColor = .primary()
     }
     
     @IBAction func birthdayBtnAct(_ sender: Any) {
@@ -177,7 +184,7 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         loadingView.setupToLoadingView()
         
         continueBtn.isEnabled = false
-        continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
+        continueBtn.alpha = 0.2
         
         if Auth.auth().currentUser == nil{
             logInPageViewController.dismiss(animated: true, completion: nil)
@@ -281,11 +288,11 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         let countOfWords = string.count + textField.text!.count -  range.length
         
         if countOfWords == 0{
-            continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
+            continueBtn.alpha = 0.2
             continueBtn.isEnabled = false
             descriptStatusLabel.text = "請輸入姓名/綽號"
         }else{
-            continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "AEA9A0")
+            continueBtn.alpha = 1
             continueBtn.isEnabled = true
             descriptStatusLabel.text = " "
         }
@@ -312,11 +319,11 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         let elapsedYear = currentTime.years(sinceDate: birthDayPicker.date) ?? 0
         
         if elapsedYear < 18 {
-            continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
+            continueBtn.alpha = 0.2
             continueBtn.isEnabled = false
             descriptStatusLabel.text = "您需年滿十八歲才能使用此服務"
         }else{
-            continueBtn.backgroundColor = UIColor.hexStringToUIColor(hex: "AEA9A0")
+            continueBtn.alpha = 1
             continueBtn.isEnabled = true
             descriptStatusLabel.text = " "
         }

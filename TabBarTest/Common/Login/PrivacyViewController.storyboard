@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="17701" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Mk0-Os-pxv">
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES" initialViewController="Mk0-Os-pxv">
     <device id="retina6_1" orientation="portrait" appearance="light"/>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="17703"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
         <capability name="Image references" minToolsVersion="12.0"/>
         <capability name="Safe area layout guides" minToolsVersion="9.0"/>
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
@@ -12,7 +12,7 @@
         <!--Privacy View Controller-->
         <scene sceneID="tsX-rx-fyF">
             <objects>
-                <viewController storyboardIdentifier="PrivacyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mk0-Os-pxv" customClass="PrivacyViewController" customModule="TravelTrader" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrivacyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mk0-Os-pxv" customClass="PrivacyViewController" customModule="面交人" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wbf-9Z-uxq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -25,7 +25,7 @@
                             </label>
                             <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" indicatorStyle="white" editable="NO" textAlignment="natural" selectable="NO" translatesAutoresizingMaskIntoConstraints="NO" id="jdZ-2p-ZPf">
                                 <rect key="frame" x="6" y="92" width="402" height="760"/>
-                                <mutableString key="text">	非常歡迎您光臨「面交人應用服務」（以下簡稱本應用服務），為了讓您能夠安心的使用本應用服務的各項服務與資訊，特此向您說明本應用服務的隱私權保護政策，以保障您的權益，請您詳閱下列內容： 
+                                <string key="text">	非常歡迎您光臨「面交人應用服務」（以下簡稱本應用服務），為了讓您能夠安心的使用本應用服務的各項服務與資訊，特此向您說明本應用服務的隱私權保護政策，以保障您的權益，請您詳閱下列內容： 
 
 一、隱私權保護政策的適用範圍 
 
@@ -63,7 +63,7 @@
 
 	本應用服務隱私權保護政策將因應需求隨時進行修正，修正後的條款將刊登於應用服務上。
 
-</mutableString>
+</string>
                                 <color key="textColor" red="0.66670191290000003" green="0.67056965830000004" blue="0.67058920860000004" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="16"/>
                                 <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>

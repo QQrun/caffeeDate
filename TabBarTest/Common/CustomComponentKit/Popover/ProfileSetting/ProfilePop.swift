@@ -60,14 +60,17 @@ class ProfilePop {
             if UserSetting.userPhotosUrl != nil{
                 (profilePopView as! ProfilePopView).photoView.contentMode = .scaleAspectFill
                 (profilePopView as! ProfilePopView).photoView.alpha = 0
-                AF.request(UserSetting.userPhotosUrl[0]).response { (response) in
-                    guard let data = response.data, let image = UIImage(data: data)
-                    else { return }
-                    (profilePopView as! ProfilePopView).photoView.image = image
-                    UIView.animate(withDuration: 0.4, animations:{
-                        (profilePopView as! ProfilePopView).photoView.alpha = 1
-                        (profilePopView as! ProfilePopView).loadingView.alpha = 0
-                    })
+                
+                if(UserSetting.userPhotosUrl.count > 0){
+                    AF.request(UserSetting.userPhotosUrl[0]).response { (response) in
+                        guard let data = response.data, let image = UIImage(data: data)
+                        else { return }
+                        (profilePopView as! ProfilePopView).photoView.image = image
+                        UIView.animate(withDuration: 0.4, animations:{
+                            (profilePopView as! ProfilePopView).photoView.alpha = 1
+                            (profilePopView as! ProfilePopView).loadingView.alpha = 0
+                        })
+                    }
                 }
             }
             

@@ -37,7 +37,7 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         CustomBGKit().CreatDarkStyleBG(view: view)
         
         
-        titleImageView.image = UIImage(named: "Travel Trader")?.withRenderingMode(.alwaysTemplate)
+        titleImageView.image = UIImage(named: "FaceTrader")?.withRenderingMode(.alwaysTemplate)
         titleImageView.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
         
         googleLogInBtn.layer.cornerRadius = 7
