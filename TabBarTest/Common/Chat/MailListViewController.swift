@@ -76,10 +76,10 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         requestBtn = {
             let btn = UIButton()
             btn.frame = CGRect(x: 0, y: mailListTableView.frame.maxY - 30 - 45, width: view.frame.width, height: 30)
-            let btnColor = UIColor.hexStringToUIColor(hex: "#4F1E1F",alpha: 0.9)
+            let btnColor = UIColor.error
             btn.setBackgroundColor(btnColor, forState: .normal)
             btn.setTitle("尚未開啟通知功能，點擊開啟", for: .normal)
-            btn.setTitleColor(.on().withAlphaComponent(0.7), for: .normal)
+            btn.setTitleColor(.white, for: .normal)
             btn.titleLabel?.font =  UIFont(name: "HelveticaNeue", size: 15)
             btn.addTarget(self, action: #selector(requestBtnAct), for: .touchUpInside)
             return btn
