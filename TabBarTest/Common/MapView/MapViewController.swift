@@ -1614,7 +1614,7 @@ class MapViewController: UIViewController {
         exclamationPopUpContainerView.addSubview(showOpenStoreButton)
         
         showRequestButton.frame = CGRect(x: 65, y: 25, width: 44, height: 44)
-        let requestImage = UIImage(named: "捲軸小icon")
+        let requestImage = UIImage(named: "icons24ShopNeedWt24")
         let requestImage_tintedImage = requestImage?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowRequest{
             showRequestButton.tintColor = smallIconActiveColor
@@ -2534,7 +2534,7 @@ extension MapViewController: MKMapViewDelegate {
                 mkMarker?.glyphImage = UIImage(named: "icons24ShopLocateFilledBk24")
                 break
             case .request:
-                mkMarker?.glyphImage = UIImage(named: "捲軸小icon_紫")
+                mkMarker?.glyphImage = UIImage(named: "icons24ShopNeedWt24")
                 break
             case .teamUp:
                 mkMarker?.glyphImage = UIImage(named: "旗子小icon_紫")

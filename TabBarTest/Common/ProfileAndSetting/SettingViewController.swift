@@ -272,7 +272,7 @@ class SettingViewController: UIViewController {
             preferRequestMarkView = { () -> UIImageView in
                 let view = UIImageView()
                 view.frame = CGRect(x: 34 + accumulatedWidthOfMarks + 10, y:topPadding + 297 + 27, width: 30, height: 30)
-                let tintedImage = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
+                let tintedImage = UIImage(named: "icons24ShopNeedWt24")?.withRenderingMode(.alwaysTemplate)
                 view.tintColor = UIColor.hexStringToUIColor(hex: "4A4A4A")
                 if UserSetting.perferIconStyleToShowInMap == "request"{
                     view.tintColor = UIColor.hexStringToUIColor(hex: "D8D8D8")

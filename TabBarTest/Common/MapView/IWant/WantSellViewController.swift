@@ -473,7 +473,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
                 
                 cell.loadingView.image = UIImage(named: "icons24ShopLocateFilledBk24")?.withRenderingMode(.alwaysTemplate)
             }else{
-                cell.loadingView.image = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
+                cell.loadingView.image = UIImage(named: "icons24ShopNeedWt24")?.withRenderingMode(.alwaysTemplate)
             }
             
             let loadingViewBorder = UIView(frame: CGRect(x: -cell.loadingView.frame.width * 0.2, y: -cell.loadingView.frame.height * 0.2, width: cell.loadingView.frame.width/0.55, height: cell.loadingView.frame.height/0.55))

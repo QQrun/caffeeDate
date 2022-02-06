@@ -93,7 +93,7 @@ public class BigItemTableViewDelegate :NSObject,UITableViewDataSource,UITableVie
                 if currentItemType == .Sell{
                     imageView.image = UIImage(named: "icons24ShopLocateFilledBk24")?.withRenderingMode(.alwaysTemplate)
                 }else{
-                    imageView.image = UIImage(named: "捲軸小icon")?.withRenderingMode(.alwaysTemplate)
+                    imageView.image = UIImage(named: "icons24ShopNeedWt24")?.withRenderingMode(.alwaysTemplate)
                 }
                 imageView.tintColor = .lightGray
                 imageView.tag = 1

@@ -136,12 +136,19 @@ class PresonAnnotationGetter{
     
     func getPersonData() {
         
+        //假資料
+//        for an in GetFakeAnnotations(){
+//            self.mapView.addAnnotation(an)
+//        }
+        
         let ref =  Database.database().reference(withPath: "PersonAnnotation")
         ref.queryOrdered(byChild: "openTime").observeSingleEvent(of: .value, with: { (snapshot) in
             //先將personAnnotationData做成personAnnotation
             for user_child in (snapshot.children){
                 self.packagePersonAnnotation(user_child)
             }})
+        
+        
     }
     
     
@@ -375,17 +382,19 @@ class PresonAnnotationGetter{
         var annotations : [PersonAnnotation] = []
         let annotation = PersonAnnotation()
         annotation.coordinate = CLLocationCoordinate2D(latitude:  25.053227, longitude: 121.527007)
-        annotation.title = "好難過，只求一醉⋯⋯"
+        annotation.title = "難過，只求一醉⋯⋯"
         annotation.isRequest = true
         annotation.preferMarkType = .request
+        annotation.markTypeToShow = .request
         annotation.wantMakeFriend = true
         annotation.gender = .Boy
         annotations.append(annotation)
         
         let annotation2 = PersonAnnotation()
         annotation2.coordinate = CLLocationCoordinate2D(latitude:  25.054070, longitude: 121.523923)
-        annotation2.title = "桌遊團 -2"
-        annotation2.preferMarkType = .teamUp
+        annotation2.title = "古書店"
+        annotation2.preferMarkType = .openStore
+        annotation2.markTypeToShow = .openStore
         annotation2.isTeamUp = true
         annotation2.wantMakeFriend = true
         annotations.append(annotation2)
@@ -394,6 +403,7 @@ class PresonAnnotationGetter{
         annotation3.coordinate = CLLocationCoordinate2D(latitude:  25.052722, longitude: 121.523527)
         annotation3.title = "童·叟·無·欺"
         annotation3.isOpenStore = true
+        annotation3.markTypeToShow = .openStore
         annotation3.isRequest = true
 //        annotation3.smallHeadShot = UIImage(named: "Thumbnail")
         annotation3.preferMarkType = .openStore
@@ -401,13 +411,16 @@ class PresonAnnotationGetter{
         
         let annotation4 = PersonAnnotation()
         annotation4.coordinate = CLLocationCoordinate2D(latitude:  25.052724, longitude: 121.526130)
-        annotation4.title = "貂蟬"
+        annotation4.title = "天秤女孩"
         annotation4.isOpenStore = true
         annotation4.preferMarkType = .makeFriend
+        annotation4.markTypeToShow = .makeFriend
         annotation4.wantMakeFriend = true
         annotation4.gender = .Girl
         
         annotations.append(annotation4)
+        
+        
         
         return annotations
     }
