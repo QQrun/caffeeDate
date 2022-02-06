@@ -63,6 +63,7 @@ class RootCoordinator: Coordinator {
             self.setDefaultTabView()
             FirebaseHelper.updateSignInTime()
             FirebaseHelper.updateToken()
+            
         }
         
     }

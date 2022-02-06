@@ -110,7 +110,7 @@ class MapViewController: UIViewController {
     //以下是關注咖啡店用的
     var loveShopLabel = UILabel()
     var currentCoffeeAnnotation : CoffeeAnnotation? = nil
-    
+        
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -136,6 +136,8 @@ class MapViewController: UIViewController {
         configureIWantActionSheet()
         
         AppStoreRating.share.listener()
+        
+        updatePersonAnnotation()
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -157,7 +159,16 @@ class MapViewController: UIViewController {
         //        }
     }
     
-    
+    //更新firebase上的經緯度
+    fileprivate func  updatePersonAnnotation() {
+        let ref = Database.database().reference()
+        let personAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
+        personAnnotationWithIDRef.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists(){
+                FirebaseHelper.updatePersonAnnotation()
+            }
+        })
+    }
     
     fileprivate func configureIWantActionSheet() {
         
@@ -1318,16 +1329,16 @@ class MapViewController: UIViewController {
         
         let remainingTimeLabel = { () -> UILabel in
             let label = UILabel()
-            label.text = "刊登剩餘時間  99：99：99"
+            label.text = "距離下架時間  99：99：99"
             label.textColor = .on().withAlphaComponent(0.7)
-            label.font = UIFont(name: "HelveticaNeue", size: 14)
-            label.frame = CGRect(x: bulletinBoard_ProfilePart_plzSlideUp.frame.width - 18 - label.intrinsicContentSize.width, y: 106, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.font = UIFont(name: "HelveticaNeue", size: 13)
+            label.frame = CGRect(x: bulletinBoard_ProfilePart_plzSlideUp.frame.width - 18 - label.intrinsicContentSize.width - 10, y: 106, width: label.intrinsicContentSize.width + 10, height: label.intrinsicContentSize.height)
             label.text = ""
             label.textAlignment = .right
             return label
         }()
         bulletinBoard_ProfilePart.addSubview(remainingTimeLabel)
-        startRemainingStoreOpenTimer(lebal: remainingTimeLabel, storeOpenTimeString: openTimeString, durationOfAuction: 60 * 60 * 24 * 3)
+        startRemainingStoreOpenTimer(lebal: remainingTimeLabel, storeOpenTimeString: openTimeString, durationOfAuction: 60 * 60 * 24 * 7)
         
         let plzSlideUpImageView = {() -> UIImageView in
             let imageView = UIImageView(frame: CGRect(x: self.bulletinBoard_ProfilePart_plzSlideUp.frame.width/2 - 19/2, y: 245, width: 19, height: 19))
@@ -1485,7 +1496,7 @@ class MapViewController: UIViewController {
                 let remainingHour = (durationOfAuction - seconds!) / (60 * 60)
                 let remainingMin = ((durationOfAuction - seconds!) % (60 * 60)) / 60
                 let remainingSecond = ((durationOfAuction - seconds!) % (60 * 60)) % 60
-                let remainingTime = "刊登剩餘時間  " + "\(remainingHour)" + " : " + "\(remainingMin)" + " : " + "\(remainingSecond)"
+                let remainingTime = "距離下架時間  " + "\(remainingHour)" + " : " + "\(remainingMin)" + " : " + "\(remainingSecond)"
                 
                 if remainingHour >= 0 && remainingMin >= 0 && remainingSecond >= 0{
                     lebal.text = remainingTime

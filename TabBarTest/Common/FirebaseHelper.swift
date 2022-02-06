@@ -154,6 +154,7 @@ class FirebaseHelper{
 
     }
     
+    //上傳
     static func updatePersonAnnotation(){
         
         
@@ -178,6 +179,8 @@ class FirebaseHelper{
             CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController?.presonAnnotationGetter.reFreshUserAnnotation()
         }
     }
+    
+    
     
     static func deletePersonAnnotation(){
         //刪除雲端部分
