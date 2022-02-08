@@ -137,7 +137,7 @@ class ProfilePop {
         
         print("actionSheetConfirmLogOutBtnAct")
         Analytics.logEvent("我_登出_確定登出", parameters:nil)
-        
+        print("Dic 2")
         let dic = ["alreadyUpdatePersonDetail":false,
                    "UID":"",
                    "userName":"",

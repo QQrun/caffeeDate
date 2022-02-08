@@ -114,6 +114,8 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("UserSetting.isMapShowOpenStore:" + "\(UserSetting.isMapShowOpenStore)")
+        
         updateLocalUserDefaultByRemote()
         
         locationManager = CLLocationManager()
@@ -138,6 +140,8 @@ class MapViewController: UIViewController {
         AppStoreRating.share.listener()
         
         updatePersonAnnotation()
+        
+        centerMapOnUserLocation(shouldLoadAnnotations: true)
     }
     
     override func viewDidAppear(_ animated: Bool) {
@@ -147,7 +151,7 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        centerMapOnUserLocation(shouldLoadAnnotations: true)
+//        centerMapOnUserLocation(shouldLoadAnnotations: true)
         hiddenTabBarOrNot()
     }
     
@@ -2261,6 +2265,9 @@ class MapViewController: UIViewController {
 extension MapViewController{
     
     func centerMapOnUserLocation(shouldLoadAnnotations: Bool) {
+        
+        print("centerMapOnUserLocation")
+        
         guard let coordinates = locationManager.location?.coordinate else { return }
         
         let zoomWidth = mapView.visibleMapRect.size.width

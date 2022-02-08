@@ -119,6 +119,7 @@ class LogInPageViewController: UIPageViewController {
                         photoURLs.append(data.value)
                     }
                 }
+                print("Dic 0")
                 
                 let dic = ["alreadyUpdatePersonDetail":true,
                            "UID":UserSetting.UID,

@@ -479,6 +479,8 @@ class SettingViewController: UIViewController {
         
 //        CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
         
+        print("Dic 1")
+        
         let dic = ["alreadyUpdatePersonDetail":false,
                    "UID":"",
                    "userName":"",
