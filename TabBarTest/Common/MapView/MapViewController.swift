@@ -114,8 +114,6 @@ class MapViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        print("UserSetting.isMapShowOpenStore:" + "\(UserSetting.isMapShowOpenStore)")
-        
         updateLocalUserDefaultByRemote()
         
         locationManager = CLLocationManager()
@@ -151,7 +149,6 @@ class MapViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-//        centerMapOnUserLocation(shouldLoadAnnotations: true)
         hiddenTabBarOrNot()
     }
     
@@ -1058,25 +1055,11 @@ class MapViewController: UIViewController {
                 }
                 
                 
-                let dic = ["alreadyUpdatePersonDetail":true,
-                           "UID":UserSetting.UID,
-                           "userName":userDetail.name,
-                           "userBirthDay":userDetail.birthday,
-                           "userGender":userDetail.gender,
-                           "userSelfIntroduction":userDetail.selfIntroduction,
-                           "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
-                           "isMapShowRequest":UserSetting.isMapShowRequest,
-                           "isMapShowTeamUp":UserSetting.isMapShowTeamUp,
-                           "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
-                           "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
-                           "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
-                           "perferIconStyleToShowInMap":userDetail.perferIconStyleToShowInMap,
-                           "isWantSellSomething":isWantSellSomething,
+                let dic = ["isWantSellSomething":isWantSellSomething,
                            "isWantBuySomething":isWantBuySomething,
                            "sellItemsID":sellItemsID,
                            "buyItemsID":buyItemsID,
-                           "userPhotosUrl":photoURLs,
-                           "currentChatTarget":"",] as [String : Any]
+                           "userPhotosUrl":photoURLs,] as [String : Any]
                 for data in dic {
                     UserDefaults.standard.set(data.value, forKey: data.key)
                 }
@@ -1907,6 +1890,7 @@ class MapViewController: UIViewController {
     }
     
     @objc private func showOpenStoreBtnAct(){
+        
         if UserSetting.isMapShowOpenStore{
             UserSetting.isMapShowOpenStore = false
             showOpenStoreButton.tintColor = smallIconUnactiveColor
@@ -2454,7 +2438,6 @@ extension MapViewController: MKMapViewDelegate {
                 self.setBulletinBoard(bookMarks: bookMarks,selectedbookMark:selectedBookMark,snapshot: snapshot,UID: (view.annotation as! PersonAnnotation).UID,distance:Int(distance),storeName: (view.annotation?.title!)!,openTimeString: (view.annotation as! PersonAnnotation).openTime)
             }) { (error) in
                 loadingView.removeFromSuperview()
-                print(error.localizedDescription)
             }
             
             return
