@@ -2483,14 +2483,14 @@ extension MapViewController: MKMapViewDelegate {
             distanceLabel.alpha = 0
             mkMarker?.addSubview(distanceLabel)
             
-            
+            mkMarker?.displayPriority = .defaultLow
             if(UserSetting.attentionCafe.contains((annotation as! CoffeeAnnotation).address)){
+                mkMarker?.displayPriority = .defaultHigh
                 if(checkIsOpenTimeOrNot(business_hours: (annotation as! CoffeeAnnotation).business_hours)){
                     mkMarker?.glyphTintColor = .sksPink()
                 }else{
                     mkMarker?.glyphTintColor = .sksPink().withAlphaComponent(0.3)
                 }
-                mkMarker?.displayPriority = .defaultHigh
             }else{
                 if(checkIsOpenTimeOrNot(business_hours: (annotation as! CoffeeAnnotation).business_hours)){
                     mkMarker?.glyphTintColor = markColor
