@@ -103,7 +103,6 @@ class MapViewController: UIViewController {
     
     
     var firebaseCoffeeScoreDatas : [CoffeeScoreData] = []
-    var coffeeCommentObserver : UInt!
     var coffeeComments : [Comment] = []
     var coffeeCommentObserverRef : DatabaseReference!
     
@@ -518,7 +517,6 @@ class MapViewController: UIViewController {
     
     func refresh_bulletinBoard_CoffeeShop(){
         bulletinBoard_CoffeeShop.removeAllSubviews()
-        coffeeCommentObserverRef.removeObserver(withHandle: coffeeCommentObserver)
         setBulletinBoard_coffeeData(coffeeAnnotation: currentCoffeeAnnotation!)
     }
         
@@ -873,81 +871,81 @@ class MapViewController: UIViewController {
         
         var commenterHeadShotDict = [String:UIImage]()
         coffeeCommentObserverRef = Database.database().reference(withPath: "CoffeeComment/" + coffeeAnnotation.address)
-        coffeeCommentObserver = coffeeCommentObserverRef.queryOrdered(byChild: "time").observe(.childAdded, with: { (snapshot) in
+        
+        coffeeCommentObserverRef.queryOrdered(byChild: "time").observeSingleEvent(of: .value, with: { (snapshot) in
             
-            var comment = Comment(snapshot: snapshot)
-            comment.commentID = snapshot.key
             
-            if let childSnapshots = snapshot.childSnapshot(forPath: "likeUIDs").children.allObjects as? [DataSnapshot]{
-                comment.likeUIDs = []
-                for childSnapshot in childSnapshots{
-                    comment.likeUIDs!.append(childSnapshot.key as String)
-                }
-            }
-            
-            commentTableView.beginUpdates()
-            self.coffeeComments.insert(comment, at: 0)
-            let index = self.coffeeComments.count - 1
-            //插入新的comment時，先確認是否smallHeadshot已經下載了
-            if commenterHeadShotDict[self.coffeeComments[index].UID] != nil && commenterHeadShotDict[self.coffeeComments[index].UID] != UIImage(named: "Thumbnail"){
-                self.coffeeComments[index].smallHeadshot = commenterHeadShotDict[self.coffeeComments[index].UID]
-            }
-            let indexPath = IndexPath(row: index, section: 0)
-            commentTableView.insertRows(at: [indexPath], with: .automatic)
-            print("coffeeComments:" + "\(self.coffeeComments.count)")
-            print("index:" + "\(index)")
-            commentTableView.endUpdates()
-            
-            for i in 0 ... self.coffeeComments.count - 1 {
-                let indexPathForSameIDComment = IndexPath(row: i, section: 0)
-                commentTableView.reloadRows(at: [indexPathForSameIDComment], with: .none)
-            }
-            
-            //調整tableView跟scrollView高度
-            commentTableView.invalidateIntrinsicContentSize()
-            commentTableView.layoutIfNeeded()
-//            self.currentScrollHeignt -= self.commentTableView.frame.height
-            commentTableView.frame = CGRect(x: 0, y: commentTableView.frame.origin.y, width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
-//            self.currentScrollHeignt += self.commentTableView.contentSize.height
-            
-            scrollView.contentSize = CGSize(width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
-//
-            
-            //確認是否commenterHeadShot已經抓過圖了
-            if commenterHeadShotDict[self.coffeeComments[index].UID] == nil{
-                commenterHeadShotDict[self.coffeeComments[index].UID] = UIImage(named: "Thumbnail") //這只是隨便一張圖，來確認是否下載過了
-                //去storage那邊找到URL
-                let smallHeadshotRef = Storage.storage().reference().child("userSmallHeadShot/" + self.coffeeComments[index].UID)
-                smallHeadshotRef.downloadURL(completion: { (url, error) in
-                    guard let downloadURL = url else {
-                        return
+            for user_child in (snapshot.children){
+                var comment = Comment(snapshot: user_child as! DataSnapshot)
+                comment.commentID = snapshot.key
+                
+                if let childSnapshots = snapshot.childSnapshot(forPath: "likeUIDs").children.allObjects as? [DataSnapshot]{
+                    comment.likeUIDs = []
+                    for childSnapshot in childSnapshots{
+                        comment.likeUIDs!.append(childSnapshot.key as String)
                     }
-                    //下載URL的圖
-                    AF.request(downloadURL).response { (response) in
-                        guard let data = response.data, let image = UIImage(data: data)
-                        else { return }
-                        //裝進commenterHeadShotDict
-                        
-                        if(index > self.coffeeComments.count - 1) { return }
-                        commenterHeadShotDict[self.coffeeComments[index].UID] = image
-                        
-                        //替換掉所有有相同ID的Comment的headShot
-                        for i in 0 ... self.coffeeComments.count - 1 {
-                            if self.coffeeComments[i].UID == self.coffeeComments[index].UID{
-                                let indexPathForSameIDComment = IndexPath(row: i, section: 0)
-                                self.coffeeComments[i].smallHeadshot = image
-                                commentTableView.reloadRows(at: [indexPathForSameIDComment], with: .none)
-                                let cell = commentTableView.cellForRow(at: indexPathForSameIDComment) as! CommentTableViewCell
-                                cell.photo.alpha = 0
-                                UIView.animate(withDuration: 0.3, animations: {
-                                    cell.photo.alpha = 1
-                                    cell.genderIcon.alpha = 0
-                                })
-                                
+                }
+                
+                commentTableView.beginUpdates()
+                self.coffeeComments.insert(comment, at: 0)
+                let index = self.coffeeComments.count - 1
+                //插入新的comment時，先確認是否smallHeadshot已經下載了
+                if commenterHeadShotDict[self.coffeeComments[index].UID] != nil && commenterHeadShotDict[self.coffeeComments[index].UID] != UIImage(named: "Thumbnail"){
+                    self.coffeeComments[index].smallHeadshot = commenterHeadShotDict[self.coffeeComments[index].UID]
+                }
+                let indexPath = IndexPath(row: index, section: 0)
+                commentTableView.insertRows(at: [indexPath], with: .automatic)
+                print("coffeeComments:" + "\(self.coffeeComments.count)")
+                print("index:" + "\(index)")
+                commentTableView.endUpdates()
+                
+                for i in 0 ... self.coffeeComments.count - 1 {
+                    let indexPathForSameIDComment = IndexPath(row: i, section: 0)
+                    commentTableView.reloadRows(at: [indexPathForSameIDComment], with: .none)
+                }
+                
+                //調整tableView跟scrollView高度
+                commentTableView.invalidateIntrinsicContentSize()
+                commentTableView.layoutIfNeeded()
+                commentTableView.frame = CGRect(x: 0, y: commentTableView.frame.origin.y, width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
+                scrollView.contentSize = CGSize(width: self.view.frame.width, height: commentTableView.contentSize.height + 10)
+                
+                //確認是否commenterHeadShot已經抓過圖了
+                if commenterHeadShotDict[self.coffeeComments[index].UID] == nil{
+                    commenterHeadShotDict[self.coffeeComments[index].UID] = UIImage(named: "Thumbnail") //這只是隨便一張圖，來確認是否下載過了
+                    //去storage那邊找到URL
+                    let smallHeadshotRef = Storage.storage().reference().child("userSmallHeadShot/" + self.coffeeComments[index].UID)
+                    smallHeadshotRef.downloadURL(completion: { (url, error) in
+                        guard let downloadURL = url else {
+                            return
+                        }
+                        //下載URL的圖
+                        AF.request(downloadURL).response { (response) in
+                            guard let data = response.data, let image = UIImage(data: data)
+                            else { return }
+                            //裝進commenterHeadShotDict
+                            
+                            if(index > self.coffeeComments.count - 1) { return }
+                            commenterHeadShotDict[self.coffeeComments[index].UID] = image
+                            
+                            //替換掉所有有相同ID的Comment的headShot
+                            for i in 0 ... self.coffeeComments.count - 1 {
+                                if self.coffeeComments[i].UID == self.coffeeComments[index].UID{
+                                    let indexPathForSameIDComment = IndexPath(row: i, section: 0)
+                                    self.coffeeComments[i].smallHeadshot = image
+                                    commentTableView.reloadRows(at: [indexPathForSameIDComment], with: .none)
+                                    let cell = commentTableView.cellForRow(at: indexPathForSameIDComment) as! CommentTableViewCell
+                                    cell.photo.alpha = 0
+                                    UIView.animate(withDuration: 0.3, animations: {
+                                        cell.photo.alpha = 1
+                                        cell.genderIcon.alpha = 0
+                                    })
+                                    
+                                }
                             }
                         }
-                    }
-                })
+                    })
+                }
             }
         })
         
@@ -2115,8 +2113,7 @@ class MapViewController: UIViewController {
     
     @objc private func scoreBtnAct(){
         Analytics.logEvent("地圖_咖啡_評分", parameters:nil)
-        
-        coffeeCommentObserverRef.removeObserver(withHandle: coffeeCommentObserver)
+
         
         viewDelegate?.gotoScoreCoffeeController_mapView(annotation: currentCoffeeAnnotation!)
     }
