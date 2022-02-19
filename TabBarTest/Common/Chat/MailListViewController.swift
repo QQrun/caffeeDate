@@ -30,13 +30,24 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     var requestBtn = UIButton()
     
+    
+    //一起動App需要先監聽
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        configTableView()
+        activeMailListObserver()
+    }
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("MailListViewController viewDidLoad")
+        
         view.backgroundColor = .surface()
         configTopBar()
-        configTableView()
-        activeMailListObserver()
+//        configTableView()
+//        activeMailListObserver()
         requestNotiAuthorization()
         configMailListTableViewFrame()
         configNotificationRequestBtn()
@@ -238,6 +249,8 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     fileprivate func packageMailData(targetUID:String,personDetail:PersonDetailInfo,headShotImage:UIImage?,shopName:String,lastMessage:ChatMessage) {
         
+        print("packageMailData")
+        
         let headShot : UIImage!
         if headShotImage == nil{
             if personDetail.gender == 0{
@@ -256,6 +269,36 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         mailDatas = Util.quicksort_MailData(mailDatas)
         mailDatas.reverse()
         mailListTableView.reloadData()
+        
+        
+        //更新mapView的未讀訊息數量
+        let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
+        var unreadMsgCount = 0
+        for mailData in self.mailDatas {
+            //確認是否有閱讀過
+            let sortedIDs = [mailData.targetUID,UserSetting.UID].sorted()
+            let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
+            if UserDefaults.standard.value(forKey: chatroomID) != nil{
+                let readTimeString = UserDefaults.standard.value(forKey: chatroomID) as! String
+                let readTimeInt = Int(readTimeString) ?? 0
+                let dateFormat : String = "YYYYMMddHHmmss"
+                let formatter = DateFormatter()
+                formatter.dateFormat = dateFormat
+                let lastMessagetimeString = formatter.string(from: mailData.lastMessage.sentDate)
+                let lastMessagetimeInt = Int(lastMessagetimeString) ?? 0
+                if lastMessagetimeInt > readTimeInt{
+                    if UserSetting.UID != mailData.lastMessage.user.senderId{
+                        unreadMsgCount += 1
+                    }
+                }
+            }else{
+                unreadMsgCount += 1
+            }
+        }
+        if mapViewController != nil{
+            mapViewController!.setUnreadMsgCount(unreadMsgCount)
+        }
+        
     }
     
     fileprivate func configTableView() {
@@ -362,17 +405,21 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                     if UserSetting.UID != mailDatas[indexPath.row].lastMessage.user.senderId{
                         cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
                         cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+                        cell.lastMessage.tag = 0
                     }else{
                         cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
                         cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 14)
+                        cell.lastMessage.tag = 1
                     }
                 }else{
                     cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
                     cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 14)
+                    cell.lastMessage.tag = 1
                 }
             }else{
                 cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
                 cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+                cell.lastMessage.tag = 0
             }
             
             
@@ -391,6 +438,16 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
         viewDelegate?.gotoOneToOneChatRoom(chatroomID: chatroomID, personInfo: mailDatas[indexPath.row].personDetail, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MailListTableViewCell
+
+        //從未閱讀變成已閱讀過
+        if(cell.lastMessage.tag == 0){
+            cell.lastMessage.tag = 1
+            let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
+            if mapViewController != nil{
+                mapViewController!.setUnreadMsgCount(mapViewController!.unreadMsgCount - 1)
+            }
+        }
+        
         cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
         cell.lastMessage.font = UIFont(name: "HelveticaNeue", size: 14)
     }

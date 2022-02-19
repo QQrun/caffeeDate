@@ -97,12 +97,11 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         
         //更新已閱讀時間
         //TODO 如果是團體room，不需要更新已閱讀時間
-        
         if messageList.count > 0{
             let dateFormat : String = "YYYYMMddHHmmss"
             let formatter = DateFormatter()
             formatter.dateFormat = dateFormat
-            let timeString = formatter.string(from: messageList[messageList.count - 1].sentDate)
+            let timeString = Date().getCurrentTimeString()
             UserDefaults.standard.set(timeString, forKey: chatroomID)
             UserDefaults.standard.synchronize()
         }
@@ -223,10 +222,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
             
             for snap in snapshots{
                 self.messageList.append(ChatMessage(snapshot: snap))
-                print("insertMessage")
-                print(self.messagesCollectionView.frame.height)
-
-                
             }
             
             if(self.messageList.count > 6){

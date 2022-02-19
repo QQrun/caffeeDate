@@ -64,7 +64,7 @@ class NotifyCenterViewControllerModel{
             }
         }
         if mapViewController != nil{
-            mapViewController!.setUnreadNotifcationCount(count: unreadNotiCount)
+            mapViewController!.setUnreadNotifcationCount(unreadNotiCount)
         }
     }
     

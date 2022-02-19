@@ -112,8 +112,13 @@ class MapViewController: UIViewController {
     
     //未讀通知數量
     var unreadNotifcationCount = 0
-    var notiUnreadCountCircle = UIButton()
-        
+    var unreadNotiCountCircle = UIButton()
+
+    //未讀訊息數量
+    var unreadMsgCount = 0
+    var unreadMsgCountCircle = UIButton()
+
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -1530,26 +1535,6 @@ class MapViewController: UIViewController {
             break
         }
         
-        
-        
-//        if bulletinBoard_ProfilePart.isHidden == true{
-//            bulletinBoard_ProfilePart.isHidden = false
-//            bulletinBoard_ProfilePart.alpha = 0
-//            UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-//                self.bulletinBoard_ProfilePart.alpha = 1
-//                self.bulletinBoard_TeamUpPart.alpha = 0
-//                self.bulletinBoard_BuySellPart.alpha = 0
-//                self.bulletinBoard_CoffeeShop.alpha = 0
-//            }, completion:  { _ in
-//                self.bulletinBoard_TeamUpPart.isHidden = true
-//                self.bulletinBoard_BuySellPart.isHidden = true
-//                self.bulletinBoard_CoffeeShop.isHidden = true
-//                self.bulletinBoard_TeamUpPart.alpha = 1
-//                self.bulletinBoard_BuySellPart.alpha = 1
-//                self.bulletinBoard_CoffeeShop.alpha = 1
-//            })
-//        }
-        
         UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
             self.bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
             self.bulletinBoard_ProfilePart_Bottom.alpha = 0
@@ -1732,6 +1717,22 @@ class MapViewController: UIViewController {
         messageButton.addTarget(self, action: #selector(messageBtnAct), for: .touchUpInside)
         
         
+        unreadMsgCountCircle = UIButton()
+        view.addSubview(unreadMsgCountCircle)
+        unreadMsgCountCircle.snp.makeConstraints { make in
+            make.height.width.equalTo(14)
+            make.top.equalTo(messageButton)
+            make.right.equalTo(messageButton.snp.right)
+        }
+        unreadMsgCountCircle.titleLabel?.font = unreadNotiCountCircle.titleLabel?.font.withSize(12)
+        unreadMsgCountCircle.backgroundColor = .sksPink()
+        unreadMsgCountCircle.layer.cornerRadius = 7
+        unreadMsgCountCircle.setTitle("", for: .normal)
+        unreadMsgCountCircle.isHidden = true
+        unreadMsgCountCircle.isEnabled = false
+        
+        
+        
         let circleButton_exclamation = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90, width: 32, height: 32))
         circleButton_exclamation.backgroundColor = .sksWhite()
         let exclamationImage = UIImage(named: "icons24FilterListBlack24Dp")
@@ -1769,14 +1770,14 @@ class MapViewController: UIViewController {
         view.addSubview(circleButton_notification)
         circleButton_notification.addTarget(self, action: #selector(notificationBtnAct), for: .touchUpInside)
         
-        notiUnreadCountCircle = UIButton(frame:CGRect(x: view.frame.width - 16 - 8, y: statusHeight + 90 + 64 + 32, width: 14, height: 14))
-        notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(12)
-        notiUnreadCountCircle.backgroundColor = .sksPink()
-        notiUnreadCountCircle.layer.cornerRadius = 7
-        notiUnreadCountCircle.setTitle("", for: .normal)
-        notiUnreadCountCircle.isHidden = true
-        notiUnreadCountCircle.isEnabled = false
-        view.addSubview(notiUnreadCountCircle)
+        unreadNotiCountCircle = UIButton(frame:CGRect(x: view.frame.width - 16 - 8, y: statusHeight + 90 + 64 + 32, width: 14, height: 14))
+        unreadNotiCountCircle.titleLabel?.font = unreadNotiCountCircle.titleLabel?.font.withSize(12)
+        unreadNotiCountCircle.backgroundColor = .sksPink()
+        unreadNotiCountCircle.layer.cornerRadius = 7
+        unreadNotiCountCircle.setTitle("", for: .normal)
+        unreadNotiCountCircle.isHidden = true
+        unreadNotiCountCircle.isEnabled = false
+        view.addSubview(unreadNotiCountCircle)
         
     }
     
@@ -1858,25 +1859,46 @@ class MapViewController: UIViewController {
         mapView.addConstraintsToFillView(view: view)
     }
     
-    func setUnreadNotifcationCount(count:Int){
+    func setUnreadMsgCount(_ count:Int){
+        unreadMsgCount = count
+        print("unreadMsgCount:" + "\(unreadMsgCount)")
+        
+        if(unreadMsgCount > 0){
+            unreadMsgCountCircle.isHidden = false
+            unreadMsgCountCircle.titleLabel?.font = unreadMsgCountCircle.titleLabel?.font.withSize(12)
+            unreadMsgCountCircle.setTitle("\(unreadMsgCount)", for: .normal)
+            if(unreadMsgCount > 9){
+                unreadMsgCountCircle.titleLabel?.font = unreadMsgCountCircle.titleLabel?.font.withSize(8)
+                unreadMsgCountCircle.setTitle("\(unreadMsgCount)", for: .normal)
+            }
+            if(unreadMsgCount > 99){
+                unreadMsgCountCircle.titleLabel?.font = unreadMsgCountCircle.titleLabel?.font.withSize(8)
+                unreadMsgCountCircle.setTitle("99", for: .normal)
+            }
+        }else{
+            unreadMsgCountCircle.isHidden = true
+        }
+    }
+    
+    func setUnreadNotifcationCount(_ count:Int){
         unreadNotifcationCount = count
         print("unreadNotifcationCount:" + "\(unreadNotifcationCount)")
         
         
         if(unreadNotifcationCount > 0){
-            notiUnreadCountCircle.isHidden = false
-            notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(12)
-            notiUnreadCountCircle.setTitle("\(unreadNotifcationCount)", for: .normal)
+            unreadNotiCountCircle.isHidden = false
+            unreadNotiCountCircle.titleLabel?.font = unreadNotiCountCircle.titleLabel?.font.withSize(12)
+            unreadNotiCountCircle.setTitle("\(unreadNotifcationCount)", for: .normal)
             if(unreadNotifcationCount > 9){
-                notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(8)
-                notiUnreadCountCircle.setTitle("\(unreadNotifcationCount)", for: .normal)
+                unreadNotiCountCircle.titleLabel?.font = unreadNotiCountCircle.titleLabel?.font.withSize(8)
+                unreadNotiCountCircle.setTitle("\(unreadNotifcationCount)", for: .normal)
             }
             if(unreadNotifcationCount > 99){
-                notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(8)
-                notiUnreadCountCircle.setTitle("99", for: .normal)
+                unreadNotiCountCircle.titleLabel?.font = unreadNotiCountCircle.titleLabel?.font.withSize(8)
+                unreadNotiCountCircle.setTitle("99", for: .normal)
             }
         }else{
-            notiUnreadCountCircle.isHidden = true
+            unreadNotiCountCircle.isHidden = true
         }
         
     }

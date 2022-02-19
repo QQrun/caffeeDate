@@ -41,6 +41,8 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        print("NotifyCenterViewController viewDidLoad")
+        
         view.backgroundColor = .surface()
         configTopBar()
         configNotifyListTableViewFrame()
