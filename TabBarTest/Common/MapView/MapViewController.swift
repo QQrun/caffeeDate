@@ -109,6 +109,10 @@ class MapViewController: UIViewController {
     //以下是關注咖啡店用的
     var loveShopLabel = UILabel()
     var currentCoffeeAnnotation : CoffeeAnnotation? = nil
+    
+    //未讀通知數量
+    var unreadNotifcationCount = 0
+    var notiUnreadCountCircle = UIButton()
         
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -1765,6 +1769,15 @@ class MapViewController: UIViewController {
         view.addSubview(circleButton_notification)
         circleButton_notification.addTarget(self, action: #selector(notificationBtnAct), for: .touchUpInside)
         
+        notiUnreadCountCircle = UIButton(frame:CGRect(x: view.frame.width - 16 - 8, y: statusHeight + 90 + 64 + 32, width: 14, height: 14))
+        notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(12)
+        notiUnreadCountCircle.backgroundColor = .sksPink()
+        notiUnreadCountCircle.layer.cornerRadius = 7
+        notiUnreadCountCircle.setTitle("", for: .normal)
+        notiUnreadCountCircle.isHidden = true
+        notiUnreadCountCircle.isEnabled = false
+        view.addSubview(notiUnreadCountCircle)
+        
     }
     
     func checkIsOpenTimeOrNot(business_hours:Business_hours?) -> Bool{
@@ -1845,10 +1858,34 @@ class MapViewController: UIViewController {
         mapView.addConstraintsToFillView(view: view)
     }
     
+    func setUnreadNotifcationCount(count:Int){
+        unreadNotifcationCount = count
+        print("unreadNotifcationCount:" + "\(unreadNotifcationCount)")
+        
+        
+        if(unreadNotifcationCount > 0){
+            notiUnreadCountCircle.isHidden = false
+            notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(12)
+            notiUnreadCountCircle.setTitle("\(unreadNotifcationCount)", for: .normal)
+            if(unreadNotifcationCount > 9){
+                notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(8)
+                notiUnreadCountCircle.setTitle("\(unreadNotifcationCount)", for: .normal)
+            }
+            if(unreadNotifcationCount > 99){
+                notiUnreadCountCircle.titleLabel?.font = notiUnreadCountCircle.titleLabel?.font.withSize(8)
+                notiUnreadCountCircle.setTitle("99", for: .normal)
+            }
+        }else{
+            notiUnreadCountCircle.isHidden = true
+        }
+        
+    }
+    
     
     @objc private func accountBtnAct(){
         Analytics.logEvent("地圖_帳號按鈕", parameters:nil)
         ProfilePop.share.popAlert()
+        
     }
     
     @objc private func messageBtnAct(){

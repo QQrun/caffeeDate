@@ -190,7 +190,6 @@ class PresonAnnotationGetter{
                 //對方想被認識
                 if annotation.wantMakeFriend{
                     canShow = true
-                    print("decideCanShowOrNotAndWhichIcon 0")
                     if  annotation.preferMarkType == .makeFriend{
                         annotation.markTypeToShow = .makeFriend
                     }
@@ -204,7 +203,6 @@ class PresonAnnotationGetter{
                 //對方想被認識
                 if annotation.wantMakeFriend{
                     canShow = true
-                    print("decideCanShowOrNotAndWhichIcon 1")
                     if annotation.preferMarkType == .makeFriend{
                         annotation.markTypeToShow = .makeFriend
                     }
@@ -214,7 +212,6 @@ class PresonAnnotationGetter{
         if UserSetting.isMapShowOpenStore{
             if annotation.isOpenStore{
                 canShow = true
-                print("decideCanShowOrNotAndWhichIcon 2")
                 if annotation.preferMarkType == .openStore{
                     annotation.markTypeToShow = .openStore
                 }
@@ -223,7 +220,6 @@ class PresonAnnotationGetter{
         if UserSetting.isMapShowRequest{
             if annotation.isRequest{
                 canShow = true
-                print("decideCanShowOrNotAndWhichIcon 3")
                 if annotation.preferMarkType == .request{
                     annotation.markTypeToShow = .request
                 }
@@ -232,7 +228,6 @@ class PresonAnnotationGetter{
         if UserSetting.isMapShowTeamUp{
             if annotation.isTeamUp {
                 canShow = true
-                print("decideCanShowOrNotAndWhichIcon 4")
                 if annotation.preferMarkType == .teamUp{
                     annotation.markTypeToShow = .teamUp
                 }

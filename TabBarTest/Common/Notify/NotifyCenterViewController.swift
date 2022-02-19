@@ -103,6 +103,7 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
             }()
             tableView.addSubview(noDataLabel)
         }
+        
         return vm.postNotifcations.count
     }
     

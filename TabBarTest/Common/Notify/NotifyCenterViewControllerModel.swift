@@ -23,6 +23,7 @@ class NotifyCenterViewControllerModel{
     
     var postNotifcations : [PostNotifcation] = []
     
+    
     func startListenPostNotifcations(){
         let notifyListObserverRef = Database.database().reference(withPath: "Notification/" + UserSetting.UID)
         
@@ -32,6 +33,10 @@ class NotifyCenterViewControllerModel{
                 return date1.time.compare(date2.time) == ComparisonResult.orderedDescending
             }
             self.delegate?.reloadData()
+            
+            print("aaa childadd")
+            self.changeMapViewNotiCount()
+            
         })
         
         notifyListObserverRef.observe(.childChanged, with: { (snapshot) in
@@ -45,7 +50,22 @@ class NotifyCenterViewControllerModel{
                 return date1.time.compare(date2.time) == ComparisonResult.orderedDescending
             }
             self.delegate?.reloadData()
+            print("aaa childchanged")
+            self.changeMapViewNotiCount()
         })
+    }
+    
+    fileprivate func changeMapViewNotiCount() {
+        let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
+        var unreadNotiCount = 0
+        for noti in self.postNotifcations {
+            if (noti.isRead == false){
+                unreadNotiCount += 1
+            }
+        }
+        if mapViewController != nil{
+            mapViewController!.setUnreadNotifcationCount(count: unreadNotiCount)
+        }
     }
     
     func configure(cell: NotifyTableViewCell, at indexPath: IndexPath) {
