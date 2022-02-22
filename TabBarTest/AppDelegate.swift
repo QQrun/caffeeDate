@@ -35,7 +35,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
         ApplicationDelegate.shared.application( application, didFinishLaunchingWithOptions: launchOptions )
         
         //本機預設參數
-        print("Dic 33")
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
         let dic = ["alreadyUpdatePersonDetail":false,
                    "UID":"",

@@ -38,7 +38,12 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         
         
         titleImageView.image = UIImage(named: "FaceTrader")?.withRenderingMode(.alwaysTemplate)
-        titleImageView.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
+        
+        #if FACETRADER
+            titleImageView.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
+        #elseif VERYINCORRECT
+            titleImageView.tintColor = UIColor.hexStringToUIColor(hex: "#BBBBBB")
+        #endif
         
         googleLogInBtn.layer.cornerRadius = 7
         fbLogInBtn.layer.cornerRadius = 7

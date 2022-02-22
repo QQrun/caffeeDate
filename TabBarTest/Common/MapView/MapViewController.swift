@@ -19,6 +19,7 @@ protocol MapViewControllerViewDelegate: class {
     func gotoProfileViewController_mapView(personDetail:PersonDetailInfo)
     func gotoWantSellViewController_mapView(defaultItem:Item?)
     func gotoWantBuyViewController_mapView(defaultItem:Item?)
+    func gotoHoldSharedSeatController_mapView()
     func gotoScoreCoffeeController_mapView(annotation:CoffeeAnnotation)
 }
 
@@ -183,19 +184,30 @@ class MapViewController: UIViewController {
         
         
         iWantActionSheetContainer.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
-        //        view.addSubview(iWantActionSheetContainer)
         
-        let actionSheetText = ["取消","新增咖啡店","徵求某東西","擺攤賣東西","向周遭Say Hi交朋友"]
-        actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        
+        #if FACETRADER
+            let actionSheetText = ["取消","新增咖啡店","徵求某東西","擺攤賣東西","向周遭Say Hi交朋友"]
+            actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+            actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+            print("if FACETRADER if FACETRADER")
+        #elseif VERYINCORRECT
+            let actionSheetText = ["取消","新增咖啡店","發起相席","向周遭Say Hi交朋友"]
+            actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+            actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
+            actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+            print("elseif VERYINCORRECTelseif VERYINCORRECT")
+        #endif
+        
         actionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
         actionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
         iWantActionSheetContainer.addTarget(self, action: #selector(iWantActionSheetContainerAct), for: .touchUpInside)
-        
-        actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
         
         
         
@@ -2257,6 +2269,14 @@ class MapViewController: UIViewController {
         Analytics.logEvent("地圖_加號按鈕_徵求物品", parameters:nil)
         
         viewDelegate?.gotoWantBuyViewController_mapView(defaultItem:nil)
+        mapView.deselectAnnotation(mapView.userLocation, animated: true)
+    }
+    
+    @objc private func iWantSharedSeatBtnAct(){
+        Analytics.logEvent("地圖_加號按鈕_發起相席", parameters:nil)
+        
+        print("iWantSharedSeatBtnAct")
+        viewDelegate?.gotoHoldSharedSeatController_mapView()
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
     }
     

@@ -10,10 +10,8 @@ import Foundation
 import UIKit
 import Firebase
 
-
 class ScoreCoffeeViewController : UIViewController{
-    
-    
+        
     var annotation : CoffeeAnnotation
     var scoreBoard : UIView = UIView()
     var finishBtn : UIButton = UIButton()

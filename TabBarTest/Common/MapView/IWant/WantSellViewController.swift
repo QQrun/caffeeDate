@@ -82,6 +82,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
     }
+    
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -102,7 +103,6 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(false)
-        
     }
     
     func setDefaultItem(){
@@ -125,7 +125,9 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
                         AF.request(item.photosUrl![i]).response { (response) in
                             guard let data = response.data, let image = UIImage(data: data)
                             else { return }
-                            self.photos[i] = image
+                            if(self.photos.count > i){
+                                self.photos[i] = image
+                            }
                             let indexPath: IndexPath = IndexPath.init(row: i, section: 0)
                             self.photoTableView.reloadRows(at: [indexPath], with: .none)
                             if self.isPhotosAlreadyDownload.count - 1 >= i{
@@ -214,9 +216,6 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         tableViewContainer.addSubview(photoTableView)
         
-        
-        
-        
     }
     
     
@@ -236,14 +235,15 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }()
         scrollView.addSubview(itemNameLabel)
         
-        let separator2_1 = { () -> UIView in
+        
+        let separator1 = { () -> UIView in
             let separator = UIView()
             separator.backgroundColor = .on().withAlphaComponent(0.08)
             separator.frame = CGRect(x: 15, y:itemNameLabel.frame.origin.y + itemNameLabel.frame.height + 7, width: view.frame.width - 30, height: 1)
             
             return separator
         }()
-        scrollView.addSubview(separator2_1)
+        scrollView.addSubview(separator1)
         
         
         
@@ -254,7 +254,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
-            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator2_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemNameTextFieldCountLabel)
@@ -264,7 +264,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         itemNameTextField = { () -> UITextField in
             let textField = UITextField()
             textField.tintColor = .primary()
-            textField.frame = CGRect(x:20, y: separator2_1.frame.origin.y + separator2_1.frame.height, width: view.frame.width - 20 * 2, height: 60)
+            textField.frame = CGRect(x:20, y: separator1.frame.origin.y + separator1.frame.height, width: view.frame.width - 20 * 2, height: 60)
             
             if iWantType == .Sell{
                 textField.attributedPlaceholder = NSAttributedString(string:
@@ -290,14 +290,14 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         }()
         scrollView.addSubview(itemNameTextField)
         
-        let separator3_1 = { () -> UIView in
+        let separator2 = { () -> UIView in
             let separator = UIView()
             separator.backgroundColor = .on().withAlphaComponent(0.08)
-            separator.frame = CGRect(x: 15, y:separator2_1.frame.origin.y + 120, width: view.frame.width - 30, height: 1)
+            separator.frame = CGRect(x: 15, y:separator1.frame.origin.y + 120, width: view.frame.width - 30, height: 1)
             
             return separator
         }()
-        scrollView.addSubview(separator3_1)
+        scrollView.addSubview(separator2)
         
         
         let priceLabel = { () -> UILabel in
@@ -309,7 +309,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-            label.frame = CGRect(x: 16, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: 16, y: separator2.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(priceLabel)
@@ -320,7 +320,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
-            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator3_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator2.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(priceTextFieldCountLabel)
@@ -328,7 +328,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         priceTextField = { () -> UITextField in
             let textField = UITextField()
             textField.tintColor = .primary()
-            textField.frame = CGRect(x:20, y: separator3_1.frame.origin.y + separator3_1.frame.height, width: view.frame.width - 20 * 2, height: 60)
+            textField.frame = CGRect(x:20, y: separator2.frame.origin.y + separator2.frame.height, width: view.frame.width - 20 * 2, height: 60)
             textField.attributedPlaceholder = NSAttributedString(string:
                                                                     "    ex：一杯咖啡、一頓飯、250元、聊天室談⋯⋯", attributes:
                                                                         [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
@@ -347,14 +347,14 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         
         
         
-        let separator4_1 = { () -> UIView in
+        let separator3 = { () -> UIView in
             let separator = UIView()
             separator.backgroundColor = .on().withAlphaComponent(0.08)
-            separator.frame = CGRect(x: 15, y:separator3_1.frame.origin.y + 120, width: view.frame.width - 30, height: 1)
+            separator.frame = CGRect(x: 15, y:separator2.frame.origin.y + 120, width: view.frame.width - 30, height: 1)
             
             return separator
         }()
-        scrollView.addSubview(separator4_1)
+        scrollView.addSubview(separator3)
         
         
         let itemInfoLabel = { () -> UILabel in
@@ -366,7 +366,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             }
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-            label.frame = CGRect(x: 16, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: 16, y: separator3.frame.origin.y - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemInfoLabel)
@@ -377,7 +377,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
             label.textColor = .on().withAlphaComponent(0.5)
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
-            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator4_1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator3.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(itemInfoTextFieldCountLabel)
@@ -391,7 +391,7 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         itemInfoTextView = { () -> UITextView in
             let textView = UITextView()
             textView.tintColor = .primary()
-            textView.frame = CGRect(x:20, y: separator4_1.frame.origin.y + separator4_1.frame.height, width: view.frame.width - 20 * 2, height: 400)
+            textView.frame = CGRect(x:20, y: separator3.frame.origin.y + separator3.frame.height, width: view.frame.width - 20 * 2, height: 400)
             textView.returnKeyType = .default
             textView.textColor =  .on().withAlphaComponent(0.5)
             textView.font = UIFont(name: "HelveticaNeue-Light", size: 16)
@@ -408,16 +408,16 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
         scrollView.addSubview(itemInfoTextView)
         
         
-        let separator5_1 = { () -> UIView in
+        let separator4 = { () -> UIView in
             let separator = UIView()
             separator.backgroundColor = .on().withAlphaComponent(0.08)
-            separator.frame = CGRect(x: 15, y:separator4_1.frame.origin.y + 400, width: view.frame.width - 30, height: 1)
+            separator.frame = CGRect(x: 15, y:separator3.frame.origin.y + 400, width: view.frame.width - 30, height: 1)
             
             return separator
         }()
-        scrollView.addSubview(separator5_1)
+        scrollView.addSubview(separator4)
         
-        scrollView.contentSize = CGSize(width: view.frame.width,height: separator5_1.frame.origin.y + 500)
+        scrollView.contentSize = CGSize(width: view.frame.width,height: separator4.frame.origin.y + 500)
     }
     
     @objc fileprivate func endEditTouch() {
@@ -426,25 +426,16 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     
     
     fileprivate func addTakePhotoOrUsePhotoBtn(){
-        
-        
-        
         let actionSheetText = ["取消","從相簿找圖","拍照"]
         actionSheetKit_addPhoto.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
         actionSheetKit_addPhoto.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addPhotoBtnAct), for: .touchUpInside)
         actionSheetKit_addPhoto.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(takePhotoBtnAct), for: .touchUpInside)
-
-        
-        
-        
     }
     
     fileprivate func addDeleteAndCancealBtn() {
-        
         let actionSheetText = ["取消","刪除"]
         actionSheetKit_deletePhoto.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
         actionSheetKit_deletePhoto.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(deleteBtnAct), for: .touchUpInside)
-        
     }
     
     // MARK: - TableViewDelegate

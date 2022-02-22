@@ -163,6 +163,12 @@ extension RootCoordinator: MapViewControllerViewDelegate {
         mapTab.pushViewController(wantBuyViewController, animated: true)
     }
     
+    func gotoHoldSharedSeatController_mapView(){
+        let holdShareSeatViewController = HoldShareSeatViewController()
+        holdShareSeatViewController.modalPresentationStyle = .overCurrentContext
+        mapTab.pushViewController(holdShareSeatViewController, animated: true)
+    }
+    
     
     func gotoScoreCoffeeController_mapView(annotation:CoffeeAnnotation){
         let scoreCoffeeViewController = ScoreCoffeeViewController(annotation:annotation)

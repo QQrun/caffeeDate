@@ -253,7 +253,9 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
                 AF.request(UserSetting.userPhotosUrl[i]).response { (response) in
                     guard let data = response.data, let image = UIImage(data: data)
                     else { return }
-                    self.photos[i] = image
+                    if(self.photos.count > i){
+                        self.photos[i] = image
+                    }
                     let indexPath: IndexPath = IndexPath.init(row: i, section: 0)
                     self.photoTableView.reloadRows(at: [indexPath], with: .none)
                     if self.isPhotosAlreadyDownload.count - 1 >= i{
@@ -336,11 +338,13 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         for photoUrl in photoUrlsNeedToDelete {
             let photoStorageRef = Storage.storage().reference(forURL: photoUrl)
             photoStorageRef.delete(completion: { (error) in
+                print("photoUrlsNeedToDelete 1")
                 if let error = error {
+                    print("photoUrlsNeedToDelete error")
                     print(error)
                 } else {
                     // success
-                    print("deleted \(photoUrl)")
+                    print("photoUrlsNeedToDelete:" + "\(photoUrl)")
                     if let index =  UserSetting.userPhotosUrl.firstIndex(of: photoUrl){
                         UserSetting.userPhotosUrl.remove(at: index)
                     }

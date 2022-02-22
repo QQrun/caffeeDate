@@ -166,6 +166,217 @@
 		A77BAD6C253C7D280071D346 /* InputBarAccessoryView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD68253C7D270071D346 /* InputBarAccessoryView-dummy.m */; };
 		A77BADA9253C7FA50071D346 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77BA7EF253B5E8B0071D346 /* Assets.xcassets */; };
 		A77BADEE253DC1720071D346 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A77BADED253DC1720071D346 /* GoogleService-Info.plist */; };
+		A787C2BF27C0F284009EC8A7 /* PersonDetailInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E092447588B00E43D46 /* PersonDetailInfo.swift */; };
+		A787C2C027C0F284009EC8A7 /* ProfilePopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE4B25C9829400766B66 /* ProfilePopView.swift */; };
+		A787C2C127C0F284009EC8A7 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E483244B093D00730053 /* ItemViewController.swift */; };
+		A787C2C227C0F284009EC8A7 /* ShopEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF167246648EA00617AAF /* ShopEditViewController.swift */; };
+		A787C2C327C0F284009EC8A7 /* NSMutableAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD3C253C7D180071D346 /* NSMutableAttributedString+Extensions.swift */; };
+		A787C2C427C0F284009EC8A7 /* RootTabBarTransition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7110574243BBE4E008E680D /* RootTabBarTransition.swift */; };
+		A787C2C527C0F284009EC8A7 /* TypingIndicatorCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC10253C77100071D346 /* TypingIndicatorCell.swift */; };
+		A787C2C627C0F284009EC8A7 /* CoordinatorAndControllerInstanceHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB726247D2F1B005BA294 /* CoordinatorAndControllerInstanceHelper.swift */; };
+		A787C2C727C0F284009EC8A7 /* ChatMassage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB744248D12FB005BA294 /* ChatMassage.swift */; };
+		A787C2C827C0F284009EC8A7 /* SSPopoverPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714617E2761EA1000872E4E /* SSPopoverPresentationManager.swift */; };
+		A787C2C927C0F284009EC8A7 /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF179246C312000617AAF /* FirebaseHelper.swift */; };
+		A787C2CA27C0F284009EC8A7 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB747248D12FB005BA294 /* ChatViewController.swift */; };
+		A787C2CB27C0F284009EC8A7 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7110572243BBE4E008E680D /* AppCoordinator.swift */; };
+		A787C2CC27C0F284009EC8A7 /* SSPopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461832761EA1000872E4E /* SSPopoverAnimationController.swift */; };
+		A787C2CD27C0F284009EC8A7 /* LinkPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFD253C76D80071D346 /* LinkPreviewView.swift */; };
+		A787C2CE27C0F284009EC8A7 /* OneToOneChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB745248D12FB005BA294 /* OneToOneChatViewController.swift */; };
+		A787C2CF27C0F284009EC8A7 /* AttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD37253C7D160071D346 /* AttachmentCell.swift */; };
+		A787C2D027C0F284009EC8A7 /* MessageInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABEF253C76B90071D346 /* MessageInputBar.swift */; };
+		A787C2D127C0F284009EC8A7 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE0D25C678D400766B66 /* PaddingLabel.swift */; };
+		A787C2D227C0F284009EC8A7 /* WordLimitUITextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDF527245233EE00180166 /* WordLimitUITextFieldDelegate.swift */; };
+		A787C2D327C0F284009EC8A7 /* SenderType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD6253C769E0071D346 /* SenderType.swift */; };
+		A787C2D427C0F284009EC8A7 /* ContactMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB86253C75ED0071D346 /* ContactMessageSizeCalculator.swift */; };
+		A787C2D527C0F284009EC8A7 /* InputBarSendButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD3E253C7D180071D346 /* InputBarSendButton.swift */; };
+		A787C2D627C0F284009EC8A7 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB748248D12FB005BA294 /* ChatUser.swift */; };
+		A787C2D727C0F284009EC8A7 /* MessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB8B253C75EE0071D346 /* MessageSizeCalculator.swift */; };
+		A787C2D827C0F284009EC8A7 /* AudioMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB84253C75EC0071D346 /* AudioMessageSizeCalculator.swift */; };
+		A787C2D927C0F284009EC8A7 /* MessageKind+textMessageKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB72253C75DC0071D346 /* MessageKind+textMessageKind.swift */; };
+		A787C2DA27C0F284009EC8A7 /* Device+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71BD83324E0317700AA093A /* Device+.swift */; };
+		A787C2DB27C0F284009EC8A7 /* MessageLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFF253C76D80071D346 /* MessageLabel.swift */; };
+		A787C2DC27C0F284009EC8A7 /* LinkItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABDD253C76A00071D346 /* LinkItem.swift */; };
+		A787C2DD27C0F284009EC8A7 /* InputItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD2A253C7D120071D346 /* InputItem.swift */; };
+		A787C2DE27C0F284009EC8A7 /* RootTabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7110570243BBE4E008E680D /* RootTabBarController.swift */; };
+		A787C2DF27C0F284009EC8A7 /* AutocompleteManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD29253C7D120071D346 /* AutocompleteManagerDelegate.swift */; };
+		A787C2E027C0F284009EC8A7 /* UIImage+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB73253C75DC0071D346 /* UIImage+Extensions.swift */; };
+		A787C2E127C0F284009EC8A7 /* MediaMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC12253C77100071D346 /* MediaMessageCell.swift */; };
+		A787C2E227C0F284009EC8A7 /* InputBarAccessoryView+Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD3A253C7D170071D346 /* InputBarAccessoryView+Availability.swift */; };
+		A787C2E327C0F284009EC8A7 /* SeparatorLine.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD3F253C7D180071D346 /* SeparatorLine.swift */; };
+		A787C2E427C0F284009EC8A7 /* InputBarAccessoryViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD22253C7D100071D346 /* InputBarAccessoryViewDelegate.swift */; };
+		A787C2E527C0F284009EC8A7 /* AutocompleteSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD28253C7D120071D346 /* AutocompleteSession.swift */; };
+		A787C2E627C0F284009EC8A7 /* CustomBookMarkKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A47501252CC4E10038D75B /* CustomBookMarkKit.swift */; };
+		A787C2E727C0F284009EC8A7 /* MessageContainerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFB253C76D80071D346 /* MessageContainerView.swift */; };
+		A787C2E827C0F284009EC8A7 /* AppStoreRating.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE4A25C9829400766B66 /* AppStoreRating.swift */; };
+		A787C2E927C0F284009EC8A7 /* NSConstraintLayoutSet.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABBB253C76650071D346 /* NSConstraintLayoutSet.swift */; };
+		A787C2EA27C0F284009EC8A7 /* LocationItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD4253C769E0071D346 /* LocationItem.swift */; };
+		A787C2EB27C0F284009EC8A7 /* SSPopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714617F2761EA1000872E4E /* SSPopoverPresentationController.swift */; };
+		A787C2EC27C0F284009EC8A7 /* AutocompleteManagerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD21253C7D0F0071D346 /* AutocompleteManagerDataSource.swift */; };
+		A787C2ED27C0F284009EC8A7 /* LinkPreviewMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB83253C75EC0071D346 /* LinkPreviewMessageSizeCalculator.swift */; };
+		A787C2EE27C0F284009EC8A7 /* UserSetting.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DF2243F7D3E00E43D46 /* UserSetting.swift */; };
+		A787C2EF27C0F284009EC8A7 /* TypingIndicatorCellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB8D253C75EF0071D346 /* TypingIndicatorCellSizeCalculator.swift */; };
+		A787C2F027C0F284009EC8A7 /* MessagesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB6B253C75D50071D346 /* MessagesViewController.swift */; };
+		A787C2F127C0F284009EC8A7 /* NotifyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7707FAC24FB7E5E001B94C4 /* NotifyHelper.swift */; };
+		A787C2F227C0F284009EC8A7 /* FillBasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F47BA72453A0F10015A502 /* FillBasicInfoViewController.swift */; };
+		A787C2F327C0F284009EC8A7 /* PersonAnnotationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDF52C2453200200180166 /* PersonAnnotationData.swift */; };
+		A787C2F427C0F284009EC8A7 /* ItemTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DFB2444687A00E43D46 /* ItemTableViewDelegate.swift */; };
+		A787C2F527C0F284009EC8A7 /* NotifyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCE11C24EE257500E79E96 /* NotifyTableViewCell.swift */; };
+		A787C2F627C0F284009EC8A7 /* ScoreCoffeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */; };
+		A787C2F727C0F284009EC8A7 /* InputBarButtonItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD26253C7D110071D346 /* InputBarButtonItem.swift */; };
+		A787C2F827C0F284009EC8A7 /* MessagesViewController+Keyboard.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB6C253C75D50071D346 /* MessagesViewController+Keyboard.swift */; };
+		A787C2F927C0F284009EC8A7 /* AttachmentsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD2C253C7D130071D346 /* AttachmentsView.swift */; };
+		A787C2FA27C0F284009EC8A7 /* MessagesCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB85253C75ED0071D346 /* MessagesCollectionViewFlowLayout.swift */; };
+		A787C2FB27C0F284009EC8A7 /* MessageKitError.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABBA253C76650071D346 /* MessageKitError.swift */; };
+		A787C2FC27C0F284009EC8A7 /* AvatarView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABF4253C76CC0071D346 /* AvatarView.swift */; };
+		A787C2FD27C0F284009EC8A7 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E052445E26700E43D46 /* Item.swift */; };
+		A787C2FE27C0F284009EC8A7 /* BigItemTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */; };
+		A787C2FF27C0F284009EC8A7 /* MessagesViewController+Menu.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB6D253C75D50071D346 /* MessagesViewController+Menu.swift */; };
+		A787C30027C0F284009EC8A7 /* OpenNotificationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E4A3244DDCBF00730053 /* OpenNotificationViewController.swift */; };
+		A787C30127C0F284009EC8A7 /* CustomBGKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB741248CFDEB005BA294 /* CustomBGKit.swift */; };
+		A787C30227C0F284009EC8A7 /* AutocompleteTableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD38253C7D160071D346 /* AutocompleteTableView.swift */; };
+		A787C30327C0F284009EC8A7 /* BigItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */; };
+		A787C30427C0F284009EC8A7 /* MessageType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD8253C769F0071D346 /* MessageType.swift */; };
+		A787C30527C0F284009EC8A7 /* HorizontalEdgePadding.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD39253C7D170071D346 /* HorizontalEdgePadding.swift */; };
+		A787C30627C0F284009EC8A7 /* AttachmentManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD42253C7D190071D346 /* AttachmentManager.swift */; };
+		A787C30727C0F284009EC8A7 /* MessagesLayoutDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD5253C769E0071D346 /* MessagesLayoutDelegate.swift */; };
+		A787C30827C0F284009EC8A7 /* LocationMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC14253C77100071D346 /* LocationMessageCell.swift */; };
+		A787C30927C0F284009EC8A7 /* PhotoTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DF924444B1C00E43D46 /* PhotoTableViewDelegate.swift */; };
+		A787C30A27C0F284009EC8A7 /* BubbleCircle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABF5253C76CC0071D346 /* BubbleCircle.swift */; };
+		A787C30B27C0F284009EC8A7 /* TextMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB8C253C75EF0071D346 /* TextMessageSizeCalculator.swift */; };
+		A787C30C27C0F284009EC8A7 /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AE91AD2474511D003AE85F /* ProfileEditViewController.swift */; };
+		A787C30D27C0F284009EC8A7 /* CoffeeScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */; };
+		A787C30E27C0F284009EC8A7 /* AudioItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD7253C769E0071D346 /* AudioItem.swift */; };
+		A787C30F27C0F284009EC8A7 /* MailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76E24592492432F0079881D /* MailButton.swift */; };
+		A787C31027C0F284009EC8A7 /* SettingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF1652464396300617AAF /* SettingViewController.swift */; };
+		A787C31127C0F284009EC8A7 /* WantAddPhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E5D82451878300730053 /* WantAddPhotoTableViewCell.swift */; };
+		A787C31227C0F284009EC8A7 /* KeyboardManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD24253C7D100071D346 /* KeyboardManager.swift */; };
+		A787C31327C0F284009EC8A7 /* UIEdgeInsets+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB78253C75DE0071D346 /* UIEdgeInsets+Extensions.swift */; };
+		A787C31427C0F284009EC8A7 /* ProfilePopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5225C9849B00766B66 /* ProfilePopoverAnimationController.swift */; };
+		A787C31527C0F284009EC8A7 /* UIView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB76253C75DD0071D346 /* UIView+Extensions.swift */; };
+		A787C31627C0F284009EC8A7 /* InputStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD23253C7D100071D346 /* InputStackView.swift */; };
+		A787C31727C0F284009EC8A7 /* InputPlugin.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD41253C7D190071D346 /* InputPlugin.swift */; };
+		A787C31827C0F284009EC8A7 /* MessageReusableView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC0C253C76F80071D346 /* MessageReusableView.swift */; };
+		A787C31927C0F284009EC8A7 /* MessagesCollectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFE253C76D80071D346 /* MessagesCollectionView.swift */; };
+		A787C31A27C0F284009EC8A7 /* MessageKind.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABBE253C76660071D346 /* MessageKind.swift */; };
+		A787C31B27C0F284009EC8A7 /* DetectorType.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABB7253C76640071D346 /* DetectorType.swift */; };
+		A787C31C27C0F284009EC8A7 /* Avatar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABBC253C76660071D346 /* Avatar.swift */; };
+		A787C31D27C0F284009EC8A7 /* InputTextView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD27253C7D110071D346 /* InputTextView.swift */; };
+		A787C31E27C0F284009EC8A7 /* TypingBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC00253C76D80071D346 /* TypingBubble.swift */; };
+		A787C31F27C0F284009EC8A7 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB15A624A8C01B00FDBC12 /* MailListViewController.swift */; };
+		A787C32027C0F284009EC8A7 /* InputBarAccessoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD2B253C7D120071D346 /* InputBarAccessoryView.swift */; };
+		A787C32127C0F284009EC8A7 /* NotifyCenterViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */; };
+		A787C32227C0F284009EC8A7 /* AttachmentManagerDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD2D253C7D130071D346 /* AttachmentManagerDataSource.swift */; };
+		A787C32327C0F284009EC8A7 /* CustomPointAnnotation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E012445DE4C00E43D46 /* CustomPointAnnotation.swift */; };
+		A787C32427C0F284009EC8A7 /* AutocompleteCompletion.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD25253C7D110071D346 /* AutocompleteCompletion.swift */; };
+		A787C32527C0F284009EC8A7 /* LocationMessageSnapshotOptions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABBD253C76660071D346 /* LocationMessageSnapshotOptions.swift */; };
+		A787C32627C0F284009EC8A7 /* LogInPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E49B244DD39800730053 /* LogInPageViewController.swift */; };
+		A787C32727C0F284009EC8A7 /* SSAlertController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714617D2761EA1000872E4E /* SSAlertController.swift */; };
+		A787C32827C0F284009EC8A7 /* Bundle+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB77253C75DE0071D346 /* Bundle+Extensions.swift */; };
+		A787C32927C0F284009EC8A7 /* UIColor+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB79253C75DF0071D346 /* UIColor+Extensions.swift */; };
+		A787C32A27C0F284009EC8A7 /* AccessoryPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABBF253C76660071D346 /* AccessoryPosition.swift */; };
+		A787C32B27C0F284009EC8A7 /* CustomInputBoxKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB7342481418E005BA294 /* CustomInputBoxKit.swift */; };
+		A787C32C27C0F284009EC8A7 /* PrivacyViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A766F1542554342000C9455C /* PrivacyViewController.swift */; };
+		A787C32D27C0F284009EC8A7 /* FirstLogInViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E497244DCCAA00730053 /* FirstLogInViewController.swift */; };
+		A787C32E27C0F284009EC8A7 /* CustomTopBarKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB73A24827EE2005BA294 /* CustomTopBarKit.swift */; };
+		A787C32F27C0F284009EC8A7 /* MessageKitDateFormatter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABB8253C76640071D346 /* MessageKitDateFormatter.swift */; };
+		A787C33027C0F284009EC8A7 /* LabelAlignment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABC0253C76670071D346 /* LabelAlignment.swift */; };
+		A787C33127C0F284009EC8A7 /* Coordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7110571243BBE4E008E680D /* Coordinator.swift */; };
+		A787C33227C0F284009EC8A7 /* MessagesDataSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABDC253C76A00071D346 /* MessagesDataSource.swift */; };
+		A787C33327C0F284009EC8A7 /* Colors.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714616A27574B5A00872E4E /* Colors.swift */; };
+		A787C33427C0F284009EC8A7 /* WantSellViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E5D624517F7900730053 /* WantSellViewController.swift */; };
+		A787C33527C0F284009EC8A7 /* ActionSheetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF1732466B2C600617AAF /* ActionSheetKit.swift */; };
+		A787C33627C0F284009EC8A7 /* MapViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711058E243E32C1008E680D /* MapViewController.swift */; };
+		A787C33727C0F284009EC8A7 /* AutocompleteManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD33253C7D150071D346 /* AutocompleteManager.swift */; };
+		A787C33827C0F284009EC8A7 /* MessageStyle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABC2253C76670071D346 /* MessageStyle.swift */; };
+		A787C33927C0F284009EC8A7 /* PostNotifcation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D30964251C5415005CBA08 /* PostNotifcation.swift */; };
+		A787C33A27C0F284009EC8A7 /* UIView+AutoLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD31253C7D140071D346 /* UIView+AutoLayout.swift */; };
+		A787C33B27C0F284009EC8A7 /* HorizontalEdgeInsets.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABC1253C76670071D346 /* HorizontalEdgeInsets.swift */; };
+		A787C33C27C0F284009EC8A7 /* SSSegmentedControl.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714616C27574B6E00872E4E /* SSSegmentedControl.swift */; };
+		A787C33D27C0F284009EC8A7 /* KeyboardNotification.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD3B253C7D170071D346 /* KeyboardNotification.swift */; };
+		A787C33E27C0F284009EC8A7 /* UITextView+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD3D253C7D180071D346 /* UITextView+Extensions.swift */; };
+		A787C33F27C0F284009EC8A7 /* StoryboardInstantiatable.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711057E243BC6FC008E680D /* StoryboardInstantiatable.swift */; };
+		A787C34027C0F284009EC8A7 /* Extansions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711058A243CB4DA008E680D /* Extansions.swift */; };
+		A787C34127C0F284009EC8A7 /* MessageKit+Availability.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABEE253C76B90071D346 /* MessageKit+Availability.swift */; };
+		A787C34227C0F284009EC8A7 /* MediaItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABDA253C769F0071D346 /* MediaItem.swift */; };
+		A787C34327C0F284009EC8A7 /* ItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DFD244468D200E43D46 /* ItemTableViewCell.swift */; };
+		A787C34427C0F284009EC8A7 /* TypingIndicator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABF9253C76D70071D346 /* TypingIndicator.swift */; };
+		A787C34527C0F284009EC8A7 /* MessagesCollectionViewLayoutAttributes.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB8A253C75EE0071D346 /* MessagesCollectionViewLayoutAttributes.swift */; };
+		A787C34627C0F284009EC8A7 /* AutocompleteCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD40253C7D190071D346 /* AutocompleteCell.swift */; };
+		A787C34727C0F284009EC8A7 /* ContactItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD9253C769F0071D346 /* ContactItem.swift */; };
+		A787C34827C0F284009EC8A7 /* LinkPreviewFonts.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABB6253C76640071D346 /* LinkPreviewFonts.swift */; };
+		A787C34927C0F284009EC8A7 /* CheckLocationAccessViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E5CA244E302700730053 /* CheckLocationAccessViewController.swift */; };
+		A787C34A27C0F284009EC8A7 /* LinkPreviewMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC18253C77110071D346 /* LinkPreviewMessageCell.swift */; };
+		A787C34B27C0F284009EC8A7 /* AvatarPosition.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABB9253C76650071D346 /* AvatarPosition.swift */; };
+		A787C34C27C0F284009EC8A7 /* SSPopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461802761EA1000872E4E /* SSPopoverViewController.swift */; };
+		A787C34D27C0F284009EC8A7 /* ImageAttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD32253C7D150071D346 /* ImageAttachmentCell.swift */; };
+		A787C34E27C0F284009EC8A7 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = A73F3796245EB5140082DF8E /* Comment.swift */; };
+		A787C34F27C0F284009EC8A7 /* PlayButtonView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFA253C76D70071D346 /* PlayButtonView.swift */; };
+		A787C35027C0F284009EC8A7 /* MessageCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC13253C77100071D346 /* MessageCollectionViewCell.swift */; };
+		A787C35127C0F284009EC8A7 /* ContactMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC15253C77110071D346 /* ContactMessageCell.swift */; };
+		A787C35227C0F284009EC8A7 /* TextMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC16253C77110071D346 /* TextMessageCell.swift */; };
+		A787C35327C0F284009EC8A7 /* CGRect+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB75253C75DD0071D346 /* CGRect+Extensions.swift */; };
+		A787C35427C0F284009EC8A7 /* MailListTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB15A124A8B96A00FDBC12 /* MailListTableViewCell.swift */; };
+		A787C35527C0F284009EC8A7 /* InputBarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD34253C7D150071D346 /* InputBarViewController.swift */; };
+		A787C35627C0F284009EC8A7 /* ProfilePopoverPresentationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5125C9849B00766B66 /* ProfilePopoverPresentationManager.swift */; };
+		A787C35727C0F284009EC8A7 /* UIImage+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE1325C67C5900766B66 /* UIImage+.swift */; };
+		A787C35827C0F284009EC8A7 /* MediaMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB89253C75EE0071D346 /* MediaMessageSizeCalculator.swift */; };
+		A787C35927C0F284009EC8A7 /* ProfilePop.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714618E2761EAED00872E4E /* ProfilePop.swift */; };
+		A787C35A27C0F284009EC8A7 /* LocationMessageSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB87253C75ED0071D346 /* LocationMessageSizeCalculator.swift */; };
+		A787C35B27C0F284009EC8A7 /* AudioMessageCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC17253C77110071D346 /* AudioMessageCell.swift */; };
+		A787C35C27C0F284009EC8A7 /* CellSizeCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB88253C75ED0071D346 /* CellSizeCalculator.swift */; };
+		A787C35D27C0F284009EC8A7 /* MessageContentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAC11253C77100071D346 /* MessageContentCell.swift */; };
+		A787C35E27C0F284009EC8A7 /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF16B24664D9200617AAF /* Util.swift */; };
+		A787C35F27C0F284009EC8A7 /* PhotoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DF7244449C700E43D46 /* PhotoTableViewCell.swift */; };
+		A787C36027C0F284009EC8A7 /* CommentTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E494244C851200730053 /* CommentTableViewCell.swift */; };
+		A787C36127C0F284009EC8A7 /* MessageLabelDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABDB253C76A00071D346 /* MessageLabelDelegate.swift */; };
+		A787C36227C0F284009EC8A7 /* ProfileViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF1632462EE5D00617AAF /* ProfileViewController.swift */; };
+		A787C36327C0F284009EC8A7 /* NotifyCenterViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DEA243E3E6400E43D46 /* NotifyCenterViewController.swift */; };
+		A787C36427C0F284009EC8A7 /* ProfilePopoverViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5425C9849B00766B66 /* ProfilePopoverViewController.swift */; };
+		A787C36527C0F284009EC8A7 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055A243BBD9A008E680D /* AppDelegate.swift */; };
+		A787C36627C0F284009EC8A7 /* ShopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A474FA252CA5810038D75B /* ShopModel.swift */; };
+		A787C36727C0F284009EC8A7 /* InputBarAccessoryView-dummy.m in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD68253C7D270071D346 /* InputBarAccessoryView-dummy.m */; };
+		A787C36827C0F284009EC8A7 /* PresonAnnotationGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E032445DFF100E43D46 /* PresonAnnotationGetter.swift */; };
+		A787C36927C0F284009EC8A7 /* NSNotification+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD2F253C7D140071D346 /* NSNotification+Extensions.swift */; };
+		A787C36A27C0F284009EC8A7 /* CoffeeAnnotationGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3DF424422EE500E43D46 /* CoffeeAnnotationGetter.swift */; };
+		A787C36B27C0F284009EC8A7 /* UIView+.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE1025C6795300766B66 /* UIView+.swift */; };
+		A787C36C27C0F284009EC8A7 /* Sender.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABC3253C76680071D346 /* Sender.swift */; };
+		A787C36D27C0F284009EC8A7 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055C243BBD9A008E680D /* SceneDelegate.swift */; };
+		A787C36E27C0F284009EC8A7 /* AttachmentManagerDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD2E253C7D130071D346 /* AttachmentManagerDelegate.swift */; };
+		A787C36F27C0F284009EC8A7 /* MessageCellDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABD3253C769D0071D346 /* MessageCellDelegate.swift */; };
+		A787C37027C0F284009EC8A7 /* AppStoreRatingAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461822761EA1000872E4E /* AppStoreRatingAlertView.swift */; };
+		A787C37127C0F284009EC8A7 /* RootCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7110573243BBE4E008E680D /* RootCoordinator.swift */; };
+		A787C37227C0F284009EC8A7 /* NSAttributedString+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAB74253C75DD0071D346 /* NSAttributedString+Extensions.swift */; };
+		A787C37327C0F284009EC8A7 /* String+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD36253C7D160071D346 /* String+Extensions.swift */; };
+		A787C37427C0F284009EC8A7 /* ProfilePopoverPresentationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE5325C9849B00766B66 /* ProfilePopoverPresentationController.swift */; };
+		A787C37527C0F284009EC8A7 /* SSButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A714616D27574B6E00872E4E /* SSButton.swift */; };
+		A787C37627C0F284009EC8A7 /* KeyboardEvent.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD30253C7D140071D346 /* KeyboardEvent.swift */; };
+		A787C37727C0F284009EC8A7 /* ProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A474D92524C0AA0038D75B /* ProfileButton.swift */; };
+		A787C37827C0F284009EC8A7 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFC253C76D80071D346 /* InsetLabel.swift */; };
+		A787C37927C0F284009EC8A7 /* MessagesDisplayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABDE253C76A00071D346 /* MessagesDisplayDelegate.swift */; };
+		A787C37B27C0F284009EC8A7 /* libPods-TabBarTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD92DB36E637D077B861A45E /* libPods-TabBarTest.a */; };
+		A787C37E27C0F284009EC8A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77BA7EF253B5E8B0071D346 /* Assets.xcassets */; };
+		A787C37F27C0F284009EC8A7 /* FirstLogInViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A789E499244DCCB500730053 /* FirstLogInViewController.storyboard */; };
+		A787C38027C0F284009EC8A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110565243BBD9B008E680D /* LaunchScreen.storyboard */; };
+		A787C38127C0F284009EC8A7 /* SettingViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A3DF0243E3E9900E43D46 /* SettingViewController.storyboard */; };
+		A787C38227C0F284009EC8A7 /* MapViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110590243E32CC008E680D /* MapViewController.storyboard */; };
+		A787C38327C0F284009EC8A7 /* NotifyTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7FCE11D24EE257500E79E96 /* NotifyTableViewCell.xib */; };
+		A787C38427C0F284009EC8A7 /* ProfilePopView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A747EE4925C9829300766B66 /* ProfilePopView.xib */; };
+		A787C38527C0F284009EC8A7 /* OpenNotificationViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A789E4A5244DDCC600730053 /* OpenNotificationViewController.storyboard */; };
+		A787C38627C0F284009EC8A7 /* FillBasicInfoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7F47BA92453A0F90015A502 /* FillBasicInfoViewController.storyboard */; };
+		A787C38727C0F284009EC8A7 /* CommentTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A789E491244C80BF00730053 /* CommentTableViewCell.xib */; };
+		A787C38927C0F284009EC8A7 /* CheckLocationAccessViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A789E5C8244E301400730053 /* CheckLocationAccessViewController.storyboard */; };
+		A787C38A27C0F284009EC8A7 /* MailListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7CB15A524A8C01B00FDBC12 /* MailListViewController.storyboard */; };
+		A787C38B27C0F284009EC8A7 /* NotifyCenterViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A75A3DEC243E3E6F00E43D46 /* NotifyCenterViewController.storyboard */; };
+		A787C38C27C0F284009EC8A7 /* LogInPageViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A789E49D244DD3A600730053 /* LogInPageViewController.storyboard */; };
+		A787C38D27C0F284009EC8A7 /* MailListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7CB15A224A8B96A00FDBC12 /* MailListTableViewCell.xib */; };
+		A787C38E27C0F284009EC8A7 /* PrivacyViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A766F15A2554356900C9455C /* PrivacyViewController.storyboard */; };
+		A787C38F27C0F284009EC8A7 /* RootTabBarController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110586243BC8FC008E680D /* RootTabBarController.storyboard */; };
+		A787C39027C0F284009EC8A7 /* ScoreCoffeeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */; };
+		A787C39127C0F284009EC8A7 /* AppStoreRatingAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A71461812761EA1000872E4E /* AppStoreRatingAlertView.xib */; };
+		A787C39927C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A787C39827C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets */; };
+		A787C39C27C321A3009EC8A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A77BADED253DC1720071D346 /* GoogleService-Info.plist */; };
+		A787C39E27C327FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */; };
+		A787C39F27C328FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */; };
 		A789E47E2449AF9D00730053 /* BigItemTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */; };
 		A789E4802449AFB200730053 /* BigItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */; };
 		A789E484244B093D00730053 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E483244B093D00730053 /* ItemViewController.swift */; };
@@ -385,6 +596,10 @@
 		A77BAD6A253C7D270071D346 /* InputBarAccessoryView.debug.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = InputBarAccessoryView.debug.xcconfig; sourceTree = "<group>"; };
 		A77BAD6B253C7D270071D346 /* InputBarAccessoryView.release.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = InputBarAccessoryView.release.xcconfig; sourceTree = "<group>"; };
 		A77BADED253DC1720071D346 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
+		A787C39627C0F284009EC8A7 /* VeryIncorrect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = VeryIncorrect.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		A787C39727C0F284009EC8A7 /* VeryIncorrectInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = VeryIncorrectInfo.plist; path = /Users/run/caffeeDate/VeryIncorrectInfo.plist; sourceTree = "<absolute>"; };
+		A787C39827C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = VeryIncorrectAssets.xcassets; sourceTree = "<group>"; };
+		A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldShareSeatViewController.swift; sourceTree = "<group>"; };
 		A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewDelegate.swift; sourceTree = "<group>"; };
 		A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewCell.swift; sourceTree = "<group>"; };
 		A789E483244B093D00730053 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -447,6 +662,14 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A787C37A27C0F284009EC8A7 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A787C37B27C0F284009EC8A7 /* libPods-TabBarTest.a in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
@@ -473,6 +696,7 @@
 			isa = PBXGroup;
 			children = (
 				A7110557243BBD9A008E680D /* 面交人.app */,
+				A787C39627C0F284009EC8A7 /* VeryIncorrect.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -480,13 +704,14 @@
 		A7110559243BBD9A008E680D /* TabBarTest */ = {
 			isa = PBXGroup;
 			children = (
-				A774D76825DA9F9C00797BDB /* Common */,
 				A77BADED253DC1720071D346 /* GoogleService-Info.plist */,
+				A774D76825DA9F9C00797BDB /* Common */,
 				A7FCE11624EB912700E79E96 /* MapWe.entitlements */,
 				A711055A243BBD9A008E680D /* AppDelegate.swift */,
 				A711055C243BBD9A008E680D /* SceneDelegate.swift */,
 				A7110565243BBD9B008E680D /* LaunchScreen.storyboard */,
 				A7110568243BBD9B008E680D /* Info.plist */,
+				A787C39727C0F284009EC8A7 /* VeryIncorrectInfo.plist */,
 			);
 			path = TabBarTest;
 			sourceTree = "<group>";
@@ -576,6 +801,7 @@
 			isa = PBXGroup;
 			children = (
 				A77BA7EF253B5E8B0071D346 /* Assets.xcassets */,
+				A787C39827C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets */,
 				A75A3DF2243F7D3E00E43D46 /* UserSetting.swift */,
 				A78DF179246C312000617AAF /* FirebaseHelper.swift */,
 				A78DF16B24664D9200617AAF /* Util.swift */,
@@ -878,6 +1104,7 @@
 				A789E5D624517F7900730053 /* WantSellViewController.swift */,
 				A789E5D82451878300730053 /* WantAddPhotoTableViewCell.swift */,
 				A7BDF527245233EE00180166 /* WordLimitUITextFieldDelegate.swift */,
+				A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */,
 			);
 			path = IWant;
 			sourceTree = "<group>";
@@ -970,6 +1197,26 @@
 			productReference = A7110557243BBD9A008E680D /* 面交人.app */;
 			productType = "com.apple.product-type.application";
 		};
+		A787C2BC27C0F284009EC8A7 /* VeryIncorrect */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = A787C39327C0F284009EC8A7 /* Build configuration list for PBXNativeTarget "VeryIncorrect" */;
+			buildPhases = (
+				A787C2BD27C0F284009EC8A7 /* [CP] Check Pods Manifest.lock */,
+				A787C2BE27C0F284009EC8A7 /* Sources */,
+				A787C37A27C0F284009EC8A7 /* Frameworks */,
+				A787C37C27C0F284009EC8A7 /* [CP] Copy Pods Resources */,
+				A787C37D27C0F284009EC8A7 /* Resources */,
+				A787C39227C0F284009EC8A7 /* ShellScript */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = VeryIncorrect;
+			productName = TabBarTest;
+			productReference = A787C39627C0F284009EC8A7 /* VeryIncorrect.app */;
+			productType = "com.apple.product-type.application";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -999,6 +1246,7 @@
 			projectRoot = "";
 			targets = (
 				A7110556243BBD9A008E680D /* TabBarTest */,
+				A787C2BC27C0F284009EC8A7 /* VeryIncorrect */,
 			);
 		};
 /* End PBXProject section */
@@ -1031,6 +1279,34 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A787C37D27C0F284009EC8A7 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A787C37E27C0F284009EC8A7 /* Assets.xcassets in Resources */,
+				A787C37F27C0F284009EC8A7 /* FirstLogInViewController.storyboard in Resources */,
+				A787C38027C0F284009EC8A7 /* LaunchScreen.storyboard in Resources */,
+				A787C38127C0F284009EC8A7 /* SettingViewController.storyboard in Resources */,
+				A787C38227C0F284009EC8A7 /* MapViewController.storyboard in Resources */,
+				A787C38327C0F284009EC8A7 /* NotifyTableViewCell.xib in Resources */,
+				A787C38427C0F284009EC8A7 /* ProfilePopView.xib in Resources */,
+				A787C38527C0F284009EC8A7 /* OpenNotificationViewController.storyboard in Resources */,
+				A787C38627C0F284009EC8A7 /* FillBasicInfoViewController.storyboard in Resources */,
+				A787C38727C0F284009EC8A7 /* CommentTableViewCell.xib in Resources */,
+				A787C38927C0F284009EC8A7 /* CheckLocationAccessViewController.storyboard in Resources */,
+				A787C38A27C0F284009EC8A7 /* MailListViewController.storyboard in Resources */,
+				A787C38B27C0F284009EC8A7 /* NotifyCenterViewController.storyboard in Resources */,
+				A787C38C27C0F284009EC8A7 /* LogInPageViewController.storyboard in Resources */,
+				A787C38D27C0F284009EC8A7 /* MailListTableViewCell.xib in Resources */,
+				A787C38E27C0F284009EC8A7 /* PrivacyViewController.storyboard in Resources */,
+				A787C38F27C0F284009EC8A7 /* RootTabBarController.storyboard in Resources */,
+				A787C39927C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets in Resources */,
+				A787C39027C0F284009EC8A7 /* ScoreCoffeeViewController.storyboard in Resources */,
+				A787C39127C0F284009EC8A7 /* AppStoreRatingAlertView.xib in Resources */,
+				A787C39C27C321A3009EC8A7 /* GoogleService-Info.plist in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
@@ -1057,6 +1333,61 @@
 			showEnvVarsInLog = 0;
 		};
 		A77BA790253AE7B20071D346 /* ShellScript */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 12;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"",
+			);
+			outputFileListPaths = (
+			);
+			outputPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
+		};
+		A787C2BD27C0F284009EC8A7 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-TabBarTest-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A787C37C27C0F284009EC8A7 /* [CP] Copy Pods Resources */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			name = "[CP] Copy Pods Resources";
+			outputFileListPaths = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TabBarTest/Pods-TabBarTest-resources.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A787C39227C0F284009EC8A7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 12;
 			files = (
@@ -1130,6 +1461,7 @@
 				A7110575243BBE4E008E680D /* RootTabBarController.swift in Sources */,
 				A77BAD4B253C7D190071D346 /* AutocompleteManagerDelegate.swift in Sources */,
 				A77BAB7B253C75DF0071D346 /* UIImage+Extensions.swift in Sources */,
+				A787C39E27C327FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */,
 				A77BAC1B253C77110071D346 /* MediaMessageCell.swift in Sources */,
 				A77BAD5C253C7D190071D346 /* InputBarAccessoryView+Availability.swift in Sources */,
 				A77BAD61253C7D190071D346 /* SeparatorLine.swift in Sources */,
@@ -1286,6 +1618,201 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		A787C2BE27C0F284009EC8A7 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				A787C2BF27C0F284009EC8A7 /* PersonDetailInfo.swift in Sources */,
+				A787C2C027C0F284009EC8A7 /* ProfilePopView.swift in Sources */,
+				A787C2C127C0F284009EC8A7 /* ItemViewController.swift in Sources */,
+				A787C2C227C0F284009EC8A7 /* ShopEditViewController.swift in Sources */,
+				A787C2C327C0F284009EC8A7 /* NSMutableAttributedString+Extensions.swift in Sources */,
+				A787C2C427C0F284009EC8A7 /* RootTabBarTransition.swift in Sources */,
+				A787C2C527C0F284009EC8A7 /* TypingIndicatorCell.swift in Sources */,
+				A787C2C627C0F284009EC8A7 /* CoordinatorAndControllerInstanceHelper.swift in Sources */,
+				A787C2C727C0F284009EC8A7 /* ChatMassage.swift in Sources */,
+				A787C2C827C0F284009EC8A7 /* SSPopoverPresentationManager.swift in Sources */,
+				A787C2C927C0F284009EC8A7 /* FirebaseHelper.swift in Sources */,
+				A787C2CA27C0F284009EC8A7 /* ChatViewController.swift in Sources */,
+				A787C2CB27C0F284009EC8A7 /* AppCoordinator.swift in Sources */,
+				A787C2CC27C0F284009EC8A7 /* SSPopoverAnimationController.swift in Sources */,
+				A787C2CD27C0F284009EC8A7 /* LinkPreviewView.swift in Sources */,
+				A787C2CE27C0F284009EC8A7 /* OneToOneChatViewController.swift in Sources */,
+				A787C2CF27C0F284009EC8A7 /* AttachmentCell.swift in Sources */,
+				A787C2D027C0F284009EC8A7 /* MessageInputBar.swift in Sources */,
+				A787C2D127C0F284009EC8A7 /* PaddingLabel.swift in Sources */,
+				A787C2D227C0F284009EC8A7 /* WordLimitUITextFieldDelegate.swift in Sources */,
+				A787C2D327C0F284009EC8A7 /* SenderType.swift in Sources */,
+				A787C2D427C0F284009EC8A7 /* ContactMessageSizeCalculator.swift in Sources */,
+				A787C2D527C0F284009EC8A7 /* InputBarSendButton.swift in Sources */,
+				A787C2D627C0F284009EC8A7 /* ChatUser.swift in Sources */,
+				A787C2D727C0F284009EC8A7 /* MessageSizeCalculator.swift in Sources */,
+				A787C2D827C0F284009EC8A7 /* AudioMessageSizeCalculator.swift in Sources */,
+				A787C2D927C0F284009EC8A7 /* MessageKind+textMessageKind.swift in Sources */,
+				A787C2DA27C0F284009EC8A7 /* Device+.swift in Sources */,
+				A787C2DB27C0F284009EC8A7 /* MessageLabel.swift in Sources */,
+				A787C2DC27C0F284009EC8A7 /* LinkItem.swift in Sources */,
+				A787C2DD27C0F284009EC8A7 /* InputItem.swift in Sources */,
+				A787C2DE27C0F284009EC8A7 /* RootTabBarController.swift in Sources */,
+				A787C2DF27C0F284009EC8A7 /* AutocompleteManagerDelegate.swift in Sources */,
+				A787C2E027C0F284009EC8A7 /* UIImage+Extensions.swift in Sources */,
+				A787C39F27C328FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */,
+				A787C2E127C0F284009EC8A7 /* MediaMessageCell.swift in Sources */,
+				A787C2E227C0F284009EC8A7 /* InputBarAccessoryView+Availability.swift in Sources */,
+				A787C2E327C0F284009EC8A7 /* SeparatorLine.swift in Sources */,
+				A787C2E427C0F284009EC8A7 /* InputBarAccessoryViewDelegate.swift in Sources */,
+				A787C2E527C0F284009EC8A7 /* AutocompleteSession.swift in Sources */,
+				A787C2E627C0F284009EC8A7 /* CustomBookMarkKit.swift in Sources */,
+				A787C2E727C0F284009EC8A7 /* MessageContainerView.swift in Sources */,
+				A787C2E827C0F284009EC8A7 /* AppStoreRating.swift in Sources */,
+				A787C2E927C0F284009EC8A7 /* NSConstraintLayoutSet.swift in Sources */,
+				A787C2EA27C0F284009EC8A7 /* LocationItem.swift in Sources */,
+				A787C2EB27C0F284009EC8A7 /* SSPopoverPresentationController.swift in Sources */,
+				A787C2EC27C0F284009EC8A7 /* AutocompleteManagerDataSource.swift in Sources */,
+				A787C2ED27C0F284009EC8A7 /* LinkPreviewMessageSizeCalculator.swift in Sources */,
+				A787C2EE27C0F284009EC8A7 /* UserSetting.swift in Sources */,
+				A787C2EF27C0F284009EC8A7 /* TypingIndicatorCellSizeCalculator.swift in Sources */,
+				A787C2F027C0F284009EC8A7 /* MessagesViewController.swift in Sources */,
+				A787C2F127C0F284009EC8A7 /* NotifyHelper.swift in Sources */,
+				A787C2F227C0F284009EC8A7 /* FillBasicInfoViewController.swift in Sources */,
+				A787C2F327C0F284009EC8A7 /* PersonAnnotationData.swift in Sources */,
+				A787C2F427C0F284009EC8A7 /* ItemTableViewDelegate.swift in Sources */,
+				A787C2F527C0F284009EC8A7 /* NotifyTableViewCell.swift in Sources */,
+				A787C2F627C0F284009EC8A7 /* ScoreCoffeeViewController.swift in Sources */,
+				A787C2F727C0F284009EC8A7 /* InputBarButtonItem.swift in Sources */,
+				A787C2F827C0F284009EC8A7 /* MessagesViewController+Keyboard.swift in Sources */,
+				A787C2F927C0F284009EC8A7 /* AttachmentsView.swift in Sources */,
+				A787C2FA27C0F284009EC8A7 /* MessagesCollectionViewFlowLayout.swift in Sources */,
+				A787C2FB27C0F284009EC8A7 /* MessageKitError.swift in Sources */,
+				A787C2FC27C0F284009EC8A7 /* AvatarView.swift in Sources */,
+				A787C2FD27C0F284009EC8A7 /* Item.swift in Sources */,
+				A787C2FE27C0F284009EC8A7 /* BigItemTableViewDelegate.swift in Sources */,
+				A787C2FF27C0F284009EC8A7 /* MessagesViewController+Menu.swift in Sources */,
+				A787C30027C0F284009EC8A7 /* OpenNotificationViewController.swift in Sources */,
+				A787C30127C0F284009EC8A7 /* CustomBGKit.swift in Sources */,
+				A787C30227C0F284009EC8A7 /* AutocompleteTableView.swift in Sources */,
+				A787C30327C0F284009EC8A7 /* BigItemTableViewCell.swift in Sources */,
+				A787C30427C0F284009EC8A7 /* MessageType.swift in Sources */,
+				A787C30527C0F284009EC8A7 /* HorizontalEdgePadding.swift in Sources */,
+				A787C30627C0F284009EC8A7 /* AttachmentManager.swift in Sources */,
+				A787C30727C0F284009EC8A7 /* MessagesLayoutDelegate.swift in Sources */,
+				A787C30827C0F284009EC8A7 /* LocationMessageCell.swift in Sources */,
+				A787C30927C0F284009EC8A7 /* PhotoTableViewDelegate.swift in Sources */,
+				A787C30A27C0F284009EC8A7 /* BubbleCircle.swift in Sources */,
+				A787C30B27C0F284009EC8A7 /* TextMessageSizeCalculator.swift in Sources */,
+				A787C30C27C0F284009EC8A7 /* ProfileEditViewController.swift in Sources */,
+				A787C30D27C0F284009EC8A7 /* CoffeeScoreData.swift in Sources */,
+				A787C30E27C0F284009EC8A7 /* AudioItem.swift in Sources */,
+				A787C30F27C0F284009EC8A7 /* MailButton.swift in Sources */,
+				A787C31027C0F284009EC8A7 /* SettingViewController.swift in Sources */,
+				A787C31127C0F284009EC8A7 /* WantAddPhotoTableViewCell.swift in Sources */,
+				A787C31227C0F284009EC8A7 /* KeyboardManager.swift in Sources */,
+				A787C31327C0F284009EC8A7 /* UIEdgeInsets+Extensions.swift in Sources */,
+				A787C31427C0F284009EC8A7 /* ProfilePopoverAnimationController.swift in Sources */,
+				A787C31527C0F284009EC8A7 /* UIView+Extensions.swift in Sources */,
+				A787C31627C0F284009EC8A7 /* InputStackView.swift in Sources */,
+				A787C31727C0F284009EC8A7 /* InputPlugin.swift in Sources */,
+				A787C31827C0F284009EC8A7 /* MessageReusableView.swift in Sources */,
+				A787C31927C0F284009EC8A7 /* MessagesCollectionView.swift in Sources */,
+				A787C31A27C0F284009EC8A7 /* MessageKind.swift in Sources */,
+				A787C31B27C0F284009EC8A7 /* DetectorType.swift in Sources */,
+				A787C31C27C0F284009EC8A7 /* Avatar.swift in Sources */,
+				A787C31D27C0F284009EC8A7 /* InputTextView.swift in Sources */,
+				A787C31E27C0F284009EC8A7 /* TypingBubble.swift in Sources */,
+				A787C31F27C0F284009EC8A7 /* MailListViewController.swift in Sources */,
+				A787C32027C0F284009EC8A7 /* InputBarAccessoryView.swift in Sources */,
+				A787C32127C0F284009EC8A7 /* NotifyCenterViewControllerModel.swift in Sources */,
+				A787C32227C0F284009EC8A7 /* AttachmentManagerDataSource.swift in Sources */,
+				A787C32327C0F284009EC8A7 /* CustomPointAnnotation.swift in Sources */,
+				A787C32427C0F284009EC8A7 /* AutocompleteCompletion.swift in Sources */,
+				A787C32527C0F284009EC8A7 /* LocationMessageSnapshotOptions.swift in Sources */,
+				A787C32627C0F284009EC8A7 /* LogInPageViewController.swift in Sources */,
+				A787C32727C0F284009EC8A7 /* SSAlertController.swift in Sources */,
+				A787C32827C0F284009EC8A7 /* Bundle+Extensions.swift in Sources */,
+				A787C32927C0F284009EC8A7 /* UIColor+Extensions.swift in Sources */,
+				A787C32A27C0F284009EC8A7 /* AccessoryPosition.swift in Sources */,
+				A787C32B27C0F284009EC8A7 /* CustomInputBoxKit.swift in Sources */,
+				A787C32C27C0F284009EC8A7 /* PrivacyViewController.swift in Sources */,
+				A787C32D27C0F284009EC8A7 /* FirstLogInViewController.swift in Sources */,
+				A787C32E27C0F284009EC8A7 /* CustomTopBarKit.swift in Sources */,
+				A787C32F27C0F284009EC8A7 /* MessageKitDateFormatter.swift in Sources */,
+				A787C33027C0F284009EC8A7 /* LabelAlignment.swift in Sources */,
+				A787C33127C0F284009EC8A7 /* Coordinator.swift in Sources */,
+				A787C33227C0F284009EC8A7 /* MessagesDataSource.swift in Sources */,
+				A787C33327C0F284009EC8A7 /* Colors.swift in Sources */,
+				A787C33427C0F284009EC8A7 /* WantSellViewController.swift in Sources */,
+				A787C33527C0F284009EC8A7 /* ActionSheetKit.swift in Sources */,
+				A787C33627C0F284009EC8A7 /* MapViewController.swift in Sources */,
+				A787C33727C0F284009EC8A7 /* AutocompleteManager.swift in Sources */,
+				A787C33827C0F284009EC8A7 /* MessageStyle.swift in Sources */,
+				A787C33927C0F284009EC8A7 /* PostNotifcation.swift in Sources */,
+				A787C33A27C0F284009EC8A7 /* UIView+AutoLayout.swift in Sources */,
+				A787C33B27C0F284009EC8A7 /* HorizontalEdgeInsets.swift in Sources */,
+				A787C33C27C0F284009EC8A7 /* SSSegmentedControl.swift in Sources */,
+				A787C33D27C0F284009EC8A7 /* KeyboardNotification.swift in Sources */,
+				A787C33E27C0F284009EC8A7 /* UITextView+Extensions.swift in Sources */,
+				A787C33F27C0F284009EC8A7 /* StoryboardInstantiatable.swift in Sources */,
+				A787C34027C0F284009EC8A7 /* Extansions.swift in Sources */,
+				A787C34127C0F284009EC8A7 /* MessageKit+Availability.swift in Sources */,
+				A787C34227C0F284009EC8A7 /* MediaItem.swift in Sources */,
+				A787C34327C0F284009EC8A7 /* ItemTableViewCell.swift in Sources */,
+				A787C34427C0F284009EC8A7 /* TypingIndicator.swift in Sources */,
+				A787C34527C0F284009EC8A7 /* MessagesCollectionViewLayoutAttributes.swift in Sources */,
+				A787C34627C0F284009EC8A7 /* AutocompleteCell.swift in Sources */,
+				A787C34727C0F284009EC8A7 /* ContactItem.swift in Sources */,
+				A787C34827C0F284009EC8A7 /* LinkPreviewFonts.swift in Sources */,
+				A787C34927C0F284009EC8A7 /* CheckLocationAccessViewController.swift in Sources */,
+				A787C34A27C0F284009EC8A7 /* LinkPreviewMessageCell.swift in Sources */,
+				A787C34B27C0F284009EC8A7 /* AvatarPosition.swift in Sources */,
+				A787C34C27C0F284009EC8A7 /* SSPopoverViewController.swift in Sources */,
+				A787C34D27C0F284009EC8A7 /* ImageAttachmentCell.swift in Sources */,
+				A787C34E27C0F284009EC8A7 /* Comment.swift in Sources */,
+				A787C34F27C0F284009EC8A7 /* PlayButtonView.swift in Sources */,
+				A787C35027C0F284009EC8A7 /* MessageCollectionViewCell.swift in Sources */,
+				A787C35127C0F284009EC8A7 /* ContactMessageCell.swift in Sources */,
+				A787C35227C0F284009EC8A7 /* TextMessageCell.swift in Sources */,
+				A787C35327C0F284009EC8A7 /* CGRect+Extensions.swift in Sources */,
+				A787C35427C0F284009EC8A7 /* MailListTableViewCell.swift in Sources */,
+				A787C35527C0F284009EC8A7 /* InputBarViewController.swift in Sources */,
+				A787C35627C0F284009EC8A7 /* ProfilePopoverPresentationManager.swift in Sources */,
+				A787C35727C0F284009EC8A7 /* UIImage+.swift in Sources */,
+				A787C35827C0F284009EC8A7 /* MediaMessageSizeCalculator.swift in Sources */,
+				A787C35927C0F284009EC8A7 /* ProfilePop.swift in Sources */,
+				A787C35A27C0F284009EC8A7 /* LocationMessageSizeCalculator.swift in Sources */,
+				A787C35B27C0F284009EC8A7 /* AudioMessageCell.swift in Sources */,
+				A787C35C27C0F284009EC8A7 /* CellSizeCalculator.swift in Sources */,
+				A787C35D27C0F284009EC8A7 /* MessageContentCell.swift in Sources */,
+				A787C35E27C0F284009EC8A7 /* Util.swift in Sources */,
+				A787C35F27C0F284009EC8A7 /* PhotoTableViewCell.swift in Sources */,
+				A787C36027C0F284009EC8A7 /* CommentTableViewCell.swift in Sources */,
+				A787C36127C0F284009EC8A7 /* MessageLabelDelegate.swift in Sources */,
+				A787C36227C0F284009EC8A7 /* ProfileViewController.swift in Sources */,
+				A787C36327C0F284009EC8A7 /* NotifyCenterViewController.swift in Sources */,
+				A787C36427C0F284009EC8A7 /* ProfilePopoverViewController.swift in Sources */,
+				A787C36527C0F284009EC8A7 /* AppDelegate.swift in Sources */,
+				A787C36627C0F284009EC8A7 /* ShopModel.swift in Sources */,
+				A787C36727C0F284009EC8A7 /* InputBarAccessoryView-dummy.m in Sources */,
+				A787C36827C0F284009EC8A7 /* PresonAnnotationGetter.swift in Sources */,
+				A787C36927C0F284009EC8A7 /* NSNotification+Extensions.swift in Sources */,
+				A787C36A27C0F284009EC8A7 /* CoffeeAnnotationGetter.swift in Sources */,
+				A787C36B27C0F284009EC8A7 /* UIView+.swift in Sources */,
+				A787C36C27C0F284009EC8A7 /* Sender.swift in Sources */,
+				A787C36D27C0F284009EC8A7 /* SceneDelegate.swift in Sources */,
+				A787C36E27C0F284009EC8A7 /* AttachmentManagerDelegate.swift in Sources */,
+				A787C36F27C0F284009EC8A7 /* MessageCellDelegate.swift in Sources */,
+				A787C37027C0F284009EC8A7 /* AppStoreRatingAlertView.swift in Sources */,
+				A787C37127C0F284009EC8A7 /* RootCoordinator.swift in Sources */,
+				A787C37227C0F284009EC8A7 /* NSAttributedString+Extensions.swift in Sources */,
+				A787C37327C0F284009EC8A7 /* String+Extensions.swift in Sources */,
+				A787C37427C0F284009EC8A7 /* ProfilePopoverPresentationController.swift in Sources */,
+				A787C37527C0F284009EC8A7 /* SSButton.swift in Sources */,
+				A787C37627C0F284009EC8A7 /* KeyboardEvent.swift in Sources */,
+				A787C37727C0F284009EC8A7 /* ProfileButton.swift in Sources */,
+				A787C37827C0F284009EC8A7 /* InsetLabel.swift in Sources */,
+				A787C37927C0F284009EC8A7 /* MessagesDisplayDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXVariantGroup section */
@@ -1434,8 +1961,10 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.3;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FloatingPanel/FloatingPanel.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SwifterSwift/SwifterSwift.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBAEMKit/FBAEMKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = FACETRADER;
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1459,8 +1988,64 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.1.3;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FloatingPanel/FloatingPanel.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SwifterSwift/SwifterSwift.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBAEMKit/FBAEMKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.modulemap\"";
 				PRODUCT_BUNDLE_IDENTIFIER = com.run.TravelTrader;
 				PRODUCT_NAME = "面交人";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = FACETRADER;
+				SWIFT_ENABLE_BATCH_MODE = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		A787C39427C0F284009EC8A7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = DFBB386BD2C25EFB8C67DA12 /* Pods-TabBarTest.debug.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = VeryIncorrectAppIcon;
+				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2022020801;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3Q933PK69P;
+				INFOPLIST_FILE = "$(SRCROOT)/VeryIncorrectInfo.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.3;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FloatingPanel/FloatingPanel.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SwifterSwift/SwifterSwift.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBAEMKit/FBAEMKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.modulemap\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.run.VeryIncorrect;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VERYINCORRECT;
+				SWIFT_ENABLE_BATCH_MODE = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		A787C39527C0F284009EC8A7 /* Release */ = {
+			isa = XCBuildConfiguration;
+			baseConfigurationReference = 5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = VeryIncorrectAppIcon;
+				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 2022020801;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = 3Q933PK69P;
+				INFOPLIST_FILE = "$(SRCROOT)/VeryIncorrectInfo.plist";
+				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.1.3;
+				OTHER_SWIFT_FLAGS = "$(inherited) -D COCOAPODS -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/Alamofire/Alamofire.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKCoreKit/FBSDKCoreKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FBSDKLoginKit/FBSDKLoginKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/FloatingPanel/FloatingPanel.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/PromiseKit/PromiseKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SnapKit/SnapKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_CONFIGURATION_BUILD_DIR}/SwifterSwift/SwifterSwift.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBAEMKit/FBAEMKit.modulemap\" -Xcc -fmodule-map-file=\"${PODS_ROOT}/Headers/Public/FBSDKCoreKit_Basics/FBSDKCoreKit_Basics.modulemap\"";
+				PRODUCT_BUNDLE_IDENTIFIER = com.run.VeryIncorrect;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = VERYINCORRECT;
 				SWIFT_ENABLE_BATCH_MODE = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = 1;
@@ -1484,6 +2069,15 @@
 			buildConfigurations = (
 				A711056C243BBD9B008E680D /* Debug */,
 				A711056D243BBD9B008E680D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		A787C39327C0F284009EC8A7 /* Build configuration list for PBXNativeTarget "VeryIncorrect" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				A787C39427C0F284009EC8A7 /* Debug */,
+				A787C39527C0F284009EC8A7 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
