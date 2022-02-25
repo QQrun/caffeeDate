@@ -10,6 +10,7 @@ import Foundation
 import UIKit
 import Firebase
 
+//發起相席頁面
 class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,WordLimitForTypeDelegate{
     
     var scrollView : UIScrollView!
@@ -38,8 +39,24 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     var addressHint = UITextField()
     var addressSelectBtn = UIButton()
     
+    var oneToOneBtn = UIButton()
+    var twoToTwoBtn = UIButton()
+    
+    let datePicker = UIDatePicker()
+    
+    var datePickBlackScreen = UIButton()
+    
+    var dateTimeBtn = UIButton()
+    var reviewTimeBtn = UIButton()
+    var currentSelectTime = 0 //1是在選擇dateTime 2是在選擇reviewTime
+    
+    var headCount = 2
+    
     private let actionSheetKit_deletePhoto = ActionSheetKit()
     private let actionSheetKit_addPhoto = ActionSheetKit()
+    
+    var dateTime : Date = Date()
+    var reviewTime : Date = Date()
     
     let photoLimitAmount = 5 //照片最多五張
     
@@ -65,6 +82,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         configItemInfoInputField()
         addDeleteAndCancealBtn()
         addTakePhotoOrUsePhotoBtn()
+        configDatePicker()
     }
     
     
@@ -206,7 +224,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         scrollView.addSubview(inputLine1)
         
         
-        let dateTimeBtn = { () -> UIButton in
+        dateTimeBtn = { () -> UIButton in
             let btn = UIButton()
             btn.setTitle("-", for: .normal) //週三,2月23-11:20
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
@@ -236,7 +254,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         }()
         scrollView.addSubview(inputLine2)
 
-        let reviewTimeBtn = { () -> UIButton in
+        reviewTimeBtn = { () -> UIButton in
             let btn = UIButton()
             btn.setTitle("-", for: .normal)
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
@@ -269,11 +287,11 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         }()
         scrollView.addSubview(headCountSlashLabel)
         
-        let oneToOneBtn = { () -> UIButton in
+        oneToOneBtn = { () -> UIButton in
             let btn = UIButton()
             btn.setTitle("1男1女", for: .normal)
-            btn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
             btn.backgroundColor = .clear
+            btn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
             btn.setTitleColor(.primary(), for: .normal)
             btn.addTarget(self, action: #selector(oneToOneBtnAct), for: .touchUpInside)
             btn.frame = CGRect(x: view.frame.width/2, y: inputLine2.frame.origin.y + 24, width: (view.frame.width - 30)/4, height: 36)
@@ -281,7 +299,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         }()
         scrollView.addSubview(oneToOneBtn)
         
-        let twoToTwoBtn = { () -> UIButton in
+        twoToTwoBtn = { () -> UIButton in
             let btn = UIButton()
             btn.setTitle("2男2女", for: .normal)
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
@@ -365,6 +383,40 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         
     }
     
+    private func configDatePicker(){
+        
+        datePickBlackScreen.frame = CGRect(x:0,y:0,width: view.frame.width,height: view.frame.height)
+        datePickBlackScreen.backgroundColor = .black.withAlphaComponent(0.2)
+        view.addSubview(datePickBlackScreen)
+        datePickBlackScreen.addTarget(self,action:#selector(datePickBlackScreenAct),for: .touchUpInside)
+        datePickBlackScreen.isHidden = true
+        
+        datePicker.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: 200)
+        datePicker.datePickerMode = .dateAndTime
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        
+        let currentTime = Date()
+        let fromDateTime = currentTime
+        datePicker.minimumDate = fromDateTime
+        
+        let endDateTime = Calendar.current.date(byAdding: .day, value: 30, to: currentTime)
+        datePicker.maximumDate = endDateTime
+        datePicker.date = currentTime
+        datePicker.locale = NSLocale(localeIdentifier: "zh_TW") as Locale
+        datePicker.addTarget(self,action:#selector(datePickerChanged),for: .valueChanged)
+        if #available(iOS 13.4, *) {
+            datePicker.preferredDatePickerStyle = .wheels
+            datePicker.sizeToFit()
+            datePicker.backgroundColor = .surface()
+            datePicker.layer.shadowRadius = 2
+            datePicker.layer.shadowOffset = CGSize(width: 2, height: 2)
+            datePicker.layer.shadowOpacity = 0.3
+        }
+        view.addSubview(datePicker)
+        datePicker.tintColor = .on()
+
+    }
     
     fileprivate func addTakePhotoOrUsePhotoBtn(){
         let actionSheetText = ["取消","從相簿找圖","拍照"]
@@ -407,6 +459,43 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         actionSheetKit_addPhoto.allBtnSlideIn()
     }
     
+    @objc fileprivate func datePickerChanged(){
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd EEEE HH:mm"
+        
+        if(currentSelectTime == 1){
+            dateTime = datePicker.date
+        }else if(currentSelectTime == 2){
+            reviewTime = datePicker.date
+        }
+        
+        var date = formatter.string(from: datePicker.date)
+        date = date.replace(target: "Monday", withString: "週一")
+        .replace(target: "Tuesday", withString: "週二")
+        .replace(target: "Wednesday", withString: "週三")
+        .replace(target: "Thursday", withString: "週四")
+        .replace(target: "Friday", withString: "週五")
+        .replace(target: "Saturday", withString: "週六")
+        .replace(target: "Sunday", withString: "週日")
+        
+        if(currentSelectTime == 1){
+            dateTimeBtn.setTitle(date, for: .normal)
+        }else if(currentSelectTime == 2){
+            reviewTimeBtn.setTitle(date, for: .normal)
+        }
+ 
+    }
+    
+    @objc fileprivate func datePickBlackScreenAct(){
+        
+        self.datePickBlackScreen.isHidden = true
+        self.datePickBlackScreen.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, delay: 0, animations: {
+            self.datePicker.frame = CGRect(x: 0, y: self.view.frame.height, width: self.view.frame.width, height: 200)
+        })
+        
+    }
+    
     @objc fileprivate func deleteBtnAct(){
         
         photos.remove(at: currentSelectPhotoNumber)
@@ -447,18 +536,42 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     
     @objc private func dateTimeBtnAct(){
         print("dateTimeBtnAct")
+        currentSelectTime = 1
+        
+        self.datePickBlackScreen.isHidden = false
+        self.datePickBlackScreen.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, delay: 0, animations: {
+            self.datePicker.frame = CGRect(x: 0, y: self.view.frame.height - 200, width: self.view.frame.width, height: 200)
+        })
     }
     
     @objc private func reviewTimeBtnAct(){
         print("reviewTimeBtnAct")
+        currentSelectTime = 2
+        
+        self.datePickBlackScreen.isHidden = false
+        self.datePickBlackScreen.layoutIfNeeded()
+        UIView.animate(withDuration: 0.3, delay: 0, animations: {
+            self.datePicker.frame = CGRect(x: 0, y: self.view.frame.height - 200, width: self.view.frame.width, height: 200)
+        })
     }
     
-    @objc private func oneToOneBtnAct(){
-        print("oneToOneBtnAct")
+    @objc private func oneToOneBtnAct(_ btn: UIButton){
+        headCount = 2
+        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+        oneToOneBtn.setTitleColor(.primary(), for: .normal)
+        
+        twoToTwoBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
+        twoToTwoBtn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
     }
     
-    @objc private func twoToTwoBtnAct(){
-        print("twoToTwoBtnAct")
+    @objc private func twoToTwoBtnAct(_ btn: UIButton){
+        headCount = 4
+        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
+        oneToOneBtn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+        
+        twoToTwoBtn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+        twoToTwoBtn.setTitleColor(.primary(), for: .normal)
     }
     
     @objc private func addressSelectBtnAct(){
@@ -478,6 +591,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         
 //        uploadToFireBase()
     }
+    
     
     
     

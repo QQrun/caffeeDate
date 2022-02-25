@@ -87,6 +87,14 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         birthDayPicker.date = formatter.date(from: "2000/01/01")!
         birthDayPicker.locale = NSLocale(localeIdentifier: "zh_TW") as Locale
         birthDayPicker.addTarget(self,action:#selector(datePickerChanged),for: .valueChanged)
+        if #available(iOS 13.4, *) {
+            birthDayPicker.preferredDatePickerStyle = .wheels
+            birthDayPicker.sizeToFit()
+            birthDayPicker.backgroundColor = .surface()
+            birthDayPicker.layer.shadowRadius = 2
+            birthDayPicker.layer.shadowOffset = CGSize(width: 2, height: 2)
+            birthDayPicker.layer.shadowOpacity = 0.3
+        }
         view.addSubview(birthDayPicker)
         birthDayPicker.tintColor = .on()
     }
