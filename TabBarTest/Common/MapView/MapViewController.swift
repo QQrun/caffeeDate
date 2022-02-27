@@ -2338,10 +2338,6 @@ extension MapViewController{
         let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: meter, longitudinalMeters: meter)
         mapView.setRegion(coordinateRegion, animated: true)
         
-        //
-        //        if shouldLoadAnnotations {
-        //            loadAnnotations(withSearchQuery: "Coffee Shops")
-        //        }
     }
     
     

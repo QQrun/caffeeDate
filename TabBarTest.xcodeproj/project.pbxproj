@@ -377,6 +377,12 @@
 		A787C39C27C321A3009EC8A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A77BADED253DC1720071D346 /* GoogleService-Info.plist */; };
 		A787C39E27C327FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */; };
 		A787C39F27C328FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */; };
+		A787C3A327C8FFFE009EC8A7 /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A227C8FFFE009EC8A7 /* ChooseLocationViewController.swift */; };
+		A787C3A427C8FFFE009EC8A7 /* ChooseLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A227C8FFFE009EC8A7 /* ChooseLocationViewController.swift */; };
+		A787C3A627C91080009EC8A7 /* SearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A527C91080009EC8A7 /* SearchInputView.swift */; };
+		A787C3A727C91080009EC8A7 /* SearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A527C91080009EC8A7 /* SearchInputView.swift */; };
+		A787C3A927C9176B009EC8A7 /* SearchLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */; };
+		A787C3AA27C9176B009EC8A7 /* SearchLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */; };
 		A789E47E2449AF9D00730053 /* BigItemTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */; };
 		A789E4802449AFB200730053 /* BigItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */; };
 		A789E484244B093D00730053 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E483244B093D00730053 /* ItemViewController.swift */; };
@@ -600,6 +606,9 @@
 		A787C39727C0F284009EC8A7 /* VeryIncorrectInfo.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; name = VeryIncorrectInfo.plist; path = /Users/run/caffeeDate/VeryIncorrectInfo.plist; sourceTree = "<absolute>"; };
 		A787C39827C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = VeryIncorrectAssets.xcassets; sourceTree = "<group>"; };
 		A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HoldShareSeatViewController.swift; sourceTree = "<group>"; };
+		A787C3A227C8FFFE009EC8A7 /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewController.swift; sourceTree = "<group>"; };
+		A787C3A527C91080009EC8A7 /* SearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputView.swift; sourceTree = "<group>"; };
+		A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationCell.swift; sourceTree = "<group>"; };
 		A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewDelegate.swift; sourceTree = "<group>"; };
 		A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewCell.swift; sourceTree = "<group>"; };
 		A789E483244B093D00730053 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -1105,6 +1114,9 @@
 				A789E5D82451878300730053 /* WantAddPhotoTableViewCell.swift */,
 				A7BDF527245233EE00180166 /* WordLimitUITextFieldDelegate.swift */,
 				A787C39D27C327FF009EC8A7 /* HoldShareSeatViewController.swift */,
+				A787C3A227C8FFFE009EC8A7 /* ChooseLocationViewController.swift */,
+				A787C3A527C91080009EC8A7 /* SearchInputView.swift */,
+				A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */,
 			);
 			path = IWant;
 			sourceTree = "<group>";
@@ -1445,6 +1457,7 @@
 				A7FDB74B248D12FC005BA294 /* OneToOneChatViewController.swift in Sources */,
 				A77BAD59253C7D190071D346 /* AttachmentCell.swift in Sources */,
 				A77BABF1253C76B90071D346 /* MessageInputBar.swift in Sources */,
+				A787C3A327C8FFFE009EC8A7 /* ChooseLocationViewController.swift in Sources */,
 				A747EE0E25C678D400766B66 /* PaddingLabel.swift in Sources */,
 				A7BDF528245233EE00180166 /* WordLimitUITextFieldDelegate.swift in Sources */,
 				A77BABE2253C76A00071D346 /* SenderType.swift in Sources */,
@@ -1525,6 +1538,7 @@
 				A77BAD49253C7D190071D346 /* InputTextView.swift in Sources */,
 				A77BAC03253C76D80071D346 /* TypingBubble.swift in Sources */,
 				A7CB15A824A8C01B00FDBC12 /* MailListViewController.swift in Sources */,
+				A787C3A627C91080009EC8A7 /* SearchInputView.swift in Sources */,
 				A77BAD4D253C7D190071D346 /* InputBarAccessoryView.swift in Sources */,
 				A7D3096D251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift in Sources */,
 				A77BAD4F253C7D190071D346 /* AttachmentManagerDataSource.swift in Sources */,
@@ -1533,6 +1547,7 @@
 				A77BABCB253C76680071D346 /* LocationMessageSnapshotOptions.swift in Sources */,
 				A789E49C244DD39800730053 /* LogInPageViewController.swift in Sources */,
 				A71461842761EA1000872E4E /* SSAlertController.swift in Sources */,
+				A787C3A927C9176B009EC8A7 /* SearchLocationCell.swift in Sources */,
 				A77BAB7F253C75DF0071D346 /* Bundle+Extensions.swift in Sources */,
 				A77BAB81253C75DF0071D346 /* UIColor+Extensions.swift in Sources */,
 				A77BABCD253C76680071D346 /* AccessoryPosition.swift in Sources */,
@@ -1721,6 +1736,7 @@
 				A787C31E27C0F284009EC8A7 /* TypingBubble.swift in Sources */,
 				A787C31F27C0F284009EC8A7 /* MailListViewController.swift in Sources */,
 				A787C32027C0F284009EC8A7 /* InputBarAccessoryView.swift in Sources */,
+				A787C3A727C91080009EC8A7 /* SearchInputView.swift in Sources */,
 				A787C32127C0F284009EC8A7 /* NotifyCenterViewControllerModel.swift in Sources */,
 				A787C32227C0F284009EC8A7 /* AttachmentManagerDataSource.swift in Sources */,
 				A787C32327C0F284009EC8A7 /* CustomPointAnnotation.swift in Sources */,
@@ -1729,6 +1745,7 @@
 				A787C32627C0F284009EC8A7 /* LogInPageViewController.swift in Sources */,
 				A787C32727C0F284009EC8A7 /* SSAlertController.swift in Sources */,
 				A787C32827C0F284009EC8A7 /* Bundle+Extensions.swift in Sources */,
+				A787C3AA27C9176B009EC8A7 /* SearchLocationCell.swift in Sources */,
 				A787C32927C0F284009EC8A7 /* UIColor+Extensions.swift in Sources */,
 				A787C32A27C0F284009EC8A7 /* AccessoryPosition.swift in Sources */,
 				A787C32B27C0F284009EC8A7 /* CustomInputBoxKit.swift in Sources */,
@@ -1762,6 +1779,7 @@
 				A787C34727C0F284009EC8A7 /* ContactItem.swift in Sources */,
 				A787C34827C0F284009EC8A7 /* LinkPreviewFonts.swift in Sources */,
 				A787C34927C0F284009EC8A7 /* CheckLocationAccessViewController.swift in Sources */,
+				A787C3A427C8FFFE009EC8A7 /* ChooseLocationViewController.swift in Sources */,
 				A787C34A27C0F284009EC8A7 /* LinkPreviewMessageCell.swift in Sources */,
 				A787C34B27C0F284009EC8A7 /* AvatarPosition.swift in Sources */,
 				A787C34C27C0F284009EC8A7 /* SSPopoverViewController.swift in Sources */,

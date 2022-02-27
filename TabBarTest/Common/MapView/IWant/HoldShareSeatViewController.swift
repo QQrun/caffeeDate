@@ -10,8 +10,16 @@ import Foundation
 import UIKit
 import Firebase
 
+protocol HoldShareSeatViewControllerViewDelegate: class {
+    func gotoChooseLocationView(holdShareSeatViewController:HoldShareSeatViewController)
+}
+
+
+
 //發起相席頁面
 class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITableViewDataSource,UIImagePickerControllerDelegate,UINavigationControllerDelegate,WordLimitForTypeDelegate{
+    
+    weak var viewDelegate: HoldShareSeatViewControllerViewDelegate?
     
     var scrollView : UIScrollView!
     var customTopBarKit = CustomTopBarKit()
@@ -83,6 +91,8 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         addDeleteAndCancealBtn()
         addTakePhotoOrUsePhotoBtn()
         configDatePicker()
+        
+        
     }
     
     
@@ -125,6 +135,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             return separator
         }()
         scrollView.addSubview(separator1)
+        
         
         restaurantNameTextFieldCountLabel  = { () -> UILabel in
             let label = UILabel()
@@ -576,6 +587,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     
     @objc private func addressSelectBtnAct(){
         print("addressSelectBtnAct")
+        viewDelegate?.gotoChooseLocationView(holdShareSeatViewController: self)
     }
     
     @objc private func gobackBtnAct(){

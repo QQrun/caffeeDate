@@ -63,7 +63,6 @@ class RootCoordinator: Coordinator {
             self.setDefaultTabView()
             FirebaseHelper.updateSignInTime()
             FirebaseHelper.updateToken()
-            
         }
         
     }
@@ -165,6 +164,7 @@ extension RootCoordinator: MapViewControllerViewDelegate {
     
     func gotoHoldSharedSeatController_mapView(){
         let holdShareSeatViewController = HoldShareSeatViewController()
+        holdShareSeatViewController.viewDelegate = self
         holdShareSeatViewController.modalPresentationStyle = .overCurrentContext
         mapTab.pushViewController(holdShareSeatViewController, animated: true)
     }
@@ -211,6 +211,21 @@ extension RootCoordinator: ShopEditViewControllerViewDelegate {
         wantBuyViewController.iWantType = .Buy
         mapTab.pushViewController(wantBuyViewController, animated: true)
     }
+}
+
+extension RootCoordinator: HoldShareSeatViewControllerViewDelegate {
+    
+    func gotoChooseLocationView(holdShareSeatViewController:HoldShareSeatViewController) {
+        
+        
+        
+        let chooseLocationViewController = ChooseLocationViewController(holdShareSeatViewController:holdShareSeatViewController)
+        
+        mapTab.pushViewController(chooseLocationViewController, animated: true)
+        
+    }
+    
+    
 }
 
 
