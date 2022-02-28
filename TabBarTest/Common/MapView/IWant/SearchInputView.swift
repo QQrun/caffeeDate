@@ -8,21 +8,34 @@
 
 import Foundation
 import UIKit
+import MapKit
 
 private let reuseIdentifier = "SearchLocationCell"
+
+protocol SearchInputViewDelegate{
+    func handleSearch(_ searchText:String)
+}
+
 
 class SearchInputView : UIView{
     
     var searchBar : UISearchBar!
     var tableView : UITableView!
-    
     var expansionState : ExpansionState!
+    var delegate: SearchInputViewDelegate!
+    var chooseLocationViewController: ChooseLocationViewController?
+    
+    var searchResults: [MKMapItem]? {
+        didSet{
+            print("didSet tableView.reloadData")
+            tableView.reloadData()
+        }
+    }
+    
     
     enum ExpansionState {
         case NotExpanded
         case PartiallyExpanded
-        case FullyExpanded
-        case ExpandToSearch
     }
     
     let indicatorView : UIView = {
@@ -90,26 +103,18 @@ class SearchInputView : UIView{
     @objc func handleSwipeGesture(sender: UISwipeGestureRecognizer){
         if sender.direction == .up {
             if expansionState == .NotExpanded{
-                animationInputView(targetPosition: self.frame.origin.y - 250, completion: {(_) in
+                print("direction.up NotExpanded")
+                animationInputView(targetPosition: self.frame.origin.y - 320, completion: {(_) in
                     self.expansionState = .PartiallyExpanded
-                })
-            }
-            if expansionState == .PartiallyExpanded{
-                animationInputView(targetPosition: self.frame.origin.y - 400, completion: {(_) in
-                    self.expansionState = .FullyExpanded
                 })
             }
         }else{
             self.searchBar.endEditing(true)
             self.searchBar.showsCancelButton = false
             
-            if expansionState == .FullyExpanded{
-                animationInputView(targetPosition: self.frame.origin.y + 400, completion: {(_) in
-                    self.expansionState = .PartiallyExpanded
-                })
-            }
             if expansionState == .PartiallyExpanded{
-                animationInputView(targetPosition: self.frame.origin.y + 250, completion: {(_) in
+                print("direction.down PartiallyExpanded")
+                animationInputView(targetPosition: self.frame.origin.y + 320, completion: {(_) in
                     self.expansionState = .NotExpanded
                 })
             }
@@ -120,14 +125,46 @@ class SearchInputView : UIView{
 extension SearchInputView : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return 10
+        return searchResults?.count ?? 10
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier , for: indexPath) as! SearchLocationCell
+        
+        let cell = tableView.dequeueReusableCell(withIdentifier: reuseIdentifier, for: indexPath) as! SearchLocationCell
+        
+        if let controller = chooseLocationViewController {
+            cell.delegate = controller
+        }
+        
+        if let searchResults = searchResults {
+            cell.mapItem = searchResults[indexPath.row]
+        }else{
+            cell.mapItem = nil
+        }
         return cell
     }
+
     
+//    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+//        guard var searchResults = searchResults else { return }
+//        let selectedMapItem = searchResults[indexPath.row]
+//
+//        //        delegate?.selectedAnnotation(withMapItem: selectedMapItem)
+//
+//
+//
+//        searchResults.remove(at: indexPath.row)
+//        searchResults.insert(selectedMapItem, at: 0)
+//        self.searchResults = searchResults
+//
+//        let firstIndexPath = IndexPath(row: 0, section: 0)
+//
+////        let cell = tableView.cellForRow(at: firstIndexPath) as! SearchCell
+////        cell.animateButtonIn()
+////        delegate?.addPolyline(forDestinationMapItem: selectedMapItem)
+//
+//    }
+
     
     
     
@@ -135,29 +172,40 @@ extension SearchInputView : UITableViewDelegate,UITableViewDataSource{
 
 extension SearchInputView: UISearchBarDelegate{
     
+    func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
+        guard let searchText = searchBar.text else { return }
+        delegate?.handleSearch(searchText)
+        
+        dismissOnSearch()
+    }
+    
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {
         searchBar.showsCancelButton = true
         if expansionState == .NotExpanded{
-            animationInputView(targetPosition: self.frame.origin.y - 650){
+            animationInputView(targetPosition: self.frame.origin.y - 320){
                 (_) in
-                self.expansionState = .FullyExpanded
-            }
-        }
-        if expansionState == .PartiallyExpanded{
-            animationInputView(targetPosition: self.frame.origin.y - 400){
-                (_) in
-                self.expansionState = .FullyExpanded
+                self.expansionState = .PartiallyExpanded
             }
         }
     }
     
+    
     func searchBarCancelButtonClicked(_ searchBar: UISearchBar) {
+        dismissOnSearch()
+    }
+    
+    fileprivate func dismissOnSearch() {
+        print("dismissOnSearch")
         searchBar.showsCancelButton = false
         searchBar.endEditing(true)
-        animationInputView(targetPosition: self.frame.origin.y + 400){
-            (_) in
-            self.expansionState = .PartiallyExpanded
+  
+        if expansionState == .NotExpanded {
+            print("dismissOnSearch PartiallyExpanded")
+            animationInputView(targetPosition: self.frame.origin.y - 320, completion: {(_) in
+                self.expansionState = .PartiallyExpanded
+            })
         }
+
     }
     
 }

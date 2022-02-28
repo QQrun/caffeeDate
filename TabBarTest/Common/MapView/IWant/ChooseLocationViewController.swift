@@ -70,6 +70,8 @@ class ChooseLocationViewController: UIViewController{
         centerMapButton.anchor(top: view.topAnchor, left: nil, bottom: nil, right: view.rightAnchor, paddingTop: 120, paddingLeft: 0, paddingBottom: 0, paddingRight: 16, width: 32, height: 32)
         
         searchInputView = SearchInputView()
+        searchInputView.delegate = self
+        searchInputView.chooseLocationViewController = self
         view.addSubview(searchInputView)
         searchInputView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -(view.frame.height - 88), paddingRight: 0, width: 0, height: view.frame.height)
     }
@@ -106,6 +108,25 @@ class ChooseLocationViewController: UIViewController{
         
     }
     
+    func searchBy(naturalLanguageQuery: String,region:MKCoordinateRegion,coordinates: CLLocationCoordinate2D,completion:@escaping (_ response: MKLocalSearch.Response?,_ error: NSError?) -> ()){
+        
+        let request = MKLocalSearch.Request()
+        request.naturalLanguageQuery = naturalLanguageQuery
+        request.region = region
+        
+        let search = MKLocalSearch(request: request)
+        search.start{ (response,error) in
+            
+            guard let response = response else{
+                completion(nil,error! as NSError)
+                return
+            }
+            
+            completion(response,nil)
+        }
+        
+    }
+    
     func centerMapOnUserLocation(shouldLoadAnnotations: Bool) {
         
         guard let coordinates = locationManager.location?.coordinate else { return }
@@ -118,6 +139,14 @@ class ChooseLocationViewController: UIViewController{
         let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: meter, longitudinalMeters: meter)
         mapView.setRegion(coordinateRegion, animated: true)
         
+    }
+    
+    func removeAnnotations(){
+        mapView.annotations.forEach{ (annotation) in
+            if let annotation = annotation as? MKPointAnnotation{
+                mapView.removeAnnotation(annotation)
+            }
+        }
     }
     
     
@@ -147,8 +176,42 @@ class ChooseLocationViewController: UIViewController{
 
 }
 
+// MARK: - SearchInputViewDelegate
+
+extension ChooseLocationViewController: SearchInputViewDelegate{
+   
+    
+    
+    func handleSearch(_ searchText: String) {
+        
+        removeAnnotations()
+        
+        guard let coordinate = locationManager.location?.coordinate else {return}
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        searchBy(naturalLanguageQuery: searchText, region: region,coordinates: coordinate){
+            (response,error) in
+            
+            response?.mapItems.forEach({(mapItem) in
+                let annotation = MKPointAnnotation()
+                annotation.title = mapItem.name
+                annotation.coordinate = mapItem.placemark.coordinate
+                
+                self.mapView.addAnnotation(annotation)
+            })
+            
+            self.searchInputView.searchResults = response?.mapItems
+        }
+    }
+    
+    
+}
+
+
 // MARK: - CLLocationManagerDelegate
 extension ChooseLocationViewController: CLLocationManagerDelegate{
+    
+    
+    
     
     
     func enableLocationServices(){
@@ -190,3 +253,19 @@ extension ChooseLocationViewController: MKMapViewDelegate {
     
     
 }
+
+
+// MARK: - SearchCellDelegate
+
+extension ChooseLocationViewController: SearchCellDelegate {
+    
+    func getDirections(forMapItem mapItem: MKMapItem) {
+        mapItem.openInMaps(launchOptions: [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeWalking])
+    }
+    
+    func distanceFromUser(location: CLLocation) -> CLLocationDistance? {
+        guard let userLocation = locationManager.location else { return nil }
+        return userLocation.distance(from: location)
+    }
+}
+
