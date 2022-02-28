@@ -69,16 +69,16 @@ class SearchLocationCell : UITableViewCell{
         selectionStyle = .none
         
         addSubview(imageContainerView)
-        let dimension: CGFloat = 32
-        imageContainerView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: dimension, height: dimension)
+        let dimension: CGFloat = 28
+        imageContainerView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: dimension, height: dimension)
         imageContainerView.layer.cornerRadius = dimension/2
         imageContainerView.centerY(inView: self)
         
         addSubview(locationTitleLabel)
-        locationTitleLabel.anchor(top: imageContainerView.topAnchor, left: imageContainerView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        locationTitleLabel.anchor(top: topAnchor, left: imageContainerView.rightAnchor, bottom: nil, right: nil, paddingTop: 7, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
         addSubview(locationDistanceLabel)
-        locationDistanceLabel.anchor(top: nil, left: imageContainerView.rightAnchor, bottom: imageContainerView.bottomAnchor, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        locationDistanceLabel.anchor(top: locationTitleLabel.bottomAnchor, left: imageContainerView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
     }
     
     required init?(coder: NSCoder) {

@@ -22,6 +22,8 @@ class ChooseLocationViewController: UIViewController{
     var locationManager : CLLocationManager!
     var searchInputView : SearchInputView!
     
+    var selectedAnnotation: MKAnnotation?
+    
     let centerMapButton : UIButton = {
         let circleButton_reposition = UIButton()
         circleButton_reposition.backgroundColor = .sksWhite()
@@ -73,7 +75,7 @@ class ChooseLocationViewController: UIViewController{
         searchInputView.delegate = self
         searchInputView.chooseLocationViewController = self
         view.addSubview(searchInputView)
-        searchInputView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -(view.frame.height - 88), paddingRight: 0, width: 0, height: view.frame.height)
+        searchInputView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -(view.frame.height - 88 - 320), paddingRight: 0, width: 0, height: view.frame.height)
     }
     
     
@@ -85,7 +87,7 @@ class ChooseLocationViewController: UIViewController{
         mapView.tintColor = .primary() //這裡決定的是user那個點的顏色
         
         view.addSubview(mapView)
-        mapView.addConstraintsToFillView(view: view)
+        mapView.anchor(top: view.topAnchor, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 88 + 320, paddingRight: 0, width: 0, height: 0)
     }
 
     fileprivate func configTopBar() {
@@ -93,7 +95,7 @@ class ChooseLocationViewController: UIViewController{
         customTopBarKit.CreatTopBar(view: view,showSeparator:true)
         customTopBarKit.CreatDoSomeThingTextBtn(text: "確認")
         customTopBarKit.CreatCenterTitle(text: "選擇地點")
-        customTopBarKit.getTopBar().backgroundColor = .surface()
+        customTopBarKit.getTopBar().backgroundColor = .surface().withAlphaComponent(0.5)
         
         finishBtn = customTopBarKit.getDoSomeThingTextBtn()
         finishBtn.addTarget(self, action: #selector(finishBtnAct), for: .touchUpInside)
@@ -107,6 +109,40 @@ class ChooseLocationViewController: UIViewController{
         
         
     }
+    
+    func zoomToFit(selectedAnnotation: MKAnnotation?) {
+        if mapView.annotations.count == 0 {
+            return
+        }
+        
+        var topLeftCoordinate = CLLocationCoordinate2D(latitude: -90, longitude: 180)
+        var bottomRightCoordinate = CLLocationCoordinate2D(latitude: 90, longitude: -180)
+        
+        if let selectedAnnotation = selectedAnnotation {
+            for annotation in mapView.annotations {
+                if let userAnno = annotation as? MKUserLocation {
+                    topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, userAnno.coordinate.longitude)
+                    topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, userAnno.coordinate.latitude)
+                    bottomRightCoordinate.longitude = fmax(bottomRightCoordinate.longitude, userAnno.coordinate.longitude)
+                    bottomRightCoordinate.latitude = fmin(bottomRightCoordinate.latitude, userAnno.coordinate.latitude)
+                }
+                
+                if annotation.title == selectedAnnotation.title {
+                    topLeftCoordinate.longitude = fmin(topLeftCoordinate.longitude, annotation.coordinate.longitude)
+                    topLeftCoordinate.latitude = fmax(topLeftCoordinate.latitude, annotation.coordinate.latitude)
+                    bottomRightCoordinate.longitude = fmax(bottomRightCoordinate.longitude, annotation.coordinate.longitude)
+                    bottomRightCoordinate.latitude = fmin(bottomRightCoordinate.latitude, annotation.coordinate.latitude)
+                }
+            }
+            
+            var region = MKCoordinateRegion(center: CLLocationCoordinate2DMake(topLeftCoordinate.latitude - (topLeftCoordinate.latitude - bottomRightCoordinate.latitude) * 0.65, topLeftCoordinate.longitude + (bottomRightCoordinate.longitude - topLeftCoordinate.longitude) * 0.65), span: MKCoordinateSpan(latitudeDelta: fabs(topLeftCoordinate.latitude - bottomRightCoordinate.latitude) * 3.0, longitudeDelta: fabs(bottomRightCoordinate.longitude - topLeftCoordinate.longitude) * 3.0))
+            
+            region = mapView.regionThatFits(region)
+            mapView.setRegion(region, animated: true)
+        }
+    }
+
+    
     
     func searchBy(naturalLanguageQuery: String,region:MKCoordinateRegion,coordinates: CLLocationCoordinate2D,completion:@escaping (_ response: MKLocalSearch.Response?,_ error: NSError?) -> ()){
         
@@ -136,9 +172,17 @@ class ChooseLocationViewController: UIViewController{
         if zoomWidth < 3694{
             meter = zoomWidth * 500/3694
         }
-        let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: meter, longitudinalMeters: meter)
-        mapView.setRegion(coordinateRegion, animated: true)
         
+        
+//        if(searchInputView.expansionState == .PartiallyExpanded){
+//            let coordinateRegion = MKCoordinateRegion(center: CLLocationCoordinate2D(latitude: coordinates.latitude - 0.002, longitude: coordinates.longitude), latitudinalMeters: meter, longitudinalMeters: meter)
+//            mapView.setRegion(coordinateRegion, animated: true)
+//        }else{
+            let coordinateRegion = MKCoordinateRegion(center: coordinates, latitudinalMeters: meter, longitudinalMeters: meter)
+            mapView.setRegion(coordinateRegion, animated: true)
+//        }
+        
+                
     }
     
     func removeAnnotations(){
@@ -180,7 +224,15 @@ class ChooseLocationViewController: UIViewController{
 
 extension ChooseLocationViewController: SearchInputViewDelegate{
    
-    
+    func selectedAnnotation(withMapItem mapItem: MKMapItem) {
+        mapView.annotations.forEach { (annotation) in
+            if annotation.title == mapItem.name {
+                self.mapView.selectAnnotation(annotation, animated: true)
+                self.zoomToFit(selectedAnnotation: annotation)
+                self.selectedAnnotation = annotation
+            }
+        }
+    }
     
     func handleSearch(_ searchText: String) {
         
