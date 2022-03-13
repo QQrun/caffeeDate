@@ -15,7 +15,7 @@
             <BuildableReference
                BuildableIdentifier = "primary"
                BlueprintIdentifier = "A787C2BC27C0F284009EC8A7"
-               BuildableName = "veryIncorrect.app"
+               BuildableName = "VeryIncorrect.app"
                BlueprintName = "VeryIncorrect"
                ReferencedContainer = "container:TabBarTest.xcodeproj">
             </BuildableReference>
@@ -62,7 +62,7 @@
          <BuildableReference
             BuildableIdentifier = "primary"
             BlueprintIdentifier = "A787C2BC27C0F284009EC8A7"
-            BuildableName = "veryIncorrect.app"
+            BuildableName = "VeryIncorrect.app"
             BlueprintName = "VeryIncorrect"
             ReferencedContainer = "container:TabBarTest.xcodeproj">
          </BuildableReference>

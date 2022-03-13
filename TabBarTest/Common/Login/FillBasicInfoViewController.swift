@@ -272,6 +272,7 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         let ref = Database.database().reference()
         let locationWithIDRef = ref.child("PersonDetail/" +  Auth.auth().currentUser!.uid)
         
+        
         locationWithIDRef.setValue(personInfo.toAnyObject()){ (error, ref) -> Void in
             if error != nil{
                 print(error ?? "上傳PersonDetail失敗")

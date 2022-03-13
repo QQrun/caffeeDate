@@ -23,6 +23,7 @@ class ChooseLocationViewController: UIViewController{
     var searchInputView : SearchInputView!
     
     var selectedAnnotation: MKAnnotation?
+    var selectedMapItem: MKMapItem?
     
     let centerMapButton : UIButton = {
         let circleButton_reposition = UIButton()
@@ -210,6 +211,8 @@ class ChooseLocationViewController: UIViewController{
         
         print("finishBtnAct")
         
+        holdShareSeatViewController.mapItem = selectedMapItem
+        
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -230,6 +233,11 @@ extension ChooseLocationViewController: SearchInputViewDelegate{
                 self.mapView.selectAnnotation(annotation, animated: true)
                 self.zoomToFit(selectedAnnotation: annotation)
                 self.selectedAnnotation = annotation
+                
+                selectedMapItem = mapItem
+                
+                self.finishBtn.isEnabled = true
+                self.finishBtn.alpha = 1
             }
         }
     }
@@ -239,19 +247,25 @@ extension ChooseLocationViewController: SearchInputViewDelegate{
         removeAnnotations()
         
         guard let coordinate = locationManager.location?.coordinate else {return}
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 2000, longitudinalMeters: 2000)
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 50000, longitudinalMeters: 50000)
         searchBy(naturalLanguageQuery: searchText, region: region,coordinates: coordinate){
             (response,error) in
             
+            
+            self.searchInputView.searchResults = []
             response?.mapItems.forEach({(mapItem) in
                 let annotation = MKPointAnnotation()
                 annotation.title = mapItem.name
                 annotation.coordinate = mapItem.placemark.coordinate
                 
-                self.mapView.addAnnotation(annotation)
+                if(mapItem.placemark.country == "台灣" || mapItem.placemark.country == "台湾"){
+                    self.mapView.addAnnotation(annotation)
+                    self.searchInputView.searchResults?.append(mapItem)
+                }
+//                self.mapView.addAnnotation(annotation)
+//                self.searchInputView.searchResults?.append(mapItem)
             })
             
-            self.searchInputView.searchResults = response?.mapItems
         }
     }
     
@@ -303,6 +317,31 @@ extension ChooseLocationViewController: CLLocationManagerDelegate{
 extension ChooseLocationViewController: MKMapViewDelegate {
     
     
+    func mapView(_ mapView: MKMapView, didDeselect view: MKAnnotationView){
+        searchInputView.tableView.deselectSelectedRow(animated: true)
+        self.finishBtn.isEnabled = false
+        self.finishBtn.alpha = 0.25
+    }
+    
+    func mapView(_ mapView: MKMapView, didSelect view: MKAnnotationView) {
+        
+        if let searchResults = searchInputView.searchResults{
+            for i in 0 ... searchResults.count - 1{
+                if searchResults[i].placemark.coordinate.longitude == view.annotation!.coordinate.longitude && searchResults[i].placemark.coordinate.latitude == view.annotation!.coordinate.latitude{
+                    
+                    let selectedRow = IndexPath(row: i, section: 0)
+                    searchInputView.tableView.selectRow(at: selectedRow, animated: true, scrollPosition: .top)
+                    
+                    selectedMapItem = searchResults[i]
+                    
+                    self.finishBtn.isEnabled = true
+                    self.finishBtn.alpha = 1
+                }
+            }
+        }
+        
+    }
+
     
 }
 

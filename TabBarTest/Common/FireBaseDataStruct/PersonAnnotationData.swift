@@ -62,7 +62,6 @@ class PersonAnnotationData {
             self.isTeamUp = isTeamUp
             self.latitude = latitude
             self.longitude = longitude
-            
         } else {
             self.openTime = ""
             self.title = ""

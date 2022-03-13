@@ -45,6 +45,8 @@ class MapViewController: UIViewController {
     let showCoffeeShopButton = UIButton()
     let showBoyButton = UIButton()
     let showGirlButton = UIButton()
+    let showSharedSeat2Button = UIButton()
+    let showSharedSeat4Button = UIButton()
     let bulletinBoardContainer = UIView() //for 背景
     let bulletinBoardTempContainer = UIView() //for 可替換的內部東西
     let bulletinBoard_BuySellPart = UIView() //bulletinBoardTempContainer的子view
@@ -53,6 +55,7 @@ class MapViewController: UIViewController {
     var bulletinBoard_ProfilePart_Bottom = UIView() //bulletinBoard_ProfilePart的子view
     let bulletinBoard_TeamUpPart = UIView() //bulletinBoardTempContainer的子view
     let bulletinBoard_CoffeeShop = UIView() //bulletinBoardTempContainer的子view
+    let bulletinBoard_SharedSeat = UIView() //bulletinBoardTempContainer的子view
     let iWantActionSheetContainer = UIButton() //我想⋯⋯開店、徵求、揪團btn的容器
     
     
@@ -63,6 +66,7 @@ class MapViewController: UIViewController {
     
     var coffeeAnnotationGetter : CoffeeAnnotationGetter!
     var presonAnnotationGetter : PresonAnnotationGetter!
+    var sharedSeatAnnotationGetter : SharedSeatAnnotationGetter!
     
     var coffeeShop_url : String = "" //為了開啟瀏覽器去
     
@@ -111,14 +115,17 @@ class MapViewController: UIViewController {
     var loveShopLabel = UILabel()
     var currentCoffeeAnnotation : CoffeeAnnotation? = nil
     
+    //以下是相席用的
+    var currentSharedSeatAnnotation : SharedSeatAnnotation? = nil
+    
     //未讀通知數量
     var unreadNotifcationCount = 0
     var unreadNotiCountCircle = UIButton()
-
+    
     //未讀訊息數量
     var unreadMsgCount = 0
     var unreadMsgCountCircle = UIButton()
-
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -135,10 +142,17 @@ class MapViewController: UIViewController {
         
         configureExclamationBtnPopUp()
         
-        presonAnnotationGetter = PresonAnnotationGetter(mapView: mapView)
-        presonAnnotationGetter.getPersonData()
         
+        presonAnnotationGetter = PresonAnnotationGetter(mapView: mapView)
+        sharedSeatAnnotationGetter = SharedSeatAnnotationGetter(mapView: mapView)
         coffeeAnnotationGetter = CoffeeAnnotationGetter(mapView: mapView)
+        
+#if FACETRADER
+        presonAnnotationGetter.fetchPersonData()
+#elseif VERYINCORRECT
+        sharedSeatAnnotationGetter.fetchSharedSeatData()
+#endif
+        
         coffeeAnnotationGetter.fetchCoffeeData()
         
         
@@ -186,24 +200,24 @@ class MapViewController: UIViewController {
         iWantActionSheetContainer.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
         
         
-        #if FACETRADER
-            let actionSheetText = ["取消","新增咖啡店","徵求某東西","擺攤賣東西","向周遭Say Hi交朋友"]
-            actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
-            actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
-            print("if FACETRADER if FACETRADER")
-        #elseif VERYINCORRECT
-            let actionSheetText = ["取消","新增咖啡店","發起相席","向周遭Say Hi交朋友"]
-            actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
-            actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
-            actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
-            print("elseif VERYINCORRECTelseif VERYINCORRECT")
-        #endif
+#if FACETRADER
+        let actionSheetText = ["取消","新增咖啡店","徵求某東西","擺攤賣東西","向周遭Say Hi交朋友"]
+        actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+        print("if FACETRADER if FACETRADER")
+#elseif VERYINCORRECT
+        let actionSheetText = ["取消","新增咖啡店","發起相席","向周遭Say Hi交朋友"]
+        actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
+        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+        print("elseif VERYINCORRECTelseif VERYINCORRECT")
+#endif
         
         actionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
         actionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
@@ -312,6 +326,10 @@ class MapViewController: UIViewController {
         bulletinBoard_CoffeeShop.frame = CGRect(x: 0, y: 0 , width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
         bulletinBoardTempContainer.addSubview(bulletinBoard_CoffeeShop)
         
+        
+        bulletinBoard_SharedSeat.frame = CGRect(x: 0, y: 0 , width: bulletinBoardTempContainer.frame.width, height: bulletinBoardTempContainer.frame.height)
+        bulletinBoardTempContainer.addSubview(bulletinBoard_SharedSeat)
+        
         let swipeUp = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
         swipeUp.direction = .up
         let swipeDown = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeGesture))
@@ -324,10 +342,10 @@ class MapViewController: UIViewController {
     @objc func handleSwipeGesture(sender: UISwipeGestureRecognizer) {
         
         if sender.direction == .up {
-            //如果是在CoffeeShop頁，不能上滑
-//            if bulletinBoard_CoffeeShop.subviews.count > 0{
-//                return
-//            }
+            //如果是在SharedSeat頁，不能上滑
+            if bulletinBoard_SharedSeat.subviews.count > 0{
+                return
+            }
             
             if bulletinBoardExpansionState == .NotExpanded {
                 let bottomPadding = UIApplication.shared.keyWindow?.safeAreaInsets.bottom ?? 0
@@ -402,45 +420,45 @@ class MapViewController: UIViewController {
                 //                }
                 //
                 //
-                                
+                
                 //
                 //
                 
-//                switch currentBulletinBoard {
-//                case .Profile:
-//                    break
-//                case .Buy:
-//                    fadeInBuySellBoard()
-//                    break
-//                case .Sell:
-//                    fadeInBuySellBoard()
-//                    break
-//                case .TeamUp:
-//                    fadeInTeamUpBoard()
-//                    break
-//                }
+                //                switch currentBulletinBoard {
+                //                case .Profile:
+                //                    break
+                //                case .Buy:
+                //                    fadeInBuySellBoard()
+                //                    break
+                //                case .Sell:
+                //                    fadeInBuySellBoard()
+                //                    break
+                //                case .TeamUp:
+                //                    fadeInTeamUpBoard()
+                //                    break
+                //                }
                 
-//                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
-//                    switch currentBulletinBoard {
-//                        case .Profile:
-//                        self.bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
-//                            break
-//                    //                case .Buy:
-//                    //                    fadeInBuySellBoard()
-//                    //                    break
-//                    //                case .Sell:
-//                    //                    fadeInBuySellBoard()
-//                    //                    break
-//                    //                case .TeamUp:
-//                    //                    fadeInTeamUpBoard()
-//                    //                    break
-//                    //                }
-//                    }
-//
-//                }, completion: { _ in
-//
-//                    self.bulletinBoard_ProfilePart_Bottom.isHidden = true
-//                })
+                //                UIView.animate(withDuration: 0.5, delay: 0, usingSpringWithDamping: 1, initialSpringVelocity: 0, options: .curveEaseInOut, animations: {
+                //                    switch currentBulletinBoard {
+                //                        case .Profile:
+                //                        self.bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
+                //                            break
+                //                    //                case .Buy:
+                //                    //                    fadeInBuySellBoard()
+                //                    //                    break
+                //                    //                case .Sell:
+                //                    //                    fadeInBuySellBoard()
+                //                    //                    break
+                //                    //                case .TeamUp:
+                //                    //                    fadeInTeamUpBoard()
+                //                    //                    break
+                //                    //                }
+                //                    }
+                //
+                //                }, completion: { _ in
+                //
+                //                    self.bulletinBoard_ProfilePart_Bottom.isHidden = true
+                //                })
                 
                 mapView.deselectAnnotation(nil, animated: true)
                 animateBulletinBoard(targetPosition: view.frame.height) { (_) in
@@ -540,13 +558,14 @@ class MapViewController: UIViewController {
         bulletinBoard_CoffeeShop.removeAllSubviews()
         setBulletinBoard_coffeeData(coffeeAnnotation: currentCoffeeAnnotation!)
     }
-        
+    
     fileprivate func setCoffeeDataAfterFetch(_ coffeeAnnotation: CoffeeAnnotation) {
         
         bulletinBoard_CoffeeShop.isHidden = false
         bulletinBoard_TeamUpPart.isHidden = true
         bulletinBoard_BuySellPart.isHidden = true
         bulletinBoard_ProfilePart.isHidden = true
+        bulletinBoard_SharedSeat.isHidden = true
         
         let shopNameLabel = UILabel()
         shopNameLabel.font = UIFont(name: "HelveticaNeue", size: 16)
@@ -972,8 +991,231 @@ class MapViewController: UIViewController {
         
     }
     
-    fileprivate func setBulletinBoard_coffeeData(coffeeAnnotation : CoffeeAnnotation){
+    fileprivate func setBulletinBoard_sharedSeat(sharedSeatAnnotation:SharedSeatAnnotation){
+        
+        currentSharedSeatAnnotation = sharedSeatAnnotation
+        
+        bulletinBoard_CoffeeShop.isHidden = true
+        bulletinBoard_TeamUpPart.isHidden = true
+        bulletinBoard_BuySellPart.isHidden = true
+        bulletinBoard_ProfilePart.isHidden = true
+        bulletinBoard_SharedSeat.isHidden = false
+        
+        let dateTimeLabel = UILabel()
+        dateTimeLabel.font = UIFont(name: "HelveticaNeue", size: 15)
+        dateTimeLabel.text = "聚會時間"
+        dateTimeLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 19, width: 120, height: dateTimeLabel.intrinsicContentSize.height)
+        dateTimeLabel.textAlignment = .center
+        dateTimeLabel.textColor = .on().withAlphaComponent(0.5)
+        bulletinBoard_SharedSeat.addSubview(dateTimeLabel)
+        
+        
+        let firebaseDateFormatter = DateFormatter()
+        firebaseDateFormatter.dateFormat = "YYYYMMddHHmmss"
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "MM/dd EEEE HH:mm"
+        
+        let dateTimeValueLabel = UILabel()
+        dateTimeValueLabel.font = UIFont(name: "HelveticaNeue", size: 14)
+        
+        var dateTimeStr = formatter.string(from: firebaseDateFormatter.date(from: sharedSeatAnnotation.dateTime)!)
+        dateTimeStr = dateTimeStr.replace(target: "Monday", withString: "週一")
+            .replace(target: "Tuesday", withString: "週二")
+            .replace(target: "Wednesday", withString: "週三")
+            .replace(target: "Thursday", withString: "週四")
+            .replace(target: "Friday", withString: "週五")
+            .replace(target: "Saturday", withString: "週六")
+            .replace(target: "Sunday", withString: "週日")
+        dateTimeValueLabel.text = dateTimeStr
+        
+        dateTimeValueLabel.textAlignment = .center
+        dateTimeValueLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 37, width: 120, height: dateTimeValueLabel.intrinsicContentSize.height)
+        dateTimeValueLabel.textColor = .on()
+        bulletinBoard_SharedSeat.addSubview(dateTimeValueLabel)
+        
+        let reviewTimeLabel = UILabel()
+        reviewTimeLabel.font = UIFont(name: "HelveticaNeue", size: 15)
+        reviewTimeLabel.text = "審核期限"
+        reviewTimeLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 58, width: 120, height: reviewTimeLabel.intrinsicContentSize.height)
+        reviewTimeLabel.textAlignment = .center
+        reviewTimeLabel.textColor = .on().withAlphaComponent(0.5)
+        bulletinBoard_SharedSeat.addSubview(reviewTimeLabel)
+        
+        let reviewTimeValueLabel = UILabel()
+        reviewTimeValueLabel.font = UIFont(name: "HelveticaNeue", size: 14)
+        var reviewTimeStr = formatter.string(from: firebaseDateFormatter.date(from: sharedSeatAnnotation.reviewTime)!)
+        
+        reviewTimeStr = reviewTimeStr.replace(target: "Monday", withString: "週一")
+            .replace(target: "Tuesday", withString: "週二")
+            .replace(target: "Wednesday", withString: "週三")
+            .replace(target: "Thursday", withString: "週四")
+            .replace(target: "Friday", withString: "週五")
+            .replace(target: "Saturday", withString: "週六")
+            .replace(target: "Sunday", withString: "週日")
+        reviewTimeValueLabel.text = reviewTimeStr
+        reviewTimeValueLabel.textAlignment = .center
+        reviewTimeValueLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 76, width: 120, height: reviewTimeValueLabel.intrinsicContentSize.height)
+        reviewTimeValueLabel.textColor = .on()
+        bulletinBoard_SharedSeat.addSubview(reviewTimeValueLabel)
+        
+        let participantLabel = UILabel()
+        participantLabel.font = UIFont(name: "HelveticaNeue", size: 15)
+        participantLabel.text = "參與人"
+        participantLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 97, width: 120, height: participantLabel.intrinsicContentSize.height)
+        participantLabel.textAlignment = .center
+        participantLabel.textColor = .on().withAlphaComponent(0.5)
+        bulletinBoard_SharedSeat.addSubview(participantLabel)
+        
+        
+        var restaurantPhotoWidth = 0
+        if(view.frame.width - 10 - 120 - 20 > 279){
+            restaurantPhotoWidth = 279
+        }else{
+            restaurantPhotoWidth = Int(view.frame.width - 10 - 120 - 20)
+        }
+        
+        var restaurantPhotoX = 0
+        restaurantPhotoX = (Int(view.frame.width) - 10 - 120 - restaurantPhotoWidth)/2
+        
+        let restaurantPhoto = UIImageView()
+        restaurantPhoto.frame = CGRect(x: restaurantPhotoX, y: 19, width: restaurantPhotoWidth, height: restaurantPhotoWidth)
+        restaurantPhoto.layer.cornerRadius = 20
+        restaurantPhoto.clipsToBounds = true
+        
+        let loadingView = UIView()
+        loadingView.frame = CGRect(x: restaurantPhoto.frame.origin.x + restaurantPhoto.frame.width/4, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.width/4, width: restaurantPhoto.frame.width/2, height: restaurantPhoto.frame.width/2)
+        loadingView.setupToLoadingView()
+        bulletinBoard_SharedSeat.addSubview(loadingView)
+        bulletinBoard_SharedSeat.addSubview(restaurantPhoto)
+        
+        if sharedSeatAnnotation.photosUrl != nil && sharedSeatAnnotation.photosUrl!.count > 0{
+            restaurantPhoto.contentMode = .scaleAspectFill
+            restaurantPhoto.alpha = 0
+            AF.request(sharedSeatAnnotation.photosUrl![0]).response { (response) in
+                guard let data = response.data, let image = UIImage(data: data)
+                else { return }
+                restaurantPhoto.image = image
+                UIView.animate(withDuration: 0.4, animations:{
+                    restaurantPhoto.alpha = 1
+                    loadingView.alpha = 0
+                })
+            }
+        }
+        
+        let address = UILabel()
+        address.font = UIFont(name: "HelveticaNeue", size: 14)
+        address.text = sharedSeatAnnotation.address
+        address.textAlignment = .center
+        address.frame = CGRect(x: restaurantPhoto.frame.origin.x, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.width + 10, width: restaurantPhoto.frame.width, height: address.intrinsicContentSize.height)
+        address.textColor = .on()
+        bulletinBoard_SharedSeat.addSubview(address)
+        
+        var boyPhoto1TintColor = UIColor.sksBlue().withAlphaComponent(0.2)
+        var girlPhoto1TintColor = UIColor.sksPink().withAlphaComponent(0.2)
+        if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
+            boyPhoto1TintColor = .sksBlue()
+        }
+        if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
+            girlPhoto1TintColor = .sksPink()
+        }
+        let boyPhoto1 = ProfilePhoto(frame: CGRect(x: participantLabel.frame.origin.x, y: participantLabel.frame.origin.y + 21, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Boy, tintColor: boyPhoto1TintColor)
+        bulletinBoard_SharedSeat.addSubview(boyPhoto1)
+        if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
+            boyPhoto1.setUID(UID: sharedSeatAnnotation.boysID![0])
+        }
+
+        let girlPhoto1 = ProfilePhoto(frame: CGRect(x: boyPhoto1.frame.origin.x + boyPhoto1.frame.width + 10, y: boyPhoto1.frame.origin.y, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Girl, tintColor: girlPhoto1TintColor)
+        bulletinBoard_SharedSeat.addSubview(girlPhoto1)
+        if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
+            girlPhoto1.setUID(UID: sharedSeatAnnotation.girlsID![0])
+        }
+        
+        
+        let signUpBtn = SSButton()
+        signUpBtn.frame = CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 7, width: 120, height: 36)
+        signUpBtn.type = .filled
+        if(sharedSeatAnnotation.holderUID == UserSetting.UID){
+            signUpBtn.setTitle("審核報名", for: .normal)
+            signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+            
+            let cancelBtn = UIButton()
+            cancelBtn.frame = CGRect(x: restaurantPhoto.frame.origin.x + restaurantPhoto.frame.width/2 - 40, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.height/2 - 12, width: 80, height: 24)
+            cancelBtn.setTitle("取消聚會", for: .normal)
+            cancelBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
+            cancelBtn.setTitleColor(.white, for: .normal)
+            cancelBtn.backgroundColor = .error
+            cancelBtn.layer.cornerRadius = 4
+            cancelBtn.addTarget(self, action: #selector(cancelSharedSeatBtnAct), for: .touchUpInside)
+            bulletinBoard_SharedSeat.addSubview(cancelBtn)
+        }else{
+            
+            
+            
+            if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID!.contains(UserSetting.UID)){
+                signUpBtn.setTitle("取消報名", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+            }else if(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID!.contains(UserSetting.UID)){
+                signUpBtn.setTitle("取消報名", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+            }else{
+                signUpBtn.setTitle("報名", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                if (UserSetting.userGender == 0){
+                    if(sharedSeatAnnotation.girlsID != nil){
+                        if(sharedSeatAnnotation.girlsID!.count >= (sharedSeatAnnotation.headCount/2)){
+                            signUpBtn.setTitle("已滿額", for: .normal)
+                            signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                        }
+                    }
+                }else {
+                    if(sharedSeatAnnotation.boysID != nil){
+                        if(sharedSeatAnnotation.boysID!.count >= (sharedSeatAnnotation.headCount/2)){
+                            signUpBtn.setTitle("已滿額", for: .normal)
+                            signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                        }
+                    }
+                }
+            }
+        }
+        signUpBtn.layer.cornerRadius = 8
+        bulletinBoard_SharedSeat.addSubview(signUpBtn)
+        
+        if (sharedSeatAnnotation.headCount == 4){
+            
+            var boyPhoto2TintColor = UIColor.sksBlue().withAlphaComponent(0.2)
+            var girlPhoto2TintColor = UIColor.sksPink().withAlphaComponent(0.2)
+            if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 1){
+                boyPhoto2TintColor = .sksBlue()
+            }
+            if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 1){
+                girlPhoto2TintColor = .sksPink()
+            }
+            
+            let boyPhoto2 = ProfilePhoto(frame: CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 10, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Boy, tintColor: boyPhoto2TintColor)
+            bulletinBoard_SharedSeat.addSubview(boyPhoto2)
+            if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 1){
+                boyPhoto1.setUID(UID: sharedSeatAnnotation.boysID![1])
+            }
+            
+            
+            let girlPhoto2 = ProfilePhoto(frame: CGRect(x: boyPhoto2.frame.origin.x + boyPhoto2.frame.width + 10, y: boyPhoto2.frame.origin.y, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Girl, tintColor: girlPhoto2TintColor)
+            bulletinBoard_SharedSeat.addSubview(girlPhoto2)
+            if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 1){
+                girlPhoto2.setUID(UID: sharedSeatAnnotation.girlsID![1])
+            }
+            
+            signUpBtn.frame = CGRect(x: boyPhoto2.frame.origin.x, y: boyPhoto2.frame.origin.y + boyPhoto2.frame.height + 7, width: 120, height: 36)
+        }
+        
+        
+        
+        
+        
+    }
     
+    fileprivate func setBulletinBoard_coffeeData(coffeeAnnotation : CoffeeAnnotation){
+        
         currentCoffeeAnnotation = coffeeAnnotation
         //取得firebase部分的評分
         let ref =  Database.database().reference().child("CoffeeScore/" +  coffeeAnnotation.address)
@@ -1106,10 +1348,15 @@ class MapViewController: UIViewController {
         for view in bulletinBoard_CoffeeShop.subviews{
             view.removeFromSuperview()
         }
+        for view in bulletinBoard_SharedSeat.subviews{
+            view.removeFromSuperview()
+        }
+        
         bulletinBoardTempContainer.addSubview(bulletinBoard_BuySellPart)
         bulletinBoardTempContainer.addSubview(bulletinBoard_ProfilePart)
         bulletinBoardTempContainer.addSubview(bulletinBoard_TeamUpPart)
         bulletinBoardTempContainer.addSubview(bulletinBoard_CoffeeShop)
+        bulletinBoardTempContainer.addSubview(bulletinBoard_SharedSeat)
     }
     
     fileprivate func setBulletinBoard(bookMarks: [String],selectedbookMark: String,snapshot: DataSnapshot,UID:String,distance:Int,storeName:String,openTimeString:String){
@@ -1422,7 +1669,7 @@ class MapViewController: UIViewController {
         if UserSetting.UID != UID{
             let mailBtn = MailButton(personInfo: personInfo)
             mailBtn.frame = CGRect(x: bulletinBoard_ProfilePart.frame.width - 21 - 28, y: 72, width: 28, height: 28)
-//            mailBtn.addTarget(self, action: #selector(gotoPhotoProfileViewBtnAct), for: .touchUpInside)
+            //            mailBtn.addTarget(self, action: #selector(gotoPhotoProfileViewBtnAct), for: .touchUpInside)
             bulletinBoard_ProfilePart.addSubview(mailBtn)
         }
         
@@ -1497,7 +1744,7 @@ class MapViewController: UIViewController {
             
             if formatter.date(from: storeOpenTimeString) != nil{
                 let seconds = Date().seconds(sinceDate: formatter.date(from: storeOpenTimeString)!)
-            
+                
                 
                 let remainingHour = (durationOfAuction - seconds!) / (60 * 60)
                 let remainingMin = ((durationOfAuction - seconds!) % (60 * 60)) / 60
@@ -1676,6 +1923,34 @@ class MapViewController: UIViewController {
         showGirlButton.addTarget(self, action: #selector(showGirlBtnAct), for: .touchUpInside)
         exclamationPopUpContainerView.addSubview(showGirlButton)
         
+        
+        showSharedSeat2Button.frame = CGRect(x: 124, y: 25 + 44 + 6, width: 44, height: 44)
+        let showSharedSeat2ButtonImg = UIImage(named: "2人相席")
+        let showSharedSeat2ButtonImg_tint = showSharedSeat2ButtonImg?.withRenderingMode(.alwaysTemplate)
+        if UserSetting.isMapShowSharedSeat2{
+            showSharedSeat2Button.tintColor = smallIconActiveColor
+        }else{
+            showSharedSeat2Button.tintColor = smallIconUnactiveColor
+        }
+        showSharedSeat2Button.setImage(showSharedSeat2ButtonImg_tint, for: .normal)
+        showSharedSeat2Button.isEnabled = true
+        showSharedSeat2Button.addTarget(self, action: #selector(showSharedSeat2BtnAct), for: .touchUpInside)
+        exclamationPopUpContainerView.addSubview(showSharedSeat2Button)
+        
+        showSharedSeat4Button.frame = CGRect(x: 183, y: 25 + 44 + 6, width: 44, height: 44)
+        let showSharedSeat4ButtonImg = UIImage(named: "4人相席")
+        let showSharedSeat4ButtonImg_tint = showSharedSeat4ButtonImg?.withRenderingMode(.alwaysTemplate)
+        if UserSetting.isMapShowSharedSeat4{
+            showSharedSeat4Button.tintColor = smallIconActiveColor
+        }else{
+            showSharedSeat4Button.tintColor = smallIconUnactiveColor
+        }
+        showSharedSeat4Button.setImage(showSharedSeat4ButtonImg_tint, for: .normal)
+        showSharedSeat4Button.isEnabled = true
+        showSharedSeat4Button.addTarget(self, action: #selector(showSharedSeat4BtnAct), for: .touchUpInside)
+        exclamationPopUpContainerView.addSubview(showSharedSeat4Button)
+        
+        
     }
     
     fileprivate func configMapButtons() {
@@ -1794,7 +2069,7 @@ class MapViewController: UIViewController {
     }
     
     func checkIsOpenTimeOrNot(business_hours:Business_hours?) -> Bool{
-      
+        
         let calendar:Calendar = Calendar(identifier: .gregorian)
         var comps:DateComponents = DateComponents()
         comps = calendar.dateComponents([.weekday,.hour,.minute], from: Date())
@@ -2027,6 +2302,34 @@ class MapViewController: UIViewController {
         mapView.addAnnotations(presonAnnotationGetter.decideCanShowOrNotAndWhichIcon(presonAnnotationGetter.girlSayHiAnnotations))
     }
     
+    @objc private func showSharedSeat2BtnAct(){
+        print("showSharedSeat2BtnAct")
+        if UserSetting.isMapShowSharedSeat2{
+            UserSetting.isMapShowSharedSeat2 = false
+            showSharedSeat2Button.tintColor = smallIconUnactiveColor
+            mapView.removeAnnotations(sharedSeatAnnotationGetter.sharedSeat2Annotation)
+        }else{
+            UserSetting.isMapShowSharedSeat2 = true
+            showSharedSeat2Button.tintColor = smallIconActiveColor
+            mapView.addAnnotations(sharedSeatAnnotationGetter.sharedSeat2Annotation)
+        }
+    }
+    
+    
+    @objc private func showSharedSeat4BtnAct(){
+        print("showSharedSeat4BtnAct")
+        if UserSetting.isMapShowSharedSeat4{
+            UserSetting.isMapShowSharedSeat4 = false
+            showSharedSeat4Button.tintColor = smallIconUnactiveColor
+            mapView.removeAnnotations(sharedSeatAnnotationGetter.sharedSeat4Annotation)
+        }else{
+            UserSetting.isMapShowSharedSeat4 = true
+            showSharedSeat4Button.tintColor = smallIconActiveColor
+            mapView.addAnnotations(sharedSeatAnnotationGetter.sharedSeat4Annotation)
+        }
+    }
+    
+    
     @objc private func exclamationPopUpBGBtnAct(){
         exclamationPopUpBGButton.isHidden = true
     }
@@ -2046,13 +2349,16 @@ class MapViewController: UIViewController {
                 self.bulletinBoard_ProfilePart.alpha = 0
                 self.bulletinBoard_TeamUpPart.alpha = 0
                 self.bulletinBoard_CoffeeShop.alpha = 0
+                self.bulletinBoard_SharedSeat.alpha = 0
             }, completion:  { _ in
                 self.bulletinBoard_ProfilePart.isHidden = true
                 self.bulletinBoard_TeamUpPart.isHidden = true
                 self.bulletinBoard_CoffeeShop.isHidden = true
+                self.bulletinBoard_SharedSeat.isHidden = true
                 self.bulletinBoard_ProfilePart.alpha = 1
                 self.bulletinBoard_TeamUpPart.alpha = 1
                 self.bulletinBoard_CoffeeShop.alpha = 1
+                self.bulletinBoard_SharedSeat.alpha = 1
             })
         }
     }
@@ -2096,13 +2402,16 @@ class MapViewController: UIViewController {
                 self.bulletinBoard_TeamUpPart.alpha = 0
                 self.bulletinBoard_BuySellPart.alpha = 0
                 self.bulletinBoard_CoffeeShop.alpha = 0
+                self.bulletinBoard_SharedSeat.alpha = 0
             }, completion:  { _ in
                 self.bulletinBoard_TeamUpPart.isHidden = true
                 self.bulletinBoard_BuySellPart.isHidden = true
                 self.bulletinBoard_CoffeeShop.isHidden = true
+                self.bulletinBoard_SharedSeat.isHidden = true
                 self.bulletinBoard_TeamUpPart.alpha = 1
                 self.bulletinBoard_BuySellPart.alpha = 1
                 self.bulletinBoard_CoffeeShop.alpha = 1
+                self.bulletinBoard_SharedSeat.alpha = 1
             })
         }
     }
@@ -2184,7 +2493,7 @@ class MapViewController: UIViewController {
     
     @objc private func scoreBtnAct(){
         Analytics.logEvent("地圖_咖啡_評分", parameters:nil)
-
+        
         
         viewDelegate?.gotoScoreCoffeeController_mapView(annotation: currentCoffeeAnnotation!)
     }
@@ -2285,7 +2594,132 @@ class MapViewController: UIViewController {
     }
     
     
+    @objc func cancelSharedSeatBtnAct(_ sender: UIButton){
+        let alertVC = SSAlertController(title: "確定要取消聚會嗎?", message: "按下確認後將取消聚會，並通知所有參與人。 \n\n 注意：在已有參加者的狀況下，多次惡意取消聚會將封鎖帳號。")
+        alertVC.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
+            alertVC.dismiss(animated: true)
+        }))
+        alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+            alertVC.dismiss(animated: true)
+        }))
+        self.present(alertVC, animated: true)
+    }
     
+    
+    @objc func signUpBtnAct(_ sender: UIButton) {
+        let alertVC = SSAlertController(title: "確定要報名嗎?", message: "報名將交由聚會舉辦人審核，若審核通過後將無法取消。")
+        alertVC.addAction(SSPopoverAction(title: "取消", style: .cancel, handler: { _ in
+            alertVC.dismiss(animated: true)
+        }))
+        alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+            
+            self?.signUpToCurrentSharedSeatAnnotation()
+            self?.changeSignUpBtnToCancelBtn(sender)
+            alertVC.dismiss(animated: true)
+        }))
+        self.present(alertVC, animated: true)
+    }
+    
+    private func signUpToCurrentSharedSeatAnnotation(){
+        if(self.currentSharedSeatAnnotation == nil){
+            return
+        }
+        
+        let gender : String
+        if(UserSetting.userGender == 1){
+            gender = "/signUpBoysID/"
+        }else{
+            gender = "/signUpGirlsID/"
+        }
+        
+        let ref = Database.database().reference().child("SharedSeatAnnotation/" + currentSharedSeatAnnotation!.holderUID + gender + UserSetting.UID)
+        
+        
+        ref.setValue(UserSetting.userName){ (error, ref) -> Void in
+            if error != nil{
+                print(error ?? "報名失敗")
+                self.showToast(message: "報名失敗", font: .systemFont(ofSize: 14.0))
+            }else{
+                self.showToast(message: "報名成功", font: .systemFont(ofSize: 14.0))
+                
+                //處理本地端資料
+                if(UserSetting.userGender == 0){
+                    if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
+                        self.currentSharedSeatAnnotation!.signUpGirlsID?.append(UserSetting.UID)
+                    }else{
+                        self.currentSharedSeatAnnotation!.signUpGirlsID = [UserSetting.UID]
+                    }
+                }else{
+                    if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
+                        self.currentSharedSeatAnnotation!.signUpBoysID?.append(UserSetting.UID)
+                    }else{
+                        self.currentSharedSeatAnnotation!.signUpBoysID = [UserSetting.UID]
+                    }
+                }
+            }
+        }
+
+    }
+    
+    
+    
+    
+    @objc func cancelSignUpBtnAct(_ sender: UIButton){
+        let alertVC = SSAlertController(title: "確定要取消報名嗎?", message: "")
+        alertVC.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
+            alertVC.dismiss(animated: true)
+        }))
+        alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+            self?.cancelSignUpToCurrentSharedSeatAnnotation()
+            self?.changeCancelBtnToSignUpBtn(sender)
+            alertVC.dismiss(animated: true)
+        }))
+        self.present(alertVC, animated: true)
+    }
+    
+    private func cancelSignUpToCurrentSharedSeatAnnotation(){
+        
+        let gender : String
+        if(UserSetting.userGender == 1){
+            gender = "/signUpBoysID/"
+        }else{
+            gender = "/signUpGirlsID/"
+        }
+        
+        let ref = Database.database().reference().child("SharedSeatAnnotation/" + currentSharedSeatAnnotation!.holderUID + gender + UserSetting.UID)
+        
+        ref.removeValue(){
+            (error, ref) -> Void in
+                if error != nil{
+                    print(error ?? "取消報名失敗")
+                    self.showToast(message: "取消報名失敗", font: .systemFont(ofSize: 14.0))
+                }else{
+                    self.showToast(message: "取消報名成功", font: .systemFont(ofSize: 14.0))
+                    //處理本地端資料
+                    if(UserSetting.userGender == 0){
+                        if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
+                            self.currentSharedSeatAnnotation!.signUpGirlsID!.remove(at: self.currentSharedSeatAnnotation!.signUpGirlsID!.firstIndex(of: UserSetting.UID)!)
+                        }
+                    }else{
+                        if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
+                            self.currentSharedSeatAnnotation!.signUpBoysID!.remove(at: self.currentSharedSeatAnnotation!.signUpBoysID!.firstIndex(of: UserSetting.UID)!)
+                        }
+                    }
+                }
+        }
+    }
+    
+    private func changeSignUpBtnToCancelBtn(_ btn: UIButton){
+        btn.setTitle("取消報名", for: .normal)
+        btn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+    }
+    
+    private func changeCancelBtnToSignUpBtn(_ btn: UIButton){
+        btn.setTitle("報名", for: .normal)
+        btn.removeTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+        btn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+    }
     
     
     
@@ -2463,11 +2897,17 @@ extension MapViewController: MKMapViewDelegate {
         view.subviews[0].alpha = 1
         
         if view.annotation is CoffeeAnnotation{
-            
             Analytics.logEvent("地圖_點擊地標_咖啡", parameters:nil)
             setBulletinBoard_coffeeData(coffeeAnnotation: view.annotation as! CoffeeAnnotation)
             return
         }
+        
+        if view.annotation is SharedSeatAnnotation{
+            Analytics.logEvent("地圖_點擊地標_相席", parameters:nil)
+            setBulletinBoard_sharedSeat(sharedSeatAnnotation: view.annotation as! SharedSeatAnnotation)
+            return
+        }
+        
         if view.annotation is PersonAnnotation {
             
             Analytics.logEvent("地圖_點擊地標_人物", parameters:nil)
@@ -2650,6 +3090,44 @@ extension MapViewController: MKMapViewDelegate {
                         mkMarker?.glyphImage = UIImage(named: "boyIcon")
                     }
                 }
+            }
+        }
+        
+        if annotation is SharedSeatAnnotation{
+            
+            var decideWhichIcon = false
+            mkMarker?.titleVisibility = .adaptive
+            mkMarker?.displayPriority = .required
+            mkMarker?.tintColor = .clear
+            
+            //加上距離標籤
+            let userloc = CLLocation(latitude: mapView.userLocation.coordinate.latitude, longitude: mapView.userLocation.coordinate.longitude)
+            let loc = CLLocation(latitude: annotation.coordinate.latitude, longitude: annotation.coordinate.longitude)
+            var distance = userloc.distance(from: loc)
+            
+            let distanceLabel = UILabel()
+            distanceLabel.font = UIFont(name: "HelveticaNeue", size: 12)
+            
+            if Int(distance) >= 1000{
+                distance = distance/1000
+                distance = Double(Int(distance * 10))/10
+                distanceLabel.text = "\(distance)" + "km"
+            }else{
+                distanceLabel.text = "\(Int(distance))" + "m"
+            }
+            distanceLabel.frame = CGRect(x: mkMarker!.frame.width/2 - distanceLabel.intrinsicContentSize.width/2, y:  mkMarker!.frame.height - distanceLabel.intrinsicContentSize.height, width: distanceLabel.intrinsicContentSize.width, height: distanceLabel.intrinsicContentSize.height)
+            distanceLabel.alpha = 0
+            mkMarker?.addSubview(distanceLabel)
+            
+            mkMarker?.glyphTintColor = markColor
+            mkMarker?.titleVisibility = .adaptive
+            mkMarker?.displayPriority = .required
+            mkMarker?.viewWithTag(1)?.removeFromSuperview()
+            
+            if((annotation as! SharedSeatAnnotation).headCount == 2){
+                mkMarker?.glyphImage = UIImage(named: "2人相席")
+            }else if((annotation as! SharedSeatAnnotation).headCount == 4){
+                mkMarker?.glyphImage = UIImage(named: "4人相席")
             }
         }
         

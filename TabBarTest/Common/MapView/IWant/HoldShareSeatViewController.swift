@@ -8,6 +8,7 @@
 
 import Foundation
 import UIKit
+import MapKit
 import Firebase
 
 protocol HoldShareSeatViewControllerViewDelegate: class {
@@ -28,9 +29,11 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     let picker = UIImagePickerController()
     
     var photos : [UIImage] = []
-    var photoUrls : [String] = []
+    var photosUrl : [String] = []
     var photoTableView = UITableView()
     let noURLString = "noURL"
+    var photoNumberNeedToPut = 0 //需要上傳的照片數量
+    var successedPutPhotoNumber = 0 //已經照片上傳的數量
     
     var loadingView = UIView()
     var tableViewContainer = UIView()
@@ -66,7 +69,16 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     var dateTime : Date = Date()
     var reviewTime : Date = Date()
     
-    let photoLimitAmount = 5 //照片最多五張
+    let photoLimitAmount = 1 //照片最多一張
+
+    
+    //地點
+    var mapItem: MKMapItem? {
+        didSet {
+            setLocation()
+        }
+    }
+
     
     //隐藏狀態欄
     override var prefersStatusBarHidden: Bool {
@@ -356,8 +368,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         
         publishBtn = customTopBarKit.getDoSomeThingTextBtn()
         publishBtn.addTarget(self, action: #selector(publishBtnAct), for: .touchUpInside)
-        publishBtn.isEnabled = false
-        publishBtn.alpha = 0.25
+        
         
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
@@ -443,17 +454,135 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     }
     
     
-    func checkCanPublishOrNot(){
-        //TODO
+    func checkCanPublishOrNot(isPressPublish:Bool){
         
-//        if  itemNameTextField.text != "" &&
-//                priceTextField.text != ""{
-//            publishBtn.isEnabled = true
-//            publishBtn.alpha = 1
-//        }else{
-//            publishBtn.isEnabled = false
-//            publishBtn.alpha = 0.25
-//        }
+        
+        if photos.count == 0 {
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "請設定至少一張聚會封面", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        
+        if restaurantNameTextField.text == "" {
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "請填寫餐廳名稱", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        if addressHint.text == "" {
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "請選擇餐廳地點", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        if(dateTimeBtn.titleLabel?.text == "-"){
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "請選擇聚會時間", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        if(reviewTimeBtn.titleLabel?.text == "-"){
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "請選擇最晚審核時間", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        if reviewTime >= dateTime {
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "最晚審核時間必須在聚會開始前", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        publishBtn.alpha = 1
+        
+        if(isPressPublish){
+            
+            updateToFirebase()
+            publishBtn.isEnabled = false
+            publishBtn.alpha = 0.25
+        }
+        
+    }
+    
+    fileprivate func putSharedSeatAnnotationToFireBase() {
+        var boysID : [String]? = nil
+        var girlsID : [String]? = nil
+        
+        if(UserSetting.userGender == 0){
+            girlsID = [UserSetting.UID]
+        }else{
+            boysID = [UserSetting.UID]
+        }
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYYMMddHHmmss"
+        let reviewTimeString = dateFormatter.string(from: reviewTime)
+        let dateTimeString = dateFormatter.string(from: dateTime)
+        
+        let latitude = String(format: "%f", (mapItem!.placemark.coordinate.latitude))
+        let longitude = String(format: "%f", (mapItem!.placemark.coordinate.longitude))
+        
+        let myAnnotation = SharedSeatAnnotationData(restaurant: restaurantNameTextField.text!, address: addressHint.text!, headCount: headCount, boysID: boysID, girlsID: girlsID,signUpBoysID: nil,signUpGirlsID: nil, reviewTime: reviewTimeString, dateTime: dateTimeString, photosUrl: photosUrl, latitude: latitude, longitude: longitude)
+        let ref = Database.database().reference()
+        let sharedSeatAnnotationWithIDRef = ref.child("SharedSeatAnnotation/" +  UserSetting.UID)
+        
+        sharedSeatAnnotationWithIDRef.setValue(myAnnotation.toAnyObject()){ (error, ref) -> Void in
+            if error != nil{
+                self.loadingView.removeFromSuperview()
+                print(error ?? "上傳holdeShareAnnotation失敗")
+            }else{
+                self.navigationController?.popViewController(animated: true)
+            }
+            
+        }
+    }
+    
+    func updateToFirebase(){
+        
+        loadingView = UIView(frame: CGRect(x: view.frame.width/2 - 40, y: view.frame.height/2 - 40, width: 80, height: 80))
+        view.addSubview(loadingView)
+        loadingView.setupToLoadingView()
+        
+    
+        
+        ////計算需要上傳的photo數量
+        photoNumberNeedToPut = 0
+        successedPutPhotoNumber = 0
+        for url in photosUrl{
+            if url == noURLString{
+                photoNumberNeedToPut += 1
+            }
+        }
+        
+        for i in 0...photos.count - 1{
+            
+            if photosUrl[i] == noURLString{
+                FirebaseHelper.putSharedSeatPhoto(image: photos[i], completion:  {url -> () in
+                                                self.photosUrl[i] = url
+                                                self.successedPutPhotoNumber += 1
+                                                
+                                                if self.successedPutPhotoNumber == self.photoNumberNeedToPut{
+                                                    
+                                                    self.putSharedSeatAnnotationToFireBase()
+                                                }})
+            }
+            
+        }
+        
+
+        
     }
     
     
@@ -494,6 +623,8 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         }else if(currentSelectTime == 2){
             reviewTimeBtn.setTitle(date, for: .normal)
         }
+        
+        checkCanPublishOrNot(isPressPublish: false)
  
     }
     
@@ -519,9 +650,16 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
 //        }
         
         //刪除photoUrl
-        photoUrls.remove(at: currentSelectPhotoNumber)
+        photosUrl.remove(at: currentSelectPhotoNumber)
         
         whenEditDoSomeThing()
+    }
+    
+    func setLocation(){
+        if let thoroughfare = mapItem?.placemark.thoroughfare , let subThoroughfare = mapItem?.placemark.subThoroughfare{
+            addressHint.text = thoroughfare + subThoroughfare + "號"
+            checkCanPublishOrNot(isPressPublish: false)
+        }
     }
     
     @objc fileprivate func takePhotoBtnAct(){
@@ -598,10 +736,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     @objc fileprivate func publishBtnAct(){
         self.view.endEditing(true)
         
-        publishBtn.isEnabled = false
-        publishBtn.alpha = 0.25
-        
-//        uploadToFireBase()
+        checkCanPublishOrNot(isPressPublish: true)
     }
     
     
@@ -613,9 +748,9 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
         if let image = info[.editedImage] as? UIImage{
             photos.append(image)
-            photoUrls.append(noURLString)
+            photosUrl.append(noURLString)
             photoTableView.reloadData()
-            checkCanPublishOrNot()
+            checkCanPublishOrNot(isPressPublish: false)
             picker.dismiss(animated: true, completion: nil)
         }
         
@@ -736,11 +871,11 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     // MARK: - WordLimitForTypeDelegate 自製
     
     func whenEditDoSomeThing() {
-        checkCanPublishOrNot()
+        checkCanPublishOrNot(isPressPublish: false)
     }
     
     func whenEndEditDoSomeThing() {
-        checkCanPublishOrNot()
+        checkCanPublishOrNot(isPressPublish: false)
     }
     
 }

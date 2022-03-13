@@ -492,6 +492,8 @@ class SettingViewController: UIViewController {
                    "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
                    "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
                    "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
+                   "isMapShowSharedSeat2":UserSetting.isMapShowSharedSeat2,
+                   "isMapShowSharedSeat4":UserSetting.isMapShowSharedSeat4,
                    "perferIconStyleToShowInMap":UserSetting.perferIconStyleToShowInMap,
                    "isWantSellSomething":false,
                    "isWantBuySomething":false,

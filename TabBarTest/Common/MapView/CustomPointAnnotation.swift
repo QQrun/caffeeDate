@@ -13,13 +13,6 @@ import UIKit
 
 class CustomPointAnnotation: MKPointAnnotation {
     
-    enum MarkType {
-        case makeFriend
-        case openStore
-        case request
-        case teamUp
-        case none
-    }
 }
 
 
@@ -49,6 +42,14 @@ class CoffeeAnnotation : CustomPointAnnotation{
 
 class PersonAnnotation : CustomPointAnnotation {
     
+    enum MarkType {
+        case makeFriend
+        case openStore
+        case request
+        case teamUp
+        case none
+    }
+    
     var preferMarkType : MarkType = .openStore
     var markTypeToShow : MarkType = .none
     var UID = ""
@@ -60,4 +61,21 @@ class PersonAnnotation : CustomPointAnnotation {
     var isRequest = false
     var isTeamUp = false
     var smallHeadShot :UIImage!
+}
+
+
+class SharedSeatAnnotation : CustomPointAnnotation {
+    
+    var restaurant: String = ""
+    var address: String = ""
+    var headCount: Int = 2
+    var boysID: [String]? = []
+    var girlsID: [String]? = []
+    var signUpBoysID: [String]? = []
+    var signUpGirlsID: [String]? = []
+    var reviewTime : String = ""
+    var dateTime : String = ""
+    var photosUrl: [String]? = []
+    var holderUID: String = ""
+    
 }

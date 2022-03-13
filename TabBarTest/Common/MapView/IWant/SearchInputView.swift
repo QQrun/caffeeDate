@@ -127,6 +127,7 @@ class SearchInputView : UIView{
 extension SearchInputView : UITableViewDelegate,UITableViewDataSource{
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
+        
         return searchResults?.count ?? 10
     }
     
@@ -159,7 +160,8 @@ extension SearchInputView : UITableViewDelegate,UITableViewDataSource{
 //
 //        let firstIndexPath = IndexPath(row: 0, section: 0)
 
-//        let cell = tableView.cellForRow(at: firstIndexPath) as! SearchCell
+//        let cell = tableView.cellForRow(at: indexPath) as! SearchLocationCell
+//        cell.backgroundColor = UIColor.primary().withAlphaComponent(0.3)
 //        cell.animateButtonIn()
 //        delegate?.addPolyline(forDestinationMapItem: selectedMapItem)
 
@@ -175,8 +177,10 @@ extension SearchInputView: UISearchBarDelegate{
     func searchBarSearchButtonClicked(_ searchBar: UISearchBar) {
         guard let searchText = searchBar.text else { return }
         delegate?.handleSearch(searchText)
-        
         dismissOnSearch()
+        
+        tableView.setContentOffset(CGPoint(x: 0.0, y: 0.0), animated: true)
+        tableView.deselectSelectedRow(animated: false)
     }
     
     func searchBarTextDidBeginEditing(_ searchBar: UISearchBar) {

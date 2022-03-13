@@ -383,6 +383,12 @@
 		A787C3A727C91080009EC8A7 /* SearchInputView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A527C91080009EC8A7 /* SearchInputView.swift */; };
 		A787C3A927C9176B009EC8A7 /* SearchLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */; };
 		A787C3AA27C9176B009EC8A7 /* SearchLocationCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */; };
+		A787C3AC27D3A330009EC8A7 /* SharedSeatAnnotationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3AB27D3A330009EC8A7 /* SharedSeatAnnotationData.swift */; };
+		A787C3AD27D3A330009EC8A7 /* SharedSeatAnnotationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3AB27D3A330009EC8A7 /* SharedSeatAnnotationData.swift */; };
+		A787C3AF27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3AE27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift */; };
+		A787C3B027D62239009EC8A7 /* SharedSeatAnnotationGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3AE27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift */; };
+		A787C3B227DB845D009EC8A7 /* ProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */; };
+		A787C3B327DB845D009EC8A7 /* ProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */; };
 		A789E47E2449AF9D00730053 /* BigItemTableViewDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */; };
 		A789E4802449AFB200730053 /* BigItemTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */; };
 		A789E484244B093D00730053 /* ItemViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A789E483244B093D00730053 /* ItemViewController.swift */; };
@@ -609,6 +615,9 @@
 		A787C3A227C8FFFE009EC8A7 /* ChooseLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChooseLocationViewController.swift; sourceTree = "<group>"; };
 		A787C3A527C91080009EC8A7 /* SearchInputView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchInputView.swift; sourceTree = "<group>"; };
 		A787C3A827C9176B009EC8A7 /* SearchLocationCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchLocationCell.swift; sourceTree = "<group>"; };
+		A787C3AB27D3A330009EC8A7 /* SharedSeatAnnotationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedSeatAnnotationData.swift; sourceTree = "<group>"; };
+		A787C3AE27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedSeatAnnotationGetter.swift; sourceTree = "<group>"; };
+		A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhoto.swift; sourceTree = "<group>"; };
 		A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewDelegate.swift; sourceTree = "<group>"; };
 		A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewCell.swift; sourceTree = "<group>"; };
 		A789E483244B093D00730053 /* ItemViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ItemViewController.swift; sourceTree = "<group>"; };
@@ -834,6 +843,7 @@
 			children = (
 				A75A3DF424422EE500E43D46 /* CoffeeAnnotationGetter.swift */,
 				A75A3E032445DFF100E43D46 /* PresonAnnotationGetter.swift */,
+				A787C3AE27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift */,
 			);
 			path = DataGetter;
 			sourceTree = "<group>";
@@ -1142,6 +1152,7 @@
 				A75A3E092447588B00E43D46 /* PersonDetailInfo.swift */,
 				A75A3E052445E26700E43D46 /* Item.swift */,
 				A73F3796245EB5140082DF8E /* Comment.swift */,
+				A787C3AB27D3A330009EC8A7 /* SharedSeatAnnotationData.swift */,
 			);
 			path = FireBaseDataStruct;
 			sourceTree = "<group>";
@@ -1174,6 +1185,7 @@
 				A7A474D92524C0AA0038D75B /* ProfileButton.swift */,
 				A7A47501252CC4E10038D75B /* CustomBookMarkKit.swift */,
 				A747EE0D25C678D400766B66 /* PaddingLabel.swift */,
+				A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */,
 			);
 			path = CustomComponentKit;
 			sourceTree = "<group>";
@@ -1489,6 +1501,7 @@
 				A77BAD43253C7D190071D346 /* AutocompleteManagerDataSource.swift in Sources */,
 				A77BAB8E253C75EF0071D346 /* LinkPreviewMessageSizeCalculator.swift in Sources */,
 				A75A3DF3243F7D3E00E43D46 /* UserSetting.swift in Sources */,
+				A787C3AC27D3A330009EC8A7 /* SharedSeatAnnotationData.swift in Sources */,
 				A77BAB98253C75EF0071D346 /* TypingIndicatorCellSizeCalculator.swift in Sources */,
 				A77BAB6E253C75D50071D346 /* MessagesViewController.swift in Sources */,
 				A7707FAD24FB7E5E001B94C4 /* NotifyHelper.swift in Sources */,
@@ -1496,6 +1509,7 @@
 				A7BDF52D2453200200180166 /* PersonAnnotationData.swift in Sources */,
 				A75A3DFC2444687A00E43D46 /* ItemTableViewDelegate.swift in Sources */,
 				A7FCE11E24EE257500E79E96 /* NotifyTableViewCell.swift in Sources */,
+				A787C3AF27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift in Sources */,
 				A799BE5D27A5354900A6057A /* ScoreCoffeeViewController.swift in Sources */,
 				A77BAD48253C7D190071D346 /* InputBarButtonItem.swift in Sources */,
 				A77BAB6F253C75D50071D346 /* MessagesViewController+Keyboard.swift in Sources */,
@@ -1567,6 +1581,7 @@
 				A77BABD0253C76680071D346 /* MessageStyle.swift in Sources */,
 				A7D30965251C5415005CBA08 /* PostNotifcation.swift in Sources */,
 				A77BAD53253C7D190071D346 /* UIView+AutoLayout.swift in Sources */,
+				A787C3B227DB845D009EC8A7 /* ProfilePhoto.swift in Sources */,
 				A77BABCF253C76680071D346 /* HorizontalEdgeInsets.swift in Sources */,
 				A714616E27574B6E00872E4E /* SSSegmentedControl.swift in Sources */,
 				A77BAD5D253C7D190071D346 /* KeyboardNotification.swift in Sources */,
@@ -1687,6 +1702,7 @@
 				A787C2ED27C0F284009EC8A7 /* LinkPreviewMessageSizeCalculator.swift in Sources */,
 				A787C2EE27C0F284009EC8A7 /* UserSetting.swift in Sources */,
 				A787C2EF27C0F284009EC8A7 /* TypingIndicatorCellSizeCalculator.swift in Sources */,
+				A787C3AD27D3A330009EC8A7 /* SharedSeatAnnotationData.swift in Sources */,
 				A787C2F027C0F284009EC8A7 /* MessagesViewController.swift in Sources */,
 				A787C2F127C0F284009EC8A7 /* NotifyHelper.swift in Sources */,
 				A787C2F227C0F284009EC8A7 /* FillBasicInfoViewController.swift in Sources */,
@@ -1694,6 +1710,7 @@
 				A787C2F427C0F284009EC8A7 /* ItemTableViewDelegate.swift in Sources */,
 				A787C2F527C0F284009EC8A7 /* NotifyTableViewCell.swift in Sources */,
 				A787C2F627C0F284009EC8A7 /* ScoreCoffeeViewController.swift in Sources */,
+				A787C3B027D62239009EC8A7 /* SharedSeatAnnotationGetter.swift in Sources */,
 				A787C2F727C0F284009EC8A7 /* InputBarButtonItem.swift in Sources */,
 				A787C2F827C0F284009EC8A7 /* MessagesViewController+Keyboard.swift in Sources */,
 				A787C2F927C0F284009EC8A7 /* AttachmentsView.swift in Sources */,
@@ -1765,6 +1782,7 @@
 				A787C33927C0F284009EC8A7 /* PostNotifcation.swift in Sources */,
 				A787C33A27C0F284009EC8A7 /* UIView+AutoLayout.swift in Sources */,
 				A787C33B27C0F284009EC8A7 /* HorizontalEdgeInsets.swift in Sources */,
+				A787C3B327DB845D009EC8A7 /* ProfilePhoto.swift in Sources */,
 				A787C33C27C0F284009EC8A7 /* SSSegmentedControl.swift in Sources */,
 				A787C33D27C0F284009EC8A7 /* KeyboardNotification.swift in Sources */,
 				A787C33E27C0F284009EC8A7 /* UITextView+Extensions.swift in Sources */,

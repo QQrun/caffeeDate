@@ -31,8 +31,8 @@ class SearchLocationCell : UITableViewCell{
         view.addSubview(locationImageView)
         view.alpha = 0
         locationImageView.center(inView: view)
-        locationImageView.heightAnchor.constraint(equalToConstant: 20).isActive = true
-        locationImageView.widthAnchor.constraint(equalToConstant: 20).isActive = true
+        locationImageView.heightAnchor.constraint(equalToConstant: 15).isActive = true
+        locationImageView.widthAnchor.constraint(equalToConstant: 15).isActive = true
         return view
      }()
     
@@ -40,7 +40,6 @@ class SearchLocationCell : UITableViewCell{
         let iv = UIImageView()
         iv.clipsToBounds = true
         iv.contentMode = .scaleAspectFit
-        iv.backgroundColor = .sksPink()
         iv.tintColor = .white
         iv.image = UIImage(named: "baseline_location_on_white_24pt_3x")?.withRenderingMode(.alwaysTemplate)
         return iv
@@ -53,10 +52,19 @@ class SearchLocationCell : UITableViewCell{
         return label
     }()
     
-    let locationDistanceLabel: UILabel = {
+    let locationAddressLabel: UILabel = {
         let label = UILabel()
         label.font = UIFont.systemFont(ofSize: 14)
         label.textColor = .on().withAlphaComponent(0.7)
+        return label
+    }()
+    
+    
+    let locationDistanceLabel: UILabel = {
+        let label = UILabel()
+        label.font = UIFont.systemFont(ofSize: 9)
+        label.textColor = .on().withAlphaComponent(0.5)
+        label.textAlignment = .center
         return label
     }()
     
@@ -66,19 +74,23 @@ class SearchLocationCell : UITableViewCell{
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        selectionStyle = .none
-        
         addSubview(imageContainerView)
-        let dimension: CGFloat = 28
-        imageContainerView.anchor(top: nil, left: leftAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 6, paddingBottom: 0, paddingRight: 0, width: dimension, height: dimension)
+        let dimension: CGFloat = 20
+        imageContainerView.anchor(top: topAnchor, left: leftAnchor, bottom: bottomAnchor, right: nil, paddingTop: 10, paddingLeft: 6, paddingBottom: 20, paddingRight: 0, width: dimension, height: dimension)
         imageContainerView.layer.cornerRadius = dimension/2
         imageContainerView.centerY(inView: self)
+        
+        addSubview(locationDistanceLabel)
+        locationDistanceLabel.anchor(top: imageContainerView.bottomAnchor, left: leftAnchor, bottom: nil, right: nil, paddingTop: 2, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 32, height: 0)
         
         addSubview(locationTitleLabel)
         locationTitleLabel.anchor(top: topAnchor, left: imageContainerView.rightAnchor, bottom: nil, right: nil, paddingTop: 7, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
         
-        addSubview(locationDistanceLabel)
-        locationDistanceLabel.anchor(top: locationTitleLabel.bottomAnchor, left: imageContainerView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        addSubview(locationAddressLabel)
+        locationAddressLabel.anchor(top: locationTitleLabel.bottomAnchor, left: imageContainerView.rightAnchor, bottom: nil, right: nil, paddingTop: 0, paddingLeft: 8, paddingBottom: 0, paddingRight: 0, width: 0, height: 0)
+        
+        selectedBackgroundView = UIView()
+        selectedBackgroundView?.backgroundColor = UIColor.primary().withAlphaComponent(0.3)
     }
     
     required init?(coder: NSCoder) {
@@ -90,21 +102,31 @@ class SearchLocationCell : UITableViewCell{
         
         if(mapItem == nil){
             locationTitleLabel.text = ""
+            locationAddressLabel.text = ""
             locationDistanceLabel.text = ""
             imageContainerView.alpha = 0
-        }
-    
-        locationTitleLabel.text = mapItem?.name
+            selectionStyle = .none
+        }else{
+            locationTitleLabel.text = mapItem?.name
 
-        let distanceFormatter = MKDistanceFormatter()
-        distanceFormatter.unitStyle = .abbreviated
-        
-        guard let mapItemLocation = mapItem?.placemark.location else { return }
-        guard let distanceFromUser = delegate?.distanceFromUser(location: mapItemLocation) else { return }
-        let distanceAsString = distanceFormatter.string(fromDistance: distanceFromUser)
-        locationDistanceLabel.text = distanceAsString
-        
-        imageContainerView.alpha = 1
+            let distanceFormatter = MKDistanceFormatter()
+            distanceFormatter.unitStyle = .abbreviated
+            
+            guard let mapItemLocation = mapItem?.placemark.location else { return }
+            guard let distanceFromUser = delegate?.distanceFromUser(location: mapItemLocation) else { return }
+            let distanceAsString = distanceFormatter.string(fromDistance: distanceFromUser)
+            
+            locationDistanceLabel.text = distanceAsString
+            
+            if let thoroughfare = mapItem?.placemark.thoroughfare , let subThoroughfare = mapItem?.placemark.subThoroughfare{
+                locationAddressLabel.text = thoroughfare + subThoroughfare + "號"
+            }
+            
+            
+            
+            imageContainerView.alpha = 1
+            selectionStyle = .default
+        }
         
     }
     

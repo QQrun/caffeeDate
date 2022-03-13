@@ -63,6 +63,32 @@ class FirebaseHelper{
             }
         )}
     }
+    
+    //completion (url:String) ->()
+    static func putSharedSeatPhoto(image:UIImage,completion: @escaping ((String) -> ())){
+        
+        var compressedPhoto = image.imageWithNewSize(size: CGSize(width: 1024, height: 1024))
+        compressedPhoto = compressedPhoto!.compressQuality(maxLength: 1024 * 1024)//照片的目標壓縮大小
+
+        let storageRefForItemPhoto = Storage.storage().reference().child("sharedSeatPhoto/" + NSUUID().uuidString)
+        
+        if let compressedPhotoUploadData = compressedPhoto!.jpegData(compressionQuality: 1){
+            storageRefForItemPhoto.putData(compressedPhotoUploadData,metadata: nil,completion: {
+                (metadata,error) in
+                if error != nil {
+                    print(error ?? "上傳sharedSeat的photo失敗")
+                }
+                
+                storageRefForItemPhoto.downloadURL { (url, error) in
+                    guard let downloadURL = url else {
+                        print(error ?? "sharedSeatPhoto產生url失敗")
+                        return
+                    }
+                    completion(downloadURL.absoluteString)
+                }
+            }
+        )}
+    }
 
     
 

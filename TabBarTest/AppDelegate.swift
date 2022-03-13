@@ -36,17 +36,32 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
         
         //本機預設參數
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
+            
+        
+        var isMapShowOpenStore = false
+        var isMapShowRequest = false
+        var isMapShowSharedSeat2 = false
+        var isMapShowSharedSeat4 = false
+        #if FACETRADER
+        isMapShowOpenStore = true
+        isMapShowRequest = true
+        #elseif VERYINCORRECT
+        isMapShowSharedSeat2 = true
+        isMapShowSharedSeat4 = true
+        #endif
         let dic = ["alreadyUpdatePersonDetail":false,
                    "UID":"",
                    "userName":"",
                    "userBirthDay":"",
                    "userGender":1,
-                   "isMapShowOpenStore": true,
-                   "isMapShowRequest":true,
+                   "isMapShowOpenStore": isMapShowOpenStore,
+                   "isMapShowRequest":isMapShowRequest,
                    "isMapShowTeamUp":true,
                    "isMapShowCoffeeShop":false,
                    "isMapShowMakeFriend_Boy":true,
                    "isMapShowMakeFriend_Girl":true,
+                   "isMapShowSharedSeat2":isMapShowSharedSeat2,
+                   "isMapShowSharedSeat4":isMapShowSharedSeat4,
                    "perferIconStyleToShowInMap":"none",
                    "isWantSellSomething":false,
                    "isWantBuySomething":false,

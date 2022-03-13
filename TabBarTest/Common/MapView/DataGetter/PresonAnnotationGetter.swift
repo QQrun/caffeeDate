@@ -86,6 +86,7 @@ class PresonAnnotationGetter{
         let remainingSecond = ((self.durationOfAuction - seconds!) % (60 * 60)) % 60
         if remainingHour < 0 || remainingMin < 0 || remainingSecond < 0{
             if personAnnotation.UID == UserSetting.UID{
+                //刪除在過期地點在firebase上的資料
                 FirebaseHelper.deletePersonAnnotation()
                 NotifyHelper.pushNewNoti(title: "擺攤時間到，已收攤", subTitle: "您可以在『我的攤販』設定內再度開啟攤販")
             }
@@ -129,13 +130,12 @@ class PresonAnnotationGetter{
         canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
         classifyAnnotation(personAnnotation)
         if canShow{
-            
             self.mapView.addAnnotation(personAnnotation)
         }
 
     }
     
-    func getPersonData() {
+    func fetchPersonData() {
         
         //假資料
 //        for an in GetFakeAnnotations(){

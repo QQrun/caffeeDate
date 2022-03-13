@@ -82,6 +82,26 @@ class UserSetting{
             return UserDefaults.standard.bool(forKey: "isMapShowMakeFriend_Girl")
         }
     }
+    
+    static var isMapShowSharedSeat2: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isMapShowSharedSeat2")
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: "isMapShowSharedSeat2")
+        }
+    }
+    
+    static var isMapShowSharedSeat4: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isMapShowSharedSeat4")
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: "isMapShowSharedSeat4")
+        }
+    }
+    
+    
 
     //For PersonDetail
     
