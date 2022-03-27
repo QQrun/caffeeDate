@@ -32,25 +32,28 @@ class PostNotifcation {
         self.reviewers = reviewers
     }
     
-//
+    //
     init(snapshot: DataSnapshot) {
+
         let snapshotValue = snapshot.value as! [String: AnyObject]
         self.itemID = snapshot.key
-        self.posterID = snapshotValue["posterID"] as! String
-        self.itemName = snapshotValue["itemName"] as! String
-        if snapshotValue["isRead"] as! String == "0"{
+        
+        self.posterID = snapshotValue["posterID"] as? String ?? ""
+        self.itemName = snapshotValue["itemName"] as? String ?? ""
+        
+        if snapshotValue["isRead"] as? String == "0"{
             self.isRead = false
         }else{
             self.isRead = true
         }
-        if snapshotValue["type"] as! String == "1"{
+        if snapshotValue["type"] as? String == "1"{
             self.notifcationType = .MyItemHasRespond
         }else {
             self.notifcationType = .OtherItemHasRespond
         }
-        if snapshotValue["iWantType"] as! String == "SellItems"{
+        if snapshotValue["iWantType"] as? String == "SellItems"{
             self.iWantType = .Sell
-        }else if snapshotValue["iWantType"] as! String == "BuyItems"{
+        }else if snapshotValue["iWantType"] as? String == "BuyItems"{
             self.iWantType = .Buy
         }else{
             self.iWantType = .Sell
@@ -63,9 +66,9 @@ class PostNotifcation {
             }
         }
         self.time = snapshotValue["time"] as! String
-
+        
     }
-//
+    //
     
 }
 

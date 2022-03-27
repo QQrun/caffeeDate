@@ -16,6 +16,8 @@ class ProfilePhoto : UIView{
     var circle: UIView?
     var headShot : UIImageView?
     
+    private var isAccompanyLabel : UILabel?
+    
     init(frame:CGRect,gender:Gender,tintColor:UIColor) {
         super.init(frame: frame)
         
@@ -70,6 +72,21 @@ class ProfilePhoto : UIView{
         let profileBtn = ProfileButton(UID: UID)
         profileBtn.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
         self.addSubview(profileBtn)
+    }
+    
+    func isAccompany(){
+        
+        circle!.alpha = 1
+        loadingView!.alpha = 0
+        
+        isAccompanyLabel = UILabel()
+        isAccompanyLabel?.numberOfLines = 2
+        isAccompanyLabel?.text = "同行\n友人"
+        isAccompanyLabel?.font = isAccompanyLabel?.font.withSize(14)
+        isAccompanyLabel?.textColor = .white
+        isAccompanyLabel?.frame = CGRect(x: 0, y: self.frame.height/2 - (isAccompanyLabel?.intrinsicContentSize.height)!/2, width: self.frame.width, height: (isAccompanyLabel?.intrinsicContentSize.height)!)
+        isAccompanyLabel?.textAlignment = .center
+        addSubview(isAccompanyLabel!)
     }
 
     required init?(coder: NSCoder) {

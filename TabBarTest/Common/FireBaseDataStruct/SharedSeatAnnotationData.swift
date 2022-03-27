@@ -16,22 +16,22 @@ class SharedSeatAnnotationData {
     
     var restaurant: String
     var address: String
-    var headCount: Int
-    var boysID: [String]?
-    var girlsID: [String]?
-    var signUpBoysID: [String]?
-    var signUpGirlsID: [String]?
+    var mode: Int //1 一對一  2 二對二
+    var boysID: [String:Int]?
+    var girlsID: [String:Int]?
+    var signUpBoysID: [String:Int]?
+    var signUpGirlsID: [String:Int]?
     var reviewTime : String
     var dateTime : String
     var photosUrl: [String]?
-
     var latitude: String
     var longitude: String
     
-    init(restaurant: String,address: String, headCount: Int, boysID: [String]?, girlsID: [String]?,signUpBoysID:[String]?,signUpGirlsID:[String]?, reviewTime: String, dateTime: String,photosUrl: [String]?,latitude: String,longitude:String) {
+    
+    init(restaurant: String,address: String, mode: Int, boysID: [String:Int]?, girlsID: [String:Int]?,signUpBoysID:[String:Int]?,signUpGirlsID:[String:Int]?, reviewTime: String, dateTime: String,photosUrl: [String]?,latitude: String,longitude:String) {
         self.restaurant = restaurant
         self.address = address
-        self.headCount = headCount
+        self.mode = mode
         self.boysID = boysID
         self.girlsID = girlsID
         self.signUpBoysID = signUpBoysID
@@ -47,14 +47,14 @@ class SharedSeatAnnotationData {
         let snapshotValue = snapshot.value as! [String: AnyObject]
         if let restaurant = snapshotValue["restaurant"] as? String ,
            let address = snapshotValue["address"] as? String,
-           let headCount = snapshotValue["headCount"] as? Int,
+           let mode = snapshotValue["mode"] as? Int,
            let reviewTime = snapshotValue["reviewTime"] as? String,
            let dateTime = snapshotValue["dateTime"] as? String,
            let latitude = snapshotValue["latitude"] as? String,
            let longitude = snapshotValue["longitude"] as? String{
             self.restaurant = restaurant
             self.address = address
-            self.headCount = headCount
+            self.mode = mode
             self.reviewTime = reviewTime
             self.dateTime = dateTime
             self.latitude = latitude
@@ -63,7 +63,7 @@ class SharedSeatAnnotationData {
         } else {
             self.restaurant = ""
             self.address = ""
-            self.headCount = 0
+            self.mode = 0
             self.reviewTime = ""
             self.dateTime = ""
             self.latitude = ""
@@ -72,29 +72,30 @@ class SharedSeatAnnotationData {
         
         self.photosUrl = snapshotValue["photosUrl"] as? [String]
 
+        
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "boysID").children.allObjects as? [DataSnapshot]{
-            self.boysID = []
+            self.boysID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.boysID?.append(childchildSnapshot.key as String)
+                self.boysID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
             }
         }
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "girlsID").children.allObjects as? [DataSnapshot]{
-            self.girlsID = []
+            self.girlsID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.girlsID?.append(childchildSnapshot.key as String)
+                self.girlsID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
             }
         }
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "signUpBoysID").children.allObjects as? [DataSnapshot]{
-            self.signUpBoysID = []
+            self.signUpBoysID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.signUpBoysID?.append(childchildSnapshot.key as String)
+                self.signUpBoysID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
             }
         }
         
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "signUpGirlsID").children.allObjects as? [DataSnapshot]{
-            self.signUpGirlsID = []
+            self.signUpGirlsID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.signUpGirlsID?.append(childchildSnapshot.key as String)
+                self.signUpGirlsID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
             }
         }
     }
@@ -105,8 +106,8 @@ class SharedSeatAnnotationData {
             return [
                 "restaurant": restaurant,
                 "address": address,
-                "headCount": headCount,
-                "boysID": [boysID![0]:UserSetting.userName], //舉辦人自己是參與者
+                "mode": mode,
+                "boysID": boysID,
                 "reviewTime": reviewTime,
                 "dateTime": dateTime,
                 "photosUrl": photosUrl,
@@ -117,8 +118,8 @@ class SharedSeatAnnotationData {
             return [
                 "restaurant": restaurant,
                 "address": address,
-                "headCount": headCount,
-                "boysID": [girlsID![0]:UserSetting.userName], //舉辦人自己是參與者
+                "mode": mode,
+                "girlsID": girlsID,
                 "reviewTime": reviewTime,
                 "dateTime": dateTime,
                 "photosUrl": photosUrl,
@@ -129,7 +130,7 @@ class SharedSeatAnnotationData {
             return [
                 "restaurant": restaurant,
                 "address": address,
-                "headCount": headCount,
+                "mode": mode,
                 "reviewTime": reviewTime,
                 "dateTime": dateTime,
                 "photosUrl": photosUrl,

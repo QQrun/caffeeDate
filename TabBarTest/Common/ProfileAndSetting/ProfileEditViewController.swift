@@ -338,13 +338,10 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         for photoUrl in photoUrlsNeedToDelete {
             let photoStorageRef = Storage.storage().reference(forURL: photoUrl)
             photoStorageRef.delete(completion: { (error) in
-                print("photoUrlsNeedToDelete 1")
                 if let error = error {
-                    print("photoUrlsNeedToDelete error")
                     print(error)
                 } else {
                     // success
-                    print("photoUrlsNeedToDelete:" + "\(photoUrl)")
                     if let index =  UserSetting.userPhotosUrl.firstIndex(of: photoUrl){
                         UserSetting.userPhotosUrl.remove(at: index)
                     }

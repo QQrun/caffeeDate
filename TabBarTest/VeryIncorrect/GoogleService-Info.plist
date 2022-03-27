@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>CLIENT_ID</key>
+	<string>539535613277-i7j49qla48rrvhjbbusjv66eee6qk7mj.apps.googleusercontent.com</string>
+	<key>REVERSED_CLIENT_ID</key>
+	<string>com.googleusercontent.apps.539535613277-i7j49qla48rrvhjbbusjv66eee6qk7mj</string>
+	<key>ANDROID_CLIENT_ID</key>
+	<string>539535613277-07vijd76coifdpm336qkhdfbap5vrae5.apps.googleusercontent.com</string>
+	<key>API_KEY</key>
+	<string>AIzaSyAfzTjyEa56-ZaDxsfoLZqYPS_NwznzpXo</string>
+	<key>GCM_SENDER_ID</key>
+	<string>539535613277</string>
+	<key>PLIST_VERSION</key>
+	<string>1</string>
+	<key>BUNDLE_ID</key>
+	<string>com.run.VeryIncorrect</string>
+	<key>PROJECT_ID</key>
+	<string>traveltrader-680ee</string>
+	<key>STORAGE_BUCKET</key>
+	<string>traveltrader-680ee.appspot.com</string>
+	<key>IS_ADS_ENABLED</key>
+	<false></false>
+	<key>IS_ANALYTICS_ENABLED</key>
+	<false></false>
+	<key>IS_APPINVITE_ENABLED</key>
+	<true></true>
+	<key>IS_GCM_ENABLED</key>
+	<true></true>
+	<key>IS_SIGNIN_ENABLED</key>
+	<true></true>
+	<key>GOOGLE_APP_ID</key>
+	<string>1:539535613277:ios:2a8c5d7e0961e211161cb4</string>
+	<key>DATABASE_URL</key>
+	<string>https://traveltrader-680ee.firebaseio.com</string>
+</dict>
+</plist>

@@ -51,17 +51,20 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     var addressSelectBtn = UIButton()
     
     var oneToOneBtn = UIButton()
-    var twoToTwoBtn = UIButton()
+    var twoToTwoBtn_hasOne = UIButton()
+    var twoToTwoBtn_hasTwo = UIButton()
+    
     
     let datePicker = UIDatePicker()
     
     var datePickBlackScreen = UIButton()
     
-    var dateTimeBtn = UIButton()
     var reviewTimeBtn = UIButton()
+    var dateTimeBtn = UIButton()
     var currentSelectTime = 0 //1是在選擇dateTime 2是在選擇reviewTime
     
-    var headCount = 2
+    var mode = 1
+    var internalNumber = 1
     
     private let actionSheetKit_deletePhoto = ActionSheetKit()
     private let actionSheetKit_addPhoto = ActionSheetKit()
@@ -228,15 +231,15 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         scrollView.addSubview(addressSelectBtn)
         
         
-        let dateTimeLabel = { () -> UILabel in
+        let reviewTimeLabel = { () -> UILabel in
             let label = UILabel()
-            label.text = "聚會時間"
+            label.text = "最晚審核時間"
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
             label.frame = CGRect(x: 16, y: separator2.frame.origin.y + 120 - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
-        scrollView.addSubview(dateTimeLabel)
+        scrollView.addSubview(reviewTimeLabel)
         
         let inputLine1 = { () -> UIView in
             let separator = UIView()
@@ -247,27 +250,27 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         scrollView.addSubview(inputLine1)
         
         
-        dateTimeBtn = { () -> UIButton in
+        reviewTimeBtn = { () -> UIButton in
             let btn = UIButton()
             btn.setTitle("-", for: .normal) //週三,2月23-11:20
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
             btn.backgroundColor = .clear
             btn.setTitleColor(.on().withAlphaComponent(0.9), for: .normal)
-            btn.addTarget(self, action: #selector(dateTimeBtnAct), for: .touchUpInside)
+            btn.addTarget(self, action: #selector(reviewTimeBtnAct), for: .touchUpInside)
             btn.frame = CGRect(x: view.frame.width/2, y: inputLine1.frame.origin.y - 40, width: (view.frame.width - 30)/2, height: 40)
             return btn
         }()
-        scrollView.addSubview(dateTimeBtn)
+        scrollView.addSubview(reviewTimeBtn)
         
-        let reviewTimeLabel = { () -> UILabel in
+        let dateTimeLabel = { () -> UILabel in
             let label = UILabel()
-            label.text = "最晚審核時間"
+            label.text = "聚會時間"
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-            label.frame = CGRect(x: 16, y: dateTimeLabel.frame.origin.y + 60, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: 16, y: reviewTimeLabel.frame.origin.y + 60, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
-        scrollView.addSubview(reviewTimeLabel)
+        scrollView.addSubview(dateTimeLabel)
         
         let inputLine2 = { () -> UIView in
             let separator = UIView()
@@ -277,27 +280,41 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         }()
         scrollView.addSubview(inputLine2)
 
-        reviewTimeBtn = { () -> UIButton in
+        dateTimeBtn = { () -> UIButton in
             let btn = UIButton()
             btn.setTitle("-", for: .normal)
             btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
             btn.backgroundColor = .clear
             btn.setTitleColor(.on().withAlphaComponent(0.9), for: .normal)
-            btn.addTarget(self, action: #selector(reviewTimeBtnAct), for: .touchUpInside)
+            btn.addTarget(self, action: #selector(dateTimeBtnAct), for: .touchUpInside)
             btn.frame = CGRect(x: view.frame.width/2, y: inputLine2.frame.origin.y - 40, width: (view.frame.width - 30)/2, height: 40)
             return btn
         }()
-        scrollView.addSubview(reviewTimeBtn)
+        scrollView.addSubview(dateTimeBtn)
         
         let headCountLabel = { () -> UILabel in
             let label = UILabel()
             label.text = "參加人數"
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-            label.frame = CGRect(x: 16, y: reviewTimeLabel.frame.origin.y + 60, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: 16, y: dateTimeLabel.frame.origin.y + 60, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(headCountLabel)
+        
+        
+        
+        oneToOneBtn = { () -> UIButton in
+            let btn = UIButton()
+            btn.setTitle("1男1女", for: .normal)
+            btn.backgroundColor = .clear
+            btn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 14)
+            btn.setTitleColor(.primary(), for: .normal)
+            btn.addTarget(self, action: #selector(oneToOneBtnAct), for: .touchUpInside)
+            btn.frame = CGRect(x: view.frame.width/2 - (view.frame.width - 30)/4, y: inputLine2.frame.origin.y + 24, width: (view.frame.width - 30)/4, height: 36)
+            return btn
+        }()
+        scrollView.addSubview(oneToOneBtn)
         
         let headCountSlashLabel = { () -> UILabel in
             let label = UILabel()
@@ -305,34 +322,57 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             label.textColor = .on().withAlphaComponent(0.16)
             label.textAlignment = .center
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-            label.frame = CGRect(x: view.frame.width/2, y: reviewTimeLabel.frame.origin.y + 60, width: (view.frame.width - 30)/2, height: label.intrinsicContentSize.height)
+            label.frame = CGRect(x: view.frame.width/2, y: dateTimeLabel.frame.origin.y + 60, width: (view.frame.width - 30)/2, height: label.intrinsicContentSize.height)
             return label
         }()
         scrollView.addSubview(headCountSlashLabel)
         
-        oneToOneBtn = { () -> UIButton in
+        twoToTwoBtn_hasOne = { () -> UIButton in
             let btn = UIButton()
-            btn.setTitle("1男1女", for: .normal)
+            if(UserSetting.userGender == 0){
+                btn.setTitle("2男2女\n(內建1女)", for: .normal)
+            }else{
+                btn.setTitle("2男2女\n(內建1男)", for: .normal)
+            }
+            btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+            btn.titleLabel?.numberOfLines = 2
+            btn.titleLabel?.textAlignment = .center
             btn.backgroundColor = .clear
-            btn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-            btn.setTitleColor(.primary(), for: .normal)
-            btn.addTarget(self, action: #selector(oneToOneBtnAct), for: .touchUpInside)
+            btn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+            btn.addTarget(self, action: #selector(twoToTwoBtn_hasOneAct), for: .touchUpInside)
             btn.frame = CGRect(x: view.frame.width/2, y: inputLine2.frame.origin.y + 24, width: (view.frame.width - 30)/4, height: 36)
             return btn
         }()
-        scrollView.addSubview(oneToOneBtn)
+        scrollView.addSubview(twoToTwoBtn_hasOne)
         
-        twoToTwoBtn = { () -> UIButton in
+        let headCountSlashLabel2 = { () -> UILabel in
+            let label = UILabel()
+            label.text = "/"
+            label.textColor = .on().withAlphaComponent(0.16)
+            label.textAlignment = .center
+            label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+            label.frame = CGRect(x: view.frame.width/2 - (view.frame.width - 30)/4, y: dateTimeLabel.frame.origin.y + 60, width: (view.frame.width - 30)/2, height: label.intrinsicContentSize.height)
+            return label
+        }()
+        scrollView.addSubview(headCountSlashLabel2)
+        
+        twoToTwoBtn_hasTwo = { () -> UIButton in
             let btn = UIButton()
-            btn.setTitle("2男2女", for: .normal)
-            btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
+            if(UserSetting.userGender == 0){
+                btn.setTitle("2男2女\n(內建2女)", for: .normal)
+            }else{
+                btn.setTitle("2男2女\n(內建2男)", for: .normal)
+            }
+            btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+            btn.titleLabel?.numberOfLines = 2
+            btn.titleLabel?.textAlignment = .center
             btn.backgroundColor = .clear
             btn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
-            btn.addTarget(self, action: #selector(twoToTwoBtnAct), for: .touchUpInside)
+            btn.addTarget(self, action: #selector(twoToTwoBtn_hasTwoAct), for: .touchUpInside)
             btn.frame = CGRect(x: view.frame.width - (view.frame.width - 30)/4 - 15, y: inputLine2.frame.origin.y + 24, width: (view.frame.width - 30)/4, height: 36)
             return btn
         }()
-        scrollView.addSubview(twoToTwoBtn)
+        scrollView.addSubview(twoToTwoBtn_hasTwo)
         
         let paymentMethodLabel = { () -> UILabel in
             let label = UILabel()
@@ -482,18 +522,18 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             return
         }
         
-        if(dateTimeBtn.titleLabel?.text == "-"){
-            publishBtn.alpha = 0.25
-            if(isPressPublish){
-                self.showToast(message: "請選擇聚會時間", font: .systemFont(ofSize: 14.0))
-            }
-            return
-        }
-        
         if(reviewTimeBtn.titleLabel?.text == "-"){
             publishBtn.alpha = 0.25
             if(isPressPublish){
                 self.showToast(message: "請選擇最晚審核時間", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        if(dateTimeBtn.titleLabel?.text == "-"){
+            publishBtn.alpha = 0.25
+            if(isPressPublish){
+                self.showToast(message: "請選擇聚會時間", font: .systemFont(ofSize: 14.0))
             }
             return
         }
@@ -518,13 +558,15 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     }
     
     fileprivate func putSharedSeatAnnotationToFireBase() {
-        var boysID : [String]? = nil
-        var girlsID : [String]? = nil
+        var boysID : [String:Int]? = nil
+        var girlsID : [String:Int]? = nil
         
         if(UserSetting.userGender == 0){
-            girlsID = [UserSetting.UID]
+            girlsID = [:]
+            girlsID![UserSetting.UID] = internalNumber
         }else{
-            boysID = [UserSetting.UID]
+            boysID = [:]
+            boysID![UserSetting.UID] = internalNumber
         }
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMddHHmmss"
@@ -534,15 +576,31 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         let latitude = String(format: "%f", (mapItem!.placemark.coordinate.latitude))
         let longitude = String(format: "%f", (mapItem!.placemark.coordinate.longitude))
         
-        let myAnnotation = SharedSeatAnnotationData(restaurant: restaurantNameTextField.text!, address: addressHint.text!, headCount: headCount, boysID: boysID, girlsID: girlsID,signUpBoysID: nil,signUpGirlsID: nil, reviewTime: reviewTimeString, dateTime: dateTimeString, photosUrl: photosUrl, latitude: latitude, longitude: longitude)
+        let myAnnotationData = SharedSeatAnnotationData(restaurant: restaurantNameTextField.text!, address: addressHint.text!, mode: mode,boysID: boysID, girlsID: girlsID,signUpBoysID: nil,signUpGirlsID: nil, reviewTime: reviewTimeString, dateTime: dateTimeString, photosUrl: photosUrl, latitude: latitude, longitude: longitude)
         let ref = Database.database().reference()
         let sharedSeatAnnotationWithIDRef = ref.child("SharedSeatAnnotation/" +  UserSetting.UID)
         
-        sharedSeatAnnotationWithIDRef.setValue(myAnnotation.toAnyObject()){ (error, ref) -> Void in
+        sharedSeatAnnotationWithIDRef.setValue(myAnnotationData.toAnyObject()){ (error, ref) -> Void in
             if error != nil{
                 self.loadingView.removeFromSuperview()
                 print(error ?? "上傳holdeShareAnnotation失敗")
             }else{
+                let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
+                let sharedSeatAnnotation = SharedSeatAnnotation()
+                sharedSeatAnnotation.title = myAnnotationData.restaurant
+                sharedSeatAnnotation.holderUID = UserSetting.UID
+                sharedSeatAnnotation.address = myAnnotationData.address
+                sharedSeatAnnotation.girlsID = myAnnotationData.girlsID
+                sharedSeatAnnotation.boysID = myAnnotationData.boysID
+                sharedSeatAnnotation.signUpGirlsID = myAnnotationData.signUpGirlsID
+                sharedSeatAnnotation.signUpBoysID = myAnnotationData.signUpBoysID
+                sharedSeatAnnotation.dateTime = myAnnotationData.dateTime
+                sharedSeatAnnotation.reviewTime = myAnnotationData.reviewTime
+                sharedSeatAnnotation.mode = myAnnotationData.mode
+                sharedSeatAnnotation.photosUrl = myAnnotationData.photosUrl
+                sharedSeatAnnotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((myAnnotationData.latitude as NSString).floatValue), longitude: CLLocationDegrees((myAnnotationData.longitude as NSString).floatValue))
+                
+                mapViewController?.addMySharedSeatAnnotation(annotation: sharedSeatAnnotation)
                 self.navigationController?.popViewController(animated: true)
             }
             
@@ -706,21 +764,42 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     }
     
     @objc private func oneToOneBtnAct(_ btn: UIButton){
-        headCount = 2
-        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
+        mode = 1 //一對一
+        internalNumber = 1
+        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 14)
         oneToOneBtn.setTitleColor(.primary(), for: .normal)
         
-        twoToTwoBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
-        twoToTwoBtn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+        twoToTwoBtn_hasOne.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        twoToTwoBtn_hasOne.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+        
+        twoToTwoBtn_hasTwo.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        twoToTwoBtn_hasTwo.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
     }
     
-    @objc private func twoToTwoBtnAct(_ btn: UIButton){
-        headCount = 4
-        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
+    @objc private func twoToTwoBtn_hasOneAct(_ btn: UIButton){
+        mode = 2
+        internalNumber = 1
+        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
         oneToOneBtn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
         
-        twoToTwoBtn.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 16)
-        twoToTwoBtn.setTitleColor(.primary(), for: .normal)
+        twoToTwoBtn_hasOne.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 14)
+        twoToTwoBtn_hasOne.setTitleColor(.primary(), for: .normal)
+        
+        twoToTwoBtn_hasTwo.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        twoToTwoBtn_hasTwo.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+    }
+    
+    @objc private func twoToTwoBtn_hasTwoAct(_ btn: UIButton){
+        mode = 2
+        internalNumber = 2
+        oneToOneBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        oneToOneBtn.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+        
+        twoToTwoBtn_hasOne.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        twoToTwoBtn_hasOne.setTitleColor(.on().withAlphaComponent(0.5), for: .normal)
+        
+        twoToTwoBtn_hasTwo.titleLabel?.font = UIFont(name: "HelveticaNeue-bold", size: 14)
+        twoToTwoBtn_hasTwo.setTitleColor(.primary().withAlphaComponent(0.5), for: .normal)
     }
     
     @objc private func addressSelectBtnAct(){

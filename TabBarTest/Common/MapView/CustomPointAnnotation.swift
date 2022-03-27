@@ -15,8 +15,6 @@ class CustomPointAnnotation: MKPointAnnotation {
     
 }
 
-
-
 class CoffeeAnnotation : CustomPointAnnotation{
     var name: String = ""
     var city: String = ""
@@ -68,11 +66,11 @@ class SharedSeatAnnotation : CustomPointAnnotation {
     
     var restaurant: String = ""
     var address: String = ""
-    var headCount: Int = 2
-    var boysID: [String]? = []
-    var girlsID: [String]? = []
-    var signUpBoysID: [String]? = []
-    var signUpGirlsID: [String]? = []
+    var mode: Int = 2
+    var boysID: [String:Int]? = [:]
+    var girlsID: [String:Int]? = [:]
+    var signUpBoysID: [String:Int]? = [:]
+    var signUpGirlsID: [String:Int]? = [:]
     var reviewTime : String = ""
     var dateTime : String = ""
     var photosUrl: [String]? = []

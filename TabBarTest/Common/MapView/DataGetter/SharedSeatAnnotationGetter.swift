@@ -54,7 +54,7 @@ class SharedSeatAnnotationGetter{
         sharedSeatAnnotation.signUpBoysID = sharedSeatAnnotationData.signUpBoysID
         sharedSeatAnnotation.dateTime = sharedSeatAnnotationData.dateTime
         sharedSeatAnnotation.reviewTime = sharedSeatAnnotationData.reviewTime
-        sharedSeatAnnotation.headCount = sharedSeatAnnotationData.headCount
+        sharedSeatAnnotation.mode = sharedSeatAnnotationData.mode
         sharedSeatAnnotation.photosUrl = sharedSeatAnnotationData.photosUrl
         
         
@@ -76,13 +76,13 @@ class SharedSeatAnnotationGetter{
     func decideCanShowOrNotAndWhichIcon(_ annotation:SharedSeatAnnotation) -> Bool{
         
         
-        if(annotation.headCount == 2){
+        if(annotation.mode == 1){
             sharedSeat2Annotation.append(annotation)
             if(UserSetting.isMapShowSharedSeat2){
                 return true
             }
             
-        }else if(annotation.headCount == 4){
+        }else if(annotation.mode > 1){
             sharedSeat4Annotation.append(annotation)
             if(UserSetting.isMapShowSharedSeat4){
                 return true

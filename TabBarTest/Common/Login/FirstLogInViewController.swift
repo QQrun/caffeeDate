@@ -38,7 +38,7 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         
         
         titleImageView.image = UIImage(named: "FaceTrader")?.withRenderingMode(.alwaysTemplate)
-        
+         
         #if FACETRADER
             titleImageView.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
         #elseif VERYINCORRECT
@@ -100,6 +100,8 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 if let error = error {
                     print(error)
+                    self!.showToast(message: "登入失敗", font: .systemFont(ofSize: 14.0))
+                    self!.removeLoadingView()
                     return
                 }
                 UserSetting.UID = Auth.auth().currentUser!.uid
@@ -162,16 +164,23 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
         authorizationController.performRequests()
     }
     
+    let blackAlphaView = UIView()
+    let loadingAnimationView = UIView()
     func addLoadingView() {
-        let BlackAlphaView = UIView()
-        BlackAlphaView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
-        BlackAlphaView.backgroundColor = .black
-        BlackAlphaView.alpha = 0.5
-        let loadingAnimationView = UIView()
+        
+        blackAlphaView.frame = CGRect(x: 0, y: 0, width: view.frame.width, height: view.frame.height)
+        blackAlphaView.backgroundColor = .black
+        blackAlphaView.alpha = 0.5
+        
         loadingAnimationView.frame = CGRect(x: view.frame.width/2 - 60/2, y: view.frame.height/2 - 60/2, width: 60, height: 60)
         loadingAnimationView.setupToLoadingView()
-        view.addSubview(BlackAlphaView)
+        view.addSubview(blackAlphaView)
         view.addSubview(loadingAnimationView)
+    }
+    
+    func removeLoadingView() {
+        blackAlphaView.removeFromSuperview()
+        loadingAnimationView.removeFromSuperview()
     }
     
     @IBAction func servicePolicyBtnAct(_ sender: Any) {
@@ -272,6 +281,8 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
             Auth.auth().signIn(with: credential) { (authResult, error) in
                 if (error != nil) {
                     print(error?.localizedDescription)
+                    self.showToast(message: "登入失敗", font: .systemFont(ofSize: 14.0))
+                    self.removeLoadingView()
                     return
                 }
                 UserSetting.UID = Auth.auth().currentUser!.uid

@@ -34,7 +34,6 @@ class NotifyCenterViewControllerModel{
             }
             self.delegate?.reloadData()
             
-            print("aaa childadd")
             self.changeMapViewNotiCount()
             
         })

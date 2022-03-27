@@ -132,6 +132,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
         Auth.auth().signIn(with: credential) { (authResult, error) in
             if let error = error {
                 print(error)
+                (CoordinatorAndControllerInstanceHelper.logInPageViewController.firstLogInPage as! FirstLogInViewController).showToast(message: "登入失敗", font: .systemFont(ofSize: 14.0))
+                (CoordinatorAndControllerInstanceHelper.logInPageViewController.firstLogInPage as! FirstLogInViewController).removeLoadingView()
                 return
             }
             

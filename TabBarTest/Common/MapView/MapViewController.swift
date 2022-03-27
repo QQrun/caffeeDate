@@ -98,7 +98,8 @@ class MapViewController: UIViewController {
     
     private var storeRemainingTimeTimer = Timer()
     
-    private let actionSheetKit = ActionSheetKit()
+    private let iWantActionSheetKit = ActionSheetKit()
+    private let isAccompanyActionSheetKit = ActionSheetKit()
     
     var bookMarks_full: [String] = []
     var bookMarks_half: [String] = []
@@ -117,6 +118,10 @@ class MapViewController: UIViewController {
     
     //以下是相席用的
     var currentSharedSeatAnnotation : SharedSeatAnnotation? = nil
+    var circleButton_mySharedSeat = UIButton()
+    var unreadMySharedSeatNotifcationCount = 0
+    var unreadMySharedSeatNotiCountCircle = UIButton()
+    var signUpBtn = SSButton()
     
     //未讀通知數量
     var unreadNotifcationCount = 0
@@ -156,7 +161,7 @@ class MapViewController: UIViewController {
         coffeeAnnotationGetter.fetchCoffeeData()
         
         
-        configureIWantActionSheet()
+        configureActionSheet()
         
         AppStoreRating.share.listener()
         
@@ -194,7 +199,7 @@ class MapViewController: UIViewController {
         })
     }
     
-    fileprivate func configureIWantActionSheet() {
+    fileprivate func configureActionSheet() {
         
         
         iWantActionSheetContainer.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.height)
@@ -202,25 +207,25 @@ class MapViewController: UIViewController {
         
 #if FACETRADER
         let actionSheetText = ["取消","新增咖啡店","徵求某東西","擺攤賣東西","向周遭Say Hi交朋友"]
-        actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
-        actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        iWantActionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
         print("if FACETRADER if FACETRADER")
 #elseif VERYINCORRECT
         let actionSheetText = ["取消","新增咖啡店","發起相席","向周遭Say Hi交朋友"]
-        actionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
-        actionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
-        actionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        iWantActionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
         print("elseif VERYINCORRECTelseif VERYINCORRECT")
 #endif
         
-        actionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
-        actionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
+        iWantActionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
         iWantActionSheetContainer.addTarget(self, action: #selector(iWantActionSheetContainerAct), for: .touchUpInside)
         
         
@@ -288,6 +293,15 @@ class MapViewController: UIViewController {
         iWantActionSheetContainer.addSubview(storeNameTextField)
         
         iWantActionSheetContainer.alpha = 0
+        
+        
+        
+        //isAccompanyActionSheetKit TODO
+        let isAccompanyActionSheetKitText = ["取消","與朋友同行","一人報名"]
+        isAccompanyActionSheetKit.creatActionSheet(containerView: view, actionSheetText: isAccompanyActionSheetKitText)
+        isAccompanyActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(joinWithFriendAct), for: .touchUpInside)
+        isAccompanyActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(joinAloneAct), for: .touchUpInside)
+        
     }
     
     
@@ -1122,19 +1136,32 @@ class MapViewController: UIViewController {
         let boyPhoto1 = ProfilePhoto(frame: CGRect(x: participantLabel.frame.origin.x, y: participantLabel.frame.origin.y + 21, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Boy, tintColor: boyPhoto1TintColor)
         bulletinBoard_SharedSeat.addSubview(boyPhoto1)
         if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
-            boyPhoto1.setUID(UID: sharedSeatAnnotation.boysID![0])
+            var i = 0
+            for(UID,internalNumber) in sharedSeatAnnotation.boysID!{
+                if(i == 0){
+                    boyPhoto1.setUID(UID: UID)
+                }
+                i += 1
+            }
         }
 
         let girlPhoto1 = ProfilePhoto(frame: CGRect(x: boyPhoto1.frame.origin.x + boyPhoto1.frame.width + 10, y: boyPhoto1.frame.origin.y, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Girl, tintColor: girlPhoto1TintColor)
         bulletinBoard_SharedSeat.addSubview(girlPhoto1)
         if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
-            girlPhoto1.setUID(UID: sharedSeatAnnotation.girlsID![0])
+            var i = 0
+            for(UID,internalNumber) in sharedSeatAnnotation.girlsID!{
+                if(i == 0){
+                    girlPhoto1.setUID(UID: UID)
+                }
+                i += 1
+            }
         }
         
         
-        let signUpBtn = SSButton()
+        signUpBtn = SSButton()
         signUpBtn.frame = CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 7, width: 120, height: 36)
         signUpBtn.type = .filled
+        signUpBtn.tag = 1
         if(sharedSeatAnnotation.holderUID == UserSetting.UID){
             signUpBtn.setTitle("審核報名", for: .normal)
             signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
@@ -1150,29 +1177,53 @@ class MapViewController: UIViewController {
             bulletinBoard_SharedSeat.addSubview(cancelBtn)
         }else{
             
-            
-            
-            if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID!.contains(UserSetting.UID)){
+            if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
                 signUpBtn.setTitle("取消報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
-            }else if(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID!.contains(UserSetting.UID)){
+                signUpBtn.tag = sharedSeatAnnotation.signUpBoysID![UserSetting.UID]!
+                print("signUpBtn:" + "\(sharedSeatAnnotation.signUpBoysID![UserSetting.UID]!)")
+                
+            }else if(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] != nil){
                 signUpBtn.setTitle("取消報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+                signUpBtn.tag = sharedSeatAnnotation.signUpGirlsID![UserSetting.UID]!
+                print("signUpBtn:" + "\(sharedSeatAnnotation.signUpGirlsID![UserSetting.UID]!)")
+                
             }else{
                 signUpBtn.setTitle("報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                 if (UserSetting.userGender == 0){
                     if(sharedSeatAnnotation.girlsID != nil){
-                        if(sharedSeatAnnotation.girlsID!.count >= (sharedSeatAnnotation.headCount/2)){
-                            signUpBtn.setTitle("已滿額", for: .normal)
-                            signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                        if sharedSeatAnnotation.mode == 1{
+                            if(sharedSeatAnnotation.girlsID!.count == 1){//1v1已滿人
+                                signUpBtn.setTitle("已滿額", for: .normal)
+                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                            }
+                        }else{
+                            if(sharedSeatAnnotation.girlsID!.count == 2){//2v2已滿人
+                                signUpBtn.setTitle("已滿額", for: .normal)
+                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                            }else if(sharedSeatAnnotation.girlsID!.count == 0){
+                                //2v2 還有兩個空位 允許兩人同行報名
+                                signUpBtn.tag = 2
+                            }
                         }
                     }
                 }else {
                     if(sharedSeatAnnotation.boysID != nil){
-                        if(sharedSeatAnnotation.boysID!.count >= (sharedSeatAnnotation.headCount/2)){
-                            signUpBtn.setTitle("已滿額", for: .normal)
-                            signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                        if sharedSeatAnnotation.mode == 1{
+                            if(sharedSeatAnnotation.boysID!.count == 1){//1v1已滿人
+                                signUpBtn.setTitle("已滿額", for: .normal)
+                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                            }
+                        }else{
+                            if(sharedSeatAnnotation.boysID!.count == 2){//2v2已滿人
+                                signUpBtn.setTitle("已滿額", for: .normal)
+                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                            }else if(sharedSeatAnnotation.boysID!.count == 0){
+                                //2v2 還有兩個空位 允許兩人同行報名
+                                signUpBtn.tag = 2
+                            }
                         }
                     }
                 }
@@ -1181,7 +1232,7 @@ class MapViewController: UIViewController {
         signUpBtn.layer.cornerRadius = 8
         bulletinBoard_SharedSeat.addSubview(signUpBtn)
         
-        if (sharedSeatAnnotation.headCount == 4){
+        if (sharedSeatAnnotation.mode > 1){
             
             var boyPhoto2TintColor = UIColor.sksBlue().withAlphaComponent(0.2)
             var girlPhoto2TintColor = UIColor.sksPink().withAlphaComponent(0.2)
@@ -1195,20 +1246,50 @@ class MapViewController: UIViewController {
             let boyPhoto2 = ProfilePhoto(frame: CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 10, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Boy, tintColor: boyPhoto2TintColor)
             bulletinBoard_SharedSeat.addSubview(boyPhoto2)
             if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 1){
-                boyPhoto1.setUID(UID: sharedSeatAnnotation.boysID![1])
+                var i = 0
+                for(UID,internalNumber) in sharedSeatAnnotation.boysID!{
+                    if(i == 1){
+                        boyPhoto2.setUID(UID: UID)
+                    }
+                    i += 1
+                }
+            }else if (sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count == 1){
+                var i = 0
+                for(UID,internalNumber) in sharedSeatAnnotation.boysID!{
+                    if(i == 0){
+                        if(internalNumber == 2){
+                            boyPhoto2.isAccompany()
+                        }
+                    }
+                    i += 1
+                }
             }
-            
             
             let girlPhoto2 = ProfilePhoto(frame: CGRect(x: boyPhoto2.frame.origin.x + boyPhoto2.frame.width + 10, y: boyPhoto2.frame.origin.y, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Girl, tintColor: girlPhoto2TintColor)
             bulletinBoard_SharedSeat.addSubview(girlPhoto2)
             if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 1){
-                girlPhoto2.setUID(UID: sharedSeatAnnotation.girlsID![1])
+                var i = 0
+                for(UID,internalNumber) in sharedSeatAnnotation.girlsID!{
+                    if(i == 1){
+                        girlPhoto2.setUID(UID: UID)
+
+                    }
+                    i += 1
+                }
+            }else if (sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count == 1){
+                var i = 0
+                for(UID,internalNumber) in sharedSeatAnnotation.girlsID!{
+                    if(i == 0){
+                        if(internalNumber == 2){
+                            girlPhoto2.isAccompany()
+                        }
+                    }
+                    i += 1
+                }
             }
             
             signUpBtn.frame = CGRect(x: boyPhoto2.frame.origin.x, y: boyPhoto2.frame.origin.y + boyPhoto2.frame.height + 7, width: 120, height: 36)
         }
-        
-        
         
         
         
@@ -2066,6 +2147,27 @@ class MapViewController: UIViewController {
         unreadNotiCountCircle.isEnabled = false
         view.addSubview(unreadNotiCountCircle)
         
+        circleButton_mySharedSeat = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 96 + 48, width: 32, height: 32))
+        circleButton_mySharedSeat.backgroundColor = .sksWhite()
+        let mySharedSeatImage = UIImage(named: "4人相席")
+        circleButton_mySharedSeat.layer.cornerRadius = 16
+        circleButton_mySharedSeat.layer.shadowRadius = 2
+        circleButton_mySharedSeat.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_mySharedSeat.layer.shadowOpacity = 0.3
+        circleButton_mySharedSeat.setImage(mySharedSeatImage, for: [])
+        circleButton_mySharedSeat.isEnabled = true
+        view.addSubview(circleButton_mySharedSeat)
+        circleButton_mySharedSeat.addTarget(self, action: #selector(mySharedSeatBtnAct), for: .touchUpInside)
+        
+        unreadMySharedSeatNotiCountCircle = UIButton(frame:CGRect(x: view.frame.width - 16 - 8, y: statusHeight + 90 + 96 + 48, width: 14, height: 14))
+        unreadMySharedSeatNotiCountCircle.titleLabel?.font = unreadMySharedSeatNotiCountCircle.titleLabel?.font.withSize(12)
+        unreadMySharedSeatNotiCountCircle.backgroundColor = .sksPink()
+        unreadMySharedSeatNotiCountCircle.layer.cornerRadius = 7
+        unreadMySharedSeatNotiCountCircle.setTitle("", for: .normal)
+        unreadMySharedSeatNotiCountCircle.isHidden = true
+        unreadMySharedSeatNotiCountCircle.isEnabled = false
+        view.addSubview(unreadMySharedSeatNotiCountCircle)
+        
     }
     
     func checkIsOpenTimeOrNot(business_hours:Business_hours?) -> Bool{
@@ -2190,6 +2292,17 @@ class MapViewController: UIViewController {
         
     }
     
+    func addMySharedSeatAnnotation(annotation : SharedSeatAnnotation){
+        print("addMySharedSeatAnnotation")
+        if(annotation.mode == 1){
+            sharedSeatAnnotationGetter.sharedSeat2Annotation.append(annotation)
+        }else if(annotation.mode > 1){
+            sharedSeatAnnotationGetter.sharedSeat4Annotation.append(annotation)
+        }
+        mapView.addAnnotation(annotation)
+        mapView.selectAnnotation(annotation, animated: true)
+    }
+    
     
     @objc private func accountBtnAct(){
         Analytics.logEvent("地圖_帳號按鈕", parameters:nil)
@@ -2211,6 +2324,10 @@ class MapViewController: UIViewController {
         Analytics.logEvent("地圖_再定位按鈕", parameters:nil)
         enableLocationServices()
         centerMapOnUserLocation(shouldLoadAnnotations: false)
+    }
+    
+    @objc private func mySharedSeatBtnAct(){
+        Analytics.logEvent("地圖_我的相席按鈕", parameters:nil)
     }
     
     @objc private func exclamationBtnAct(){
@@ -2519,7 +2636,7 @@ class MapViewController: UIViewController {
     
     @objc private func iWantActionSheetContainerAct(){
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
-        actionSheetKit.allBtnSlideOut()
+        iWantActionSheetKit.allBtnSlideOut()
         view.endEditing(true)
     }
     
@@ -2606,21 +2723,34 @@ class MapViewController: UIViewController {
     }
     
     
-    @objc func signUpBtnAct(_ sender: UIButton) {
+    @objc func signUpBtnAct() {
         let alertVC = SSAlertController(title: "確定要報名嗎?", message: "報名將交由聚會舉辦人審核，若審核通過後將無法取消。")
         alertVC.addAction(SSPopoverAction(title: "取消", style: .cancel, handler: { _ in
             alertVC.dismiss(animated: true)
         }))
         alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
             
-            self?.signUpToCurrentSharedSeatAnnotation()
-            self?.changeSignUpBtnToCancelBtn(sender)
+            if(self?.signUpBtn.tag == 2){
+                self?.isAccompanyActionSheetKit.allBtnSlideIn()
+            }else{
+                self?.signUpToCurrentSharedSeatAnnotation(1)
+            }
             alertVC.dismiss(animated: true)
         }))
         self.present(alertVC, animated: true)
     }
     
-    private func signUpToCurrentSharedSeatAnnotation(){
+    @objc func joinAloneAct(){
+        Analytics.logEvent("報名聚會_一人報名", parameters:nil)
+        signUpToCurrentSharedSeatAnnotation(1)
+    }
+    
+    @objc func joinWithFriendAct(){
+        Analytics.logEvent("報名聚會_與朋友同行", parameters:nil)
+        signUpToCurrentSharedSeatAnnotation(2)
+    }
+    
+    private func signUpToCurrentSharedSeatAnnotation(_ numbersOfParticipants:Int){
         if(self.currentSharedSeatAnnotation == nil){
             return
         }
@@ -2634,27 +2764,26 @@ class MapViewController: UIViewController {
         
         let ref = Database.database().reference().child("SharedSeatAnnotation/" + currentSharedSeatAnnotation!.holderUID + gender + UserSetting.UID)
         
-        
-        ref.setValue(UserSetting.userName){ (error, ref) -> Void in
+        ref.setValue(numbersOfParticipants){ (error, ref) -> Void in
             if error != nil{
                 print(error ?? "報名失敗")
                 self.showToast(message: "報名失敗", font: .systemFont(ofSize: 14.0))
             }else{
                 self.showToast(message: "報名成功", font: .systemFont(ofSize: 14.0))
                 
+                self.changeSignUpBtnToCancelBtn()
+                
                 //處理本地端資料
                 if(UserSetting.userGender == 0){
-                    if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
-                        self.currentSharedSeatAnnotation!.signUpGirlsID?.append(UserSetting.UID)
-                    }else{
-                        self.currentSharedSeatAnnotation!.signUpGirlsID = [UserSetting.UID]
+                    if(self.currentSharedSeatAnnotation!.signUpGirlsID == nil){
+                        self.currentSharedSeatAnnotation!.signUpGirlsID = [:]
                     }
+                    self.currentSharedSeatAnnotation!.signUpGirlsID![UserSetting.UID] = numbersOfParticipants
                 }else{
-                    if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
-                        self.currentSharedSeatAnnotation!.signUpBoysID?.append(UserSetting.UID)
-                    }else{
-                        self.currentSharedSeatAnnotation!.signUpBoysID = [UserSetting.UID]
+                    if(self.currentSharedSeatAnnotation!.signUpBoysID == nil){
+                        self.currentSharedSeatAnnotation!.signUpBoysID = [:]
                     }
+                    self.currentSharedSeatAnnotation!.signUpBoysID![UserSetting.UID] = numbersOfParticipants
                 }
             }
         }
@@ -2671,7 +2800,7 @@ class MapViewController: UIViewController {
         }))
         alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
             self?.cancelSignUpToCurrentSharedSeatAnnotation()
-            self?.changeCancelBtnToSignUpBtn(sender)
+            self?.changeCancelBtnToSignUpBtn()
             alertVC.dismiss(animated: true)
         }))
         self.present(alertVC, animated: true)
@@ -2698,27 +2827,27 @@ class MapViewController: UIViewController {
                     //處理本地端資料
                     if(UserSetting.userGender == 0){
                         if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
-                            self.currentSharedSeatAnnotation!.signUpGirlsID!.remove(at: self.currentSharedSeatAnnotation!.signUpGirlsID!.firstIndex(of: UserSetting.UID)!)
+                            self.currentSharedSeatAnnotation!.signUpGirlsID!.removeValue(forKey: UserSetting.UID)
                         }
                     }else{
                         if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
-                            self.currentSharedSeatAnnotation!.signUpBoysID!.remove(at: self.currentSharedSeatAnnotation!.signUpBoysID!.firstIndex(of: UserSetting.UID)!)
+                            self.currentSharedSeatAnnotation!.signUpBoysID!.removeValue(forKey: UserSetting.UID)
                         }
                     }
                 }
         }
     }
     
-    private func changeSignUpBtnToCancelBtn(_ btn: UIButton){
-        btn.setTitle("取消報名", for: .normal)
-        btn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-        btn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+    private func changeSignUpBtnToCancelBtn(){
+        signUpBtn.setTitle("取消報名", for: .normal)
+        signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+        signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
     }
     
-    private func changeCancelBtnToSignUpBtn(_ btn: UIButton){
-        btn.setTitle("報名", for: .normal)
-        btn.removeTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
-        btn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+    private func changeCancelBtnToSignUpBtn(){
+        signUpBtn.setTitle("報名", for: .normal)
+        signUpBtn.removeTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
+        signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
     }
     
     
@@ -2851,7 +2980,7 @@ extension MapViewController: MKMapViewDelegate {
         
         if view.annotation is MKUserLocation{
             if actionSheetExpansionState == .NotExpanded {
-                actionSheetKit.allBtnSlideIn()
+                iWantActionSheetKit.allBtnSlideIn()
                 animateActionSheet(targetAlpha: 1,targetPosition: 0) { (_) in
                     self.actionSheetExpansionState = .Expanded
                 }
@@ -2957,9 +3086,7 @@ extension MapViewController: MKMapViewDelegate {
         
     }
     
-    
-    
-    
+        
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         // 創建一個重複使用的 AnnotationView
@@ -3124,9 +3251,9 @@ extension MapViewController: MKMapViewDelegate {
             mkMarker?.displayPriority = .required
             mkMarker?.viewWithTag(1)?.removeFromSuperview()
             
-            if((annotation as! SharedSeatAnnotation).headCount == 2){
+            if((annotation as! SharedSeatAnnotation).mode == 1){
                 mkMarker?.glyphImage = UIImage(named: "2人相席")
-            }else if((annotation as! SharedSeatAnnotation).headCount == 4){
+            }else if((annotation as! SharedSeatAnnotation).mode > 1){
                 mkMarker?.glyphImage = UIImage(named: "4人相席")
             }
         }
