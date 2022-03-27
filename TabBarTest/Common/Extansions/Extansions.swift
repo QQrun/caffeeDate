@@ -356,7 +356,14 @@ extension UIViewController {
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
         })
-    } }
+    }
+    
+    func showToast(message : String) {
+        showToast(message: message, font: .systemFont(ofSize: 14.0))
+    }
+}
+
+
 
 
 extension UIColor {

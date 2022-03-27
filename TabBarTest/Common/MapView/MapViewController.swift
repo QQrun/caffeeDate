@@ -2293,12 +2293,13 @@ class MapViewController: UIViewController {
     }
     
     func addMySharedSeatAnnotation(annotation : SharedSeatAnnotation){
-        print("addMySharedSeatAnnotation")
         if(annotation.mode == 1){
             sharedSeatAnnotationGetter.sharedSeat2Annotation.append(annotation)
         }else if(annotation.mode > 1){
             sharedSeatAnnotationGetter.sharedSeat4Annotation.append(annotation)
         }
+        sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.append(annotation)
+        
         mapView.addAnnotation(annotation)
         mapView.selectAnnotation(annotation, animated: true)
     }
@@ -2420,7 +2421,6 @@ class MapViewController: UIViewController {
     }
     
     @objc private func showSharedSeat2BtnAct(){
-        print("showSharedSeat2BtnAct")
         if UserSetting.isMapShowSharedSeat2{
             UserSetting.isMapShowSharedSeat2 = false
             showSharedSeat2Button.tintColor = smallIconUnactiveColor
@@ -2712,12 +2712,30 @@ class MapViewController: UIViewController {
     
     
     @objc func cancelSharedSeatBtnAct(_ sender: UIButton){
-        let alertVC = SSAlertController(title: "確定要取消聚會嗎?", message: "按下確認後將取消聚會，並通知所有參與人。 \n\n 注意：在已有參加者的狀況下，多次惡意取消聚會將封鎖帳號。")
+        let alertVC = SSAlertController(title: "確定要取消聚會嗎?", message: "按下確認後將取消聚會")
         alertVC.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
             alertVC.dismiss(animated: true)
         }))
         alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
             alertVC.dismiss(animated: true)
+            
+            //遠端刪除
+            let ref = Database.database().reference().child("SharedSeatAnnotation/" +  Auth.auth().currentUser!.uid)
+            ref.removeValue(){
+                (error, ref) -> Void in
+                self!.showToast(message: "已取消聚會", font: .systemFont(ofSize: 14.0))
+                //本地端刪除
+                self!.mapView.removeAnnotation(self!.currentSharedSeatAnnotation!)
+                if let index = self!.sharedSeatAnnotationGetter.sharedSeat2Annotation.firstIndex(of: self!.currentSharedSeatAnnotation!) {
+                    self!.sharedSeatAnnotationGetter.sharedSeat2Annotation.remove(at: index)
+                }
+                if let index = self!.sharedSeatAnnotationGetter.sharedSeat4Annotation.firstIndex(of: self!.currentSharedSeatAnnotation!) {
+                    self!.sharedSeatAnnotationGetter.sharedSeat4Annotation.remove(at: index)
+                }
+                if let index = self!.sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.firstIndex(of: self!.currentSharedSeatAnnotation!) {
+                    self!.sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.remove(at: index)
+                }
+            }
         }))
         self.present(alertVC, animated: true)
     }

@@ -17,6 +17,8 @@ class SharedSeatAnnotationGetter{
     
     var sharedSeat2Annotation : [SharedSeatAnnotation] = []
     var sharedSeat4Annotation : [SharedSeatAnnotation] = []
+    var sharedSeatMyJoinedAnnotation : [SharedSeatAnnotation] = []
+    
     
     init(mapView:MKMapView) {
         self.mapView = mapView
@@ -76,13 +78,23 @@ class SharedSeatAnnotationGetter{
     func decideCanShowOrNotAndWhichIcon(_ annotation:SharedSeatAnnotation) -> Bool{
         
         
+        if(annotation.boysID != nil){
+            if(annotation.boysID![UserSetting.UID] != nil){
+                sharedSeatMyJoinedAnnotation.append(annotation)
+            }
+        }
+        if(annotation.girlsID != nil){
+            if(annotation.girlsID![UserSetting.UID] != nil){
+                sharedSeatMyJoinedAnnotation.append(annotation)
+            }
+        }
+        
         if(annotation.mode == 1){
             sharedSeat2Annotation.append(annotation)
             if(UserSetting.isMapShowSharedSeat2){
                 return true
             }
-            
-        }else if(annotation.mode > 1){
+        }else if(annotation.mode == 2){
             sharedSeat4Annotation.append(annotation)
             if(UserSetting.isMapShowSharedSeat4){
                 return true

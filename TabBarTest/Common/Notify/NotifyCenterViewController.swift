@@ -139,6 +139,10 @@ class NotifyCenterViewController: UIViewController ,UITableViewDelegate,UITableV
 
 
 extension NotifyCenterViewController: NotifyCenterViewControllerModelDelegate{
+    func viewShowToast(message: String) {
+        showToast(message: message)
+    }
+    
     func reloadData() {
         notifyListTableView.reloadData()
     }
@@ -147,8 +151,5 @@ extension NotifyCenterViewController: NotifyCenterViewControllerModelDelegate{
         viewDelegate?.gotoItemViewController_NotifyCenterView(item: item, itemOwnerID: itemOwnerID)
     }
     
-    func showToast(message: String) {
-        self.showToast(message: message, font: .systemFont(ofSize: 14.0))
-    }
     
 }

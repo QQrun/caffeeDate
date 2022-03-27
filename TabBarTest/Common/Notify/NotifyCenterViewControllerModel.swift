@@ -15,7 +15,7 @@ import Firebase
 protocol NotifyCenterViewControllerModelDelegate: class {
     func reloadData()
     func gotoItemView(item:Item,itemOwnerID:String)
-    func showToast(message:String)
+    func viewShowToast(message:String)
 }
 class NotifyCenterViewControllerModel{
     
@@ -166,7 +166,7 @@ class NotifyCenterViewControllerModel{
                 self.delegate?.gotoItemView(item: Item(snapshot: snapshot), itemOwnerID: self.postNotifcations[indexPath.row].posterID)
             }else{
                 Analytics.logEvent("通知_文章已下架", parameters:nil)
-                self.delegate?.showToast(message: "文章已下架")
+                self.delegate?.viewShowToast(message: "文章已下架")
             }
         })
         
