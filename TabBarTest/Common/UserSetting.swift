@@ -33,6 +33,17 @@ class UserSetting{
             return UserDefaults.standard.bool(forKey: "isIdleTimerDisabled")
         }
     }
+    
+    // 是否顯示過相席說明
+    static var isShowedExplain: Bool {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "isShowedExplain")
+        }
+        get {
+            return UserDefaults.standard.bool(forKey: "isShowedExplain")
+        }
+    }
+    
     // 地圖上是否顯示 擺攤、徵求、揪團、咖啡店、男性交友、女性交友資訊
     static var isMapShowOpenStore: Bool {
         set {

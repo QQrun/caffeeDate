@@ -49,7 +49,6 @@ class NotifyCenterViewControllerModel{
                 return date1.time.compare(date2.time) == ComparisonResult.orderedDescending
             }
             self.delegate?.reloadData()
-            print("aaa childchanged")
             self.changeMapViewNotiCount()
         })
     }

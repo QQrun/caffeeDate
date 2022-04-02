@@ -486,6 +486,7 @@ class SettingViewController: UIViewController {
                    "userName":"",
                    "userBirthDay":"",
                    "userGender":1,
+                   "isShowedExplain":UserSetting.isShowedExplain,
                    "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
                    "isMapShowRequest":UserSetting.isMapShowRequest,
                    "isMapShowTeamUp":UserSetting.isMapShowTeamUp,

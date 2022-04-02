@@ -38,6 +38,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
         UIApplication.shared.statusBarStyle = UIStatusBarStyle.lightContent
             
         
+        var isShowedExplain = false
         var isMapShowOpenStore = false
         var isMapShowRequest = false
         var isMapShowSharedSeat2 = false
@@ -54,6 +55,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
                    "userName":"",
                    "userBirthDay":"",
                    "userGender":1,
+                   "isShowedExplain": isShowedExplain,
                    "isMapShowOpenStore": isMapShowOpenStore,
                    "isMapShowRequest":isMapShowRequest,
                    "isMapShowTeamUp":true,

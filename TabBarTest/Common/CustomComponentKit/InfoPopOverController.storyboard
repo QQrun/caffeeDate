@@ -9,10 +9,10 @@
         <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <scenes>
-        <!--Privacy View Controller-->
+        <!--Info Pop Over Controller-->
         <scene sceneID="tsX-rx-fyF">
             <objects>
-                <viewController storyboardIdentifier="PrivacyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mk0-Os-pxv" customClass="PrivacyViewController" customModule="面交人" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="PrivacyViewController" useStoryboardIdentifierAsRestorationIdentifier="YES" id="Mk0-Os-pxv" customClass="InfoPopOverController" customModule="VeryIncorrect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="wbf-9Z-uxq">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -107,7 +107,10 @@
                         </constraints>
                     </view>
                     <connections>
+                        <outlet property="content" destination="jdZ-2p-ZPf" id="6eN-Ls-Gh0"/>
                         <outlet property="gobackBtn" destination="dLm-7V-GVe" id="xs7-yS-W6f"/>
+                        <outlet property="seperator" destination="14v-38-yEn" id="fYi-N5-H34"/>
+                        <outlet property="titleLabel" destination="RdH-XP-B3e" id="cxj-6l-RRk"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="d9d-bg-oik" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

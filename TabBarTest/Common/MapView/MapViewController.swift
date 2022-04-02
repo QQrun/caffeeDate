@@ -21,6 +21,7 @@ protocol MapViewControllerViewDelegate: class {
     func gotoWantBuyViewController_mapView(defaultItem:Item?)
     func gotoHoldSharedSeatController_mapView()
     func gotoScoreCoffeeController_mapView(annotation:CoffeeAnnotation)
+    func showListLocationViewController(sharedSeatAnnotations:[SharedSeatAnnotation])
 }
 
 class MapViewController: UIViewController {
@@ -156,6 +157,9 @@ class MapViewController: UIViewController {
         presonAnnotationGetter.fetchPersonData()
 #elseif VERYINCORRECT
         sharedSeatAnnotationGetter.fetchSharedSeatData()
+        if(!UserSetting.isShowedExplain){
+            explainBtnAct()
+        }
 #endif
         
         coffeeAnnotationGetter.fetchCoffeeData()
@@ -1117,13 +1121,19 @@ class MapViewController: UIViewController {
             }
         }
         
-        let address = UILabel()
-        address.font = UIFont(name: "HelveticaNeue", size: 14)
-        address.text = sharedSeatAnnotation.address
-        address.textAlignment = .center
-        address.frame = CGRect(x: restaurantPhoto.frame.origin.x, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.width + 10, width: restaurantPhoto.frame.width, height: address.intrinsicContentSize.height)
-        address.textColor = .on()
-        bulletinBoard_SharedSeat.addSubview(address)
+        let addressBtn = UIButton()
+        addressBtn.setTitle(sharedSeatAnnotation.address, for: .normal)
+        addressBtn.setTitleColor(.sksBlue(), for: .normal)
+        addressBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 14)
+        let attributedString = NSMutableAttributedString(string: sharedSeatAnnotation.address)
+        attributedString.addAttribute(.underlineStyle, value: 1, range: NSMakeRange(0, attributedString.length))
+        attributedString.addAttribute(.underlineColor, value: UIColor.sksBlue(), range: NSMakeRange(0, attributedString.length))
+        addressBtn.titleLabel?.attributedText = attributedString
+        addressBtn.titleLabel?.textAlignment = .center
+        addressBtn.backgroundColor = .clear
+        addressBtn.frame = CGRect(x: restaurantPhoto.frame.origin.x, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.width + 10, width: restaurantPhoto.frame.width, height: 30)
+        addressBtn.addTarget(self, action: #selector(addressBtnAct), for: .touchUpInside)
+        bulletinBoard_SharedSeat.addSubview(addressBtn)
         
         var boyPhoto1TintColor = UIColor.sksBlue().withAlphaComponent(0.2)
         var girlPhoto1TintColor = UIColor.sksPink().withAlphaComponent(0.2)
@@ -1144,7 +1154,7 @@ class MapViewController: UIViewController {
                 i += 1
             }
         }
-
+        
         let girlPhoto1 = ProfilePhoto(frame: CGRect(x: boyPhoto1.frame.origin.x + boyPhoto1.frame.width + 10, y: boyPhoto1.frame.origin.y, width: (participantLabel.frame.width - 10)/2, height: (participantLabel.frame.width - 10)/2), gender: .Girl, tintColor: girlPhoto1TintColor)
         bulletinBoard_SharedSeat.addSubview(girlPhoto1)
         if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
@@ -1272,7 +1282,7 @@ class MapViewController: UIViewController {
                 for(UID,internalNumber) in sharedSeatAnnotation.girlsID!{
                     if(i == 1){
                         girlPhoto2.setUID(UID: UID)
-
+                        
                     }
                     i += 1
                 }
@@ -2100,6 +2110,22 @@ class MapViewController: UIViewController {
         unreadMsgCountCircle.isEnabled = false
         
         
+#if VERYINCORRECT
+        let circleButton_explain = UIButton(frame:CGRect(x: 16, y: statusHeight + 50, width: 32, height: 32))
+        circleButton_explain.backgroundColor = .sksWhite()
+        let infoImage = UIImage(named: "bk_icon_info_20_n")?.withRenderingMode(.alwaysTemplate)
+        circleButton_explain.tintColor = UIColor.hexStringToUIColor(hex: "#6D6D6D")
+        circleButton_explain.layer.cornerRadius = 16
+        circleButton_explain.layer.shadowRadius = 2
+        circleButton_explain.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_explain.layer.shadowOpacity = 0.3
+        circleButton_explain.setImage(infoImage, for: [])
+        circleButton_explain.isEnabled = true
+        view.addSubview(circleButton_explain)
+        circleButton_explain.addTarget(self, action: #selector(explainBtnAct), for: .touchUpInside)
+#endif
+        
+        
         
         let circleButton_exclamation = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90, width: 32, height: 32))
         circleButton_exclamation.backgroundColor = .sksWhite()
@@ -2329,10 +2355,31 @@ class MapViewController: UIViewController {
     
     @objc private func mySharedSeatBtnAct(){
         Analytics.logEvent("地圖_我的相席按鈕", parameters:nil)
+        
+        if(sharedSeatAnnotationGetter!.sharedSeatMyJoinedAnnotation.count > 1){
+            viewDelegate?.showListLocationViewController(sharedSeatAnnotations:sharedSeatAnnotationGetter!.sharedSeatMyJoinedAnnotation)
+        }else{
+            if(sharedSeatAnnotationGetter!.sharedSeatMyJoinedAnnotation.count > 0){
+                //
+                mapView.selectAnnotation(sharedSeatAnnotationGetter!.sharedSeatMyJoinedAnnotation[0], animated: true)
+            }
+        }
+    }
+    
+    @objc private func explainBtnAct(){
+        Analytics.logEvent("地圖_規則說明按鈕", parameters:nil)
+        
+        UserSetting.isShowedExplain = true
+        
+        let privacyViewController = (InfoPopOverController.initFromStoryboard() as InfoPopOverController)
+        privacyViewController.titleString = "遊戲規則"
+        privacyViewController.contentString = " 1.男方付錢，無論主辦者是男是女。\n\n 2.女生舉辦聚會時，可從所有報名者裡主動挑選參加者。\n\n 3.男生舉辦聚會時，將由系統從所有報名者裡隨機骰出參加者，可重新骰三次。\n\n 4.當挑選出參加者後，會開啟聊天室，同時聚會將無法取消。\n\n 5.聚會結束後，可以互相評分。 \n\n 6.評分將影響『被骰出當參加者』的機率，過低的評分鎖帳號。"
+        privacyViewController.modalPresentationStyle = .popover
+        present(privacyViewController, animated: true, completion: nil)
     }
     
     @objc private func exclamationBtnAct(){
-        Analytics.logEvent("地圖_驚嘆號按鈕", parameters:nil)
+        Analytics.logEvent("地圖_漏斗按鈕", parameters:nil)
         exclamationPopUpBGButton.isHidden = false
     }
     
@@ -2706,6 +2753,7 @@ class MapViewController: UIViewController {
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
     }
     
+    
     @objc private func iWantTeamUpBtnAct(){
         print("iWantTeamUpBtnAct")
     }
@@ -2758,6 +2806,29 @@ class MapViewController: UIViewController {
         self.present(alertVC, animated: true)
     }
     
+    @objc func addressBtnAct(){
+        Analytics.logEvent("相席_跳往google地圖", parameters:nil)
+        
+        let latitude = String(currentSharedSeatAnnotation!.coordinate.latitude as! Double)
+        let longitude = String(currentSharedSeatAnnotation!.coordinate.longitude as! Double)
+        
+        let url = URL(string: "comgooglemaps://?saddr=&daddr=" + "\(latitude)" +  ","+"\(longitude)"+"&directionsmode=driving")
+        let appleMapUrl = URL(string: "maps://?saddr=&daddr=\(latitude),\(longitude)")
+        
+        if UIApplication.shared.canOpenURL(url!) {
+            UIApplication.shared.open(url!, options: [:], completionHandler: nil)
+        } else
+        if UIApplication.shared.canOpenURL(appleMapUrl!){
+            
+            UIApplication.shared.open(appleMapUrl!, options: [:], completionHandler: nil)
+            
+        }else{
+            // 若手機沒安裝 Google Map App 則導到 App Store(id443904275 為 Google Map App 的 ID)
+            let appStoreGoogleMapURL = URL(string: "itms-apps://itunes.apple.com/app/id585027354")!
+            UIApplication.shared.open(appStoreGoogleMapURL, options: [:], completionHandler: nil)
+        }
+    }
+    
     @objc func joinAloneAct(){
         Analytics.logEvent("報名聚會_一人報名", parameters:nil)
         signUpToCurrentSharedSeatAnnotation(1)
@@ -2805,7 +2876,7 @@ class MapViewController: UIViewController {
                 }
             }
         }
-
+        
     }
     
     
@@ -2837,22 +2908,22 @@ class MapViewController: UIViewController {
         
         ref.removeValue(){
             (error, ref) -> Void in
-                if error != nil{
-                    print(error ?? "取消報名失敗")
-                    self.showToast(message: "取消報名失敗", font: .systemFont(ofSize: 14.0))
+            if error != nil{
+                print(error ?? "取消報名失敗")
+                self.showToast(message: "取消報名失敗", font: .systemFont(ofSize: 14.0))
+            }else{
+                self.showToast(message: "取消報名成功", font: .systemFont(ofSize: 14.0))
+                //處理本地端資料
+                if(UserSetting.userGender == 0){
+                    if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
+                        self.currentSharedSeatAnnotation!.signUpGirlsID!.removeValue(forKey: UserSetting.UID)
+                    }
                 }else{
-                    self.showToast(message: "取消報名成功", font: .systemFont(ofSize: 14.0))
-                    //處理本地端資料
-                    if(UserSetting.userGender == 0){
-                        if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
-                            self.currentSharedSeatAnnotation!.signUpGirlsID!.removeValue(forKey: UserSetting.UID)
-                        }
-                    }else{
-                        if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
-                            self.currentSharedSeatAnnotation!.signUpBoysID!.removeValue(forKey: UserSetting.UID)
-                        }
+                    if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
+                        self.currentSharedSeatAnnotation!.signUpBoysID!.removeValue(forKey: UserSetting.UID)
                     }
                 }
+            }
         }
     }
     
@@ -3104,7 +3175,7 @@ extension MapViewController: MKMapViewDelegate {
         
     }
     
-        
+    
     func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
         
         // 創建一個重複使用的 AnnotationView

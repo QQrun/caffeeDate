@@ -188,7 +188,7 @@ class FirstLogInViewController: UIViewController, ASAuthorizationControllerDeleg
     
     @IBAction func privacyPolicyBtnAct(_ sender: Any) {
         
-        let privacyViewController = PrivacyViewController.initFromStoryboard()
+        let privacyViewController = InfoPopOverController.initFromStoryboard()
         privacyViewController.modalPresentationStyle = .popover
         present(privacyViewController, animated: true, completion: nil)
         

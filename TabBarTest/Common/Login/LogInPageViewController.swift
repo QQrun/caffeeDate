@@ -126,6 +126,7 @@ class LogInPageViewController: UIPageViewController {
                            "userBirthDay":userDetail.birthday,
                            "userGender":userDetail.gender,
                            "userSelfIntroduction":userDetail.selfIntroduction,
+                           "isShowedExplain":UserSetting.isShowedExplain,
                            "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
                            "isMapShowRequest":UserSetting.isMapShowRequest,
                            "isMapShowTeamUp":UserSetting.isMapShowTeamUp,

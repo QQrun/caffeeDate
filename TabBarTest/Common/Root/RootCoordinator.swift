@@ -175,6 +175,12 @@ extension RootCoordinator: MapViewControllerViewDelegate {
         scoreCoffeeViewController.modalPresentationStyle = .overCurrentContext
         mapTab.pushViewController(scoreCoffeeViewController, animated: true)
     }
+    
+    func showListLocationViewController(sharedSeatAnnotations:[SharedSeatAnnotation]){
+        let listLocationViewController = ListLocationViewController(sharedSeatAnnotations:sharedSeatAnnotations)
+        listLocationViewController.modalPresentationStyle = .popover
+        rootTabBarController.present(listLocationViewController, animated: true, completion: nil)
+    }
 }
 
 
