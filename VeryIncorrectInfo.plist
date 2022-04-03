@@ -31,7 +31,7 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>com.googleusercontent.apps.539535613277-4nis1rvaa9cn802otnpv0r06pu3ku36n</string>
+				<string>com.googleusercontent.apps.539535613277-i7j49qla48rrvhjbbusjv66eee6qk7mj</string>
 			</array>
 		</dict>
 		<dict>
@@ -62,9 +62,9 @@
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>fbauth2</string>
-        <string>googlechromes</string>
-        <string>comgooglemaps</string>
-        <string>maps</string>
+		<string>googlechromes</string>
+		<string>comgooglemaps</string>
+		<string>maps</string>
 	</array>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>

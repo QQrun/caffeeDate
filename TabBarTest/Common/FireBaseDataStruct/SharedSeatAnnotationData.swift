@@ -17,10 +17,10 @@ class SharedSeatAnnotationData {
     var restaurant: String
     var address: String
     var mode: Int //1 一對一  2 二對二
-    var boysID: [String:Int]?
-    var girlsID: [String:Int]?
-    var signUpBoysID: [String:Int]?
-    var signUpGirlsID: [String:Int]?
+    var boysID: [String:String]?
+    var girlsID: [String:String]?
+    var signUpBoysID: [String:String]?
+    var signUpGirlsID: [String:String]?
     var reviewTime : String
     var dateTime : String
     var photosUrl: [String]?
@@ -28,7 +28,7 @@ class SharedSeatAnnotationData {
     var longitude: String
     
     
-    init(restaurant: String,address: String, mode: Int, boysID: [String:Int]?, girlsID: [String:Int]?,signUpBoysID:[String:Int]?,signUpGirlsID:[String:Int]?, reviewTime: String, dateTime: String,photosUrl: [String]?,latitude: String,longitude:String) {
+    init(restaurant: String,address: String, mode: Int, boysID: [String:String]?, girlsID: [String:String]?,signUpBoysID:[String:String]?,signUpGirlsID:[String:String]?, reviewTime: String, dateTime: String,photosUrl: [String]?,latitude: String,longitude:String) {
         self.restaurant = restaurant
         self.address = address
         self.mode = mode
@@ -76,26 +76,26 @@ class SharedSeatAnnotationData {
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "boysID").children.allObjects as? [DataSnapshot]{
             self.boysID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.boysID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
+                self.boysID![childchildSnapshot.key] = (childchildSnapshot.value as? String)
             }
         }
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "girlsID").children.allObjects as? [DataSnapshot]{
             self.girlsID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.girlsID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
+                self.girlsID![childchildSnapshot.key] = (childchildSnapshot.value as? String)
             }
         }
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "signUpBoysID").children.allObjects as? [DataSnapshot]{
             self.signUpBoysID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.signUpBoysID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
+                self.signUpBoysID![childchildSnapshot.key] = (childchildSnapshot.value as? String)
             }
         }
         
         if let childchildSnapshots = snapshot.childSnapshot(forPath: "signUpGirlsID").children.allObjects as? [DataSnapshot]{
             self.signUpGirlsID = [:]
             for childchildSnapshot in childchildSnapshots{
-                self.signUpGirlsID![childchildSnapshot.key] = (childchildSnapshot.value as? Int)
+                self.signUpGirlsID![childchildSnapshot.key] = (childchildSnapshot.value as? String)
             }
         }
     }

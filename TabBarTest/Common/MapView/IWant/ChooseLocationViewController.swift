@@ -76,7 +76,7 @@ class ChooseLocationViewController: UIViewController{
         searchInputView.delegate = self
         searchInputView.chooseLocationViewController = self
         view.addSubview(searchInputView)
-        searchInputView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: -(view.frame.height - 88 - 320), paddingRight: 0, width: 0, height: view.frame.height)
+        searchInputView.anchor(top: nil, left: view.leftAnchor, bottom: view.bottomAnchor, right: view.rightAnchor, paddingTop: 0, paddingLeft: 0, paddingBottom: 0, paddingRight: 0, width: 0, height: 88 + 320 )
     }
     
     
@@ -247,16 +247,17 @@ extension ChooseLocationViewController: SearchInputViewDelegate{
         removeAnnotations()
         
         guard let coordinate = locationManager.location?.coordinate else {return}
-        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 50000, longitudinalMeters: 50000)
+        let region = MKCoordinateRegion(center: coordinate, latitudinalMeters: 0, longitudinalMeters: 0)
         searchBy(naturalLanguageQuery: searchText, region: region,coordinates: coordinate){
             (response,error) in
-            
             
             self.searchInputView.searchResults = []
             response?.mapItems.forEach({(mapItem) in
                 let annotation = MKPointAnnotation()
                 annotation.title = mapItem.name
                 annotation.coordinate = mapItem.placemark.coordinate
+
+                print(mapItem.name)
                 
                 if(mapItem.placemark.country == "台灣" || mapItem.placemark.country == "台湾"){
                     self.mapView.addAnnotation(annotation)

@@ -74,15 +74,13 @@ class ProfilePhoto : UIView{
         self.addSubview(profileBtn)
     }
     
-    func isAccompany(){
-        
+    func isAccompany(_ text:String){
         circle!.alpha = 1
         loadingView!.alpha = 0
-        
         isAccompanyLabel = UILabel()
         isAccompanyLabel?.numberOfLines = 2
-        isAccompanyLabel?.text = "同行\n友人"
-        isAccompanyLabel?.font = isAccompanyLabel?.font.withSize(14)
+        isAccompanyLabel?.text = text
+        isAccompanyLabel?.font = isAccompanyLabel?.font.withSize(13)
         isAccompanyLabel?.textColor = .white
         isAccompanyLabel?.frame = CGRect(x: 0, y: self.frame.height/2 - (isAccompanyLabel?.intrinsicContentSize.height)!/2, width: self.frame.width, height: (isAccompanyLabel?.intrinsicContentSize.height)!)
         isAccompanyLabel?.textAlignment = .center

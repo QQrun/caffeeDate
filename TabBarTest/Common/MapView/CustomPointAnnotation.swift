@@ -67,10 +67,10 @@ class SharedSeatAnnotation : CustomPointAnnotation {
     var restaurant: String = ""
     var address: String = ""
     var mode: Int = 2
-    var boysID: [String:Int]? = [:]
-    var girlsID: [String:Int]? = [:]
-    var signUpBoysID: [String:Int]? = [:]
-    var signUpGirlsID: [String:Int]? = [:]
+    var boysID: [String:String]? = [:]
+    var girlsID: [String:String]? = [:]
+    var signUpBoysID: [String:String]? = [:]
+    var signUpGirlsID: [String:String]? = [:]
     var reviewTime : String = ""
     var dateTime : String = ""
     var photosUrl: [String]? = []
