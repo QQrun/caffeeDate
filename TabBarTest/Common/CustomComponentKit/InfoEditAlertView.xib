@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="19529" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" useSafeAreas="YES" colorMatched="YES">
+    <device id="retina6_1" orientation="portrait" appearance="light"/>
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="19519"/>
+        <capability name="Safe area layout guides" minToolsVersion="9.0"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="iN0-l3-epB" customClass="InfoEditAlertView" customModule="VeryIncorrect" customModuleProvider="target">
+            <rect key="frame" x="0.0" y="0.0" width="361" height="428"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="輸入邀請碼" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixa-Ns-GIL">
+                    <rect key="frame" x="0.0" y="0.0" width="361" height="50"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="50" id="iUQ-gK-eb1"/>
+                    </constraints>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
+                    <color key="textColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="邀請碼為六位數以內數字" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="5Iw-jC-spn">
+                    <rect key="frame" x="15" y="51" width="331" height="19.5"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <color key="textColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text=" " textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="0" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="pdX-RG-3wF">
+                    <rect key="frame" x="15" y="99.5" width="4" height="19.5"/>
+                    <fontDescription key="fontDescription" type="boldSystem" pointSize="16"/>
+                    <color key="textColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="0.70081313775510201" colorSpace="custom" customColorSpace="sRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textField opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="在這輸入邀請碼" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="3k0-SO-wNY">
+                    <rect key="frame" x="15" y="132" width="331" height="20"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="20" id="4AV-iR-Apd"/>
+                    </constraints>
+                    <color key="textColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="16"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="tgE-TI-feA">
+                    <rect key="frame" x="15" y="156" width="331" height="1"/>
+                    <color key="backgroundColor" red="0.94901960784313721" green="0.94901960784313721" blue="0.94901960784313721" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                    <constraints>
+                        <constraint firstAttribute="height" constant="1" id="YCt-lA-M28"/>
+                    </constraints>
+                </view>
+            </subviews>
+            <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
+            <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+            <constraints>
+                <constraint firstItem="pdX-RG-3wF" firstAttribute="top" secondItem="5Iw-jC-spn" secondAttribute="bottom" constant="29" id="Edc-pG-PZB"/>
+                <constraint firstItem="5Iw-jC-spn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="HQL-EJ-btH"/>
+                <constraint firstItem="5Iw-jC-spn" firstAttribute="top" secondItem="ixa-Ns-GIL" secondAttribute="bottom" constant="1" id="Hqv-N9-Rqi"/>
+                <constraint firstItem="ixa-Ns-GIL" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="Ir3-jd-Ng2"/>
+                <constraint firstItem="ixa-Ns-GIL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="JND-V4-vVg"/>
+                <constraint firstItem="3k0-SO-wNY" firstAttribute="top" secondItem="pdX-RG-3wF" secondAttribute="bottom" constant="13" id="Ll1-o0-6TD"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="tgE-TI-feA" secondAttribute="trailing" constant="15" id="RnK-Hw-HQg"/>
+                <constraint firstItem="3k0-SO-wNY" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="WgA-w3-JdQ"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="3k0-SO-wNY" secondAttribute="trailing" constant="15" id="ZQO-YF-EnC"/>
+                <constraint firstItem="tgE-TI-feA" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="cLk-WV-t5D"/>
+                <constraint firstItem="tgE-TI-feA" firstAttribute="top" secondItem="3k0-SO-wNY" secondAttribute="bottom" constant="4" id="eEv-uA-cba"/>
+                <constraint firstAttribute="trailing" secondItem="ixa-Ns-GIL" secondAttribute="trailing" id="gSA-we-r3T"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="tgE-TI-feA" secondAttribute="bottom" priority="250" constant="28" id="yg5-Zm-A4d"/>
+                <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="5Iw-jC-spn" secondAttribute="trailing" constant="15" id="ymv-ZQ-oUh"/>
+                <constraint firstItem="pdX-RG-3wF" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="15" id="zhT-Ag-MUI"/>
+            </constraints>
+            <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
+            <connections>
+                <outlet property="inputTextField" destination="3k0-SO-wNY" id="cDt-wZ-cLQ"/>
+                <outlet property="lblPageName" destination="pdX-RG-3wF" id="zRO-7z-hka"/>
+                <outlet property="lblTitle" destination="ixa-Ns-GIL" id="feL-jh-4Th"/>
+                <outlet property="messageLabel" destination="5Iw-jC-spn" id="jb1-d2-oTL"/>
+                <outlet property="viewLine" destination="tgE-TI-feA" id="Cxr-rJ-dh5"/>
+            </connections>
+            <point key="canvasLocation" x="99.275362318840592" y="144.64285714285714"/>
+        </view>
+    </objects>
+</document>

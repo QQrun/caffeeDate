@@ -487,6 +487,13 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             return
         }
         
+        if restaurantNameTextField.text!.rangeOfCharacter(from: CharacterSet(charactersIn: "-_=;:@")) != nil {
+            self.showToast(message: "餐廳名稱不可包含特殊符號", font: .systemFont(ofSize: 14.0))
+            return
+        }
+        
+            
+        
         if addressHint.text == "" {
             publishBtn.alpha = 0.25
             if(isPressPublish){
@@ -624,9 +631,12 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             if snapshot.exists(){
                 self.findValidInvitationCode()
             }else{
-                let inviter = UserSetting.UID //誰邀請的
-                let annotationID = UserSetting.UID //想參加哪個
-                ref.setValue(inviter + "_" + annotationID)
+                let inviterID = UserSetting.UID
+                let inviterName = UserSetting.userName
+                let inviterGender = String(UserSetting.userGender)
+                let annotationID = UserSetting.UID
+                let annotationName = self.restaurantNameTextField.text!
+                ref.setValue(inviterID + "_" + inviterName + "_" + inviterGender + "_" + annotationID + "_" + annotationName)
                 self.invitationCode = invitationCode
                 self.putSharedSeatAnnotationToFireBase()
             }

@@ -219,12 +219,12 @@ class MapViewController: UIViewController {
         iWantActionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
         print("if FACETRADER if FACETRADER")
 #elseif VERYINCORRECT
-        let actionSheetText = ["取消","新增咖啡店","發起相席","向周遭Say Hi交朋友"]
+        let actionSheetText = ["取消","新增咖啡店","使用邀請碼參加聚會或一同報名","發起相席"]
         iWantActionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
         iWantActionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(iWantConcealBtnAct), for: .touchUpInside)
         iWantActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
-        iWantActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
-        iWantActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantUseInvitationCode), for: .touchUpInside)
+        iWantActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
         print("elseif VERYINCORRECTelseif VERYINCORRECT")
 #endif
         
@@ -2762,10 +2762,187 @@ class MapViewController: UIViewController {
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
     }
     
+    @objc private func iWantUseInvitationCode(){
+        Analytics.logEvent("地圖_加號按鈕_使用邀請碼", parameters:nil)
+        mapView.deselectAnnotation(mapView.userLocation, animated: true)
+        
+        if let infoEditAlertView = Bundle.main.loadNibNamed("InfoEditAlertView", owner: nil, options: nil)?.first as? InfoEditAlertView {
+            infoEditAlertView.setColor()
+            infoEditAlertView.translatesAutoresizingMaskIntoConstraints = false
+            
+            let popoverVC = SSPopoverViewController()
+            popoverVC.tapToDismiss = false
+            popoverVC.containerView.addSubview(infoEditAlertView)
+            
+            infoEditAlertView.topAnchor.constraint(equalTo: popoverVC.containerView.topAnchor).isActive = true
+            infoEditAlertView.leadingAnchor.constraint(equalTo: popoverVC.containerView.leadingAnchor).isActive = true
+            infoEditAlertView.trailingAnchor.constraint(equalTo: popoverVC.containerView.trailingAnchor).isActive = true
+            infoEditAlertView.bottomAnchor.constraint(equalTo: popoverVC.containerView.bottomAnchor).isActive = true
+            
+            infoEditAlertView.inputTextField.keyboardType = .numberPad
+            
+            popoverVC.addAction(SSPopoverAction(title: "取消", style: .cancel, handler: { _ in
+                popoverVC.dismiss(animated: true)
+            }))
+            
+            popoverVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+                if let text = infoEditAlertView.inputTextField.text {
+                    if text.count > 6 || text.count == 0{
+                        self?.checkFailed(infoEditAlertView.messageLabel)
+                    }else{
+                        self?.checkInvitationCode(text)
+                        popoverVC.dismiss(animated: true)
+                    }
+                }
+            }))
+            
+            present(popoverVC, animated: true) {
+                infoEditAlertView.inputTextField.becomeFirstResponder()
+            }
+        }
+        
+    }
+    
+    func checkInvitationCode(_ code:String){
+        let ref = Database.database().reference().child("InvitationCode/" + "\(code)")
+        ref.observeSingleEvent(of: .value, with: { (snapshot) in
+            if snapshot.exists(){
+                let split = (snapshot.value as! String).split(separator: "_")
+                if(split.count == 5){
+                    self.useInvitationCodeToJoinTeam(inviterID:String(split[0]),inviterName: String(split[1]),inviterGender:String(split[2]), annotationID: String(split[3]),annotationName:String(split[4]),invitationCode:code)
+                }
+            }else{
+                self.showToast(message: "此為無效邀請碼", font: .systemFont(ofSize: 14.0))
+            }
+        })
+    }
+    
+    func useInvitationCodeToJoinTeam(inviterID:String,inviterName:String,inviterGender:String,annotationID:String,annotationName:String,invitationCode:String){
+        
+        if(inviterID == UserSetting.UID){
+            self.showToast(message: "請將邀請碼交給朋友而非自己使用", font: .systemFont(ofSize: 14.0))
+            return
+        }
+        
+        if inviterGender != String(UserSetting.userGender){
+            if(inviterGender == "0"){
+                self.showToast(message: "此邀請碼只能邀請女生", font: .systemFont(ofSize: 14.0))
+            }else {
+                self.showToast(message: "此邀請碼只能邀請男生", font: .systemFont(ofSize: 14.0))
+            }
+            return
+        }
+        
+        let title : String
+        let message : String
+        let toastText : String
+        if(inviterID == annotationID){
+            title = "是否要參加聚會？"
+            message = "確認後將與" + inviterName +  "組隊一同舉辦《" + annotationName + "》聚會"
+            toastText = "成功參加聚會"
+        }else{
+            title = "是否要報名聚會？"
+            message =
+            "確認後將與" + inviterName + "一同報名《" + annotationName + "》聚會\n\n" +
+            "報名將交由聚會舉辦人審核，若審核通過後將無法取消。"
+            toastText = "成功加入報名"
+        }
+        
+        let alertVC = SSAlertController(title: title, message: message)
+        alertVC.addAction(SSPopoverAction(title: "取消", style: .cancel, handler: { _ in
+            alertVC.dismiss(animated: true)
+        }))
+        alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+            alertVC.dismiss(animated: true)
+            
+            //TODO
+            let genderNode : String
+            if UserSetting.userGender == 0{
+                if(inviterID == annotationID){
+                    genderNode = "girlsID"
+                }else{
+                    genderNode = "signUpGirlsID"
+                }
+            }else{
+                if(inviterID == annotationID){
+                    genderNode = "boysID"
+                }else{
+                    genderNode = "signUpBoysID"
+                }
+            }
+            
+            let ref = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + UserSetting.UID)
+            
+            ref.setValue(invitationCode){ (error, ref) -> Void in
+                if error != nil{
+                    print(error ?? "")
+                    self!.showToast(message: "使用邀請碼失敗", font: .systemFont(ofSize: 14.0))
+                }else{
+                    self!.showToast(message: toastText, font: .systemFont(ofSize: 14.0))
+                    let invitationCodeRef = Database.database().reference().child("InvitationCode/" + invitationCode)
+                    invitationCodeRef.removeValue()
+                    
+                    
+                    //處理本地端資料
+                    for annotation in self!.mapView.annotations {
+                        if(annotation is SharedSeatAnnotation){
+                            let sharedSeatAnnotation = (annotation as! SharedSeatAnnotation)
+                            if(sharedSeatAnnotation.holderUID == annotationID){
+                                if(UserSetting.userGender == 0){
+                                    if(inviterID == annotationID){
+                                        if(sharedSeatAnnotation.girlsID == nil){
+                                            sharedSeatAnnotation.girlsID = [:]
+                                        }
+                                        sharedSeatAnnotation.girlsID![UserSetting.UID] = invitationCode
+                                    }else{
+                                        if(sharedSeatAnnotation.signUpGirlsID == nil){
+                                            sharedSeatAnnotation.signUpGirlsID = [:]
+                                        }
+                                        sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] = invitationCode
+                                    }
+                                }else{
+                                    if(inviterID == annotationID){
+                                        if(sharedSeatAnnotation.boysID == nil){
+                                            sharedSeatAnnotation.boysID = [:]
+                                        }
+                                        sharedSeatAnnotation.boysID![UserSetting.UID] = invitationCode
+                                    }else{
+                                        if(sharedSeatAnnotation.signUpBoysID == nil){
+                                            sharedSeatAnnotation.signUpBoysID = [:]
+                                        }
+                                        sharedSeatAnnotation.signUpBoysID![UserSetting.UID] = invitationCode
+                                    }
+                                }
+                                self!.sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.append(sharedSeatAnnotation)
+                            }
+                        }
+                    }
+                }
+            }
+        }))
+        self.present(alertVC, animated: true)
+        
+    }
+    
+    func checkFailed(_ view: UIView) {
+        if view is UILabel {
+            let lbl = view as! UILabel
+            lbl.textColor = .error
+        }
+        let animation = CABasicAnimation(keyPath: "transform.translation.x")
+        animation.toValue = 5
+        animation.toValue = -5
+        animation.autoreverses = true
+        animation.duration = 0.05
+        animation.repeatCount = 3
+        animation.isRemovedOnCompletion = false
+        animation.fillMode = .forwards
+        view.layer.add(animation, forKey: "topAnimation")
+    }
+    
     @objc private func iWantSharedSeatBtnAct(){
         Analytics.logEvent("地圖_加號按鈕_發起相席", parameters:nil)
         
-        print("iWantSharedSeatBtnAct")
         viewDelegate?.gotoHoldSharedSeatController_mapView()
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
     }
@@ -2824,7 +3001,7 @@ class MapViewController: UIViewController {
             }else{
                 self?.findValidInvitationCode()
             }
-
+            
             
             alertVC.dismiss(animated: true)
         }))
@@ -2861,9 +3038,13 @@ class MapViewController: UIViewController {
             if snapshot.exists(){
                 self.findValidInvitationCode()
             }else{
-                let inviter = UserSetting.UID //誰邀請的
-                let annotationID = self.currentSharedSeatAnnotation!.holderUID //想參加哪個
-                ref.setValue(inviter + "_" + annotationID)
+                let inviterID = UserSetting.UID
+                let inviterName = UserSetting.userName
+                let inviterGender = String(UserSetting.userGender)
+                let annotationID = self.currentSharedSeatAnnotation!.holderUID
+                let annotationName = self.currentSharedSeatAnnotation!.title!
+                ref.setValue(inviterID + "_" + inviterName + "_" + inviterGender + "_" + annotationID + "_" + annotationName)
+                
                 self.signUpToCurrentSharedSeatAnnotation(invitationCode:invitationCode)
             }
         })
@@ -2956,15 +3137,15 @@ class MapViewController: UIViewController {
                     if(snapshot.value as! String != "-"){
                         let invitationCode = snapshot.value as! String
                         let parentRef = Database.database().reference().child("SharedSeatAnnotation/" + self.currentSharedSeatAnnotation!.holderUID + gender)
-                                                            
+                        
                         parentRef.observeSingleEvent(of: .value, with:{(snapshot2) in
-                        for user_child in (snapshot2.children){
-                            if(((user_child as! DataSnapshot).value as! String) == invitationCode){
-                                let childRef = Database.database().reference().child("SharedSeatAnnotation/" + self.currentSharedSeatAnnotation!.holderUID + gender + "/" + (user_child as! DataSnapshot).key)
-                                childRef.removeValue()
-                            }
-                            
-                        }})
+                            for user_child in (snapshot2.children){
+                                if(((user_child as! DataSnapshot).value as! String) == invitationCode){
+                                    let childRef = Database.database().reference().child("SharedSeatAnnotation/" + self.currentSharedSeatAnnotation!.holderUID + gender + "/" + (user_child as! DataSnapshot).key)
+                                    childRef.removeValue()
+                                }
+                                
+                            }})
                     }
                     
                     
@@ -2987,7 +3168,7 @@ class MapViewController: UIViewController {
                             }
                         }
                     }
-
+                    
                 }
             })
         }

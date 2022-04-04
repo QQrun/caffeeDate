@@ -54,7 +54,7 @@ class ProfilePhoto : UIView{
     
     func setUID(UID:String){
         let ref = Database.database().reference()
-        ref.child("PersonDetail/" + UserSetting.UID + "/" + "headShot").observeSingleEvent(of: .value, with:{(snapshot) in
+        ref.child("PersonDetail/" + UID + "/" + "headShot").observeSingleEvent(of: .value, with:{(snapshot) in
             if snapshot.exists(){
                 AF.request(snapshot.value as! String).response { (response) in
                     guard let data = response.data, let image = UIImage(data: data)

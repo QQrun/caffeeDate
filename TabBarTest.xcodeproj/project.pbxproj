@@ -418,6 +418,10 @@
 		A7A474DA2524C0AA0038D75B /* ProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A474D92524C0AA0038D75B /* ProfileButton.swift */; };
 		A7A474FB252CA5810038D75B /* ShopModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A474FA252CA5810038D75B /* ShopModel.swift */; };
 		A7A47502252CC4E10038D75B /* CustomBookMarkKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A47501252CC4E10038D75B /* CustomBookMarkKit.swift */; };
+		A7A89B5327FAFE1600174318 /* InfoEditAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A89B5127FAFE1500174318 /* InfoEditAlertView.swift */; };
+		A7A89B5427FAFE1600174318 /* InfoEditAlertView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A89B5127FAFE1500174318 /* InfoEditAlertView.swift */; };
+		A7A89B5527FAFE1600174318 /* InfoEditAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7A89B5227FAFE1600174318 /* InfoEditAlertView.xib */; };
+		A7A89B5627FAFE1600174318 /* InfoEditAlertView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7A89B5227FAFE1600174318 /* InfoEditAlertView.xib */; };
 		A7AE91AE2474511D003AE85F /* ProfileEditViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7AE91AD2474511D003AE85F /* ProfileEditViewController.swift */; };
 		A7BDF528245233EE00180166 /* WordLimitUITextFieldDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDF527245233EE00180166 /* WordLimitUITextFieldDelegate.swift */; };
 		A7BDF52D2453200200180166 /* PersonAnnotationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7BDF52C2453200200180166 /* PersonAnnotationData.swift */; };
@@ -649,6 +653,8 @@
 		A7A474D92524C0AA0038D75B /* ProfileButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileButton.swift; sourceTree = "<group>"; };
 		A7A474FA252CA5810038D75B /* ShopModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ShopModel.swift; sourceTree = "<group>"; };
 		A7A47501252CC4E10038D75B /* CustomBookMarkKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBookMarkKit.swift; sourceTree = "<group>"; };
+		A7A89B5127FAFE1500174318 /* InfoEditAlertView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = InfoEditAlertView.swift; sourceTree = "<group>"; };
+		A7A89B5227FAFE1600174318 /* InfoEditAlertView.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = InfoEditAlertView.xib; sourceTree = "<group>"; };
 		A7AE91AD2474511D003AE85F /* ProfileEditViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileEditViewController.swift; sourceTree = "<group>"; };
 		A7BDF527245233EE00180166 /* WordLimitUITextFieldDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordLimitUITextFieldDelegate.swift; sourceTree = "<group>"; };
 		A7BDF52C2453200200180166 /* PersonAnnotationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonAnnotationData.swift; sourceTree = "<group>"; };
@@ -1193,6 +1199,8 @@
 		A7FDB73E24829009005BA294 /* CustomComponentKit */ = {
 			isa = PBXGroup;
 			children = (
+				A7A89B5127FAFE1500174318 /* InfoEditAlertView.swift */,
+				A7A89B5227FAFE1600174318 /* InfoEditAlertView.xib */,
 				A766F1542554342000C9455C /* InfoPopOverController.swift */,
 				A787C3C527F725A5009EC8A7 /* InfoPopOverController.storyboard */,
 				A714616D27574B6E00872E4E /* SSButton.swift */,
@@ -1322,6 +1330,7 @@
 				A799BE5F27A5356E00A6057A /* ScoreCoffeeViewController.storyboard in Resources */,
 				A787C3C627F725A5009EC8A7 /* InfoPopOverController.storyboard in Resources */,
 				A71461882761EA1000872E4E /* AppStoreRatingAlertView.xib in Resources */,
+				A7A89B5527FAFE1600174318 /* InfoEditAlertView.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1330,6 +1339,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				A787C37E27C0F284009EC8A7 /* Assets.xcassets in Resources */,
+				A7A89B5627FAFE1600174318 /* InfoEditAlertView.xib in Resources */,
 				A787C37F27C0F284009EC8A7 /* FirstLogInViewController.storyboard in Resources */,
 				A787C38027C0F284009EC8A7 /* LaunchScreen.storyboard in Resources */,
 				A787C38127C0F284009EC8A7 /* SettingViewController.storyboard in Resources */,
@@ -1652,6 +1662,7 @@
 				A77BAD6C253C7D280071D346 /* InputBarAccessoryView-dummy.m in Sources */,
 				A75A3E042445DFF100E43D46 /* PresonAnnotationGetter.swift in Sources */,
 				A77BAD51253C7D190071D346 /* NSNotification+Extensions.swift in Sources */,
+				A7A89B5327FAFE1600174318 /* InfoEditAlertView.swift in Sources */,
 				A75A3DF524422EE500E43D46 /* CoffeeAnnotationGetter.swift in Sources */,
 				A747EE1125C6795300766B66 /* UIView+.swift in Sources */,
 				A77BABD1253C76680071D346 /* Sender.swift in Sources */,
@@ -1854,6 +1865,7 @@
 				A787C36727C0F284009EC8A7 /* InputBarAccessoryView-dummy.m in Sources */,
 				A787C36827C0F284009EC8A7 /* PresonAnnotationGetter.swift in Sources */,
 				A787C36927C0F284009EC8A7 /* NSNotification+Extensions.swift in Sources */,
+				A7A89B5427FAFE1600174318 /* InfoEditAlertView.swift in Sources */,
 				A787C36A27C0F284009EC8A7 /* CoffeeAnnotationGetter.swift in Sources */,
 				A787C36B27C0F284009EC8A7 /* UIView+.swift in Sources */,
 				A787C36C27C0F284009EC8A7 /* Sender.swift in Sources */,

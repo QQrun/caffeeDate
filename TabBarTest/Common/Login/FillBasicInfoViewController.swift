@@ -25,7 +25,7 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
     @IBOutlet weak var girlBtn: UIButton!
     
     @IBOutlet weak var nameTextField: UITextField!
-    var nameWordLimit = 8
+    var nameWordLimit = 10
     
     @IBOutlet weak var birthdayBtn: UIButton!
     @IBOutlet weak var birthdayLabel: UILabel!
@@ -46,6 +46,7 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        descriptStatusLabel.textColor = .error
         view.backgroundColor = .surface()
         
     }
@@ -65,7 +66,7 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
     fileprivate func setDefaultData() {
         if UserSetting.userName != ""{
             nameTextField.text = UserSetting.userName
-            descriptStatusLabel.text = "請輸入姓名/綽號"
+            descriptStatusLabel.text = "請輸入暱稱"
         }
         
         if UserSetting.userPhotosUrl.count > 0{
@@ -161,6 +162,8 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
             photoImageView.alpha = 0
             truePhotoImageView.image = image
             picker.dismiss(animated: true, completion: nil)
+            
+            checkCanPublishOrNot(isPressPublish:false)
         }
         
     }
@@ -299,11 +302,9 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
         if countOfWords == 0{
             continueBtn.alpha = 0.2
             continueBtn.isEnabled = false
-            descriptStatusLabel.text = "請輸入姓名/綽號"
+            descriptStatusLabel.text = "請輸入暱稱"
         }else{
-            continueBtn.alpha = 1
-            continueBtn.isEnabled = true
-            descriptStatusLabel.text = " "
+            checkCanPublishOrNot(isPressPublish:false)
         }
         
         if countOfWords > nameWordLimit{
@@ -320,23 +321,49 @@ class FillBasicInfoViewController: UIViewController,UIImagePickerControllerDeleg
     @objc fileprivate func datePickerChanged(){
         let formatter = DateFormatter()
         formatter.dateFormat = "yyyy/MM/dd"
-        
-        let currentTime = Date()
-        
         birthdayLabel.text = formatter.string(from: birthDayPicker.date)
+        checkCanPublishOrNot(isPressPublish:false)
+    }
+    
+    func checkCanPublishOrNot(isPressPublish:Bool){
         
+        
+        let name = nameTextField.text!.replace(target: " ", withString: "@")
+        
+        if name == " " || name == ""{
+            continueBtn.alpha = 0.2
+            continueBtn.isEnabled = false
+            descriptStatusLabel.text = "暱稱不可為空格"
+            return
+        }else if name.rangeOfCharacter(from: CharacterSet(charactersIn: "-_=;:@")) != nil {
+            continueBtn.alpha = 0.2
+            continueBtn.isEnabled = false
+            descriptStatusLabel.text = "暱稱不可包含特殊符號或空格"
+            return
+        }
+        
+        let formatter = DateFormatter()
+        formatter.dateFormat = "yyyy/MM/dd"
+        let currentTime = Date()
+        birthdayLabel.text = formatter.string(from: birthDayPicker.date)
         let elapsedYear = currentTime.years(sinceDate: birthDayPicker.date) ?? 0
         
         if elapsedYear < 18 {
             continueBtn.alpha = 0.2
             continueBtn.isEnabled = false
             descriptStatusLabel.text = "您需年滿十八歲才能使用此服務"
-        }else{
-            continueBtn.alpha = 1
-            continueBtn.isEnabled = true
-            descriptStatusLabel.text = " "
+            return
         }
         
+        if(photoImageView.alpha != 0){
+            continueBtn.alpha = 0.2
+            continueBtn.isEnabled = false
+            descriptStatusLabel.text = "請設定大頭貼"
+            return
+        }
+        
+        continueBtn.alpha = 1
+        continueBtn.isEnabled = true
+        descriptStatusLabel.text = " "
     }
-    
 }
