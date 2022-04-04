@@ -2918,7 +2918,13 @@ class MapViewController: UIViewController {
     
     
     @objc func cancelSignUpBtnAct(_ sender: UIButton){
-        let alertVC = SSAlertController(title: "確定要取消報名嗎?", message: "")
+        
+        var message = ""
+        if(currentSharedSeatAnnotation!.mode == 2){
+            message = "注意：若您的朋友已經與您組隊報名（使用邀請碼），取消報名將會將兩人的報名一併取消"
+        }
+        
+        let alertVC = SSAlertController(title: "確定要取消報名嗎?", message: message)
         alertVC.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
             alertVC.dismiss(animated: true)
         }))
@@ -2934,33 +2940,59 @@ class MapViewController: UIViewController {
         
         let gender : String
         if(UserSetting.userGender == 1){
-            gender = "/signUpBoysID/"
+            gender = "/signUpBoysID"
         }else{
-            gender = "/signUpGirlsID/"
+            gender = "/signUpGirlsID"
         }
         
-        let ref = Database.database().reference().child("SharedSeatAnnotation/" + currentSharedSeatAnnotation!.holderUID + gender + UserSetting.UID)
+        let ref = Database.database().reference().child("SharedSeatAnnotation/" + currentSharedSeatAnnotation!.holderUID + gender + "/" + UserSetting.UID)
         
-        //TODO 如果我朋友已經加入組隊，要怎麼取消報名？應該要添加說明
-        ref.removeValue(){
-            (error, ref) -> Void in
-            if error != nil{
-                print(error ?? "取消報名失敗")
-                self.showToast(message: "取消報名失敗", font: .systemFont(ofSize: 14.0))
-            }else{
-                self.showToast(message: "取消報名成功", font: .systemFont(ofSize: 14.0))
-                //處理本地端資料
-                if(UserSetting.userGender == 0){
-                    if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
-                        self.currentSharedSeatAnnotation!.signUpGirlsID!.removeValue(forKey: UserSetting.UID)
+        if(currentSharedSeatAnnotation!.mode == 2){
+            //如果是二對二模式，就找到拿到同樣邀請碼的報名者，然後刪除
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.exists(){
+                    if(snapshot.value as! String != "-"){
+                        let invitationCode = snapshot.value as! String
+                        let parentRef = Database.database().reference().child("SharedSeatAnnotation/" + self.currentSharedSeatAnnotation!.holderUID + gender)
+                                                            
+                        parentRef.observeSingleEvent(of: .value, with:{(snapshot2) in
+                        for user_child in (snapshot2.children){
+                            if(((user_child as! DataSnapshot).value as! String) == invitationCode){
+                                let childRef = Database.database().reference().child("SharedSeatAnnotation/" + self.currentSharedSeatAnnotation!.holderUID + gender + "/" + (user_child as! DataSnapshot).key)
+                                childRef.removeValue()
+                            }
+                            
+                        }})
                     }
-                }else{
-                    if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
-                        self.currentSharedSeatAnnotation!.signUpBoysID!.removeValue(forKey: UserSetting.UID)
+                    
+                    
+                    ref.removeValue(){
+                        (error, ref) -> Void in
+                        if error != nil{
+                            print(error ?? "取消報名失敗")
+                            self.showToast(message: "取消報名失敗", font: .systemFont(ofSize: 14.0))
+                        }else{
+                            self.showToast(message: "取消報名成功", font: .systemFont(ofSize: 14.0))
+                            //處理本地端資料
+                            if(UserSetting.userGender == 0){
+                                if(self.currentSharedSeatAnnotation!.signUpGirlsID != nil){
+                                    self.currentSharedSeatAnnotation!.signUpGirlsID!.removeValue(forKey: UserSetting.UID)
+                                }
+                            }else{
+                                if(self.currentSharedSeatAnnotation!.signUpBoysID != nil){
+                                    self.currentSharedSeatAnnotation!.signUpBoysID!.removeValue(forKey: UserSetting.UID)
+                                }
+                            }
+                        }
                     }
+
                 }
-            }
+            })
         }
+        
+        
+        
+        
         
         //刪除邀請碼，如果有的話
         if(currentSharedSeatAnnotation!.signUpBoysID != nil && currentSharedSeatAnnotation!.signUpBoysID![UserSetting.UID] != nil){
