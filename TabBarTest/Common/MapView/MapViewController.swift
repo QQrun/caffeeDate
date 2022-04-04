@@ -2126,6 +2126,7 @@ class MapViewController: UIViewController {
         
         
 #if VERYINCORRECT
+        //相席遊戲規則說明按鈕
         let circleButton_explain = UIButton(frame:CGRect(x: 16, y: statusHeight + 50, width: 32, height: 32))
         circleButton_explain.backgroundColor = .sksWhite()
         let infoImage = UIImage(named: "bk_icon_info_20_n")?.withRenderingMode(.alwaysTemplate)
@@ -2197,6 +2198,7 @@ class MapViewController: UIViewController {
         circleButton_mySharedSeat.layer.shadowOpacity = 0.3
         circleButton_mySharedSeat.setImage(mySharedSeatImage, for: [])
         circleButton_mySharedSeat.isEnabled = true
+        circleButton_mySharedSeat.isHidden = true
         view.addSubview(circleButton_mySharedSeat)
         circleButton_mySharedSeat.addTarget(self, action: #selector(mySharedSeatBtnAct), for: .touchUpInside)
         

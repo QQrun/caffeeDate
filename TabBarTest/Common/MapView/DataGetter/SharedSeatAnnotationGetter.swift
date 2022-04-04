@@ -17,7 +17,18 @@ class SharedSeatAnnotationGetter{
     
     var sharedSeat2Annotation : [SharedSeatAnnotation] = []
     var sharedSeat4Annotation : [SharedSeatAnnotation] = []
-    var sharedSeatMyJoinedAnnotation : [SharedSeatAnnotation] = []
+    var sharedSeatMyJoinedAnnotation : [SharedSeatAnnotation] = []{
+        didSet{
+            if sharedSeatMyJoinedAnnotation.count == 0{
+                CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.circleButton_mySharedSeat.isHidden = true
+            }else{
+                CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.circleButton_mySharedSeat.isHidden = false
+            }
+        }
+    }
+    
+    
+//    circleButton_mySharedSeat
     
     
     init(mapView:MKMapView) {
