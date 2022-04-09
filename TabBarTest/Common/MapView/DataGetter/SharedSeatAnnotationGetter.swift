@@ -84,7 +84,6 @@ class SharedSeatAnnotationGetter{
         }
         
     }
-    
     //1.賦予markTypeToShow 2.將Annotation分類 3.判斷是否要顯示在地圖上
     func decideCanShowOrNotAndWhichIcon(_ annotation:SharedSeatAnnotation) -> Bool{
         

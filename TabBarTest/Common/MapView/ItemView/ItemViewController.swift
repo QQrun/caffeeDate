@@ -137,6 +137,9 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         commentObserver = commentObserverRef.queryOrdered(byChild: "time").observe(.childAdded, with: { (snapshot) in
             
             var comment = Comment(snapshot: snapshot)
+            if(comment.UID == "錯誤"){
+                return
+            }
             comment.commentID = snapshot.key
             self.item.commentIDs?.append(snapshot.key as String)
             

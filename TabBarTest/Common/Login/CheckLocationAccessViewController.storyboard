@@ -11,7 +11,7 @@
         <!--Check Location Access View Controller-->
         <scene sceneID="VQj-GD-Pvg">
             <objects>
-                <viewController storyboardIdentifier="CheckLocationAccessViewController" id="NBq-RZ-ud9" customClass="CheckLocationAccessViewController" customModule="面交人" customModuleProvider="target" sceneMemberID="viewController">
+                <viewController storyboardIdentifier="CheckLocationAccessViewController" id="NBq-RZ-ud9" customClass="CheckLocationAccessViewController" customModule="VeryIncorrect" customModuleProvider="target" sceneMemberID="viewController">
                     <view key="view" contentMode="scaleToFill" id="ENY-J0-QLF">
                         <rect key="frame" x="0.0" y="0.0" width="414" height="896"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
@@ -34,8 +34,8 @@
                                     <action selector="continueAct:" destination="NBq-RZ-ud9" eventType="touchUpInside" id="PrP-Wh-0gG"/>
                                 </connections>
                             </button>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="開啟定位服務即可在地圖上擺攤或揪團" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hly-h4-XaL">
-                                <rect key="frame" x="41" y="151.5" width="243" height="17"/>
+                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="開啟定位服務即可在地圖上擺攤" textAlignment="natural" lineBreakMode="tailTruncation" numberOfLines="4" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="Hly-h4-XaL">
+                                <rect key="frame" x="41" y="151.5" width="200" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="14"/>
                                 <color key="textColor" white="0.0" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <nil key="highlightedColor"/>
@@ -86,6 +86,7 @@
                         <outlet property="continueBtn" destination="mLL-Vn-IOf" id="uss-Jq-La2"/>
                         <outlet property="laterBtn" destination="6kD-rv-gDZ" id="OKq-Zb-5Bj"/>
                         <outlet property="relocationImage" destination="3w2-TA-LOb" id="JNu-3a-dgJ"/>
+                        <outlet property="subTitle" destination="Hly-h4-XaL" id="WAo-zA-Y8f"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="xx5-tp-n4f" userLabel="First Responder" customClass="UIResponder" sceneMemberID="firstResponder"/>

@@ -929,6 +929,11 @@ class MapViewController: UIViewController {
             
             for user_child in (snapshot.children){
                 var comment = Comment(snapshot: user_child as! DataSnapshot)
+                
+                if(comment.UID == "錯誤"){
+                    continue
+                }
+                
                 comment.commentID = snapshot.key
                 
                 if let childSnapshots = snapshot.childSnapshot(forPath: "likeUIDs").children.allObjects as? [DataSnapshot]{
@@ -1178,6 +1183,8 @@ class MapViewController: UIViewController {
             cancelBtn.layer.cornerRadius = 4
             cancelBtn.addTarget(self, action: #selector(cancelSharedSeatBtnAct), for: .touchUpInside)
             bulletinBoard_SharedSeat.addSubview(cancelBtn)
+            
+            
         }else{
             
             if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
@@ -1192,31 +1199,13 @@ class MapViewController: UIViewController {
                 signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                 if (UserSetting.userGender == 0){
                     if(sharedSeatAnnotation.girlsID != nil){
-                        if sharedSeatAnnotation.mode == 1{
-                            if(sharedSeatAnnotation.girlsID!.count == 1){//1v1已滿人
-                                signUpBtn.setTitle("已滿額", for: .normal)
-                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                            }
-                        }else{
-                            if(sharedSeatAnnotation.girlsID!.count == 2){//2v2已滿人
-                                signUpBtn.setTitle("已滿額", for: .normal)
-                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                            }
-                        }
+                        signUpBtn.setTitle("已滿額", for: .normal)
+                        signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                     }
                 }else {
                     if(sharedSeatAnnotation.boysID != nil){
-                        if sharedSeatAnnotation.mode == 1{
-                            if(sharedSeatAnnotation.boysID!.count == 1){//1v1已滿人
-                                signUpBtn.setTitle("已滿額", for: .normal)
-                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                            }
-                        }else{
-                            if(sharedSeatAnnotation.boysID!.count == 2){//2v2已滿人
-                                signUpBtn.setTitle("已滿額", for: .normal)
-                                signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                            }
-                        }
+                        signUpBtn.setTitle("已滿額", for: .normal)
+                        signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                     }
                 }
             }
@@ -1296,16 +1285,29 @@ class MapViewController: UIViewController {
             
             signUpBtn.frame = CGRect(x: boyPhoto2.frame.origin.x, y: boyPhoto2.frame.origin.y + boyPhoto2.frame.height + 7, width: 120, height: 36)
             
+            if(sharedSeatAnnotation.holderUID == UserSetting.UID){
+                var signUpCount = 0
+                signUpCount += sharedSeatAnnotation.signUpBoysID?.count ?? 0
+                signUpCount += sharedSeatAnnotation.signUpGirlsID?.count ?? 0
+                if(signUpCount != 0){
+                    let signUpCountCircle = UIButton(frame:CGRect(x: signUpBtn.frame.origin.x + signUpBtn.frame.width - 10, y: signUpBtn.frame.origin.y - 4, width: 14, height: 14))
+                    signUpCountCircle.titleLabel?.font = signUpCountCircle.titleLabel?.font.withSize(12)
+                    signUpCountCircle.backgroundColor = .sksPink()
+                    signUpCountCircle.layer.cornerRadius = 7
+                    signUpCountCircle.setTitle("\(signUpCount)", for: .normal)
+                    bulletinBoard_SharedSeat.addSubview(signUpCountCircle)
+                }
+            }
             
             if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
                 for(UID,InvitationCode) in sharedSeatAnnotation.signUpBoysID!{
-                    if(UID == UserSetting.UID && InvitationCode != "-"){
+                    if(UID == UserSetting.UID && InvitationCode != "-" && !InvitationCode.contains("#")){
                         invitationCodeLabel.text = "邀請碼：" + InvitationCode
                     }
                 }
             }else if(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] != nil){
                 for(UID,InvitationCode) in sharedSeatAnnotation.signUpGirlsID!{
-                    if(UID == UserSetting.UID && InvitationCode != "-"){
+                    if(UID == UserSetting.UID && InvitationCode != "-" && !InvitationCode.contains("#")){
                         invitationCodeLabel.text = "邀請碼：" + InvitationCode
                     }
                 }
@@ -2873,7 +2875,7 @@ class MapViewController: UIViewController {
             
             let ref = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + UserSetting.UID)
             
-            ref.setValue(invitationCode){ (error, ref) -> Void in
+            ref.setValue(invitationCode + "#"){ (error, ref) -> Void in
                 if error != nil{
                     print(error ?? "")
                     self!.showToast(message: "使用邀請碼失敗", font: .systemFont(ofSize: 14.0))
@@ -2881,6 +2883,11 @@ class MapViewController: UIViewController {
                     self!.showToast(message: toastText, font: .systemFont(ofSize: 14.0))
                     let invitationCodeRef = Database.database().reference().child("InvitationCode/" + invitationCode)
                     invitationCodeRef.removeValue()
+                    
+                    
+                    //調整邀請人那邊的資料，value加上#，代表有使用過邀請碼
+                    let inviterIDRef = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + inviterID)
+                    inviterIDRef.setValue(invitationCode + "#")
                     
                     
                     //處理本地端資料
@@ -2898,7 +2905,8 @@ class MapViewController: UIViewController {
                                         if(sharedSeatAnnotation.signUpGirlsID == nil){
                                             sharedSeatAnnotation.signUpGirlsID = [:]
                                         }
-                                        sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] = invitationCode
+                                        sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] = invitationCode + "#"
+                                        sharedSeatAnnotation.signUpGirlsID![inviterID] = invitationCode + "#"
                                     }
                                 }else{
                                     if(inviterID == annotationID){
@@ -2910,7 +2918,8 @@ class MapViewController: UIViewController {
                                         if(sharedSeatAnnotation.signUpBoysID == nil){
                                             sharedSeatAnnotation.signUpBoysID = [:]
                                         }
-                                        sharedSeatAnnotation.signUpBoysID![UserSetting.UID] = invitationCode
+                                        sharedSeatAnnotation.signUpBoysID![UserSetting.UID] = invitationCode + "#"
+                                        sharedSeatAnnotation.signUpBoysID![inviterID] = invitationCode + "#"
                                     }
                                 }
                                 self!.sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.append(sharedSeatAnnotation)
@@ -2943,8 +2952,19 @@ class MapViewController: UIViewController {
     @objc private func iWantSharedSeatBtnAct(){
         Analytics.logEvent("地圖_加號按鈕_發起相席", parameters:nil)
         
-        viewDelegate?.gotoHoldSharedSeatController_mapView()
+        var isHolder = false
+        for sharedSeatAnnotation in sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation{
+            if (sharedSeatAnnotation.holderUID == UserSetting.UID){
+                isHolder = true
+            }
+        }
+        
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
+        if(isHolder){
+            showToast(message: "已是舉辦人，一人最多同時舉辦一個相席")
+        }else{
+            viewDelegate?.gotoHoldSharedSeatController_mapView()
+        }
     }
     
     
@@ -3393,7 +3413,37 @@ extension MapViewController: MKMapViewDelegate {
         
         if view.annotation is SharedSeatAnnotation{
             Analytics.logEvent("地圖_點擊地標_相席", parameters:nil)
-            setBulletinBoard_sharedSeat(sharedSeatAnnotation: view.annotation as! SharedSeatAnnotation)
+            
+            //抓遠端的資料更新本地端
+            let holderUID = (view.annotation as! SharedSeatAnnotation).holderUID
+            let ref = Database.database().reference().child("SharedSeatAnnotation/" + "\(holderUID)")
+            ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                let sharedSeatAnnotationData = SharedSeatAnnotationData(snapshot: snapshot)
+                
+                //抓到本地端的更新
+                for annotation in self.sharedSeatAnnotationGetter.sharedSeat2Annotation{
+                    if (annotation.holderUID == holderUID){
+                        annotation.girlsID = sharedSeatAnnotationData.girlsID
+                        annotation.boysID = sharedSeatAnnotationData.boysID
+                        annotation.signUpGirlsID = sharedSeatAnnotationData.signUpGirlsID
+                        annotation.signUpBoysID = sharedSeatAnnotationData.signUpBoysID
+                    }
+                }
+                for annotation in self.sharedSeatAnnotationGetter.sharedSeat4Annotation{
+                    if (annotation.holderUID == holderUID){
+                        annotation.girlsID = sharedSeatAnnotationData.girlsID
+                        annotation.boysID = sharedSeatAnnotationData.boysID
+                        annotation.signUpGirlsID = sharedSeatAnnotationData.signUpGirlsID
+                        annotation.signUpBoysID = sharedSeatAnnotationData.signUpBoysID
+                    }
+                }
+                
+                self.setBulletinBoard_sharedSeat(sharedSeatAnnotation: view.annotation as! SharedSeatAnnotation)
+            }
+            )
+            
+//
             return
         }
         

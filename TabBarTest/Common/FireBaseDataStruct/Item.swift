@@ -46,12 +46,12 @@ class Item {
         itemID = snapshot.key
         thumbnailUrl = snapshotValue["thumbnailUrl"] as? String
         photosUrl = snapshotValue["photosUrl"] as? [String]
-        name = snapshotValue["name"] as! String
-        price = snapshotValue["price"] as! String
-        descript = snapshotValue["descript"] as! String
-        order = snapshotValue["order"] as! Int
-        done = snapshotValue["done"] as! Bool
-        let itemTypeString = snapshotValue["itemType"] as! String
+        name = snapshotValue["name"] as? String ?? "錯誤"
+        price = snapshotValue["price"] as? String ?? "錯誤"
+        descript = snapshotValue["descript"] as? String ?? "錯誤"
+        order = snapshotValue["order"] as? Int ?? 0
+        done = snapshotValue["done"] as? Bool ?? false
+        let itemTypeString = snapshotValue["itemType"] as? String ?? ""
         if itemTypeString == "Buy" {
             self.itemType = .Buy
         }else if itemTypeString == "Sell" {

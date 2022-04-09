@@ -13,7 +13,7 @@ class CheckLocationAccessViewController: UIViewController {
     
     @IBOutlet weak var relocationImage: UIImageView!
     @IBOutlet weak var continueBtn: UIButton!
-    
+    @IBOutlet weak var subTitle: UILabel!
     @IBOutlet weak var laterBtn: UIButton!
     
     weak var mapViewController : MapViewController?
@@ -28,7 +28,12 @@ class CheckLocationAccessViewController: UIViewController {
         relocationImage.image = UIImage(named: "定位icon")?.withRenderingMode(.alwaysTemplate)
         relocationImage.tintColor = UIColor.hexStringToUIColor(hex: "#00cac7")
 
-        
+#if FACETRADER
+        subTitle.text = "開啟定位服務即可在地圖上擺攤"
+#elseif VERYINCORRECT
+        subTitle.text = "開啟定位服務即可開始約會"
+#endif
+
         // Do any additional setup after loading the view.
     }
     

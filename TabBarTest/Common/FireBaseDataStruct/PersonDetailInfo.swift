@@ -41,11 +41,11 @@ class PersonDetailInfo {
     init(snapshot: DataSnapshot){
         let snapshotValue = snapshot.value as! [String: AnyObject]
         UID = snapshot.key
-        name = snapshotValue["name"] as! String
-        gender = snapshotValue["gender"] as! Int
-        birthday = snapshotValue["birthday"] as! String
-        lastSignInTime = snapshotValue["lastSignInTime"] as! String
+        name = snapshotValue["name"] as? String ?? "error"
         selfIntroduction = snapshotValue["selfIntroduction"] as? String ?? ""
+        gender = snapshotValue["gender"] as? Int ?? 0
+        birthday = snapshotValue["birthday"] as? String ?? "2000/01/01"
+        lastSignInTime = snapshotValue["lastSignInTime"] as? String ?? "20000408014655"
         photos = snapshotValue["photos"] as? [String]
         headShot = snapshotValue["headShot"] as? String
         perferIconStyleToShowInMap = snapshotValue["perferIconStyleToShowInMap"] as? String ?? ""

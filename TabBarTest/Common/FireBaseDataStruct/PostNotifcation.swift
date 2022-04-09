@@ -61,11 +61,13 @@ class PostNotifcation {
         self.reviewers = []
         if let childSnapshots = snapshot.childSnapshot(forPath: "reviewers").children.allObjects as? [DataSnapshot]{
             for childSnapshot in childSnapshots{
-                let childSnapshotTime = childSnapshot.value as! String
-                self.reviewers.append(ReviewerData(name: childSnapshot.key, time: childSnapshotTime))
+                let childSnapshotTime = childSnapshot.value as? String ?? "0"
+                if(childSnapshotTime != "0"){
+                    self.reviewers.append(ReviewerData(name: childSnapshot.key, time: childSnapshotTime))
+                }
             }
         }
-        self.time = snapshotValue["time"] as! String
+        self.time = snapshotValue["time"] as? String ?? "20000408015408"
         
     }
     //

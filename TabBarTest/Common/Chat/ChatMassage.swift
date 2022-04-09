@@ -36,10 +36,10 @@ internal struct ChatMessage: MessageType {
         
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMddHHmmss"
-        self.sentDate = formatter.date(from: snapshotValue["time"] as! String)!
+        self.sentDate = formatter.date(from: snapshotValue["time"] as? String ?? "20000408015408")!
         self.messageId = snapshot.key
-        self.kind = .text(snapshotValue["text"] as! String)
-        self.user = ChatUser(senderId: snapshotValue["UID"] as! String, displayName: snapshotValue["name"] as! String)
+        self.kind = .text(snapshotValue["text"] as? String ?? "錯誤")
+        self.user = ChatUser(senderId: snapshotValue["UID"] as? String ?? "錯誤", displayName: snapshotValue["name"] as? String ?? "錯誤")
     }
     
     

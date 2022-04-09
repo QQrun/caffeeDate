@@ -36,12 +36,12 @@ class Comment {
     
     init(snapshot: DataSnapshot) {
         let snapshotValue = snapshot.value as! [String: AnyObject]
-        time = snapshotValue["time"] as! String
-        UID = snapshotValue["UID"] as! String
-        name = snapshotValue["name"] as! String
-        gender = snapshotValue["gender"] as! Int
+        time = snapshotValue["time"] as? String ?? "20000408015408"
+        UID = snapshotValue["UID"] as! String ?? "錯誤"
+        name = snapshotValue["name"] as? String ?? "錯誤"
+        gender = snapshotValue["gender"] as? Int ?? 0
         smallHeadshotURL = snapshotValue["smallHeadshotURL"] as? String
-        content = snapshotValue["content"] as! String
+        content = snapshotValue["content"] as? String ?? "錯誤"
         likeUIDs = snapshotValue["likeUIDs"] as? [String]
     }
     

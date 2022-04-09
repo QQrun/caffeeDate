@@ -42,96 +42,101 @@ class PresonAnnotationGetter{
     
     
     fileprivate func packagePersonAnnotation(_ user_child: NSEnumerator.Element) {
-        let user_snap = user_child as! DataSnapshot
         
-        let personAnnotationData = PersonAnnotationData(snapshot: user_snap)
-        if(personAnnotationData.openTime == ""){ //這代表解包失敗
-            return
-        }
-        let personAnnotation = PersonAnnotation()
-        
-        if personAnnotationData.preferMarkType == "openStore"{
-            personAnnotation.preferMarkType = .openStore
-        }else if personAnnotationData.preferMarkType == "request"{
-            personAnnotation.preferMarkType = .request
-        }else if  personAnnotationData.preferMarkType == "makeFriend"{
-            personAnnotation.preferMarkType = .makeFriend
-        }else if  personAnnotationData.preferMarkType == "teamUp"{
-            personAnnotation.preferMarkType = .teamUp
-        }else{
-            personAnnotation.preferMarkType = .none
-        }
-        
-        if personAnnotationData.gender == 0{
-            personAnnotation.gender = .Girl
-        }else if personAnnotationData.gender == 1{
-            personAnnotation.gender = .Boy
-        }
-        personAnnotation.UID = user_snap.key
-        personAnnotation.title = personAnnotationData.title
-        personAnnotation.isOpenStore = personAnnotationData.isOpenStore
-        personAnnotation.isTeamUp = personAnnotationData.isTeamUp
-        personAnnotation.isRequest = personAnnotationData.isRequest
-        personAnnotation.wantMakeFriend = personAnnotationData.wantMakeFriend
-        personAnnotation.openTime = personAnnotationData.openTime
-        
-        
-        
-        //確認那個地點是否有過期，如果有過期，不顯示
-        let formatter = DateFormatter()
-        formatter.dateFormat = "YYYYMMddHHmmss"
-        let seconds = Date().seconds(sinceDate: formatter.date(from: personAnnotationData.openTime)!)
-        let remainingHour = (self.durationOfAuction - seconds!) / (60 * 60)
-        let remainingMin = ((self.durationOfAuction - seconds!) % (60 * 60)) / 60
-        let remainingSecond = ((self.durationOfAuction - seconds!) % (60 * 60)) % 60
-        if remainingHour < 0 || remainingMin < 0 || remainingSecond < 0{
-            if personAnnotation.UID == UserSetting.UID{
-                //刪除在過期地點在firebase上的資料
-                FirebaseHelper.deletePersonAnnotation()
-                NotifyHelper.pushNewNoti(title: "擺攤時間到，已收攤", subTitle: "您可以在『我的攤販』設定內再度開啟攤販")
+        do{
+            let user_snap = user_child as! DataSnapshot
+            let personAnnotationData = PersonAnnotationData(snapshot: user_snap)
+            if(personAnnotationData.openTime == ""){ //這代表解包失敗
+                return
             }
-            return
+            let personAnnotation = PersonAnnotation()
+            
+            if personAnnotationData.preferMarkType == "openStore"{
+                personAnnotation.preferMarkType = .openStore
+            }else if personAnnotationData.preferMarkType == "request"{
+                personAnnotation.preferMarkType = .request
+            }else if  personAnnotationData.preferMarkType == "makeFriend"{
+                personAnnotation.preferMarkType = .makeFriend
+            }else if  personAnnotationData.preferMarkType == "teamUp"{
+                personAnnotation.preferMarkType = .teamUp
+            }else{
+                personAnnotation.preferMarkType = .none
+            }
+            
+            if personAnnotationData.gender == 0{
+                personAnnotation.gender = .Girl
+            }else if personAnnotationData.gender == 1{
+                personAnnotation.gender = .Boy
+            }
+            personAnnotation.UID = user_snap.key
+            personAnnotation.title = personAnnotationData.title
+            personAnnotation.isOpenStore = personAnnotationData.isOpenStore
+            personAnnotation.isTeamUp = personAnnotationData.isTeamUp
+            personAnnotation.isRequest = personAnnotationData.isRequest
+            personAnnotation.wantMakeFriend = personAnnotationData.wantMakeFriend
+            personAnnotation.openTime = personAnnotationData.openTime
+            
+            
+            
+            //確認那個地點是否有過期，如果有過期，不顯示
+            let formatter = DateFormatter()
+            formatter.dateFormat = "YYYYMMddHHmmss"
+            let seconds = Date().seconds(sinceDate: formatter.date(from: personAnnotationData.openTime)!)
+            let remainingHour = (self.durationOfAuction - seconds!) / (60 * 60)
+            let remainingMin = ((self.durationOfAuction - seconds!) % (60 * 60)) / 60
+            let remainingSecond = ((self.durationOfAuction - seconds!) % (60 * 60)) % 60
+            if remainingHour < 0 || remainingMin < 0 || remainingSecond < 0{
+                if personAnnotation.UID == UserSetting.UID{
+                    //刪除在過期地點在firebase上的資料
+                    FirebaseHelper.deletePersonAnnotation()
+                    NotifyHelper.pushNewNoti(title: "擺攤時間到，已收攤", subTitle: "您可以在『我的攤販』設定內再度開啟攤販")
+                }
+                return
+            }
+            
+            if personAnnotation.UID == UserSetting.UID{
+                self.userAnnotation = personAnnotation
+            }
+            
+            personAnnotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((personAnnotationData.latitude as NSString).floatValue), longitude: CLLocationDegrees((personAnnotationData.longitude as NSString).floatValue))
+            
+    //        if let smallIconUrl = personAnnotationData.smallHeadShotForMapIcon{
+    //            AF.request(smallIconUrl).response { (response) in
+    //                guard let data = response.data, let image = UIImage(data: data)
+    //                    else {
+    //                        print("讀取圖片url失敗")
+    //                        return }
+    //                personAnnotation.smallHeadShot = image
+    //                var canShow = false
+    //                canShow = self.decideCanShowOrNotAndWhichIcon(personAnnotation)
+    //                self.classifyAnnotation(personAnnotation)
+    //                if canShow{
+    //                    self.mapView.addAnnotation(personAnnotation)
+    //                }
+    //            }
+    //
+    //        }else{
+    //            var canShow = false
+    //            canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
+    //            classifyAnnotation(personAnnotation)
+    //            if canShow{
+    //                print("canShow")
+    //                self.mapView.addAnnotation(personAnnotation)
+    //            }else{
+    //                print("canNotShow")
+    //            }
+    //        }
+            
+            var canShow = false
+            canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
+            classifyAnnotation(personAnnotation)
+            if canShow{
+                self.mapView.addAnnotation(personAnnotation)
+            }
+        }catch{
+            print("packagePersonAnnotation 出現錯誤 ： \(error)")
         }
         
-        if personAnnotation.UID == UserSetting.UID{
-            self.userAnnotation = personAnnotation
-        }
-        
-        personAnnotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((personAnnotationData.latitude as NSString).floatValue), longitude: CLLocationDegrees((personAnnotationData.longitude as NSString).floatValue))
-        
-//        if let smallIconUrl = personAnnotationData.smallHeadShotForMapIcon{
-//            AF.request(smallIconUrl).response { (response) in
-//                guard let data = response.data, let image = UIImage(data: data)
-//                    else {
-//                        print("讀取圖片url失敗")
-//                        return }
-//                personAnnotation.smallHeadShot = image
-//                var canShow = false
-//                canShow = self.decideCanShowOrNotAndWhichIcon(personAnnotation)
-//                self.classifyAnnotation(personAnnotation)
-//                if canShow{
-//                    self.mapView.addAnnotation(personAnnotation)
-//                }
-//            }
-//
-//        }else{
-//            var canShow = false
-//            canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
-//            classifyAnnotation(personAnnotation)
-//            if canShow{
-//                print("canShow")
-//                self.mapView.addAnnotation(personAnnotation)
-//            }else{
-//                print("canNotShow")
-//            }
-//        }
-        
-        var canShow = false
-        canShow = decideCanShowOrNotAndWhichIcon(personAnnotation)
-        classifyAnnotation(personAnnotation)
-        if canShow{
-            self.mapView.addAnnotation(personAnnotation)
-        }
 
     }
     
