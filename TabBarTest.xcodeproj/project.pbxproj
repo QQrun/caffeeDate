@@ -431,6 +431,10 @@
 		A7CB15A824A8C01B00FDBC12 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB15A624A8C01B00FDBC12 /* MailListViewController.swift */; };
 		A7D30965251C5415005CBA08 /* PostNotifcation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D30964251C5415005CBA08 /* PostNotifcation.swift */; };
 		A7D3096D251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */; };
+		A7E64C7C2801BE9600630494 /* RegistrationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */; };
+		A7E64C7D2801BE9600630494 /* RegistrationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */; };
+		A7E64C842802D30600630494 /* DrawCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E64C832802D30600630494 /* DrawCardViewController.swift */; };
+		A7E64C852802D30600630494 /* DrawCardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E64C832802D30600630494 /* DrawCardViewController.swift */; };
 		A7F47BA82453A0F10015A502 /* FillBasicInfoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7F47BA72453A0F10015A502 /* FillBasicInfoViewController.swift */; };
 		A7F47BAA2453A0F90015A502 /* FillBasicInfoViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7F47BA92453A0F90015A502 /* FillBasicInfoViewController.storyboard */; };
 		A7FCE11E24EE257500E79E96 /* NotifyTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FCE11C24EE257500E79E96 /* NotifyTableViewCell.swift */; };
@@ -664,6 +668,8 @@
 		A7CB15A624A8C01B00FDBC12 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
 		A7D30964251C5415005CBA08 /* PostNotifcation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotifcation.swift; sourceTree = "<group>"; };
 		A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyCenterViewControllerModel.swift; sourceTree = "<group>"; };
+		A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationListViewController.swift; sourceTree = "<group>"; };
+		A7E64C832802D30600630494 /* DrawCardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DrawCardViewController.swift; sourceTree = "<group>"; };
 		A7F47BA72453A0F10015A502 /* FillBasicInfoViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBasicInfoViewController.swift; sourceTree = "<group>"; };
 		A7F47BA92453A0F90015A502 /* FillBasicInfoViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = FillBasicInfoViewController.storyboard; sourceTree = "<group>"; };
 		A7FCE11624EB912700E79E96 /* MapWe.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = MapWe.entitlements; sourceTree = "<group>"; };
@@ -823,6 +829,8 @@
 				A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */,
 				A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */,
 				A787C3C227F217A7009EC8A7 /* ListLocationViewController.swift */,
+				A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */,
+				A7E64C832802D30600630494 /* DrawCardViewController.swift */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -1529,6 +1537,7 @@
 				A747EE4D25C9829400766B66 /* AppStoreRating.swift in Sources */,
 				A77BABC9253C76680071D346 /* NSConstraintLayoutSet.swift in Sources */,
 				A77BABE0253C76A00071D346 /* LocationItem.swift in Sources */,
+				A7E64C842802D30600630494 /* DrawCardViewController.swift in Sources */,
 				A71461862761EA1000872E4E /* SSPopoverPresentationController.swift in Sources */,
 				A77BAD43253C7D190071D346 /* AutocompleteManagerDataSource.swift in Sources */,
 				A77BAB8E253C75EF0071D346 /* LinkPreviewMessageSizeCalculator.swift in Sources */,
@@ -1678,6 +1687,7 @@
 				A77BAD52253C7D190071D346 /* KeyboardEvent.swift in Sources */,
 				A7A474DA2524C0AA0038D75B /* ProfileButton.swift in Sources */,
 				A77BAC07253C76D80071D346 /* InsetLabel.swift in Sources */,
+				A7E64C7C2801BE9600630494 /* RegistrationListViewController.swift in Sources */,
 				A77BABEA253C76A00071D346 /* MessagesDisplayDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1732,6 +1742,7 @@
 				A787C2E927C0F284009EC8A7 /* NSConstraintLayoutSet.swift in Sources */,
 				A787C2EA27C0F284009EC8A7 /* LocationItem.swift in Sources */,
 				A787C2EB27C0F284009EC8A7 /* SSPopoverPresentationController.swift in Sources */,
+				A7E64C852802D30600630494 /* DrawCardViewController.swift in Sources */,
 				A787C2EC27C0F284009EC8A7 /* AutocompleteManagerDataSource.swift in Sources */,
 				A787C2ED27C0F284009EC8A7 /* LinkPreviewMessageSizeCalculator.swift in Sources */,
 				A787C2EE27C0F284009EC8A7 /* UserSetting.swift in Sources */,
@@ -1881,6 +1892,7 @@
 				A787C37627C0F284009EC8A7 /* KeyboardEvent.swift in Sources */,
 				A787C37727C0F284009EC8A7 /* ProfileButton.swift in Sources */,
 				A787C37827C0F284009EC8A7 /* InsetLabel.swift in Sources */,
+				A7E64C7D2801BE9600630494 /* RegistrationListViewController.swift in Sources */,
 				A787C37927C0F284009EC8A7 /* MessagesDisplayDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

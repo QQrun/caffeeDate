@@ -181,6 +181,14 @@ extension RootCoordinator: MapViewControllerViewDelegate {
         listLocationViewController.modalPresentationStyle = .popover
         rootTabBarController.present(listLocationViewController, animated: true, completion: nil)
     }
+    
+    func gotoRegistrationList(sharedSeatAnnotation:SharedSeatAnnotation){
+        let registrationListViewController = RegistrationListViewController(sharedSeatAnnotation:sharedSeatAnnotation)
+        registrationListViewController.viewDelegate = self
+        registrationListViewController.modalPresentationStyle = .overCurrentContext
+        mapTab.pushViewController(registrationListViewController, animated: true)
+        
+    }
 }
 
 
@@ -320,5 +328,16 @@ extension RootCoordinator: NotifyCenterViewControllerDelegate{
         notifyTab.pushViewController(itemViewController, animated: true)
     }
     
+    
+}
+
+
+extension RootCoordinator: RegistrationListViewDelegant{
+    
+    func gotoDrawCardPage(sharedSeatAnnotation: SharedSeatAnnotation) {
+        let drawCardViewController = DrawCardViewController(sharedSeatAnnotation:sharedSeatAnnotation)
+        drawCardViewController.modalPresentationStyle = .overCurrentContext
+        mapTab.pushViewController(drawCardViewController, animated: true)
+    }
     
 }

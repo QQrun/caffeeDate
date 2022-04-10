@@ -21,6 +21,8 @@ protocol MapViewControllerViewDelegate: class {
     func gotoWantBuyViewController_mapView(defaultItem:Item?)
     func gotoHoldSharedSeatController_mapView()
     func gotoScoreCoffeeController_mapView(annotation:CoffeeAnnotation)
+    func gotoRegistrationList(sharedSeatAnnotation:SharedSeatAnnotation)
+    
     func showListLocationViewController(sharedSeatAnnotations:[SharedSeatAnnotation])
 }
 
@@ -123,6 +125,7 @@ class MapViewController: UIViewController {
     var unreadMySharedSeatNotiCountCircle = UIButton()
     var signUpBtn = SSButton()
     var invitationCodeLabel = UILabel()
+    var signUpCountCircle = UIButton()
     
     //未讀通知數量
     var unreadNotifcationCount = 0
@@ -1053,7 +1056,7 @@ class MapViewController: UIViewController {
         
         let reviewTimeLabel = UILabel()
         reviewTimeLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        reviewTimeLabel.text = "審核期限"
+        reviewTimeLabel.text = "抽卡期限"
         reviewTimeLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 58, width: 120, height: reviewTimeLabel.intrinsicContentSize.height)
         reviewTimeLabel.textAlignment = .center
         reviewTimeLabel.textColor = .on().withAlphaComponent(0.5)
@@ -1078,7 +1081,7 @@ class MapViewController: UIViewController {
         
         let participantLabel = UILabel()
         participantLabel.font = UIFont(name: "HelveticaNeue", size: 15)
-        participantLabel.text = "參與人"
+        participantLabel.text = "參加者"
         participantLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 97, width: 120, height: participantLabel.intrinsicContentSize.height)
         participantLabel.textAlignment = .center
         participantLabel.textColor = .on().withAlphaComponent(0.5)
@@ -1171,7 +1174,7 @@ class MapViewController: UIViewController {
         signUpBtn.frame = CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 7, width: 120, height: 36)
         signUpBtn.type = .filled
         if(sharedSeatAnnotation.holderUID == UserSetting.UID){
-            signUpBtn.setTitle("審核報名", for: .normal)
+            signUpBtn.setTitle("抽出參加者", for: .normal)
             signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
             
             let cancelBtn = UIButton()
@@ -1198,12 +1201,12 @@ class MapViewController: UIViewController {
                 signUpBtn.setTitle("報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                 if (UserSetting.userGender == 0){
-                    if(sharedSeatAnnotation.girlsID != nil){
+                    if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
                         signUpBtn.setTitle("已滿額", for: .normal)
                         signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                     }
                 }else {
-                    if(sharedSeatAnnotation.boysID != nil){
+                    if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
                         signUpBtn.setTitle("已滿額", for: .normal)
                         signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
                     }
@@ -1290,10 +1293,15 @@ class MapViewController: UIViewController {
                 signUpCount += sharedSeatAnnotation.signUpBoysID?.count ?? 0
                 signUpCount += sharedSeatAnnotation.signUpGirlsID?.count ?? 0
                 if(signUpCount != 0){
-                    let signUpCountCircle = UIButton(frame:CGRect(x: signUpBtn.frame.origin.x + signUpBtn.frame.width - 10, y: signUpBtn.frame.origin.y - 4, width: 14, height: 14))
+                    signUpCountCircle = UIButton(frame:CGRect(x: signUpBtn.frame.origin.x + signUpBtn.frame.width - 10, y: signUpBtn.frame.origin.y - 4, width: 14, height: 14))
                     signUpCountCircle.titleLabel?.font = signUpCountCircle.titleLabel?.font.withSize(12)
                     signUpCountCircle.backgroundColor = .sksPink()
                     signUpCountCircle.layer.cornerRadius = 7
+                    
+                    if(sharedSeatAnnotation.mode == 2){
+                        signUpCount = Int(signUpCount/2)
+                    }
+                    
                     signUpCountCircle.setTitle("\(signUpCount)", for: .normal)
                     bulletinBoard_SharedSeat.addSubview(signUpCountCircle)
                 }
@@ -2846,7 +2854,7 @@ class MapViewController: UIViewController {
             title = "是否要報名聚會？"
             message =
             "確認後將與" + inviterName + "一同報名《" + annotationName + "》聚會\n\n" +
-            "報名將交由聚會舉辦人審核，若審核通過後將無法取消。"
+            "報名將交由聚會舉辦人抽卡，若被抽出後，將無法取消參加。"
             toastText = "成功加入報名"
         }
         
@@ -3005,27 +3013,41 @@ class MapViewController: UIViewController {
     
     @objc func signUpBtnAct() {
         
-        var message = "報名將交由聚會舉辦人審核，若審核通過後將無法取消。"
-        if(currentSharedSeatAnnotation!.mode == 2){
-            message = "報名將交由聚會舉辦人審核，若審核通過後將無法取消。 \n\n 注意：2對2模式，需要將邀請碼交給朋友，一同組隊報名（按地圖下方的＋號加入組隊），若在審核期限前朋友沒有使用邀請碼加入組隊，則此次報名無效。"
-        }
         
-        let alertVC = SSAlertController(title: "確定要報名嗎?", message: message)
-        alertVC.addAction(SSPopoverAction(title: "取消", style: .cancel, handler: { _ in
-            alertVC.dismiss(animated: true)
-        }))
-        alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+//        if(){
+//            ParticipantsViewController
+//        }
+        
+        if(currentSharedSeatAnnotation!.holderUID == UserSetting.UID){
             
-            if(self?.currentSharedSeatAnnotation!.mode == 1){
-                self?.signUpToCurrentSharedSeatAnnotation()
+            if (signUpCountCircle.titleLabel?.text ?? "0" == "0"){
+                showToast(message: "目前卡池中尚未有報名者")
             }else{
-                self?.findValidInvitationCode()
+                viewDelegate?.gotoRegistrationList(sharedSeatAnnotation: currentSharedSeatAnnotation!)
+            }
+        }else{
+            var message = "報名將交由聚會舉辦人抽卡，若被抽出後，將無法取消參加。"
+            if(currentSharedSeatAnnotation!.mode == 2){
+                message = "報名將交由聚會舉辦人抽卡，若被抽出後，將無法取消參加。 \n\n 注意：2對2模式，需要將邀請碼交給朋友，一同組隊報名（按地圖下方的＋號加入組隊），若在抽卡期限前朋友沒有使用邀請碼一同組隊加入卡池，則此次報名無效。"
             }
             
-            
-            alertVC.dismiss(animated: true)
-        }))
-        self.present(alertVC, animated: true)
+            let alertVC = SSAlertController(title: "確定要報名嗎?", message: message)
+            alertVC.addAction(SSPopoverAction(title: "取消", style: .cancel, handler: { _ in
+                alertVC.dismiss(animated: true)
+            }))
+            alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+                
+                if(self?.currentSharedSeatAnnotation!.mode == 1){
+                    self?.signUpToCurrentSharedSeatAnnotation()
+                }else{
+                    self?.findValidInvitationCode()
+                }
+                
+                
+                alertVC.dismiss(animated: true)
+            }))
+            self.present(alertVC, animated: true)
+        }
     }
     
     @objc func addressBtnAct(){
