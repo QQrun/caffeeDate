@@ -22,6 +22,9 @@ class DrawCardViewController: UIViewController {
     var drawForwardBtn = UIButton()
     var confirmBtn = UIButton()
     
+    var select1 = "" //選到的第一人ID
+    var select2 = "" //選到的第二人ID
+    
     init(sharedSeatAnnotation:SharedSeatAnnotation){
         self.sharedSeatAnnotation = sharedSeatAnnotation
         super.init(nibName: nil, bundle: nil)
@@ -80,9 +83,6 @@ class DrawCardViewController: UIViewController {
     }
     
     private func drawCard(){
-        
-        var select1 = ""
-        var select2 = ""
         
         if(sharedSeatAnnotation.mode == 1){ //1v1模式抽卡
             var signUpID : [String : String] = [:]
@@ -164,6 +164,20 @@ class DrawCardViewController: UIViewController {
     
     @objc private func confirmBtnAct(){
         print("確認！")
+        
+        if(sharedSeatAnnotation.mode == 1){
+            if select1 != ""{
+                //上傳
+                
+                //聊天室
+            }
+        }else{
+            if select1 != "" && select2 != ""{
+                
+            }
+        }
+        
+        
     }
     
     @objc private func gobackBtnAct(){

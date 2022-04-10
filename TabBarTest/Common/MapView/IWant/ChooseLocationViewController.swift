@@ -208,11 +208,7 @@ class ChooseLocationViewController: UIViewController{
     
     
     @objc private func finishBtnAct(){
-        
-        print("finishBtnAct")
-        
         holdShareSeatViewController.mapItem = selectedMapItem
-        
         self.navigationController?.popViewController(animated: true)
     }
     
@@ -229,7 +225,7 @@ extension ChooseLocationViewController: SearchInputViewDelegate{
    
     func selectedAnnotation(withMapItem mapItem: MKMapItem) {
         mapView.annotations.forEach { (annotation) in
-            if annotation.title == mapItem.name {
+            if annotation.coordinate.latitude == mapItem.placemark.coordinate.latitude && annotation.coordinate.longitude == mapItem.placemark.coordinate.longitude{
                 self.mapView.selectAnnotation(annotation, animated: true)
                 self.zoomToFit(selectedAnnotation: annotation)
                 self.selectedAnnotation = annotation
@@ -257,8 +253,6 @@ extension ChooseLocationViewController: SearchInputViewDelegate{
                 annotation.title = mapItem.name
                 annotation.coordinate = mapItem.placemark.coordinate
 
-                print(mapItem.name)
-                
                 if(mapItem.placemark.country == "台灣" || mapItem.placemark.country == "台湾"){
                     self.mapView.addAnnotation(annotation)
                     self.searchInputView.searchResults?.append(mapItem)

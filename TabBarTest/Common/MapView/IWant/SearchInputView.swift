@@ -152,20 +152,7 @@ extension SearchInputView : UITableViewDelegate,UITableViewDataSource{
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         guard var searchResults = searchResults else { return }
         let selectedMapItem = searchResults[indexPath.row]
-
         delegate?.selectedAnnotation(withMapItem: selectedMapItem)
-
-//        searchResults.remove(at: indexPath.row)
-//        searchResults.insert(selectedMapItem, at: 0)
-//        self.searchResults = searchResults
-//
-//        let firstIndexPath = IndexPath(row: 0, section: 0)
-
-//        let cell = tableView.cellForRow(at: indexPath) as! SearchLocationCell
-//        cell.backgroundColor = UIColor.primary().withAlphaComponent(0.3)
-//        cell.animateButtonIn()
-//        delegate?.addPolyline(forDestinationMapItem: selectedMapItem)
-
     }
 
     

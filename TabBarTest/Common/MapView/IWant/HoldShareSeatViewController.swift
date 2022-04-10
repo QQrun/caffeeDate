@@ -44,6 +44,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     var restaurantNameTextField : UITextField!
     var restaurantNameTextFieldCountLabel = UILabel()
     let restaurantNameTextFieldDelegate = WordLimitUITextFieldDelegate()
+    var restaurantNameBtn = UIButton()
     
     var isPhotosAlreadyDownload : [Bool] = [] //這個為了處理WantAddPhotoTableViewCell的deleteIcon隨著loadingView浮現的問題
     
@@ -159,6 +160,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             label.font = UIFont(name: "HelveticaNeue", size: 14)
             label.textAlignment = .right
             label.frame = CGRect(x:view.frame.width - 15 - 26, y: separator1.frame.origin.y - label.intrinsicContentSize.height - 7, width: 26, height: label.intrinsicContentSize.height)
+            label.isHidden = true
             return label
         }()
         scrollView.addSubview(restaurantNameTextFieldCountLabel)
@@ -169,13 +171,14 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             textField.frame = CGRect(x:20, y: separator1.frame.origin.y + separator1.frame.height, width: view.frame.width - 20 * 2, height: 60)
             
             textField.attributedPlaceholder = NSAttributedString(string:
-                                                                    " 在這寫下餐廳名稱 ", attributes:
+                                                                    " 點擊尋找餐廳 ", attributes:
                                                                     [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
             
             textField.clearButtonMode = .whileEditing
             textField.returnKeyType = .done
             textField.textColor = .on()
             textField.font = UIFont(name: "HelveticaNeue-Light", size: 16)
+            textField.isEnabled = false
             textField.backgroundColor = .clear
             restaurantNameTextFieldDelegate.wordLimit = restaurantNameWordLimit
             restaurantNameTextFieldDelegate.wordLimitLabel = restaurantNameTextFieldCountLabel
@@ -184,6 +187,15 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             return textField
         }()
         scrollView.addSubview(restaurantNameTextField)
+        
+        
+        restaurantNameBtn = { () -> UIButton in
+            let btn = UIButton()
+            btn.frame = CGRect(x:20, y: separator1.frame.origin.y + separator1.frame.height, width: view.frame.width - 20 * 2, height: 60)
+            btn.addTarget(self, action: #selector(restaurantSelectAct), for: .touchUpInside)
+            return btn
+        }()
+        scrollView.addSubview(restaurantNameBtn)
         
         let separator2 = { () -> UIView in
             let separator = UIView()
@@ -211,7 +223,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             textField.frame = CGRect(x:20, y: separator2.frame.origin.y + separator2.frame.height, width: view.frame.width - 20 * 2, height: 60)
             
             textField.attributedPlaceholder = NSAttributedString(string:
-                                                                    " 點擊選擇地點 ", attributes:
+                                                                    " 點擊尋找餐廳 ", attributes:
                                                                     [NSAttributedString.Key.foregroundColor:UIColor.on().withAlphaComponent(0.5)])
             
             textField.textColor = .on()
@@ -225,7 +237,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         addressSelectBtn = { () -> UIButton in
             let btn = UIButton()
             btn.frame = CGRect(x:20, y: separator2.frame.origin.y + separator2.frame.height, width: view.frame.width - 20 * 2, height: 60)
-            btn.addTarget(self, action: #selector(addressSelectBtnAct), for: .touchUpInside)
+            btn.addTarget(self, action: #selector(restaurantSelectAct), for: .touchUpInside)
             return btn
         }()
         scrollView.addSubview(addressSelectBtn)
@@ -715,9 +727,14 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
     }
     
     func setLocation(){
-        if let thoroughfare = mapItem?.placemark.thoroughfare , let subThoroughfare = mapItem?.placemark.subThoroughfare{
+        if let thoroughfare = mapItem?.placemark.thoroughfare ,
+            let subThoroughfare = mapItem?.placemark.subThoroughfare,
+            let name = mapItem?.name
+        {
+            restaurantNameTextField.text = name
             addressHint.text = thoroughfare + subThoroughfare + "號"
             checkCanPublishOrNot(isPressPublish: false)
+
         }
     }
     
@@ -788,7 +805,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         twoToTwoBtn_hasTwo.setTitleColor(.primary().withAlphaComponent(0.5), for: .normal)
     }
     
-    @objc private func addressSelectBtnAct(){
+    @objc private func restaurantSelectAct(){
         print("addressSelectBtnAct")
         viewDelegate?.gotoChooseLocationView(holdShareSeatViewController: self)
     }
