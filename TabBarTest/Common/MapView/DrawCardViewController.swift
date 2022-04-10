@@ -9,6 +9,7 @@
 import UIKit
 import Alamofire
 import Firebase
+import MapKit
 
 class DrawCardViewController: UIViewController {
     
@@ -100,7 +101,6 @@ class DrawCardViewController: UIViewController {
                 i += 1
             }
             
-            print(select1)
             let ref = Database.database().reference().child("PersonDetail/" + "\(select1)")
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
@@ -134,8 +134,6 @@ class DrawCardViewController: UIViewController {
                 }
                 i += 1
             }
-            print(select1)
-            print(select2)
             
             let ref = Database.database().reference().child("PersonDetail/" + "\(select1)")
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
@@ -154,11 +152,11 @@ class DrawCardViewController: UIViewController {
             
             
             
-            drawBackBtn.alpha = 1
-            confirmBtn.alpha = 1
-            drawCardBtn.setTitle("重抽", for: .normal)
         }
-
+        
+        drawBackBtn.alpha = 1
+        confirmBtn.alpha = 1
+        drawCardBtn.setTitle("重抽", for: .normal)
         
     }
     
@@ -168,8 +166,34 @@ class DrawCardViewController: UIViewController {
         if(sharedSeatAnnotation.mode == 1){
             if select1 != ""{
                 //上傳
-                
-                //聊天室
+                var updateGender = ""
+                if(UserSetting.userGender == 0){
+                    updateGender = "boysID"
+                }else{
+                    updateGender = "girlsID"
+                }
+                let ref = Database.database().reference().child("SharedSeatAnnotation/" + sharedSeatAnnotation.holderUID + "/" + updateGender + "/" + select1)
+                ref.setValue("-"){ (error, ref) -> Void in
+                    if error != nil{
+                        print(error ?? "上傳參加者失敗")
+                    }
+                    //本地端修改
+                    if(UserSetting.userGender == 0){
+                        self.sharedSeatAnnotation.boysID = [:]
+                        self.sharedSeatAnnotation.boysID![self.select1] = "-"
+                    }else{
+                        self.sharedSeatAnnotation.girlsID = [:]
+                        self.sharedSeatAnnotation.girlsID![self.select1] = "-"
+                    }
+                    //開啟聊天室
+                    
+                    //退出然後刷新selectAnnotation
+                    self.navigationController?.popViewController(animated: true)
+                    self.navigationController?.popViewController(animated: true)
+                    CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.deselectAnnotation(nil, animated: false)
+                    let currentSharedSeatAnnotation = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.currentSharedSeatAnnotation
+                    CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.selectAnnotation(currentSharedSeatAnnotation as! MKAnnotation, animated: false)
+                }
             }
         }else{
             if select1 != "" && select2 != ""{
@@ -185,7 +209,7 @@ class DrawCardViewController: UIViewController {
     }
     
     @objc private func drawCardBtnAct(){
-        print("抽卡！！！")
+        
         selectedName.text = ""
         drawCard()
         

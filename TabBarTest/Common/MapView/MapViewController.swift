@@ -1174,20 +1174,26 @@ class MapViewController: UIViewController {
         signUpBtn.frame = CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 7, width: 120, height: 36)
         signUpBtn.type = .filled
         if(sharedSeatAnnotation.holderUID == UserSetting.UID){
-            signUpBtn.setTitle("抽出參加者", for: .normal)
-            signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
             
-            let cancelBtn = UIButton()
-            cancelBtn.frame = CGRect(x: restaurantPhoto.frame.origin.x + restaurantPhoto.frame.width/2 - 40, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.height/2 - 12, width: 80, height: 24)
-            cancelBtn.setTitle("取消聚會", for: .normal)
-            cancelBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
-            cancelBtn.setTitleColor(.white, for: .normal)
-            cancelBtn.backgroundColor = .error
-            cancelBtn.layer.cornerRadius = 4
-            cancelBtn.addTarget(self, action: #selector(cancelSharedSeatBtnAct), for: .touchUpInside)
-            bulletinBoard_SharedSeat.addSubview(cancelBtn)
-            
-            
+            if(UserSetting.userGender == 0 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
+                signUpBtn.setTitle("去聊天室", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+            }else if (UserSetting.userGender == 1 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
+                signUpBtn.setTitle("去聊天室", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+            }else{
+                signUpBtn.setTitle("抽出參加者", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
+                let cancelBtn = UIButton()
+                cancelBtn.frame = CGRect(x: restaurantPhoto.frame.origin.x + restaurantPhoto.frame.width/2 - 40, y: restaurantPhoto.frame.origin.y + restaurantPhoto.frame.height/2 - 12, width: 80, height: 24)
+                cancelBtn.setTitle("取消聚會", for: .normal)
+                cancelBtn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 12)
+                cancelBtn.setTitleColor(.white, for: .normal)
+                cancelBtn.backgroundColor = .error
+                cancelBtn.layer.cornerRadius = 4
+                cancelBtn.addTarget(self, action: #selector(cancelSharedSeatBtnAct), for: .touchUpInside)
+                bulletinBoard_SharedSeat.addSubview(cancelBtn)
+            }
         }else{
             
             if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
@@ -1288,25 +1294,6 @@ class MapViewController: UIViewController {
             
             signUpBtn.frame = CGRect(x: boyPhoto2.frame.origin.x, y: boyPhoto2.frame.origin.y + boyPhoto2.frame.height + 7, width: 120, height: 36)
             
-            if(sharedSeatAnnotation.holderUID == UserSetting.UID){
-                var signUpCount = 0
-                signUpCount += sharedSeatAnnotation.signUpBoysID?.count ?? 0
-                signUpCount += sharedSeatAnnotation.signUpGirlsID?.count ?? 0
-                if(signUpCount != 0){
-                    signUpCountCircle = UIButton(frame:CGRect(x: signUpBtn.frame.origin.x + signUpBtn.frame.width - 10, y: signUpBtn.frame.origin.y - 4, width: 14, height: 14))
-                    signUpCountCircle.titleLabel?.font = signUpCountCircle.titleLabel?.font.withSize(12)
-                    signUpCountCircle.backgroundColor = .sksPink()
-                    signUpCountCircle.layer.cornerRadius = 7
-                    
-                    if(sharedSeatAnnotation.mode == 2){
-                        signUpCount = Int(signUpCount/2)
-                    }
-                    
-                    signUpCountCircle.setTitle("\(signUpCount)", for: .normal)
-                    bulletinBoard_SharedSeat.addSubview(signUpCountCircle)
-                }
-            }
-            
             if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
                 for(UID,InvitationCode) in sharedSeatAnnotation.signUpBoysID!{
                     if(UID == UserSetting.UID && InvitationCode != "-" && !InvitationCode.contains("#")){
@@ -1326,6 +1313,30 @@ class MapViewController: UIViewController {
             
         }
         
+        if(UserSetting.userGender == 0 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
+            return
+        }else if(UserSetting.userGender == 1 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
+            return
+        }
+        
+        if(sharedSeatAnnotation.holderUID == UserSetting.UID){
+            var signUpCount = 0
+            signUpCount += sharedSeatAnnotation.signUpBoysID?.count ?? 0
+            signUpCount += sharedSeatAnnotation.signUpGirlsID?.count ?? 0
+            if(signUpCount != 0){
+                signUpCountCircle = UIButton(frame:CGRect(x: signUpBtn.frame.origin.x + signUpBtn.frame.width - 10, y: signUpBtn.frame.origin.y - 4, width: 14, height: 14))
+                signUpCountCircle.titleLabel?.font = signUpCountCircle.titleLabel?.font.withSize(12)
+                signUpCountCircle.backgroundColor = .sksPink()
+                signUpCountCircle.layer.cornerRadius = 7
+                
+                if(sharedSeatAnnotation.mode == 2){
+                    signUpCount = Int(signUpCount/2)
+                }
+                
+                signUpCountCircle.setTitle("\(signUpCount)", for: .normal)
+                bulletinBoard_SharedSeat.addSubview(signUpCountCircle)
+            }
+        }
         
         
     }
@@ -3010,10 +3021,44 @@ class MapViewController: UIViewController {
         self.present(alertVC, animated: true)
     }
     
+    @objc func goSharedSeatChatroomAct(){
+        
+        Analytics.logEvent("相席_前往相席聊天室", parameters:nil)
+        print("相席_前往相席聊天室")
+        if(currentSharedSeatAnnotation!.mode == 1){
+            var joinedID = ""
+            if(UserSetting.userGender == 0){
+                for(UID,InvitationCode) in currentSharedSeatAnnotation!.boysID!{
+                    joinedID = UID
+                }
+            }else{
+                for(UID,InvitationCode) in currentSharedSeatAnnotation!.girlsID!{
+                    joinedID = UID
+                }
+            }
+            let sortedIDs = [UserSetting.UID,joinedID].sorted()
+            let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
+            
+            let ref = Database.database().reference().child("PersonDetail/" + "\(joinedID)")
+            ref.observeSingleEvent(of: .value, with: {(snapshot) in
+                let personInfo = PersonDetailInfo(snapshot: snapshot)
+                let rootCoordinator = CoordinatorAndControllerInstanceHelper.rootCoordinator
+                rootCoordinator?.gotoOneToOneChatRoom(chatroomID: chatroomID, personInfo: personInfo, animated: false)
+            })
+            
+            
+        }else{
+            //TODO
+            
+        }
+        
+        
+    }
+    
     
     @objc func signUpBtnAct() {
         
-        
+        Analytics.logEvent("相席_報名相席", parameters:nil)
 //        if(){
 //            ParticipantsViewController
 //        }
@@ -3143,6 +3188,8 @@ class MapViewController: UIViewController {
     
     
     @objc func cancelSignUpBtnAct(_ sender: UIButton){
+        
+        Analytics.logEvent("相席_取消報名相席", parameters:nil)
         
         var message = ""
         if(currentSharedSeatAnnotation!.mode == 2){

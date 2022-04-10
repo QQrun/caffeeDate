@@ -245,7 +245,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         
         let reviewTimeLabel = { () -> UILabel in
             let label = UILabel()
-            label.text = "最晚審核時間"
+            label.text = "最晚抽出參加者時間"
             label.textColor = .on().withAlphaComponent(0.9)
             label.font = UIFont(name: "HelveticaNeue-bold", size: 16)
             label.frame = CGRect(x: 16, y: separator2.frame.origin.y + 120 - label.intrinsicContentSize.height - 7, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
@@ -517,7 +517,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         if(reviewTimeBtn.titleLabel?.text == "-"){
             publishBtn.alpha = 0.25
             if(isPressPublish){
-                self.showToast(message: "請選擇最晚審核時間", font: .systemFont(ofSize: 14.0))
+                self.showToast(message: "請選擇最晚抽出參加者時間", font: .systemFont(ofSize: 14.0))
             }
             return
         }
@@ -533,7 +533,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
         if reviewTime >= dateTime {
             publishBtn.alpha = 0.25
             if(isPressPublish){
-                self.showToast(message: "最晚審核時間必須在聚會開始前", font: .systemFont(ofSize: 14.0))
+                self.showToast(message: "最晚抽出參加者時間必須在聚會開始前", font: .systemFont(ofSize: 14.0))
             }
             return
         }
