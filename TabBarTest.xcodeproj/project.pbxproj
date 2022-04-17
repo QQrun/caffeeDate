@@ -429,6 +429,8 @@
 		A7CB15A424A8B96A00FDBC12 /* MailListTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A7CB15A224A8B96A00FDBC12 /* MailListTableViewCell.xib */; };
 		A7CB15A724A8C01B00FDBC12 /* MailListViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7CB15A524A8C01B00FDBC12 /* MailListViewController.storyboard */; };
 		A7CB15A824A8C01B00FDBC12 /* MailListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CB15A624A8C01B00FDBC12 /* MailListViewController.swift */; };
+		A7CEE5FA280AA77900DFAE86 /* RegistrationListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CEE5F8280AA77900DFAE86 /* RegistrationListViewCell.swift */; };
+		A7CEE5FB280AA77900DFAE86 /* RegistrationListViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7CEE5F8280AA77900DFAE86 /* RegistrationListViewCell.swift */; };
 		A7D30965251C5415005CBA08 /* PostNotifcation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D30964251C5415005CBA08 /* PostNotifcation.swift */; };
 		A7D3096D251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */; };
 		A7E64C7C2801BE9600630494 /* RegistrationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */; };
@@ -666,6 +668,7 @@
 		A7CB15A224A8B96A00FDBC12 /* MailListTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = MailListTableViewCell.xib; sourceTree = "<group>"; };
 		A7CB15A524A8C01B00FDBC12 /* MailListViewController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = MailListViewController.storyboard; sourceTree = "<group>"; };
 		A7CB15A624A8C01B00FDBC12 /* MailListViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MailListViewController.swift; sourceTree = "<group>"; };
+		A7CEE5F8280AA77900DFAE86 /* RegistrationListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationListViewCell.swift; sourceTree = "<group>"; };
 		A7D30964251C5415005CBA08 /* PostNotifcation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotifcation.swift; sourceTree = "<group>"; };
 		A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyCenterViewControllerModel.swift; sourceTree = "<group>"; };
 		A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationListViewController.swift; sourceTree = "<group>"; };
@@ -1105,6 +1108,7 @@
 				A75A3DF924444B1C00E43D46 /* PhotoTableViewDelegate.swift */,
 				A789E47F2449AFB200730053 /* BigItemTableViewCell.swift */,
 				A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */,
+				A7CEE5F8280AA77900DFAE86 /* RegistrationListViewCell.swift */,
 			);
 			path = CustomTableView;
 			sourceTree = "<group>";
@@ -1525,6 +1529,7 @@
 				A77BAD4C253C7D190071D346 /* InputItem.swift in Sources */,
 				A7110575243BBE4E008E680D /* RootTabBarController.swift in Sources */,
 				A77BAD4B253C7D190071D346 /* AutocompleteManagerDelegate.swift in Sources */,
+				A7CEE5FA280AA77900DFAE86 /* RegistrationListViewCell.swift in Sources */,
 				A77BAB7B253C75DF0071D346 /* UIImage+Extensions.swift in Sources */,
 				A787C39E27C327FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */,
 				A77BAC1B253C77110071D346 /* MediaMessageCell.swift in Sources */,
@@ -1730,6 +1735,7 @@
 				A787C2DE27C0F284009EC8A7 /* RootTabBarController.swift in Sources */,
 				A787C2DF27C0F284009EC8A7 /* AutocompleteManagerDelegate.swift in Sources */,
 				A787C2E027C0F284009EC8A7 /* UIImage+Extensions.swift in Sources */,
+				A7CEE5FB280AA77900DFAE86 /* RegistrationListViewCell.swift in Sources */,
 				A787C39F27C328FF009EC8A7 /* HoldShareSeatViewController.swift in Sources */,
 				A787C2E127C0F284009EC8A7 /* MediaMessageCell.swift in Sources */,
 				A787C2E227C0F284009EC8A7 /* InputBarAccessoryView+Availability.swift in Sources */,

@@ -62,8 +62,8 @@ class MapViewController: UIViewController {
     let iWantActionSheetContainer = UIButton() //我想⋯⋯開店、徵求、揪團btn的容器
     
     
-    let smallIconActiveColor = UIColor.sksBlue()
-    let smallIconUnactiveColor = UIColor.sksBlue().withAlphaComponent(0.2)
+    let smallIconActiveColor = UIColor.primary()
+    let smallIconUnactiveColor = UIColor.primary().withAlphaComponent(0.2)
     var bulletinBoardExpansionState: BulletinBoardExpansionState = .NotExpanded
     var actionSheetExpansionState: ActionSheetExpansionState = .NotExpanded
     
@@ -2052,7 +2052,7 @@ class MapViewController: UIViewController {
         
         
         showSharedSeat2Button.frame = CGRect(x: 124, y: 25 + 44 + 6, width: 44, height: 44)
-        let showSharedSeat2ButtonImg = UIImage(named: "2人相席")
+        let showSharedSeat2ButtonImg = UIImage(named: "兩人相席")
         let showSharedSeat2ButtonImg_tint = showSharedSeat2ButtonImg?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowSharedSeat2{
             showSharedSeat2Button.tintColor = smallIconActiveColor
@@ -2065,7 +2065,7 @@ class MapViewController: UIViewController {
         exclamationPopUpContainerView.addSubview(showSharedSeat2Button)
         
         showSharedSeat4Button.frame = CGRect(x: 183, y: 25 + 44 + 6, width: 44, height: 44)
-        let showSharedSeat4ButtonImg = UIImage(named: "4人相席")
+        let showSharedSeat4ButtonImg = UIImage(named: "四人相席")
         let showSharedSeat4ButtonImg_tint = showSharedSeat4ButtonImg?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowSharedSeat4{
             showSharedSeat4Button.tintColor = smallIconActiveColor
@@ -2087,7 +2087,7 @@ class MapViewController: UIViewController {
         
         let circleButton_add: UIButton = UIButton()
         circleButton_add.setImage(UIImage(named: "icons24PlusFilledWt24"), for: .normal)
-        circleButton_add.backgroundColor = .primary()
+        circleButton_add.backgroundColor = .addColor(.black * 0.2, with: .primary() * 0.8)
         circleButton_add.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         circleButton_add.layer.cornerRadius = 26
         circleButton_add.layer.shadowRadius = 2
@@ -2211,13 +2211,14 @@ class MapViewController: UIViewController {
         view.addSubview(unreadNotiCountCircle)
         
         circleButton_mySharedSeat = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 96 + 48, width: 32, height: 32))
-        circleButton_mySharedSeat.backgroundColor = .sksWhite()
-        let mySharedSeatImage = UIImage(named: "4人相席")
+        circleButton_mySharedSeat.backgroundColor = .primary()
+        let mySharedSeatImage = UIImage(named: "兩人相席")?.withRenderingMode(.alwaysTemplate)
         circleButton_mySharedSeat.layer.cornerRadius = 16
         circleButton_mySharedSeat.layer.shadowRadius = 2
         circleButton_mySharedSeat.layer.shadowOffset = CGSize(width: 2, height: 2)
         circleButton_mySharedSeat.layer.shadowOpacity = 0.3
         circleButton_mySharedSeat.setImage(mySharedSeatImage, for: [])
+        circleButton_mySharedSeat.tintColor = .sksWhite()
         circleButton_mySharedSeat.isEnabled = true
         circleButton_mySharedSeat.isHidden = true
         view.addSubview(circleButton_mySharedSeat)
@@ -3731,9 +3732,11 @@ extension MapViewController: MKMapViewDelegate {
             mkMarker?.viewWithTag(1)?.removeFromSuperview()
             
             if((annotation as! SharedSeatAnnotation).mode == 1){
-                mkMarker?.glyphImage = UIImage(named: "2人相席")
+                mkMarker?.glyphImage = UIImage(named: "兩人相席")
+                
             }else if((annotation as! SharedSeatAnnotation).mode > 1){
-                mkMarker?.glyphImage = UIImage(named: "4人相席")
+                mkMarker?.glyphImage = UIImage(named: "四人相席")
+                
             }
         }
         

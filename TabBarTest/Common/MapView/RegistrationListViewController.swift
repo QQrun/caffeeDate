@@ -53,10 +53,10 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
         registrationListTableView.dataSource = self
         registrationListTableView.isScrollEnabled = true
         registrationListTableView.bounces = false
-        registrationListTableView.rowHeight = 104
+        registrationListTableView.rowHeight = 80
         registrationListTableView.backgroundColor = .clear
         registrationListTableView.separatorColor = .clear
-        registrationListTableView.register(UINib(nibName: "MailListTableViewCell", bundle: nil), forCellReuseIdentifier: "mailListTableViewCell")
+        registrationListTableView.register(RegistrationListViewCell.self, forCellReuseIdentifier: "registrationListViewCell")
         
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
@@ -84,15 +84,9 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
     
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        let cell = tableView.dequeueReusableCell(withIdentifier: "mailListTableViewCell", for: indexPath) as! MailListTableViewCell
         
-        cell.name.textColor = .on().withAlphaComponent(0.9)
-        cell.age.textColor = .on().withAlphaComponent(0.9)
-        cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
-        cell.time.textColor = .on().withAlphaComponent(0.5)
-        cell.time.text = "評價：4.3(32人)"
-        cell.shopName.textColor = .clear
-        cell.arrowIcon.tintColor = .clear
+        let cell = tableView.dequeueReusableCell(withIdentifier: "registrationListViewCell", for: indexPath) as! RegistrationListViewCell
+        
         
         if(UserSetting.userGender == 0){
             var i = 0
@@ -101,24 +95,14 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
                     let ref = Database.database().reference().child("PersonDetail/" + "\(UID)")
                     ref.observeSingleEvent(of: .value, with: {(snapshot) in
                         let personInfo = PersonDetailInfo(snapshot: snapshot)
-                        cell.name.text = personInfo.name
                         let birthdayFormatter = DateFormatter()
                         birthdayFormatter.dateFormat = "yyyy/MM/dd"
                         let currentTime = Date()
                         let birthDayDate = birthdayFormatter.date(from: personInfo.birthday)
                         let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
                         if age != 0 {
-                            cell.age.text = "\(age)"
+                            cell.setContent(UID: UID, gender: .Boy, name: personInfo.name, age: String(age), selfIntroduction: personInfo.selfIntroduction, evaluation: "3.2 (23人)")
                         }
-                        cell.lastMessage.text = personInfo.selfIntroduction
-                        
-                        AF.request(personInfo.headShot!).response { (response) in
-                            guard let data = response.data, let image = UIImage(data: data)
-                            else { return }
-                            cell.headShot.image = image
-                        }
-                        
-                        self.personDetails.append(personInfo)
                     })
                 }
                 i += 1
@@ -130,24 +114,14 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
                     let ref = Database.database().reference().child("PersonDetail/" + "\(UID)")
                     ref.observeSingleEvent(of: .value, with: {(snapshot) in
                         let personInfo = PersonDetailInfo(snapshot: snapshot)
-                        cell.name.text = personInfo.name
                         let birthdayFormatter = DateFormatter()
                         birthdayFormatter.dateFormat = "yyyy/MM/dd"
                         let currentTime = Date()
                         let birthDayDate = birthdayFormatter.date(from: personInfo.birthday)
                         let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
                         if age != 0 {
-                            cell.age.text = "\(age)"
+                            cell.setContent(UID: UID, gender: .Girl, name: personInfo.name, age: String(age), selfIntroduction: personInfo.selfIntroduction, evaluation: "3.2 (23人)")
                         }
-                        cell.lastMessage.text = personInfo.selfIntroduction
-                        
-                        AF.request(personInfo.headShot!).response { (response) in
-                            guard let data = response.data, let image = UIImage(data: data)
-                            else { return }
-                            cell.headShot.image = image
-                        }
-                        
-                        self.personDetails.append(personInfo)
                     })
                 }
                 i += 1
