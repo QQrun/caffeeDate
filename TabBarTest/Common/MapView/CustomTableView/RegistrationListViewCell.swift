@@ -11,6 +11,8 @@ import UIKit
 class RegistrationListViewCell: UITableViewCell {
     
     
+    var headshot : ProfilePhoto? = nil
+    
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
@@ -22,9 +24,9 @@ class RegistrationListViewCell: UITableViewCell {
         if(gender == .Girl){
             tintColor = .sksPink()
         }
-        let headshot = ProfilePhoto(frame: CGRect(x: 8, y: 8, width: 60, height: 60), gender: gender, tintColor: tintColor)
-        headshot.setUID(UID: UID)
-        addSubview(headshot)
+        headshot = ProfilePhoto(frame: CGRect(x: 8, y: 8, width: 60, height: 60), gender: gender, tintColor: tintColor)
+        headshot?.setUID(UID: UID)
+        addSubview(headshot!)
         
         let nameLabel = { () -> UILabel in
             let label = UILabel()
@@ -79,14 +81,14 @@ class RegistrationListViewCell: UITableViewCell {
         }()
         addSubview(evaluationLabel)
         
-        let star = UIImageView(frame: CGRect(x: evaluationLabel.frame.origin.x - 16 - 4, y: evaluationLabel.frame.origin.y + 2, width: 16, height: 14.4))
+        let star = UIImageView(frame: CGRect(x: evaluationLabel.frame.origin.x - 16 - 4, y: evaluationLabel.frame.origin.y + 1, width: 16, height: 14.4))
         star.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
-        star.tintColor = .sksIndigo()
+        star.tintColor = UIColor.hexStringToUIColor(hex: "#FBBC05")
         addSubview(star)
         
         let seperator = UIView()
         seperator.frame = CGRect(x: 0, y: frame.height - 1, width: frame.width, height: 1)
-        seperator.backgroundColor = .on().withAlphaComponent(0.16)
+        seperator.backgroundColor = .on().withAlphaComponent(0.08)
         addSubview(seperator)
         
     }
@@ -99,7 +101,14 @@ class RegistrationListViewCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
         
+        
+        print("setSelected 1")
+        
         // Configure the view for the selected state
+    }
+    
+    func goProfile(){
+        headshot?.profileBtn?.goProfileBtnAct_ByUID()
     }
     
 }

@@ -20,8 +20,8 @@ class DrawCardViewController: UIViewController {
     var selectedName = UILabel()
     var drawBackBtn = UIButton()
     var drawCardBtn = UIButton()
+    var loveCardBtn = UIButton()
     var drawForwardBtn = UIButton()
-    var confirmBtn = UIButton()
     
     var select1 = "" //選到的第一人ID
     var select2 = "" //選到的第二人ID
@@ -40,16 +40,11 @@ class DrawCardViewController: UIViewController {
         
         view.backgroundColor = .surface()
         
-        customTopBarKit.CreatTopBar(view: view,showSeparator:true)
-        customTopBarKit.CreatDoSomeThingTextBtn(text: "確認")
-        customTopBarKit.CreatCenterTitle(text: "抽卡頁面")
+        customTopBarKit.CreatTopBar(view: view,showSeparator:true,considerSafeAreaInsets: false)
+        customTopBarKit.CreatCenterTitle(text: "隨機抽卡")
         
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
-        
-        confirmBtn = customTopBarKit.getDoSomeThingBtn()
-        confirmBtn.alpha = 0.3
-        confirmBtn.addTarget(self, action: #selector(confirmBtnAct), for: .touchUpInside)
         
         selectedName = UILabel()
         selectedName.text = "😄😄😄"
@@ -59,26 +54,30 @@ class DrawCardViewController: UIViewController {
         selectedName.frame = CGRect(x: 0, y: view.frame.height/2 - selectedName.intrinsicContentSize.height/2, width: view.frame.width, height: selectedName.intrinsicContentSize.height)
         view.addSubview(selectedName)
         
+        
+        
         drawBackBtn = UIButton()
-        drawBackBtn.frame = CGRect(x: view.frame.width/2 - 120 - 30, y: selectedName.frame.origin.y + 80, width: 60, height: 40)
-        drawBackBtn.setTitle("上一個", for: .normal)
-        drawBackBtn.setTitleColor(.primary(), for: .normal)
+        drawBackBtn.frame = CGRect(x: view.frame.width/8 - 25, y: view.frame.height - 125 - 50, width: 50, height: 50)
+        drawBackBtn.setImage(UIImage(named: "arrow_left_black_36dp"), for: .normal)
         drawBackBtn.alpha = 0.3
         view.addSubview(drawBackBtn)
         
-        
         drawCardBtn = UIButton()
-        drawCardBtn.frame = CGRect(x: view.frame.width/2 - 30, y: selectedName.frame.origin.y + 80, width: 60, height: 40)
-        drawCardBtn.setTitle("抽卡", for: .normal)
-        drawCardBtn.setTitleColor(.primary(), for: .normal)
+        drawCardBtn.frame = CGRect(x: (view.frame.width/8) * 3 - 30, y: view.frame.height - 125 - 55, width: 60, height: 60)
+        drawCardBtn.setImage(UIImage(named: "random_card_36dp"), for: .normal)
         drawCardBtn.addTarget(self, action: #selector(drawCardBtnAct), for: .touchUpInside)
         view.addSubview(drawCardBtn)
         
+        loveCardBtn = UIButton()
+        loveCardBtn.frame = CGRect(x: (view.frame.width/8) * 5 - 30, y: view.frame.height - 125 - 55, width: 60, height: 60)
+        loveCardBtn.setImage(UIImage(named: "love_card_36dp"), for: .normal)
+        loveCardBtn.addTarget(self, action: #selector(confirmBtnAct), for: .touchUpInside)
+        loveCardBtn.alpha = 0.3
+        view.addSubview(loveCardBtn)
+        
         drawForwardBtn = UIButton()
-        drawForwardBtn.frame = CGRect(x: view.frame.width/2 + 120 - 30, y: selectedName.frame.origin.y + 80, width: 60, height: 40)
-        drawForwardBtn.setTitle("下一個", for: .normal)
-        drawForwardBtn.setTitleColor(.primary(), for: .normal)
-        drawForwardBtn.alpha = 0.3
+        drawForwardBtn.frame = CGRect(x: (view.frame.width/8) * 7 - 25, y: view.frame.height - 125 - 50, width: 50, height: 50)
+        drawForwardBtn.setImage(UIImage(named: "arrow_right_black_36dp"), for: .normal)
         view.addSubview(drawForwardBtn)
       
     }
@@ -155,8 +154,7 @@ class DrawCardViewController: UIViewController {
         }
         
         drawBackBtn.alpha = 1
-        confirmBtn.alpha = 1
-        drawCardBtn.setTitle("重抽", for: .normal)
+        loveCardBtn.alpha = 1
         
     }
     
@@ -205,7 +203,8 @@ class DrawCardViewController: UIViewController {
     }
     
     @objc private func gobackBtnAct(){
-        self.navigationController?.popViewController(animated: true)
+//        self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     @objc private func drawCardBtnAct(){

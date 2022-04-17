@@ -30,7 +30,7 @@ class CustomTopBarKit {
     private var headShotContainer : UIImage?
     
     
-    func CreatTopBar(view:UIView,showSeparator:Bool = false){
+    func CreatTopBar(view:UIView,showSeparator:Bool = false,considerSafeAreaInsets:Bool = true){
         
         if alreadyCreat{
             return
@@ -38,8 +38,14 @@ class CustomTopBarKit {
             alreadyCreat = true
         }
         
+        
         let window = UIApplication.shared.keyWindow
+        
         topPadding = window?.safeAreaInsets.top ?? 0
+        
+        if(considerSafeAreaInsets == false){
+            topPadding = 0
+        }
         
         topBar = UIView(frame: CGRect(x: 0, y:  topPadding, width: UIScreen.main.bounds.size.width + 2, height: 45))
         view.addSubview(topBar)

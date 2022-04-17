@@ -15,6 +15,7 @@ class ProfilePhoto : UIView{
     var loadingView : UIImageView?
     var circle: UIView?
     var headShot : UIImageView?
+    var profileBtn : ProfileButton?
     
     private var isAccompanyLabel : UILabel?
     
@@ -69,9 +70,9 @@ class ProfilePhoto : UIView{
             }
         })
         
-        let profileBtn = ProfileButton(UID: UID)
-        profileBtn.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        self.addSubview(profileBtn)
+        profileBtn = ProfileButton(UID: UID)
+        profileBtn?.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+        self.addSubview(profileBtn!)
     }
     
     func isAccompany(_ text:String){

@@ -130,5 +130,15 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
         
         return cell
     }
+    
+    
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        tableView.deselectRow(at: indexPath, animated: false)
+        let cell = tableView.cellForRow(at: indexPath) as? RegistrationListViewCell
+        cell?.goProfile()
+        
+    }
 
 }
