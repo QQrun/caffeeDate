@@ -2087,7 +2087,7 @@ class MapViewController: UIViewController {
         
         let circleButton_add: UIButton = UIButton()
         circleButton_add.setImage(UIImage(named: "icons24PlusFilledWt24"), for: .normal)
-        circleButton_add.backgroundColor = .addColor(.black * 0.2, with: .primary() * 0.8)
+        circleButton_add.backgroundColor = .addColor(.black * 0.15, with: .primary() * 0.85)
         circleButton_add.addTarget(self, action: #selector(addBtnAct), for: .touchUpInside)
         circleButton_add.layer.cornerRadius = 26
         circleButton_add.layer.shadowRadius = 2

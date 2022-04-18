@@ -26,6 +26,8 @@ class DrawCardViewController: UIViewController {
     var select1 = "" //選到的第一人ID
     var select2 = "" //選到的第二人ID
     
+    var stackView = UIStackView()
+    
     init(sharedSeatAnnotation:SharedSeatAnnotation){
         self.sharedSeatAnnotation = sharedSeatAnnotation
         super.init(nibName: nil, bundle: nil)
@@ -34,6 +36,7 @@ class DrawCardViewController: UIViewController {
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -55,7 +58,45 @@ class DrawCardViewController: UIViewController {
         view.addSubview(selectedName)
         
         
+        //(下方按鈕的y值 + topbar的下底y/2)為卡片應該在的中間位置
+        let card_y = (view.frame.height - 135)/2 - (view.frame.width - 48)/2
         
+        let scrollView = UIScrollView()
+        view.addSubview(scrollView)
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: card_y).isActive = true
+        scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
+        scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
+        scrollView.heightAnchor.constraint(equalToConstant: view.frame.width - 48).isActive = true
+        scrollView.contentMode = .scaleToFill
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.isScrollEnabled = true
+        scrollView.isPagingEnabled = true
+        scrollView.showsHorizontalScrollIndicator = false
+        scrollView.bouncesZoom = true
+        scrollView.bounces = true
+        
+        scrollView.addSubview(stackView)
+        stackView.axis = .horizontal
+        stackView.distribution = .fillEqually
+        stackView.alignment = .fill
+        stackView.translatesAutoresizingMaskIntoConstraints = false
+        stackView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor).isActive = true
+        stackView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor).isActive = true
+        stackView.topAnchor.constraint(equalTo: scrollView.topAnchor).isActive = true
+        stackView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor).isActive = true
+        // this is important for scrolling
+        stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
+        stackView.autoresizesSubviews = true
+        
+        
+        configBottomBtns()
+        
+    }
+    
+    
+    
+    
+    fileprivate func configBottomBtns() {
         drawBackBtn = UIButton()
         drawBackBtn.frame = CGRect(x: view.frame.width/8 - 25, y: view.frame.height - 125 - 50, width: 50, height: 50)
         drawBackBtn.setImage(UIImage(named: "arrow_left_black_36dp"), for: .normal)
@@ -78,8 +119,44 @@ class DrawCardViewController: UIViewController {
         drawForwardBtn = UIButton()
         drawForwardBtn.frame = CGRect(x: (view.frame.width/8) * 7 - 25, y: view.frame.height - 125 - 50, width: 50, height: 50)
         drawForwardBtn.setImage(UIImage(named: "arrow_right_black_36dp"), for: .normal)
+        drawForwardBtn.alpha = 0.3
         view.addSubview(drawForwardBtn)
-      
+    }
+    
+    fileprivate func addCard(_ personInfo: PersonDetailInfo) {
+        //新增卡片
+        let cardContainer = UIView()
+        cardContainer.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        self.stackView.addArrangedSubview(cardContainer)
+        
+        let card = UIImageView()
+        card.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
+        cardContainer.addSubview(card)
+        
+        card.layer.borderWidth = 2
+        if(personInfo.gender == 0){
+            card.layer.borderColor = UIColor.sksPink().cgColor
+        }else{
+            card.layer.borderColor = UIColor.sksBlue().cgColor
+        }
+        card.layer.cornerRadius = 12
+        card.clipsToBounds = true
+        card.alpha = 0
+        if let photo = personInfo.photos?[0]{
+            AF.request(photo).response { (response) in
+                guard let data = response.data, let image = UIImage(data: data)
+                else {
+                    return
+                }
+                card.image = image
+                UIView.animate(withDuration: 0.4, animations:{
+                    card.alpha = 1
+                })
+            }
+        }else{
+            
+            print("有誤")
+        }
     }
     
     private func drawCard(){
@@ -104,6 +181,8 @@ class DrawCardViewController: UIViewController {
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
                 self.selectedName.text = personInfo.name
+                
+                self.addCard(personInfo)
             })
             
         }else{ //2v2模式抽卡
@@ -139,6 +218,8 @@ class DrawCardViewController: UIViewController {
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
                 print(personInfo.name)
                 self.selectedName.text = self.selectedName.text! + "  " +  personInfo.name
+                
+                self.addCard(personInfo)
                 
             })
             
@@ -203,7 +284,7 @@ class DrawCardViewController: UIViewController {
     }
     
     @objc private func gobackBtnAct(){
-//        self.navigationController?.popViewController(animated: true)
+        //        self.navigationController?.popViewController(animated: true)
         dismiss(animated: true, completion: nil)
     }
     
@@ -214,15 +295,15 @@ class DrawCardViewController: UIViewController {
         
     }
     
-
+    
     /*
-    // MARK: - Navigation
-
-    // In a storyboard-based application, you will often want to do a little preparation before navigation
-    override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-        // Get the new view controller using segue.destination.
-        // Pass the selected object to the new view controller.
-    }
-    */
-
+     // MARK: - Navigation
+     
+     // In a storyboard-based application, you will often want to do a little preparation before navigation
+     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
+     // Get the new view controller using segue.destination.
+     // Pass the selected object to the new view controller.
+     }
+     */
+    
 }
