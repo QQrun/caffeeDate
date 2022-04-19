@@ -17,7 +17,7 @@ class DrawCardViewController: UIViewController {
     
     let sharedSeatAnnotation:SharedSeatAnnotation
     
-    var selectedName = UILabel()
+    
     var drawBackBtn = UIButton()
     var drawCardBtn = UIButton()
     var loveCardBtn = UIButton()
@@ -26,6 +26,7 @@ class DrawCardViewController: UIViewController {
     var select1 = "" //選到的第一人ID
     var select2 = "" //選到的第二人ID
     
+    var scrollView = UIScrollView()
     var stackView = UIStackView()
     
     init(sharedSeatAnnotation:SharedSeatAnnotation){
@@ -37,31 +38,26 @@ class DrawCardViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .surface()
-        
+        configTopbar()
+        configScrollView()
+        configBottomBtns()
+        changeBtnStatus(scrollView)
+    }
+    
+    
+    fileprivate func configTopbar() {
         customTopBarKit.CreatTopBar(view: view,showSeparator:true,considerSafeAreaInsets: false)
         customTopBarKit.CreatCenterTitle(text: "隨機抽卡")
-        
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
-        
-        selectedName = UILabel()
-        selectedName.text = "😄😄😄"
-        selectedName.font = selectedName.font.withSize(24)
-        selectedName.textColor = .sksPurple()
-        selectedName.textAlignment = .center
-        selectedName.frame = CGRect(x: 0, y: view.frame.height/2 - selectedName.intrinsicContentSize.height/2, width: view.frame.width, height: selectedName.intrinsicContentSize.height)
-        view.addSubview(selectedName)
-        
-        
+    }
+    
+    fileprivate func configScrollView() {
         //(下方按鈕的y值 + topbar的下底y/2)為卡片應該在的中間位置
         let card_y = (view.frame.height - 135)/2 - (view.frame.width - 48)/2
-        
-        let scrollView = UIScrollView()
         view.addSubview(scrollView)
         scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: card_y).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
@@ -74,8 +70,9 @@ class DrawCardViewController: UIViewController {
         scrollView.showsHorizontalScrollIndicator = false
         scrollView.bouncesZoom = true
         scrollView.bounces = true
-        
+        scrollView.delegate = self
         scrollView.addSubview(stackView)
+        
         stackView.axis = .horizontal
         stackView.distribution = .fillEqually
         stackView.alignment = .fill
@@ -87,20 +84,15 @@ class DrawCardViewController: UIViewController {
         // this is important for scrolling
         stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
         stackView.autoresizesSubviews = true
-        
-        
-        configBottomBtns()
-        
     }
-    
-    
-    
     
     fileprivate func configBottomBtns() {
         drawBackBtn = UIButton()
         drawBackBtn.frame = CGRect(x: view.frame.width/8 - 25, y: view.frame.height - 125 - 50, width: 50, height: 50)
         drawBackBtn.setImage(UIImage(named: "arrow_left_black_36dp"), for: .normal)
         drawBackBtn.alpha = 0.3
+        drawBackBtn.isEnabled = false
+        drawBackBtn.addTarget(self, action: #selector(drawBackBtnAct), for: .touchUpInside)
         view.addSubview(drawBackBtn)
         
         drawCardBtn = UIButton()
@@ -114,20 +106,37 @@ class DrawCardViewController: UIViewController {
         loveCardBtn.setImage(UIImage(named: "love_card_36dp"), for: .normal)
         loveCardBtn.addTarget(self, action: #selector(confirmBtnAct), for: .touchUpInside)
         loveCardBtn.alpha = 0.3
+        loveCardBtn.isEnabled = false
         view.addSubview(loveCardBtn)
         
         drawForwardBtn = UIButton()
         drawForwardBtn.frame = CGRect(x: (view.frame.width/8) * 7 - 25, y: view.frame.height - 125 - 50, width: 50, height: 50)
         drawForwardBtn.setImage(UIImage(named: "arrow_right_black_36dp"), for: .normal)
         drawForwardBtn.alpha = 0.3
+        drawForwardBtn.isEnabled = false
+        drawForwardBtn.addTarget(self, action: #selector(drawForwardBtnAct), for: .touchUpInside)
         view.addSubview(drawForwardBtn)
     }
     
+    
     fileprivate func addCard(_ personInfo: PersonDetailInfo) {
-        //新增卡片
+        
         let cardContainer = UIView()
         cardContainer.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
-        self.stackView.addArrangedSubview(cardContainer)
+        stackView.addArrangedSubview(cardContainer)
+        scrollView.setContentOffset(CGPoint(x: stackView.frame.width, y: 0), animated: true)
+        
+//        let cardBorder = UIView()
+//        cardBorder.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
+//        if(personInfo.gender == 0){
+//            cardBorder.layer.borderColor = UIColor.sksPink().cgColor
+//        }else{
+//            cardBorder.layer.borderColor = UIColor.sksBlue().cgColor
+//        }
+//        cardBorder.layer.borderWidth = 2
+//        cardBorder.layer.cornerRadius = 12
+//        cardBorder.clipsToBounds = true
+//        cardContainer.addSubview(cardBorder)
         
         let card = UIImageView()
         card.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
@@ -142,6 +151,17 @@ class DrawCardViewController: UIViewController {
         card.layer.cornerRadius = 12
         card.clipsToBounds = true
         card.alpha = 0
+        
+        let name = UILabel()
+        name.text = ""
+        name.font = name.font.withSize(21)
+        name.textColor = .sksWhite()
+        name.textAlignment = .center
+        name.frame = CGRect(x:24 + 17, y: view.frame.width - 48 - 17, width: view.frame.width, height: name.intrinsicContentSize.height)
+        name.alpha = 0
+        view.addSubview(name)
+        
+        
         if let photo = personInfo.photos?[0]{
             AF.request(photo).response { (response) in
                 guard let data = response.data, let image = UIImage(data: data)
@@ -149,13 +169,20 @@ class DrawCardViewController: UIViewController {
                     return
                 }
                 card.image = image
+                let birthdayFormatter = DateFormatter()
+                birthdayFormatter.dateFormat = "yyyy/MM/dd"
+                let currentTime = Date()
+                let birthDayDate = birthdayFormatter.date(from: personInfo.birthday)
+                let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+                name.text = personInfo.name + " " + "\(age)"
                 UIView.animate(withDuration: 0.4, animations:{
                     card.alpha = 1
+                    name.alpha = 1
+                    
+                    self.loveCardBtn.alpha = 1
+                    self.loveCardBtn.isEnabled = true
                 })
             }
-        }else{
-            
-            print("有誤")
         }
     }
     
@@ -180,8 +207,6 @@ class DrawCardViewController: UIViewController {
             let ref = Database.database().reference().child("PersonDetail/" + "\(select1)")
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
-                self.selectedName.text = personInfo.name
-                
                 self.addCard(personInfo)
             })
             
@@ -217,9 +242,6 @@ class DrawCardViewController: UIViewController {
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
                 print(personInfo.name)
-                self.selectedName.text = self.selectedName.text! + "  " +  personInfo.name
-                
-                self.addCard(personInfo)
                 
             })
             
@@ -227,15 +249,14 @@ class DrawCardViewController: UIViewController {
             ref2.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
                 print(personInfo.name)
-                self.selectedName.text = self.selectedName.text! + "  " +  personInfo.name
             })
             
             
             
         }
         
-        drawBackBtn.alpha = 1
-        loveCardBtn.alpha = 1
+        
+        
         
     }
     
@@ -289,21 +310,57 @@ class DrawCardViewController: UIViewController {
     }
     
     @objc private func drawCardBtnAct(){
-        
-        selectedName.text = ""
         drawCard()
-        
     }
     
+    @objc private func drawBackBtnAct(){
+        let currentPage = Int(ceil(scrollView.contentOffset.x / view.frame.width))
+        if(currentPage > 0){
+            scrollView.setContentOffset(CGPoint(x: view.frame.width * CGFloat(currentPage - 1), y: 0), animated: true)
+        }
+    }
     
-    /*
-     // MARK: - Navigation
-     
-     // In a storyboard-based application, you will often want to do a little preparation before navigation
-     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
-     // Get the new view controller using segue.destination.
-     // Pass the selected object to the new view controller.
-     }
-     */
+    @objc private func drawForwardBtnAct(){
+        let currentPage = Int(ceil(scrollView.contentOffset.x / view.frame.width))
+        if(currentPage + 1 < stackView.arrangedSubviews.count){
+            scrollView.setContentOffset(CGPoint(x: view.frame.width * CGFloat(currentPage + 1), y: 0), animated: true)
+        }
+    }
     
+}
+
+
+extension DrawCardViewController: UIScrollViewDelegate {
+    
+    
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        changeBtnStatus(scrollView)
+    }
+    
+    fileprivate func changeBtnStatus(_ scrollView: UIScrollView) {
+        let currentPage = Int(ceil(scrollView.contentOffset.x / view.frame.width))
+        
+        drawForwardBtn.alpha = 0.3
+        drawForwardBtn.isEnabled = false
+        drawBackBtn.alpha = 0.3
+        drawBackBtn.isEnabled = false
+        
+        loveCardBtn.alpha = 0.3
+        loveCardBtn.isEnabled = false
+        
+        if stackView.arrangedSubviews.count > 0 {
+            loveCardBtn.alpha = 1
+            loveCardBtn.isEnabled = true
+        }
+        
+        if currentPage > 0 {
+            drawBackBtn.alpha = 1
+            drawBackBtn.isEnabled = true
+        }
+        
+        if currentPage + 1 < stackView.arrangedSubviews.count {
+            drawForwardBtn.alpha = 1
+            drawForwardBtn.isEnabled = true
+        }
+    }
 }

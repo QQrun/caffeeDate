@@ -493,6 +493,12 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
     
     @objc fileprivate func deleteBtnAct(){
         
+        
+        if(photos.count == 1){
+            showToast(message: "至少必須有一張照片")
+            return
+        }
+        
         photos.remove(at: currentSelectPhotoNumber)
         photoTableView.reloadData()
         

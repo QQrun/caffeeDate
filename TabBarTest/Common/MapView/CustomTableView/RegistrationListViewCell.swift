@@ -18,7 +18,7 @@ class RegistrationListViewCell: UITableViewCell {
         
     }
     
-    func setContent(UID:String,gender:Gender,name:String,age:String,selfIntroduction:String,evaluation:String){
+    func setContent(UID:String,gender:Gender,name:String,age:String,selfIntroduction:String,evaluation:String,isPair:Bool = false){
         
         var tintColor = UIColor.sksBlue().withAlphaComponent(1)
         if(gender == .Girl){
@@ -86,10 +86,21 @@ class RegistrationListViewCell: UITableViewCell {
         star.tintColor = UIColor.hexStringToUIColor(hex: "#FBBC05")
         addSubview(star)
         
-        let seperator = UIView()
-        seperator.frame = CGRect(x: 0, y: frame.height - 1, width: frame.width, height: 1)
-        seperator.backgroundColor = .on().withAlphaComponent(0.08)
-        addSubview(seperator)
+        if(!isPair){
+            let seperator = UIView()
+            seperator.frame = CGRect(x: 0, y: frame.height - 1, width: frame.width, height: 1)
+            seperator.backgroundColor = .on().withAlphaComponent(0.08)
+            addSubview(seperator)
+        }else{
+            let seperator = UIView()
+            seperator.frame = CGRect(x: 0, y: frame.height - 1.5, width: frame.width, height: 1.5)
+            if(gender == .Boy){
+                seperator.backgroundColor = .sksBlue()
+            }else{
+                seperator.backgroundColor = .sksPink()
+            }
+            addSubview(seperator)
+        }
         
     }
     
