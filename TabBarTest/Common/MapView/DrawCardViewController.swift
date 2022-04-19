@@ -29,6 +29,7 @@ class DrawCardViewController: UIViewController {
     var scrollView = UIScrollView()
     var stackView = UIStackView()
     
+    
     init(sharedSeatAnnotation:SharedSeatAnnotation){
         self.sharedSeatAnnotation = sharedSeatAnnotation
         super.init(nibName: nil, bundle: nil)
@@ -56,13 +57,29 @@ class DrawCardViewController: UIViewController {
     }
     
     fileprivate func configScrollView() {
-        //(下方按鈕的y值 + topbar的下底y/2)為卡片應該在的中間位置
-        let card_y = (view.frame.height - 135)/2 - (view.frame.width - 48)/2
+        
+        
+        var cardWidth : CGFloat
+        var scrollView_y : CGFloat
+        if(sharedSeatAnnotation.mode == 1){
+            cardWidth = view.frame.width - 48
+            //(下方按鈕的y值 + topbar的下底y/2)為卡片應該在的中間位置
+            scrollView_y = (view.frame.height - 135)/2 - cardWidth/2
+        }else{
+            cardWidth =  (view.frame.width + 70) / 2
+            scrollView_y = (view.frame.height - 135)/2 - (cardWidth * 2 - 70)/2
+        }
+        
+        
         view.addSubview(scrollView)
-        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: card_y).isActive = true
+        scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: scrollView_y).isActive = true
         scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor).isActive = true
         scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor).isActive = true
-        scrollView.heightAnchor.constraint(equalToConstant: view.frame.width - 48).isActive = true
+        if sharedSeatAnnotation.mode == 1{
+            scrollView.heightAnchor.constraint(equalToConstant: view.frame.width - 48).isActive = true
+        }else{
+            scrollView.heightAnchor.constraint(equalToConstant: cardWidth * 2 - 70).isActive = true
+        }
         scrollView.contentMode = .scaleToFill
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.isScrollEnabled = true
@@ -126,6 +143,8 @@ class DrawCardViewController: UIViewController {
         stackView.addArrangedSubview(cardContainer)
         scrollView.setContentOffset(CGPoint(x: stackView.frame.width, y: 0), animated: true)
         
+        
+        
 //        let cardBorder = UIView()
 //        cardBorder.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
 //        if(personInfo.gender == 0){
@@ -155,12 +174,18 @@ class DrawCardViewController: UIViewController {
         let name = UILabel()
         name.text = ""
         name.font = name.font.withSize(21)
-        name.textColor = .sksWhite()
-        name.textAlignment = .center
+        name.textColor = .white
         name.frame = CGRect(x:24 + 17, y: view.frame.width - 48 - 17, width: view.frame.width, height: name.intrinsicContentSize.height)
         name.alpha = 0
-        view.addSubview(name)
+        cardContainer.addSubview(name)
         
+        
+        let btn = ProfileUIButton()
+        btn.frame = card.frame
+        btn.backgroundColor = .clear
+        btn.addTarget(self, action: #selector(goProfile), for: .touchUpInside)
+        btn.UID = personInfo.UID
+        cardContainer.addSubview(btn)
         
         if let photo = personInfo.photos?[0]{
             AF.request(photo).response { (response) in
@@ -184,6 +209,119 @@ class DrawCardViewController: UIViewController {
                 })
             }
         }
+    }
+    
+    fileprivate func addCard(_ personInfo1: PersonDetailInfo,_ personInfo2: PersonDetailInfo) {
+
+        let cardContainer = UIView()
+        cardContainer.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
+        stackView.addArrangedSubview(cardContainer)
+        scrollView.setContentOffset(CGPoint(x: stackView.frame.width, y: 0), animated: true)
+        
+        var genderColor : CGColor
+        if(personInfo1.gender == 0){
+            genderColor = UIColor.sksPink().cgColor
+        }else{
+            genderColor = UIColor.sksBlue().cgColor
+        }
+        
+        let cardWidth = (view.frame.width + 70) / 2
+        
+        let card1 = UIImageView()
+        card1.frame = CGRect(x: 0, y: 0, width: cardWidth, height: cardWidth)
+        cardContainer.addSubview(card1)
+        card1.layer.borderWidth = 2
+        card1.layer.borderColor = genderColor
+        card1.layer.cornerRadius = 12
+        card1.clipsToBounds = true
+        card1.alpha = 0
+        
+        let name1 = UILabel()
+        name1.text = ""
+        name1.font = name1.font.withSize(21)
+        name1.textColor = .white
+        name1.frame = CGRect(x:16, y: cardWidth - 25 - 16, width: view.frame.width, height: 25)
+        name1.alpha = 0
+        cardContainer.addSubview(name1)
+        
+        let btn1 = ProfileUIButton()
+        btn1.frame = card1.frame
+        btn1.backgroundColor = .clear
+        btn1.addTarget(self, action: #selector(goProfile), for: .touchUpInside)
+        btn1.UID = personInfo1.UID
+        cardContainer.addSubview(btn1)
+        
+        
+        if let photo = personInfo1.photos?[0]{
+            AF.request(photo).response { (response) in
+                guard let data = response.data, let image = UIImage(data: data)
+                else {
+                    return
+                }
+                card1.image = image
+                let birthdayFormatter = DateFormatter()
+                birthdayFormatter.dateFormat = "yyyy/MM/dd"
+                let currentTime = Date()
+                let birthDayDate = birthdayFormatter.date(from: personInfo1.birthday)
+                let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+                name1.text = personInfo1.name + " " + "\(age)"
+                UIView.animate(withDuration: 0.4, animations:{
+                    card1.alpha = 1
+                    name1.alpha = 1
+                    self.loveCardBtn.alpha = 1
+                    self.loveCardBtn.isEnabled = true
+                })
+            }
+        }
+        
+        
+        let card2 = UIImageView()
+        card2.frame = CGRect(x: cardWidth - 70, y: cardWidth - 70, width: cardWidth, height: cardWidth)
+        cardContainer.addSubview(card2)
+        card2.layer.borderWidth = 2
+        card2.layer.borderColor = genderColor
+        card2.layer.cornerRadius = 12
+        card2.clipsToBounds = true
+        card2.alpha = 0
+        
+        let name2 = UILabel()
+        name2.text = ""
+        name2.font = name2.font.withSize(21)
+        name2.textColor = .white
+        name2.frame = CGRect(x:cardWidth - 70 + 16, y: card2.frame.origin.y + cardWidth - 25 - 16, width: view.frame.width, height: 25)
+        name2.alpha = 0
+        cardContainer.addSubview(name2)
+        
+        let btn2 = ProfileUIButton()
+        btn2.frame = card2.frame
+        btn2.backgroundColor = .clear
+        btn2.addTarget(self, action: #selector(goProfile), for: .touchUpInside)
+        btn2.UID = personInfo2.UID
+        cardContainer.addSubview(btn2)
+        
+        
+        if let photo = personInfo2.photos?[0]{
+            AF.request(photo).response { (response) in
+                guard let data = response.data, let image = UIImage(data: data)
+                else {
+                    return
+                }
+                card2.image = image
+                let birthdayFormatter = DateFormatter()
+                birthdayFormatter.dateFormat = "yyyy/MM/dd"
+                let currentTime = Date()
+                let birthDayDate = birthdayFormatter.date(from: personInfo2.birthday)
+                let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+                name2.text = personInfo2.name + " " + "\(age)"
+                UIView.animate(withDuration: 0.4, animations:{
+                    card2.alpha = 1
+                    name2.alpha = 1
+                    self.loveCardBtn.alpha = 1
+                    self.loveCardBtn.isEnabled = true
+                })
+            }
+        }
+        
     }
     
     private func drawCard(){
@@ -238,19 +376,24 @@ class DrawCardViewController: UIViewController {
                 i += 1
             }
             
+            var downloadedPersonInfo : [PersonDetailInfo] = []
             let ref = Database.database().reference().child("PersonDetail/" + "\(select1)")
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
-                print(personInfo.name)
-                
+                downloadedPersonInfo.append(personInfo)
+                if(downloadedPersonInfo.count == 2){
+                    self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1])
+                }
             })
             
             let ref2 = Database.database().reference().child("PersonDetail/" + "\(select2)")
             ref2.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
-                print(personInfo.name)
+                downloadedPersonInfo.append(personInfo)
+                if(downloadedPersonInfo.count == 2){
+                    self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1])
+                }
             })
-            
             
             
         }
@@ -327,6 +470,12 @@ class DrawCardViewController: UIViewController {
         }
     }
     
+    @objc private func goProfile(sender:ProfileUIButton){
+        let profileViewController = ProfileViewController(UID: sender.UID!)
+        profileViewController.modalPresentationStyle = .overFullScreen
+        present(profileViewController, animated: true,completion: nil)
+    }
+    
 }
 
 
@@ -363,4 +512,9 @@ extension DrawCardViewController: UIScrollViewDelegate {
             drawForwardBtn.isEnabled = true
         }
     }
+}
+
+
+class ProfileUIButton: UIButton {
+    var UID: String?
 }

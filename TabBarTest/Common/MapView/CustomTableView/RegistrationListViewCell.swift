@@ -93,11 +93,11 @@ class RegistrationListViewCell: UITableViewCell {
             addSubview(seperator)
         }else{
             let seperator = UIView()
-            seperator.frame = CGRect(x: 0, y: frame.height - 1.5, width: frame.width, height: 1.5)
+            seperator.frame = CGRect(x: 0, y: frame.height - 2, width: frame.width, height: 2)
             if(gender == .Boy){
-                seperator.backgroundColor = .sksBlue()
+                seperator.backgroundColor = .sksBlue().withAlphaComponent(0.2)
             }else{
-                seperator.backgroundColor = .sksPink()
+                seperator.backgroundColor = .sksPink().withAlphaComponent(0.2)
             }
             addSubview(seperator)
         }
