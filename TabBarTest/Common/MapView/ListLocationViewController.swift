@@ -67,7 +67,13 @@ class ListLocationViewController: UIViewController ,UITableViewDelegate,UITableV
         let cell = tableView.dequeueReusableCell(withIdentifier: "notifyTableViewCell", for: indexPath) as! NotifyTableViewCell
         
         cell.body.font = UIFont(name: "HelveticaNeue", size: 16)
-        cell.body.text = sharedSeatAnnotations[indexPath.row].title
+        
+        
+        if(sharedSeatAnnotations[indexPath.row].holderUID == UserSetting.UID){
+            cell.body.text = sharedSeatAnnotations[indexPath.row].title! + " (您是舉辦人)"
+        }else{
+            cell.body.text = sharedSeatAnnotations[indexPath.row].title!
+        }
         
         let firebaseDateFormatter = DateFormatter()
         firebaseDateFormatter.dateFormat = "YYYYMMddHHmmss"

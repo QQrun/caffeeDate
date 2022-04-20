@@ -67,8 +67,8 @@ class FirebaseHelper{
     //completion (url:String) ->()
     static func putSharedSeatPhoto(image:UIImage,completion: @escaping ((String) -> ())){
         
-        var compressedPhoto = image.imageWithNewSize(size: CGSize(width: 1024, height: 1024))
-        compressedPhoto = compressedPhoto!.compressQuality(maxLength: 1024 * 1024)//照片的目標壓縮大小
+        var compressedPhoto = image.imageWithNewSize(size: CGSize(width: 256, height: 256))
+        compressedPhoto = compressedPhoto!.compressQuality(maxLength: 256 * 256)//照片的目標壓縮大小
 
         let storageRefForItemPhoto = Storage.storage().reference().child("sharedSeatPhoto/" + NSUUID().uuidString)
         

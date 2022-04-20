@@ -1196,27 +1196,27 @@ class MapViewController: UIViewController {
             }
         }else{
             
-            if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
+            if (UserSetting.userGender == 0 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
+                signUpBtn.setTitle("已滿額", for: .normal)
+                if(sharedSeatAnnotation.girlsID![UserSetting.UID] != nil){
+                    signUpBtn.setTitle("去聊天室", for: .normal)
+                    signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+                }
+            }else if(UserSetting.userGender == 1 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
+                signUpBtn.setTitle("已滿額", for: .normal)
+                if(sharedSeatAnnotation.boysID![UserSetting.UID] != nil){
+                    signUpBtn.setTitle("去聊天室", for: .normal)
+                    signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+                }
+            }else if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
                 signUpBtn.setTitle("取消報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
-                
             }else if(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] != nil){
                 signUpBtn.setTitle("取消報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
             }else{
                 signUpBtn.setTitle("報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                if (UserSetting.userGender == 0){
-                    if(sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
-                        signUpBtn.setTitle("已滿額", for: .normal)
-                        signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                    }
-                }else {
-                    if(sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
-                        signUpBtn.setTitle("已滿額", for: .normal)
-                        signUpBtn.removeTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
-                    }
-                }
             }
         }
         signUpBtn.layer.cornerRadius = 8
@@ -3487,6 +3487,7 @@ extension MapViewController: MKMapViewDelegate {
             //抓遠端的資料更新本地端
             let holderUID = (view.annotation as! SharedSeatAnnotation).holderUID
             let ref = Database.database().reference().child("SharedSeatAnnotation/" + "\(holderUID)")
+            let currentAnnotation = view.annotation
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
                 
                 let sharedSeatAnnotationData = SharedSeatAnnotationData(snapshot: snapshot)
@@ -3508,9 +3509,7 @@ extension MapViewController: MKMapViewDelegate {
                         annotation.signUpBoysID = sharedSeatAnnotationData.signUpBoysID
                     }
                 }
-                
-                //TODO BUG 不知道啥 應該是還沒加到之類的？
-                self.setBulletinBoard_sharedSeat(sharedSeatAnnotation: view.annotation as! SharedSeatAnnotation)
+                self.setBulletinBoard_sharedSeat(sharedSeatAnnotation: currentAnnotation as! SharedSeatAnnotation)
             }
             )
             

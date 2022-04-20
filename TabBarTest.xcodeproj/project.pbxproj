@@ -435,10 +435,6 @@
 		A7CEE601280EF3FD00DFAE86 /* soul.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE5FE280EF3FC00DFAE86 /* soul.sks */; };
 		A7CEE602280EF3FD00DFAE86 /* soul2.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE5FF280EF3FD00DFAE86 /* soul2.sks */; };
 		A7CEE603280EF3FD00DFAE86 /* soul2.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE5FF280EF3FD00DFAE86 /* soul2.sks */; };
-		A7CEE606280FF28100DFAE86 /* soul_girl.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE604280FF28100DFAE86 /* soul_girl.sks */; };
-		A7CEE607280FF28100DFAE86 /* soul_girl.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE604280FF28100DFAE86 /* soul_girl.sks */; };
-		A7CEE608280FF28100DFAE86 /* soul2_girl.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE605280FF28100DFAE86 /* soul2_girl.sks */; };
-		A7CEE609280FF28100DFAE86 /* soul2_girl.sks in Resources */ = {isa = PBXBuildFile; fileRef = A7CEE605280FF28100DFAE86 /* soul2_girl.sks */; };
 		A7D30965251C5415005CBA08 /* PostNotifcation.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D30964251C5415005CBA08 /* PostNotifcation.swift */; };
 		A7D3096D251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */; };
 		A7E64C7C2801BE9600630494 /* RegistrationListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */; };
@@ -679,8 +675,6 @@
 		A7CEE5F8280AA77900DFAE86 /* RegistrationListViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationListViewCell.swift; sourceTree = "<group>"; };
 		A7CEE5FE280EF3FC00DFAE86 /* soul.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = soul.sks; sourceTree = "<group>"; };
 		A7CEE5FF280EF3FD00DFAE86 /* soul2.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = soul2.sks; sourceTree = "<group>"; };
-		A7CEE604280FF28100DFAE86 /* soul_girl.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = soul_girl.sks; sourceTree = "<group>"; };
-		A7CEE605280FF28100DFAE86 /* soul2_girl.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = soul2_girl.sks; sourceTree = "<group>"; };
 		A7D30964251C5415005CBA08 /* PostNotifcation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostNotifcation.swift; sourceTree = "<group>"; };
 		A7D3096C251C5FC1005CBA08 /* NotifyCenterViewControllerModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyCenterViewControllerModel.swift; sourceTree = "<group>"; };
 		A7E64C7A2801BE9600630494 /* RegistrationListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationListViewController.swift; sourceTree = "<group>"; };
@@ -848,8 +842,6 @@
 				A7E64C832802D30600630494 /* DrawCardViewController.swift */,
 				A7CEE5FE280EF3FC00DFAE86 /* soul.sks */,
 				A7CEE5FF280EF3FD00DFAE86 /* soul2.sks */,
-				A7CEE604280FF28100DFAE86 /* soul_girl.sks */,
-				A7CEE605280FF28100DFAE86 /* soul2_girl.sks */,
 			);
 			path = MapView;
 			sourceTree = "<group>";
@@ -1358,8 +1350,6 @@
 				A7CB15A424A8B96A00FDBC12 /* MailListTableViewCell.xib in Resources */,
 				A7110587243BC8FD008E680D /* RootTabBarController.storyboard in Resources */,
 				A799BE5F27A5356E00A6057A /* ScoreCoffeeViewController.storyboard in Resources */,
-				A7CEE608280FF28100DFAE86 /* soul2_girl.sks in Resources */,
-				A7CEE606280FF28100DFAE86 /* soul_girl.sks in Resources */,
 				A787C3C627F725A5009EC8A7 /* InfoPopOverController.storyboard in Resources */,
 				A71461882761EA1000872E4E /* AppStoreRatingAlertView.xib in Resources */,
 				A7A89B5527FAFE1600174318 /* InfoEditAlertView.xib in Resources */,
@@ -1379,13 +1369,11 @@
 				A787C38327C0F284009EC8A7 /* NotifyTableViewCell.xib in Resources */,
 				A787C38427C0F284009EC8A7 /* ProfilePopView.xib in Resources */,
 				A787C38527C0F284009EC8A7 /* OpenNotificationViewController.storyboard in Resources */,
-				A7CEE609280FF28100DFAE86 /* soul2_girl.sks in Resources */,
 				A787C38627C0F284009EC8A7 /* FillBasicInfoViewController.storyboard in Resources */,
 				A787C38727C0F284009EC8A7 /* CommentTableViewCell.xib in Resources */,
 				A787C38927C0F284009EC8A7 /* CheckLocationAccessViewController.storyboard in Resources */,
 				A787C38A27C0F284009EC8A7 /* MailListViewController.storyboard in Resources */,
 				A787C38B27C0F284009EC8A7 /* NotifyCenterViewController.storyboard in Resources */,
-				A7CEE607280FF28100DFAE86 /* soul_girl.sks in Resources */,
 				A787C38C27C0F284009EC8A7 /* LogInPageViewController.storyboard in Resources */,
 				A787C38D27C0F284009EC8A7 /* MailListTableViewCell.xib in Resources */,
 				A787C38F27C0F284009EC8A7 /* RootTabBarController.storyboard in Resources */,
