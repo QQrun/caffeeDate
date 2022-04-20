@@ -10,6 +10,8 @@ import UIKit
 import Alamofire
 import Firebase
 import MapKit
+import SpriteKit
+
 
 class DrawCardViewController: UIViewController {
     
@@ -39,6 +41,8 @@ class DrawCardViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .surface()
@@ -46,6 +50,51 @@ class DrawCardViewController: UIViewController {
         configScrollView()
         configBottomBtns()
         changeBtnStatus(scrollView)
+        
+        
+    }
+    
+    
+    fileprivate func addparticle(completion: @escaping (() -> ())) {
+        let particlePath1 = Bundle.main.path(forResource: "soul", ofType: "sks")!
+        let particlePath2 = Bundle.main.path(forResource: "soul2", ofType: "sks")!
+        
+        let particle1 = NSKeyedUnarchiver.unarchiveObject(withFile: particlePath1) as! SKEmitterNode
+        particle1.name = "AIsoulFX1"
+        particle1.position = CGPoint(x:view.frame.size.width/2, y:view.frame.size.height/2)
+        
+        let particle2 = NSKeyedUnarchiver.unarchiveObject(withFile: particlePath2) as! SKEmitterNode
+        particle2.name = "AIsoulFX2"
+        particle2.position = CGPoint(x:view.frame.size.width/2, y:view.frame.size.height/2)
+        
+        
+        let spriteKitView = SKView()
+        view.addSubview(spriteKitView)
+        spriteKitView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.width)
+        spriteKitView.layer.cornerRadius = 125
+        spriteKitView.clipsToBounds = true
+        let scene = SKScene(size: spriteKitView.frame.size)
+        scene.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0/255)
+        spriteKitView.backgroundColor = UIColor(red: 0/255, green: 0/255, blue: 0/255, alpha: 0/255)
+        spriteKitView.presentScene(scene)
+        
+        
+        particle1.position = CGPoint(x: spriteKitView.frame.width/2, y: spriteKitView.frame.height/2)
+        particle2.position = CGPoint(x: spriteKitView.frame.width / 2, y: spriteKitView.frame.height/2 + 20)
+        scene.addChild(particle1)
+        
+        
+        UIView.animate(withDuration: 3, animations:{
+            spriteKitView.frame.origin.y = self.view.frame.height/2 - self.view.frame.width/2
+        },completion: {_ in
+            scene.addChild(particle2)
+            UIView.animate(withDuration: 1, delay: 0.5, options: .curveLinear, animations: {
+                spriteKitView.alpha = 0
+                completion()
+            }, completion: { _ in
+                spriteKitView.removeFromSuperview()
+            })
+        })
     }
     
     
@@ -187,28 +236,34 @@ class DrawCardViewController: UIViewController {
         btn.UID = personInfo.UID
         cardContainer.addSubview(btn)
         
-        if let photo = personInfo.photos?[0]{
-            AF.request(photo).response { (response) in
-                guard let data = response.data, let image = UIImage(data: data)
-                else {
-                    return
+        addparticle(completion: {
+            
+            if let photo = personInfo.photos?[0]{
+                AF.request(photo).response { (response) in
+                    guard let data = response.data, let image = UIImage(data: data)
+                    else {
+                        return
+                    }
+                    card.image = image
+                    let birthdayFormatter = DateFormatter()
+                    birthdayFormatter.dateFormat = "yyyy/MM/dd"
+                    let currentTime = Date()
+                    let birthDayDate = birthdayFormatter.date(from: personInfo.birthday)
+                    let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+                    name.text = personInfo.name + " " + "\(age)"
+                    UIView.animate(withDuration: 0.4, animations:{
+                        card.alpha = 1
+                        name.alpha = 1
+                        self.loveCardBtn.alpha = 1
+                        self.loveCardBtn.isEnabled = true
+                        self.drawCardBtn.isEnabled = true
+                    })
                 }
-                card.image = image
-                let birthdayFormatter = DateFormatter()
-                birthdayFormatter.dateFormat = "yyyy/MM/dd"
-                let currentTime = Date()
-                let birthDayDate = birthdayFormatter.date(from: personInfo.birthday)
-                let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
-                name.text = personInfo.name + " " + "\(age)"
-                UIView.animate(withDuration: 0.4, animations:{
-                    card.alpha = 1
-                    name.alpha = 1
-                    
-                    self.loveCardBtn.alpha = 1
-                    self.loveCardBtn.isEnabled = true
-                })
             }
-        }
+            
+            
+        })
+        
     }
     
     fileprivate func addCard(_ personInfo1: PersonDetailInfo,_ personInfo2: PersonDetailInfo) {
@@ -252,27 +307,7 @@ class DrawCardViewController: UIViewController {
         cardContainer.addSubview(btn1)
         
         
-        if let photo = personInfo1.photos?[0]{
-            AF.request(photo).response { (response) in
-                guard let data = response.data, let image = UIImage(data: data)
-                else {
-                    return
-                }
-                card1.image = image
-                let birthdayFormatter = DateFormatter()
-                birthdayFormatter.dateFormat = "yyyy/MM/dd"
-                let currentTime = Date()
-                let birthDayDate = birthdayFormatter.date(from: personInfo1.birthday)
-                let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
-                name1.text = personInfo1.name + " " + "\(age)"
-                UIView.animate(withDuration: 0.4, animations:{
-                    card1.alpha = 1
-                    name1.alpha = 1
-                    self.loveCardBtn.alpha = 1
-                    self.loveCardBtn.isEnabled = true
-                })
-            }
-        }
+        
         
         
         let card2 = UIImageView()
@@ -300,27 +335,57 @@ class DrawCardViewController: UIViewController {
         cardContainer.addSubview(btn2)
         
         
-        if let photo = personInfo2.photos?[0]{
-            AF.request(photo).response { (response) in
-                guard let data = response.data, let image = UIImage(data: data)
-                else {
-                    return
+        addparticle(completion: {
+            
+            if let photo = personInfo1.photos?[0]{
+                AF.request(photo).response { (response) in
+                    guard let data = response.data, let image = UIImage(data: data)
+                    else {
+                        return
+                    }
+                    card1.image = image
+                    let birthdayFormatter = DateFormatter()
+                    birthdayFormatter.dateFormat = "yyyy/MM/dd"
+                    let currentTime = Date()
+                    let birthDayDate = birthdayFormatter.date(from: personInfo1.birthday)
+                    let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+                    name1.text = personInfo1.name + " " + "\(age)"
+                    UIView.animate(withDuration: 0.4, animations:{
+                        card1.alpha = 1
+                        name1.alpha = 1
+                        self.loveCardBtn.alpha = 1
+                        self.loveCardBtn.isEnabled = true
+                        self.drawCardBtn.isEnabled = true
+                    })
                 }
-                card2.image = image
-                let birthdayFormatter = DateFormatter()
-                birthdayFormatter.dateFormat = "yyyy/MM/dd"
-                let currentTime = Date()
-                let birthDayDate = birthdayFormatter.date(from: personInfo2.birthday)
-                let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
-                name2.text = personInfo2.name + " " + "\(age)"
-                UIView.animate(withDuration: 0.4, animations:{
-                    card2.alpha = 1
-                    name2.alpha = 1
-                    self.loveCardBtn.alpha = 1
-                    self.loveCardBtn.isEnabled = true
-                })
             }
-        }
+            
+            if let photo = personInfo2.photos?[0]{
+                AF.request(photo).response { (response) in
+                    guard let data = response.data, let image = UIImage(data: data)
+                    else {
+                        return
+                    }
+                    card2.image = image
+                    let birthdayFormatter = DateFormatter()
+                    birthdayFormatter.dateFormat = "yyyy/MM/dd"
+                    let currentTime = Date()
+                    let birthDayDate = birthdayFormatter.date(from: personInfo2.birthday)
+                    let age = currentTime.years(sinceDate: birthDayDate!) ?? 0
+                    name2.text = personInfo2.name + " " + "\(age)"
+                    UIView.animate(withDuration: 0.4, animations:{
+                        card2.alpha = 1
+                        name2.alpha = 1
+                        self.loveCardBtn.alpha = 1
+                        self.loveCardBtn.isEnabled = true
+                        self.drawCardBtn.isEnabled = true
+                    })
+                }
+            }
+            
+        })
+        
+        
         
     }
     
@@ -453,6 +518,7 @@ class DrawCardViewController: UIViewController {
     }
     
     @objc private func drawCardBtnAct(){
+        drawCardBtn.isEnabled = false
         drawCard()
     }
     
@@ -512,6 +578,9 @@ extension DrawCardViewController: UIScrollViewDelegate {
             drawForwardBtn.isEnabled = true
         }
     }
+    
+    
+    
 }
 
 

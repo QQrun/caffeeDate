@@ -3509,6 +3509,7 @@ extension MapViewController: MKMapViewDelegate {
                     }
                 }
                 
+                //TODO BUG 不知道啥 應該是還沒加到之類的？
                 self.setBulletinBoard_sharedSeat(sharedSeatAnnotation: view.annotation as! SharedSeatAnnotation)
             }
             )
