@@ -31,6 +31,12 @@ class DrawCardViewController: UIViewController {
     var scrollView = UIScrollView()
     var stackView = UIStackView()
     
+    //儲存已經抽過的卡片，此為本地儲存
+    var storeKey1 = ""
+    var storeKey2 = ""
+    var drawedUID1 : [String] = []
+    var drawedUID2 : [String] = []
+    
     
     init(sharedSeatAnnotation:SharedSeatAnnotation){
         self.sharedSeatAnnotation = sharedSeatAnnotation
@@ -42,20 +48,28 @@ class DrawCardViewController: UIViewController {
     }
     
     
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .surface()
+        
+        getDrawedUID()
         configTopbar()
         configScrollView()
         configBottomBtns()
         changeBtnStatus(scrollView)
+    }
+    
+    //載入之前抽過的卡片
+    fileprivate func getDrawedUID() {
+        storeKey1 = sharedSeatAnnotation.holderUID +  sharedSeatAnnotation.dateTime + "drawedUID1"
+        drawedUID1 = UserDefaults.standard.value(forKey: storeKey1) as? [String] ?? []
         
-        
+        storeKey2 = sharedSeatAnnotation.holderUID +  sharedSeatAnnotation.dateTime + "drawedUID2"
+        drawedUID2 = UserDefaults.standard.value(forKey: storeKey2) as? [String] ?? []
     }
     
     
-    fileprivate func addparticle(completion: @escaping (() -> ())) {
+    fileprivate func addparticle(completion: @escaping (() -> ()),useAnimation:Bool = true) {
         let particlePath1 = Bundle.main.path(forResource: "soul", ofType: "sks")!
         let particlePath2 = Bundle.main.path(forResource: "soul2", ofType: "sks")!
         
@@ -69,7 +83,6 @@ class DrawCardViewController: UIViewController {
         
         
         let spriteKitView = SKView()
-        view.addSubview(spriteKitView)
         spriteKitView.frame = CGRect(x: 0, y: view.frame.height, width: view.frame.width, height: view.frame.width)
         spriteKitView.layer.cornerRadius = 125
         spriteKitView.clipsToBounds = true
@@ -83,18 +96,27 @@ class DrawCardViewController: UIViewController {
         particle2.position = CGPoint(x: spriteKitView.frame.width / 2, y: spriteKitView.frame.height/2 + 20)
         scene.addChild(particle1)
         
+        var animation1Duration : Double
+        var animation2Duration : Double
+        var animation2Delay : Double
         
-        UIView.animate(withDuration: 3, animations:{
-            spriteKitView.frame.origin.y = self.view.frame.height/2 - self.view.frame.width/2
-        },completion: {_ in
-            scene.addChild(particle2)
-            UIView.animate(withDuration: 1, delay: 0.5, options: .curveLinear, animations: {
-                spriteKitView.alpha = 0
-                completion()
-            }, completion: { _ in
-                spriteKitView.removeFromSuperview()
+        if(useAnimation){
+            view.addSubview(spriteKitView)
+            UIView.animate(withDuration: 3, animations:{
+                spriteKitView.frame.origin.y = self.view.frame.height/2 - self.view.frame.width/2
+            },completion: {_ in
+                scene.addChild(particle2)
+                UIView.animate(withDuration: 1, delay: 0.5, options: .curveLinear, animations: {
+                    spriteKitView.alpha = 0
+                    completion()
+                }, completion: { _ in
+                    spriteKitView.removeFromSuperview()
+                })
             })
-        })
+            
+        }else{
+            completion()
+        }
     }
     
     
@@ -150,6 +172,43 @@ class DrawCardViewController: UIViewController {
         // this is important for scrolling
         stackView.heightAnchor.constraint(equalTo: scrollView.heightAnchor).isActive = true
         stackView.autoresizesSubviews = true
+        
+        
+        addDrawedCrad()
+    }
+    
+    fileprivate func addDrawedCrad(){
+        if (sharedSeatAnnotation.mode == 1){
+            for UID in drawedUID1{
+                let ref = Database.database().reference().child("PersonDetail/" + "\(UID)")
+                ref.observeSingleEvent(of: .value, with: {(snapshot) in
+                    let personInfo = PersonDetailInfo(snapshot: snapshot)
+                    self.addCard(personInfo,isDrawedCard: true)
+                })
+            }
+        }else{
+            for i in 0 ... drawedUID1.count - 1{
+                var downloadedPersonInfo : [PersonDetailInfo] = []
+                let ref = Database.database().reference().child("PersonDetail/" + "\(drawedUID1[i])")
+                ref.observeSingleEvent(of: .value, with: {(snapshot) in
+                    let personInfo = PersonDetailInfo(snapshot: snapshot)
+                    downloadedPersonInfo.append(personInfo)
+                    if(downloadedPersonInfo.count == 2){
+                        self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1])
+                    }
+                })
+                
+                let ref2 = Database.database().reference().child("PersonDetail/" + "\(drawedUID2[i])")
+                ref2.observeSingleEvent(of: .value, with: {(snapshot) in
+                    let personInfo = PersonDetailInfo(snapshot: snapshot)
+                    downloadedPersonInfo.append(personInfo)
+                    if(downloadedPersonInfo.count == 2){
+                        self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1],isDrawedCard: true)
+                    }
+                })
+            }
+            
+        }
     }
     
     fileprivate func configBottomBtns() {
@@ -185,7 +244,7 @@ class DrawCardViewController: UIViewController {
     }
     
     
-    fileprivate func addCard(_ personInfo: PersonDetailInfo) {
+    fileprivate func addCard(_ personInfo: PersonDetailInfo,isDrawedCard: Bool = false) {
         
         let cardContainer = UIView()
         cardContainer.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
@@ -194,17 +253,17 @@ class DrawCardViewController: UIViewController {
         
         
         
-//        let cardBorder = UIView()
-//        cardBorder.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
-//        if(personInfo.gender == 0){
-//            cardBorder.layer.borderColor = UIColor.sksPink().cgColor
-//        }else{
-//            cardBorder.layer.borderColor = UIColor.sksBlue().cgColor
-//        }
-//        cardBorder.layer.borderWidth = 2
-//        cardBorder.layer.cornerRadius = 12
-//        cardBorder.clipsToBounds = true
-//        cardContainer.addSubview(cardBorder)
+        //        let cardBorder = UIView()
+        //        cardBorder.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
+        //        if(personInfo.gender == 0){
+        //            cardBorder.layer.borderColor = UIColor.sksPink().cgColor
+        //        }else{
+        //            cardBorder.layer.borderColor = UIColor.sksBlue().cgColor
+        //        }
+        //        cardBorder.layer.borderWidth = 2
+        //        cardBorder.layer.cornerRadius = 12
+        //        cardBorder.clipsToBounds = true
+        //        cardContainer.addSubview(cardBorder)
         
         let card = UIImageView()
         card.frame = CGRect(x: 24, y: 0, width: view.frame.width - 48, height: view.frame.width - 48)
@@ -224,7 +283,7 @@ class DrawCardViewController: UIViewController {
         name.text = ""
         name.font = name.font.withSize(21)
         name.textColor = .white
-        name.frame = CGRect(x:24 + 17, y: view.frame.width - 48 - 17, width: view.frame.width, height: name.intrinsicContentSize.height)
+        name.frame = CGRect(x:45, y: view.frame.width - 48 - 45, width: view.frame.width, height: 30)
         name.alpha = 0
         cardContainer.addSubview(name)
         
@@ -260,14 +319,16 @@ class DrawCardViewController: UIViewController {
                     })
                 }
             }
-            
-            
-        })
+        },useAnimation: !isDrawedCard)
         
+        if(!isDrawedCard){
+            drawedUID1.append(personInfo.UID)
+            UserDefaults.standard.set(drawedUID1, forKey: storeKey1)
+        }
     }
     
-    fileprivate func addCard(_ personInfo1: PersonDetailInfo,_ personInfo2: PersonDetailInfo) {
-
+    fileprivate func addCard(_ personInfo1: PersonDetailInfo,_ personInfo2: PersonDetailInfo,isDrawedCard:Bool = false) {
+        
         let cardContainer = UIView()
         cardContainer.widthAnchor.constraint(equalToConstant: self.view.frame.width).isActive = true
         stackView.addArrangedSubview(cardContainer)
@@ -305,9 +366,6 @@ class DrawCardViewController: UIViewController {
         btn1.addTarget(self, action: #selector(goProfile), for: .touchUpInside)
         btn1.UID = personInfo1.UID
         cardContainer.addSubview(btn1)
-        
-        
-        
         
         
         let card2 = UIImageView()
@@ -380,12 +438,18 @@ class DrawCardViewController: UIViewController {
                         self.loveCardBtn.isEnabled = true
                         self.drawCardBtn.isEnabled = true
                     })
+                    
                 }
             }
             
-        })
+        },useAnimation: !isDrawedCard)
         
-        
+        if(!isDrawedCard){
+            drawedUID1.append(personInfo1.UID)
+            UserDefaults.standard.set(drawedUID1, forKey: storeKey1)
+            drawedUID2.append(personInfo2.UID)
+            UserDefaults.standard.set(drawedUID2, forKey: storeKey2)
+        }
         
     }
     
