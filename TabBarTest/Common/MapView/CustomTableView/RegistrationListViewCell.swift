@@ -24,7 +24,7 @@ class RegistrationListViewCell: UITableViewCell {
         if(gender == .Girl){
             tintColor = .sksPink()
         }
-        headshot = ProfilePhoto(frame: CGRect(x: 8, y: 8, width: 60, height: 60), gender: gender, tintColor: tintColor)
+        headshot = ProfilePhoto(frame: CGRect(x: 8, y: 8, width: 60, height: 60), gender: gender, tintColor: tintColor,useMosaic: true)
         headshot?.setUID(UID: UID)
         addSubview(headshot!)
         
@@ -37,6 +37,7 @@ class RegistrationListViewCell: UITableViewCell {
             return label
         }()
         addSubview(nameLabel)
+        
         
         
         let dotLabel = { () -> UILabel in
@@ -119,6 +120,7 @@ class RegistrationListViewCell: UITableViewCell {
     }
     
     func goProfile(){
+        //先擋住
         headshot?.profileBtn?.goProfileBtnAct_ByUID()
     }
     

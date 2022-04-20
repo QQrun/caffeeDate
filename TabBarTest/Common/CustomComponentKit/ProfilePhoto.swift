@@ -16,10 +16,12 @@ class ProfilePhoto : UIView{
     var circle: UIView?
     var headShot : UIImageView?
     var profileBtn : ProfileButton?
+    let useMosaic: Bool
     
     private var isAccompanyLabel : UILabel?
     
-    init(frame:CGRect,gender:Gender,tintColor:UIColor) {
+    init(frame:CGRect,gender:Gender,tintColor:UIColor,useMosaic:Bool = false) {
+        self.useMosaic = useMosaic
         super.init(frame: frame)
         
         loadingView = UIImageView(frame: CGRect(x: self.frame.width * 1/12, y: self.frame.height * 1/12, width: self.frame.width * 5/6, height: self.frame.height * 5/6))
@@ -49,6 +51,12 @@ class ProfilePhoto : UIView{
         headShot!.alpha = 0
         headShot!.layer.cornerRadius = (self.frame.width - 3)/2
         headShot!.clipsToBounds = true
+        headShot!.layer.borderWidth = 1
+        if gender == .Boy{
+            headShot!.layer.borderColor = UIColor.sksBlue().cgColor
+        }else{
+            headShot!.layer.borderColor = UIColor.sksPink().cgColor
+        }
         addSubview(headShot!)
         
     }
@@ -61,6 +69,15 @@ class ProfilePhoto : UIView{
                     guard let data = response.data, let image = UIImage(data: data)
                     else { return }
                     self.headShot!.image = image
+                    
+                    if(self.useMosaic){
+                        let filter = CIFilter(name: "CIPixellate")!
+                        filter.setValue(CIImage(image: image), forKey: kCIInputImageKey)
+                        filter.setValue(8, forKey: kCIInputScaleKey)
+                        let cgImage = CIContext(options: nil).createCGImage(filter.outputImage!,from:filter.outputImage!.extent)
+                        self.headShot!.image = UIImage(cgImage: cgImage!)
+                    }
+                    
                     UIView.animate(withDuration: 0.4, animations:{
                         self.headShot!.alpha = 1
                         self.circle!.alpha = 1
@@ -70,9 +87,11 @@ class ProfilePhoto : UIView{
             }
         })
         
-        profileBtn = ProfileButton(UID: UID)
-        profileBtn?.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
-        self.addSubview(profileBtn!)
+        if(!useMosaic){
+            profileBtn = ProfileButton(UID: UID)
+            profileBtn?.frame = CGRect(x: 0, y: 0, width: self.frame.width, height: self.frame.height)
+            self.addSubview(profileBtn!)
+        }
     }
     
     func isAccompany(_ text:String){

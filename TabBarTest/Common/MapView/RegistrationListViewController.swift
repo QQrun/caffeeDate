@@ -95,6 +95,7 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
         registrationListTableView.backgroundColor = .clear
         registrationListTableView.separatorColor = .clear
         registrationListTableView.register(RegistrationListViewCell.self, forCellReuseIdentifier: "registrationListViewCell")
+        registrationListTableView.allowsSelection = false
         
         let window = UIApplication.shared.keyWindow
         let bottomPadding = window?.safeAreaInsets.bottom ?? 0
