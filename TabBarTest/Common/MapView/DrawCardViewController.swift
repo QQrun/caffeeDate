@@ -187,26 +187,27 @@ class DrawCardViewController: UIViewController {
                 })
             }
         }else{
-            for i in 0 ... drawedUID1.count - 1{
-                var downloadedPersonInfo : [PersonDetailInfo] = []
-                let ref = Database.database().reference().child("PersonDetail/" + "\(drawedUID1[i])")
-                ref.observeSingleEvent(of: .value, with: {(snapshot) in
-                    let personInfo = PersonDetailInfo(snapshot: snapshot)
-                    downloadedPersonInfo.append(personInfo)
-                    if(downloadedPersonInfo.count == 2){
-                        self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1])
-                    }
-                })
-                
-                let ref2 = Database.database().reference().child("PersonDetail/" + "\(drawedUID2[i])")
-                ref2.observeSingleEvent(of: .value, with: {(snapshot) in
-                    let personInfo = PersonDetailInfo(snapshot: snapshot)
-                    downloadedPersonInfo.append(personInfo)
-                    if(downloadedPersonInfo.count == 2){
-                        self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1],isDrawedCard: true)
-                    }
-                })
-            }
+            if(drawedUID1.count != 0){
+                for i in 0 ... drawedUID1.count - 1{
+                    var downloadedPersonInfo : [PersonDetailInfo] = []
+                    let ref = Database.database().reference().child("PersonDetail/" + "\(drawedUID1[i])")
+                    ref.observeSingleEvent(of: .value, with: {(snapshot) in
+                        let personInfo = PersonDetailInfo(snapshot: snapshot)
+                        downloadedPersonInfo.append(personInfo)
+                        if(downloadedPersonInfo.count == 2){
+                            self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1],isDrawedCard: true)
+                        }
+                    })
+                    
+                    let ref2 = Database.database().reference().child("PersonDetail/" + "\(drawedUID2[i])")
+                    ref2.observeSingleEvent(of: .value, with: {(snapshot) in
+                        let personInfo = PersonDetailInfo(snapshot: snapshot)
+                        downloadedPersonInfo.append(personInfo)
+                        if(downloadedPersonInfo.count == 2){
+                            self.addCard(downloadedPersonInfo[0], downloadedPersonInfo[1],isDrawedCard: true)
+                        }
+                    })
+                }}
             
         }
     }

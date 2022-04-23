@@ -114,7 +114,9 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     
     fileprivate func configProfileTopBar() {
         customTopBarKit.CreatTopBar(view: view)
+#if FACETRADER
         customTopBarKit.CreatMailBtn(personDetailInfo: personDetail!)
+#endif
         customTopBarKit.getGobackBtn().addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
         
         if personDetail!.UID != UserSetting.UID{
@@ -244,6 +246,10 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
         
         currentScrollHeignt += 16
         currentScrollHeignt += selfIntroductionLabel.frame.height
+        
+#if VERYINCORRECT
+        return
+#endif
         
         shopModel.viewDelegate = self
         shopModel.personInfo = personDetail!

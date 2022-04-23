@@ -309,6 +309,15 @@ class UserSetting{
         }
     }
     
+    static var lastCancelSharedSeatTime: String {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "lastCancelSharedSeatTime")
+        }
+        get {
+            return UserDefaults.standard.string(forKey: "lastCancelSharedSeatTime") ?? ""
+        }
+    }
+    
     // 是否評分過
     static var isRatinged: Bool {
         set {

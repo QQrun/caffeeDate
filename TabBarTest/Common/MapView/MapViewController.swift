@@ -172,7 +172,9 @@ class MapViewController: UIViewController {
         
         AppStoreRating.share.listener()
         
-        updatePersonAnnotation()
+#if FACETRADER
+        updateMyPersonAnnotation()
+#endif
         
         centerMapOnUserLocation(shouldLoadAnnotations: true)
     }
@@ -196,7 +198,7 @@ class MapViewController: UIViewController {
     }
     
     //更新firebase上的經緯度
-    fileprivate func  updatePersonAnnotation() {
+    fileprivate func  updateMyPersonAnnotation() {
         let ref = Database.database().reference()
         let personAnnotationWithIDRef = ref.child("PersonAnnotation/" +  UserSetting.UID)
         personAnnotationWithIDRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -234,8 +236,12 @@ class MapViewController: UIViewController {
         iWantActionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
         iWantActionSheetKit.getbgBtn().addSubview(iWantActionSheetContainer)
         iWantActionSheetContainer.addTarget(self, action: #selector(iWantActionSheetContainerAct), for: .touchUpInside)
+        iWantActionSheetContainer.alpha = 0
         
         
+#if VERYINCORRECT 
+        return
+#endif
         
         let storeNameTextFieldContainer = {() -> UIView in
             let view = UIView(frame: CGRect(x: self.view.frame.width/2 - 110, y: self.view.frame.height/2 - 144, width: 220, height: 80))
@@ -252,6 +258,7 @@ class MapViewController: UIViewController {
             return view
         }()
         iWantActionSheetContainer.addSubview(storeNameTextFieldInnerContainer)
+        
         
         
         let explainLabel  = { () -> UILabel in
@@ -299,7 +306,7 @@ class MapViewController: UIViewController {
         }()
         iWantActionSheetContainer.addSubview(storeNameTextField)
         
-        iWantActionSheetContainer.alpha = 0
+        
         
         
         
@@ -1062,6 +1069,7 @@ class MapViewController: UIViewController {
         reviewTimeLabel.textColor = .on().withAlphaComponent(0.5)
         bulletinBoard_SharedSeat.addSubview(reviewTimeLabel)
         
+        
         let reviewTimeValueLabel = UILabel()
         reviewTimeValueLabel.font = UIFont(name: "HelveticaNeue", size: 14)
         var reviewTimeStr = formatter.string(from: firebaseDateFormatter.date(from: sharedSeatAnnotation.reviewTime)!)
@@ -1078,6 +1086,29 @@ class MapViewController: UIViewController {
         reviewTimeValueLabel.frame = CGRect(x: view.frame.width - 10 - 120, y: 76, width: 120, height: reviewTimeValueLabel.intrinsicContentSize.height)
         reviewTimeValueLabel.textColor = .on()
         bulletinBoard_SharedSeat.addSubview(reviewTimeValueLabel)
+        
+        //如果是距離抽卡時間兩個鐘頭內，就改成倒數計時
+        
+        if(UserSetting.UID == sharedSeatAnnotation.holderUID){
+            let now = Date()
+            let drawCardTime = firebaseDateFormatter.date(from: sharedSeatAnnotation.reviewTime)!
+            let remainingTime  = drawCardTime - now
+            if(remainingTime < 7200 && remainingTime > 0){
+                reviewTimeValueLabel.textColor = .error
+                storeRemainingTimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+                    
+                    let now = Date()
+                    let drawCardTime = firebaseDateFormatter.date(from: sharedSeatAnnotation.reviewTime)!
+                    let remainingTime  = drawCardTime - now
+                    
+                    let remainingHour = Int(remainingTime) / (60 * 60)
+                    let remainingMin = (Int(remainingTime) % (60 * 60)) / 60
+                    let remainingSecond = (Int(remainingTime) % (60 * 60)) % 60
+                    
+                    reviewTimeValueLabel.text = "\(remainingHour)" + " : " + "\(remainingMin)" + " : " + "\(remainingSecond)"
+                })
+            }
+        }
         
         let participantLabel = UILabel()
         participantLabel.font = UIFont(name: "HelveticaNeue", size: 15)
@@ -1865,8 +1896,6 @@ class MapViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMddHHmmss"
         
-        print("storeOpenTimeString:" + "\(storeOpenTimeString)")
-        
         storeRemainingTimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {_ in
             
             if formatter.date(from: storeOpenTimeString) != nil{
@@ -1982,7 +2011,11 @@ class MapViewController: UIViewController {
         showOpenStoreButton.isEnabled = true
         showOpenStoreButton.addTarget(self, action: #selector(showOpenStoreBtnAct), for: .touchUpInside)
         
+#if FACETRADER
         exclamationPopUpContainerView.addSubview(showOpenStoreButton)
+#endif
+        
+        
         
         showRequestButton.frame = CGRect(x: 65, y: 25, width: 44, height: 44)
         let requestImage = UIImage(named: "icons24ShopNeedWt24")
@@ -1996,7 +2029,11 @@ class MapViewController: UIViewController {
         showRequestButton.setImage(requestImage_tintedImage, for: .normal)
         showRequestButton.isEnabled = true
         showRequestButton.addTarget(self, action: #selector(showRequestBtnAct), for: .touchUpInside)
+        
+#if FACETRADER
         exclamationPopUpContainerView.addSubview(showRequestButton)
+#endif
+        
         
         showTeamUpButton.frame = CGRect(x: 130, y: 25, width: 44, height: 44)
         let teamUpImage = UIImage(named: "旗子小icon")
@@ -2035,7 +2072,10 @@ class MapViewController: UIViewController {
         showBoyButton.setImage(showBoyImage_tintImage, for: .normal)
         showBoyButton.isEnabled = true
         showBoyButton.addTarget(self, action: #selector(showBoyBtnAct), for: .touchUpInside)
+#if FACETRADER
         exclamationPopUpContainerView.addSubview(showBoyButton)
+#endif
+        
         
         showGirlButton.frame = CGRect(x: 65, y: 25 + 44 + 6, width: 44, height: 44)
         let showGirlImage = UIImage(named: "girlIcon")
@@ -2048,10 +2088,11 @@ class MapViewController: UIViewController {
         showGirlButton.setImage(showGirlImage_tintImage, for: .normal)
         showGirlButton.isEnabled = true
         showGirlButton.addTarget(self, action: #selector(showGirlBtnAct), for: .touchUpInside)
+#if FACETRADER
         exclamationPopUpContainerView.addSubview(showGirlButton)
+#endif
         
-        
-        showSharedSeat2Button.frame = CGRect(x: 124, y: 25 + 44 + 6, width: 44, height: 44)
+        showSharedSeat2Button.frame = CGRect(x: 130, y: 25 + 44 + 6, width: 44, height: 44)
         let showSharedSeat2ButtonImg = UIImage(named: "兩人相席")
         let showSharedSeat2ButtonImg_tint = showSharedSeat2ButtonImg?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowSharedSeat2{
@@ -2062,9 +2103,12 @@ class MapViewController: UIViewController {
         showSharedSeat2Button.setImage(showSharedSeat2ButtonImg_tint, for: .normal)
         showSharedSeat2Button.isEnabled = true
         showSharedSeat2Button.addTarget(self, action: #selector(showSharedSeat2BtnAct), for: .touchUpInside)
+#if VERYINCORRECT
         exclamationPopUpContainerView.addSubview(showSharedSeat2Button)
+#endif
         
-        showSharedSeat4Button.frame = CGRect(x: 183, y: 25 + 44 + 6, width: 44, height: 44)
+        
+        showSharedSeat4Button.frame = CGRect(x: 188, y: 25 + 44 + 6, width: 44, height: 44)
         let showSharedSeat4ButtonImg = UIImage(named: "四人相席")
         let showSharedSeat4ButtonImg_tint = showSharedSeat4ButtonImg?.withRenderingMode(.alwaysTemplate)
         if UserSetting.isMapShowSharedSeat4{
@@ -2075,8 +2119,9 @@ class MapViewController: UIViewController {
         showSharedSeat4Button.setImage(showSharedSeat4ButtonImg_tint, for: .normal)
         showSharedSeat4Button.isEnabled = true
         showSharedSeat4Button.addTarget(self, action: #selector(showSharedSeat4BtnAct), for: .touchUpInside)
+#if VERYINCORRECT
         exclamationPopUpContainerView.addSubview(showSharedSeat4Button)
-        
+#endif
         
     }
     
@@ -2971,6 +3016,17 @@ class MapViewController: UIViewController {
     
     @objc private func iWantSharedSeatBtnAct(){
         Analytics.logEvent("地圖_加號按鈕_發起相席", parameters:nil)
+        mapView.deselectAnnotation(mapView.userLocation, animated: true)
+        
+        
+        if(UserSetting.lastCancelSharedSeatTime != nil && UserSetting.lastCancelSharedSeatTime != ""){
+            let diffTime = Int(Date().getCurrentTimeString())! - Int(UserSetting.lastCancelSharedSeatTime)!
+            if(diffTime < 60 * 60 * 24){
+                print(diffTime)
+                showToast(message: "您曾經取消有報名者的聚會，24小時內無法再次舉辦")
+                return
+            }
+        }
         
         var isHolder = false
         for sharedSeatAnnotation in sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation{
@@ -2979,7 +3035,7 @@ class MapViewController: UIViewController {
             }
         }
         
-        mapView.deselectAnnotation(mapView.userLocation, animated: true)
+        
         if(isHolder){
             showToast(message: "已是舉辦人，一人最多同時舉辦一個相席")
         }else{
@@ -2994,12 +3050,26 @@ class MapViewController: UIViewController {
     
     
     @objc func cancelSharedSeatBtnAct(_ sender: UIButton){
-        let alertVC = SSAlertController(title: "確定要取消聚會嗎?", message: "按下確認後將取消聚會")
+        
+        var message : String
+        if(currentSharedSeatAnnotation!.signUpBoysID != nil && currentSharedSeatAnnotation!.signUpBoysID!.count > 0){
+            message =  "注意！此聚會已有人報名，您確定要取消聚會嗎？若取消，24小時內將無法再度舉辦聚會"
+        }else if(currentSharedSeatAnnotation!.signUpGirlsID != nil && currentSharedSeatAnnotation!.signUpGirlsID!.count > 0){
+            message =  "注意！此聚會已有人報名，您確定要取消聚會嗎？若取消，24小時內將無法再度舉辦聚會"
+        }else{
+            message = "按下確認後將取消聚會"
+        }
+        
+        let alertVC = SSAlertController(title: "確定要取消聚會嗎?", message: message)
         alertVC.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
             alertVC.dismiss(animated: true)
         }))
         alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
             alertVC.dismiss(animated: true)
+            
+            if(message != "按下確認後將取消聚會"){
+                UserSetting.lastCancelSharedSeatTime = Date().getCurrentTimeString()
+            }
             
             //遠端刪除
             let ref = Database.database().reference().child("SharedSeatAnnotation/" +  Auth.auth().currentUser!.uid)
@@ -3060,9 +3130,9 @@ class MapViewController: UIViewController {
     @objc func signUpBtnAct() {
         
         Analytics.logEvent("相席_報名相席", parameters:nil)
-//        if(){
-//            ParticipantsViewController
-//        }
+        //        if(){
+        //            ParticipantsViewController
+        //        }
         
         if(currentSharedSeatAnnotation!.holderUID == UserSetting.UID){
             
@@ -3513,7 +3583,7 @@ extension MapViewController: MKMapViewDelegate {
             }
             )
             
-//
+            //
             return
         }
         

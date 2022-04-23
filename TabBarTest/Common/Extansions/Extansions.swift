@@ -177,6 +177,9 @@ extension Date {
         return Calendar.current.dateComponents([.second], from: sinceDate, to: self).second
     }
     
+    static func - (lhs: Date, rhs: Date) -> TimeInterval {
+        return lhs.timeIntervalSinceReferenceDate - rhs.timeIntervalSinceReferenceDate
+    }
     
     
 }
@@ -406,12 +409,12 @@ extension UIColor {
 }
 
 extension UITableView {
-
+    
     func deselectSelectedRow(animated: Bool)
     {
         if let indexPathForSelectedRow = self.indexPathForSelectedRow {
             self.deselectRow(at: indexPathForSelectedRow, animated: animated)
         }
     }
-
+    
 }

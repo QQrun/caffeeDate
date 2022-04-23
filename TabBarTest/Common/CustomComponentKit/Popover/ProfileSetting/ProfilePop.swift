@@ -95,11 +95,14 @@ class ProfilePop {
             //攤販按鈕
             (profilePopView as! ProfilePopView).editShopBtn.layer.cornerRadius = 2.5
             (profilePopView as! ProfilePopView).editShopBtn.addTarget(self, action: #selector(editShopBtnAct), for: .touchUpInside)
+   
+#if VERYINCORRECT
+            (profilePopView as! ProfilePopView).editShopBtn.isHidden = true
+#endif
             
             //回報按鈕
             (profilePopView as! ProfilePopView).reportBtn.layer.cornerRadius = 2.5
             (profilePopView as! ProfilePopView).reportBtn.addTarget(self, action: #selector(reportBtnAct), for: .touchUpInside)
-           
             
             //登出按鈕
             ProfilePop.actionSheetKit_LogOut.creatActionSheet(containerView: (UIApplication.shared.keyWindow?.rootViewController?.view)!, actionSheetText: ["取消","確定登出"])
