@@ -37,6 +37,7 @@ class DrawCardViewController: UIViewController {
     var drawedUID1 : [String] = []
     var drawedUID2 : [String] = []
     
+    var currentPage = 0
     
     init(sharedSeatAnnotation:SharedSeatAnnotation){
         self.sharedSeatAnnotation = sharedSeatAnnotation
@@ -534,10 +535,9 @@ class DrawCardViewController: UIViewController {
     }
     
     @objc private func confirmBtnAct(){
-        print("確認！")
         
         if(sharedSeatAnnotation.mode == 1){
-            if select1 != ""{
+            if drawedUID1.count > currentPage{
                 //上傳
                 var updateGender = ""
                 if(UserSetting.userGender == 0){
@@ -545,7 +545,7 @@ class DrawCardViewController: UIViewController {
                 }else{
                     updateGender = "girlsID"
                 }
-                let ref = Database.database().reference().child("SharedSeatAnnotation/" + sharedSeatAnnotation.holderUID + "/" + updateGender + "/" + select1)
+                let ref = Database.database().reference().child("SharedSeatAnnotation/" + sharedSeatAnnotation.holderUID + "/" + updateGender + "/" + drawedUID1[currentPage])
                 ref.setValue("-"){ (error, ref) -> Void in
                     if error != nil{
                         print(error ?? "上傳參加者失敗")
@@ -553,16 +553,56 @@ class DrawCardViewController: UIViewController {
                     //本地端修改
                     if(UserSetting.userGender == 0){
                         self.sharedSeatAnnotation.boysID = [:]
-                        self.sharedSeatAnnotation.boysID![self.select1] = "-"
+                        self.sharedSeatAnnotation.boysID![self.drawedUID1[self.currentPage]] = "-"
                     }else{
                         self.sharedSeatAnnotation.girlsID = [:]
-                        self.sharedSeatAnnotation.girlsID![self.select1] = "-"
+                        self.sharedSeatAnnotation.girlsID![self.drawedUID1[self.currentPage]] = "-"
                     }
+
                     //開啟聊天室
+                    let sortedIDs = [self.drawedUID1[self.currentPage],UserSetting.UID].sorted()
+                    let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
+                    chatroomID.components(separatedBy: "-").forEach{
+                        (uid) in
+                        Database.database().reference(withPath: "MessageRoom/" + uid + "/" + chatroomID).setValue(self.sharedSeatAnnotation.title)
+                    }
+                    
+                    //自動送出第一則訊息
+                    let messageId = NSUUID().uuidString
+                    let messageRef = Database.database().reference(withPath: "Message/" + chatroomID + "/" + messageId)
+                    
+                    let currentTime = Date()
+                    let dateFormatter = DateFormatter()
+                    dateFormatter.dateFormat = "YYYYMMddHHmmss"
+                    let currentTimeString = dateFormatter.string(from: currentTime)
+                    let tokenRef = Database.database().reference().child("PersonDetail/" +  self.drawedUID1[self.currentPage] + "/token")
+                    tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
+                        if snapshot.exists(){
+                            let targetToken = snapshot.value as? String
+                            
+                            var targetGenderChinese : String
+                            
+                            if UserSetting.userGender == 0{
+                                targetGenderChinese = "你"
+                            }else{
+                                targetGenderChinese = "妳"
+                            }
+                            
+                            let messageValue =
+                                [
+                                    "time": currentTimeString,
+                                    "UID": UserSetting.UID,
+                                    "name": UserSetting.userName,
+                                    "text": "哈囉 我是" + UserSetting.userName + " 很榮幸能邀請" + targetGenderChinese + "去《" + self.sharedSeatAnnotation.title! + "》吃頓飯",
+                                    "targetToken":targetToken,
+                                ]
+                            messageRef.setValue(messageValue)
+                        }
+                    })
                     
                     //退出然後刷新selectAnnotation
-                    self.navigationController?.popViewController(animated: true)
-                    self.navigationController?.popViewController(animated: true)
+                    self.dismiss(animated: true, completion: nil)
+                    CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.navigationController?.popViewController(animated: true)
                     CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.deselectAnnotation(nil, animated: false)
                     let currentSharedSeatAnnotation = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.currentSharedSeatAnnotation
                     CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.selectAnnotation(currentSharedSeatAnnotation as! MKAnnotation, animated: false)
@@ -618,7 +658,7 @@ extension DrawCardViewController: UIScrollViewDelegate {
     }
     
     fileprivate func changeBtnStatus(_ scrollView: UIScrollView) {
-        let currentPage = Int(ceil(scrollView.contentOffset.x / view.frame.width))
+        currentPage = Int(ceil(scrollView.contentOffset.x / view.frame.width))
         
         drawForwardBtn.alpha = 0.3
         drawForwardBtn.isEnabled = false

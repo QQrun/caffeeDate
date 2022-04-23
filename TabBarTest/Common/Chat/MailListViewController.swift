@@ -170,12 +170,12 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
             
             //第二步，取得PersonDetail與PersonAnnotation中的shopName
             var shopName = ""
-            let shopNameRef = Database.database().reference(withPath: "PersonAnnotation/" + targetUID + "/title")
-            shopNameRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                if snapshot.exists(){
-                    shopName = snapshot.value as! String
-                }
-            })
+//            let shopNameRef = Database.database().reference(withPath: "PersonAnnotation/" + targetUID + "/title")
+//            shopNameRef.observeSingleEvent(of: .value, with: { (snapshot) in
+//                if snapshot.exists(){
+//                    shopName = snapshot.value as! String
+//                }
+//            })
             
             let personDetailRef = Database.database().reference(withPath: "PersonDetail/" + targetUID)
             personDetailRef.observeSingleEvent(of: .value, with: { (snapshot) in
@@ -192,11 +192,11 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                     
                     //如果並非第一次抓取，就判斷要不要發本地推播
                     var title : String
-                    if shopName != ""{
-                        title = "《"+shopName+"》"
-                    }else{
+//                    if shopName != ""{
+//                        title = "《"+shopName+"》"
+//                    }else{
                         title = ""
-                    }
+//                    }
                     if !firstFetch {
                         if lastMessage.user.senderId != UserSetting.UID{
                             //NotifyHelper.pushNewMsgNoti(title: title, subTitle: lastMessage.user.displayName + "傳送了新訊息給您",chatRoomID: chatRoomID)
