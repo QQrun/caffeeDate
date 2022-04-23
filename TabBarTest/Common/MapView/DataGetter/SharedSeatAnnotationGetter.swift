@@ -88,6 +88,99 @@ class SharedSeatAnnotationGetter{
     func decideCanShowOrNotAndWhichIcon(_ annotation:SharedSeatAnnotation) -> Bool{
         
         
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYYMMddHHmmss"
+        let dateTime = dateFormatter.date(from: annotation.dateTime)!
+        let drawTime = dateFormatter.date(from: annotation.reviewTime)!
+        
+        //已過約會時間三個鐘頭，任何人都可以自動下架此聚會
+        if(Int(Date() - dateTime) > 60 * 60 * 3){
+            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+            return false
+        }
+        
+        if(Int(Date() - drawTime) > 0){
+            
+            //如果自己是舉辦人
+            if(UserSetting.UID == annotation.holderUID){
+                if(UserSetting.userGender == 0){
+                    if(annotation.mode == 1){
+                        if(annotation.boysID == nil){
+                            CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                            return false
+                        }
+                        if(annotation.boysID != nil && annotation.boysID!.count == 0){
+                            CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                            return false
+                        }
+                    }
+                    if(annotation.mode == 2){
+                        if(annotation.boysID == nil){
+                            CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                            return false
+                        }else{
+                            if(annotation.girlsID!.count != 2){
+                                CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會未加入同性同行者，已自動下架")
+                                FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                                return false
+                            }else if(annotation.boysID!.count != 2){
+                                CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                                FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                                return false
+                            }
+                        }
+                    }
+                }
+                if(UserSetting.userGender == 1){
+                    if(annotation.mode == 1){
+                        if(annotation.girlsID == nil){
+                            CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                            return false
+                        }
+                        if(annotation.girlsID != nil && annotation.girlsID!.count == 0){
+                            CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                            return false
+                        }
+                    }
+                    if(annotation.mode == 2){
+                        if(annotation.girlsID == nil){
+                            CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                            FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                            return false
+                        }else{
+                            if(annotation.boysID!.count != 2){
+                                CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會未加入同性同行者，已自動下架")
+                                FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                                return false
+                            }else if(annotation.girlsID!.count != 2){
+                                CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架")
+                                FirebaseHelper.deleteSharedSeatAnnotation(annotation:annotation)
+                                return false
+                            }
+                        }
+                    }
+                }
+            }else{
+                //如果自己不是舉辦人
+                if(annotation.boysID != nil && annotation.boysID![UserSetting.UID] != nil){
+                    //如果自己是參加人
+                }else if(annotation.girlsID != nil && annotation.girlsID![UserSetting.UID] != nil){
+                    //如果自己是參加人
+                }else{
+                    //如果自己不是舉辦人不是參加人，又過了抽卡時間，不顯示
+                    return false
+                }
+
+            }
+        }
+        
+        
+        //如果自己有參加，就加入sharedSeatMyJoinedAnnotation
         if(annotation.boysID != nil){
             if(annotation.boysID![UserSetting.UID] != nil){
                 sharedSeatMyJoinedAnnotation.append(annotation)

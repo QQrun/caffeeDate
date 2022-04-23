@@ -206,6 +206,54 @@ class FirebaseHelper{
     }
     
     
+    static func deleteSharedSeatAnnotation(annotation:SharedSeatAnnotation){
+
+        //刪除InvitationCode Ref
+        let sets = [annotation.boysID,annotation.girlsID,annotation.signUpBoysID,annotation.signUpGirlsID]
+        for IDs in sets{
+            if(IDs != nil){
+                for(UID,InvitationCode) in IDs!{
+                    if(InvitationCode != "-"){
+                        if !InvitationCode.contains("#"){
+                            let invitationCodeRef = Database.database().reference().child("InvitationCode/" +  InvitationCode)
+                            invitationCodeRef.removeValue(){
+                                (error, ref) -> Void in
+                                if error == nil{
+                                    print("deleted invitationCodeRef:" + "\(InvitationCode)")
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        //刪除SharedSeatAnnotation Ref
+        let ref = Database.database().reference().child("SharedSeatAnnotation/" +  annotation.holderUID)
+        ref.removeValue(){
+            (error, ref) -> Void in
+            if error == nil{
+                print("deleted SharedSeatAnnotationRef:" +  "\(annotation.holderUID)")
+            }
+        }
+        
+        //刪除照片
+        if(annotation.photosUrl != nil && annotation.photosUrl!.count > 0){
+            
+            let photoStorageRef = Storage.storage().reference(forURL: annotation.photosUrl![0])
+            photoStorageRef.delete(completion: { (error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    // success
+                    print("deleted SharedSeatAnnotation Photo: \(annotation.photosUrl![0])")
+                }
+            })
+
+        }
+        
+    }
+    
     
     static func deletePersonAnnotation(){
         //刪除雲端部分

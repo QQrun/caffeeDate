@@ -3019,12 +3019,15 @@ class MapViewController: UIViewController {
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
         
         
-        if(UserSetting.lastCancelSharedSeatTime != nil && UserSetting.lastCancelSharedSeatTime != ""){
-            let diffTime = Int(Date().getCurrentTimeString())! - Int(UserSetting.lastCancelSharedSeatTime)!
+        if(UserSetting.lastCancelSharedSeatTime != ""){
+            let dateFormatter = DateFormatter()
+            dateFormatter.dateFormat = "YYYYMMddHHmmss"
+            let lastCancelSharedSeatTime = dateFormatter.date(from: UserSetting.lastCancelSharedSeatTime)!
+            
+            let diffTime = Int(Date() - lastCancelSharedSeatTime)
             if(diffTime < 60 * 60 * 24){
-                print(diffTime)
                 showToast(message: "您曾經取消有報名者的聚會，24小時內無法再次舉辦")
-                return
+//                return
             }
         }
         
