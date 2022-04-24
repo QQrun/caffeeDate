@@ -1018,6 +1018,16 @@ class MapViewController: UIViewController {
         
     }
     
+    fileprivate func changeSignUpBtnToGoMsgRoomBtn() {
+        
+        if(currentSharedSeatAnnotation!.mode == 1){
+            signUpBtn.setTitle("去聊天室", for: .normal)
+            signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+        }else{
+            //TODO 去四人聊天室       
+        }
+    }
+    
     fileprivate func setBulletinBoard_sharedSeat(sharedSeatAnnotation:SharedSeatAnnotation){
         
         currentSharedSeatAnnotation = sharedSeatAnnotation
@@ -1206,12 +1216,8 @@ class MapViewController: UIViewController {
         signUpBtn.type = .filled
         if(sharedSeatAnnotation.holderUID == UserSetting.UID){
             
-            if(UserSetting.userGender == 0 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
-                signUpBtn.setTitle("去聊天室", for: .normal)
-                signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
-            }else if (UserSetting.userGender == 1 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
-                signUpBtn.setTitle("去聊天室", for: .normal)
-                signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+            if((UserSetting.userGender == 0 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0)||(UserSetting.userGender == 1 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0)){
+                changeSignUpBtnToGoMsgRoomBtn()
             }else{
                 signUpBtn.setTitle("抽出參加者", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
@@ -1227,22 +1233,13 @@ class MapViewController: UIViewController {
             }
         }else{
             
-            if (UserSetting.userGender == 0 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0){
+            if ((UserSetting.userGender == 0 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0)||(UserSetting.userGender == 1 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0)){
                 signUpBtn.setTitle("已滿額", for: .normal)
+                signUpBtn.alpha = 0.6
                 if(sharedSeatAnnotation.girlsID![UserSetting.UID] != nil){
-                    signUpBtn.setTitle("去聊天室", for: .normal)
-                    signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
+                    changeSignUpBtnToGoMsgRoomBtn()
                 }
-            }else if(UserSetting.userGender == 1 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0){
-                signUpBtn.setTitle("已滿額", for: .normal)
-                if(sharedSeatAnnotation.boysID![UserSetting.UID] != nil){
-                    signUpBtn.setTitle("去聊天室", for: .normal)
-                    signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
-                }
-            }else if(sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil){
-                signUpBtn.setTitle("取消報名", for: .normal)
-                signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
-            }else if(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] != nil){
+            }else if((sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil)||(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] != nil)){
                 signUpBtn.setTitle("取消報名", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(cancelSignUpBtnAct), for: .touchUpInside)
             }else{
@@ -2814,7 +2811,6 @@ class MapViewController: UIViewController {
     }
     
     @objc private func iWantOpenStoreBtnAct(){
-        
         Analytics.logEvent("地圖_加號按鈕_擺攤", parameters:nil)
         
         viewDelegate?.gotoWantSellViewController_mapView(defaultItem:nil)
@@ -2883,6 +2879,7 @@ class MapViewController: UIViewController {
             }
         })
     }
+    
     
     func useInvitationCodeToJoinTeam(inviterID:String,inviterName:String,inviterGender:String,annotationID:String,annotationName:String,invitationCode:String){
         

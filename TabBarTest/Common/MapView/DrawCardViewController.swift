@@ -534,6 +534,93 @@ class DrawCardViewController: UIViewController {
         
     }
     
+    fileprivate func dismissAndRefresh() {
+        //退出然後刷新selectAnnotation
+        self.dismiss(animated: true, completion: nil)
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.navigationController?.popViewController(animated: true)
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.deselectAnnotation(nil, animated: false)
+        let currentSharedSeatAnnotation = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.currentSharedSeatAnnotation
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.selectAnnotation(currentSharedSeatAnnotation as! MKAnnotation, animated: false)
+    }
+    
+    fileprivate func autoSendFirstMessage(_ chatroomID: String) {
+        //自動送出第一則訊息
+        let messageId = NSUUID().uuidString
+        let messageRef = Database.database().reference(withPath: "Message/" + chatroomID + "/" + messageId)
+        let currentTime = Date()
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "YYYYMMddHHmmss"
+        let currentTimeString = dateFormatter.string(from: currentTime)
+        let tokenRef = Database.database().reference().child("PersonDetail/" +  self.drawedUID1[self.currentPage] + "/token")
+        tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
+            if snapshot.exists(){
+                let targetToken = snapshot.value as? String
+                
+                var targetGenderChinese : String
+                
+                if self.sharedSeatAnnotation.mode == 2{
+                    targetGenderChinese = "各位"
+                }else if UserSetting.userGender == 0{
+                    targetGenderChinese = "你"
+                }else{
+                    targetGenderChinese = "妳"
+                }
+                
+                let messageValue =
+                [
+                    "time": currentTimeString,
+                    "UID": UserSetting.UID,
+                    "name": UserSetting.userName,
+                    "text": "哈囉 我是" + UserSetting.userName + " 很榮幸能邀請" + targetGenderChinese + "去《" + self.sharedSeatAnnotation.title! + "》吃頓飯",
+                    "targetToken":targetToken,
+                ]
+                messageRef.setValue(messageValue)
+            }
+        })
+    }
+    
+    //本地端資料修改
+    fileprivate func localDataChange() {
+        if(UserSetting.userGender == 0){
+            sharedSeatAnnotation.boysID = [:]
+            sharedSeatAnnotation.boysID![drawedUID1[currentPage]] = "-"
+            if(drawedUID2.count == drawedUID1.count){
+                sharedSeatAnnotation.boysID![drawedUID2[currentPage]] = "-"
+            }
+        }else{
+            sharedSeatAnnotation.girlsID = [:]
+            sharedSeatAnnotation.girlsID![drawedUID1[currentPage]] = "-"
+            if(drawedUID2.count == drawedUID1.count){
+                sharedSeatAnnotation.girlsID![drawedUID2[currentPage]] = "-"
+            }
+        }
+    }
+    
+    fileprivate func open4PeopleMessageRoom() {
+        //開啟四人聊天室
+        var IDs : [String:String]? = [:]
+        if(UserSetting.userGender == 0 && sharedSeatAnnotation.girlsID!.count == 2){
+            IDs = sharedSeatAnnotation.girlsID
+        }else if(UserSetting.userGender == 1 && sharedSeatAnnotation.boysID!.count == 2){
+            IDs = sharedSeatAnnotation.boysID
+        }
+        var partnerUID = ""
+        for(UID,InvitationCode) in IDs!{
+            if(UID != UserSetting.UID){
+                partnerUID = UID
+            }
+        }
+        if(partnerUID != ""){
+            let sortedIDs = [self.drawedUID1[self.currentPage],self.drawedUID2[self.currentPage],UserSetting.UID,partnerUID].sorted()
+            let chatroomID = sortedIDs[0] + "-" + sortedIDs[1] + "-" + sortedIDs[2] + "-" + sortedIDs[3]
+            chatroomID.components(separatedBy: "-").forEach{
+                (uid) in
+                Database.database().reference(withPath: "MessageRoom/" + uid + "/" + chatroomID).setValue(self.sharedSeatAnnotation.title)
+            }
+            self.autoSendFirstMessage(chatroomID)
+        }
+    }
+    
     @objc private func confirmBtnAct(){
         
         if(sharedSeatAnnotation.mode == 1){
@@ -550,14 +637,7 @@ class DrawCardViewController: UIViewController {
                     if error != nil{
                         print(error ?? "上傳參加者失敗")
                     }
-                    //本地端修改
-                    if(UserSetting.userGender == 0){
-                        self.sharedSeatAnnotation.boysID = [:]
-                        self.sharedSeatAnnotation.boysID![self.drawedUID1[self.currentPage]] = "-"
-                    }else{
-                        self.sharedSeatAnnotation.girlsID = [:]
-                        self.sharedSeatAnnotation.girlsID![self.drawedUID1[self.currentPage]] = "-"
-                    }
+                    self.localDataChange()
 
                     //開啟聊天室
                     let sortedIDs = [self.drawedUID1[self.currentPage],UserSetting.UID].sorted()
@@ -567,50 +647,36 @@ class DrawCardViewController: UIViewController {
                         Database.database().reference(withPath: "MessageRoom/" + uid + "/" + chatroomID).setValue(self.sharedSeatAnnotation.title)
                     }
                     
-                    //自動送出第一則訊息
-                    let messageId = NSUUID().uuidString
-                    let messageRef = Database.database().reference(withPath: "Message/" + chatroomID + "/" + messageId)
-                    
-                    let currentTime = Date()
-                    let dateFormatter = DateFormatter()
-                    dateFormatter.dateFormat = "YYYYMMddHHmmss"
-                    let currentTimeString = dateFormatter.string(from: currentTime)
-                    let tokenRef = Database.database().reference().child("PersonDetail/" +  self.drawedUID1[self.currentPage] + "/token")
-                    tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
-                        if snapshot.exists(){
-                            let targetToken = snapshot.value as? String
-                            
-                            var targetGenderChinese : String
-                            
-                            if UserSetting.userGender == 0{
-                                targetGenderChinese = "你"
-                            }else{
-                                targetGenderChinese = "妳"
-                            }
-                            
-                            let messageValue =
-                                [
-                                    "time": currentTimeString,
-                                    "UID": UserSetting.UID,
-                                    "name": UserSetting.userName,
-                                    "text": "哈囉 我是" + UserSetting.userName + " 很榮幸能邀請" + targetGenderChinese + "去《" + self.sharedSeatAnnotation.title! + "》吃頓飯",
-                                    "targetToken":targetToken,
-                                ]
-                            messageRef.setValue(messageValue)
-                        }
-                    })
-                    
-                    //退出然後刷新selectAnnotation
-                    self.dismiss(animated: true, completion: nil)
-                    CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.navigationController?.popViewController(animated: true)
-                    CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.deselectAnnotation(nil, animated: false)
-                    let currentSharedSeatAnnotation = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.currentSharedSeatAnnotation
-                    CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.mapView.selectAnnotation(currentSharedSeatAnnotation as! MKAnnotation, animated: false)
+                    self.autoSendFirstMessage(chatroomID)
+                    self.dismissAndRefresh()
                 }
             }
         }else{
-            if select1 != "" && select2 != ""{
-                
+            if drawedUID1.count > currentPage{
+                //上傳
+                var updateGender = ""
+                if(UserSetting.userGender == 0){
+                    updateGender = "boysID"
+                }else{
+                    updateGender = "girlsID"
+                }
+                let ref1 = Database.database().reference().child("SharedSeatAnnotation/" + sharedSeatAnnotation.holderUID + "/" + updateGender + "/" + drawedUID1[currentPage])
+                let ref2 = Database.database().reference().child("SharedSeatAnnotation/" + sharedSeatAnnotation.holderUID + "/" + updateGender + "/" + drawedUID2[currentPage])
+                let refs = [ref1,ref2]
+                var updateCount = 0
+                for ref in refs{
+                    ref.setValue("-"){ (error, ref) -> Void in
+                        if error != nil{
+                            print(error ?? "上傳參加者失敗")
+                        }
+                        updateCount += 1
+                        if(updateCount == 2){
+                            self.localDataChange()
+                            self.open4PeopleMessageRoom()
+                            self.dismissAndRefresh()
+                        }
+                    }
+                }
             }
         }
         

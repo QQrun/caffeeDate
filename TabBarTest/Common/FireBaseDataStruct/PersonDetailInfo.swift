@@ -39,7 +39,7 @@ class PersonDetailInfo {
     }
     
     init(snapshot: DataSnapshot){
-        let snapshotValue = snapshot.value as! [String: AnyObject]
+        guard let snapshotValue = snapshot.value as? [String: AnyObject] else { return }
         UID = snapshot.key
         name = snapshotValue["name"] as? String ?? "error"
         selfIntroduction = snapshotValue["selfIntroduction"] as? String ?? ""

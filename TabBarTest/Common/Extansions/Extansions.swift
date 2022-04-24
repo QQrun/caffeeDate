@@ -341,7 +341,7 @@ extension String{
 
 extension UIViewController {
     
-    func showToast(message : String, font: UIFont) {
+    func showToast(message : String, font: UIFont,duration:Double = 4) {
         
         let toastLabel = UILabel()
         toastLabel.backgroundColor = .on().withAlphaComponent(0.6)
@@ -354,7 +354,7 @@ extension UIViewController {
         toastLabel.layer.cornerRadius = 10;
         toastLabel.clipsToBounds  =  true
         self.view.addSubview(toastLabel)
-        UIView.animate(withDuration: 1.5, delay: 1.5, options: .curveEaseOut, animations: {
+        UIView.animate(withDuration: 1.5, delay: duration - 1.5, options: .curveEaseOut, animations: {
             toastLabel.alpha = 0.0
         }, completion: {(isCompleted) in
             toastLabel.removeFromSuperview()
@@ -363,6 +363,10 @@ extension UIViewController {
     
     func showToast(message : String) {
         showToast(message: message, font: .systemFont(ofSize: 14.0))
+    }
+    
+    func showToast(message : String,duration:Double) {
+        showToast(message: message, font: .systemFont(ofSize: 14.0),duration: duration)
     }
 }
 

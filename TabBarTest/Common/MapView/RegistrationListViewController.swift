@@ -106,7 +106,22 @@ class RegistrationListViewController: UIViewController ,UITableViewDelegate,UITa
     
     
     @objc private func drawCardBtnAct(){
-        viewDelegate?.gotoDrawCardPage(sharedSeatAnnotation: sharedSeatAnnotation)
+        if(sharedSeatAnnotation.mode == 1){
+            viewDelegate?.gotoDrawCardPage(sharedSeatAnnotation: sharedSeatAnnotation)
+        }else{
+            if((UserSetting.userGender == 0 && sharedSeatAnnotation.girlsID!.count == 2)||(UserSetting.userGender == 1 && sharedSeatAnnotation.boysID!.count == 2)){
+                viewDelegate?.gotoDrawCardPage(sharedSeatAnnotation: sharedSeatAnnotation)
+            }else{
+                var invitationCode = ""
+
+                if(UserSetting.userGender == 0){
+                    invitationCode = sharedSeatAnnotation.girlsID![UserSetting.UID]!
+                }else{
+                    invitationCode = sharedSeatAnnotation.boysID![UserSetting.UID]!
+                }
+                showToast(message: "抽卡前需先請同性朋友用邀請碼" + invitationCode + "加入組隊",font: .systemFont(ofSize: 13),duration:8)
+            }
+        }
     }
 
     @objc private func gobackBtnAct(){
