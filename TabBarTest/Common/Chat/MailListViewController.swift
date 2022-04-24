@@ -12,7 +12,7 @@ import Firebase
 import UserNotifications
 
 protocol MailListViewControllerDelegate: class {
-    func gotoOneToOneChatRoom(chatroomID:String,personInfo:PersonDetailInfo,animated:Bool)
+    func gotoChatRoom(chatroomID:String,personDetailInfos: [PersonDetailInfo],animated:Bool)
 }
 
 
@@ -30,7 +30,6 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     var requestBtn = UIButton()
     
-    
     //一起動App需要先監聽
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -46,8 +45,8 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         
         view.backgroundColor = .surface()
         configTopBar()
-//        configTableView()
-//        activeMailListObserver()
+        //        configTableView()
+        //        activeMailListObserver()
         requestNotiAuthorization()
         configMailListTableViewFrame()
         configNotificationRequestBtn()
@@ -166,104 +165,87 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         mailListObserverRef.observe(.childAdded, with: { (snapshot) in
             
             let chatRoomID = snapshot.key
-            let targetUID = chatRoomID.replace(target: UserSetting.UID, withString: "").replace(target: "-", withString: "")
-            
-            //第二步，取得PersonDetail與PersonAnnotation中的shopName
-            var shopName = ""
-//            let shopNameRef = Database.database().reference(withPath: "PersonAnnotation/" + targetUID + "/title")
-//            shopNameRef.observeSingleEvent(of: .value, with: { (snapshot) in
-//                if snapshot.exists(){
-//                    shopName = snapshot.value as! String
-//                }
-//            })
-            
-            let personDetailRef = Database.database().reference(withPath: "PersonDetail/" + targetUID)
-            personDetailRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                
-                let personDetail = PersonDetailInfo(snapshot: snapshot)
-                let chatRoomRef = Database.database().reference(withPath: "Message/" + chatRoomID)
-                
-                
-                var firstFetch = true //拿來判斷是否要發本地推播
-                //第三步，取得LastMessage的內容、更新時間、發送者UID
-                chatRoomRef.queryOrdered(byChild: "time").queryLimited(toLast: 1).observe(.childAdded, with: { (snapshot) in
-                    
-                    let lastMessage = ChatMessage(snapshot: snapshot)
-                    
-                    //如果並非第一次抓取，就判斷要不要發本地推播
-                    var title : String
-//                    if shopName != ""{
-//                        title = "《"+shopName+"》"
-//                    }else{
-                        title = ""
-//                    }
-                    if !firstFetch {
-                        if lastMessage.user.senderId != UserSetting.UID{
-                            //NotifyHelper.pushNewMsgNoti(title: title, subTitle: lastMessage.user.displayName + "傳送了新訊息給您",chatRoomID: chatRoomID)
-                        }
-                    }else{
-                        firstFetch = false
-                        //如果UserDefaults完全沒存chatRoomID的更新時間，代表沒點進去過聊天室，是全新的訊息，這時候要發推播
-                        if UserDefaults.standard.string(forKey: chatRoomID) == nil{
-                            //NotifyHelper.pushNewMsgNoti(title:  title, subTitle: lastMessage.user.displayName + "傳送了新訊息給您",chatRoomID: chatRoomID)
-                        }
-                    }
-                    //第四步，取得大頭貼後封裝成MailData
-                    //先確認是否mail對象已經存在
-                    var mailDataExisted = false
-                    if self.mailDatas.count > 0{
-                        for i in 0 ... self.mailDatas.count - 1{
-                            if targetUID == self.mailDatas[i].targetUID{
-                                mailDataExisted = true
-                                let headShotImage = self.mailDatas[i].headShotImage
-                                self.mailDatas.remove(at: i)
-                                self.packageMailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShotImage,shopName: shopName,lastMessage: lastMessage)
-                            }
-                        }
-                    }
-                    
-                    //如果不存在，下載headShotImage
-                    if !mailDataExisted{
-                        if let url = personDetail.headShot{
-                            AF.request(url).response { (response) in
-                                guard let data = response.data, let headShotImage = UIImage(data: data)
-                                else {
-                                    self.packageMailData(targetUID:targetUID,personDetail: personDetail, headShotImage: nil,shopName: shopName,lastMessage: lastMessage)
-                                    return }
-                                self.packageMailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShotImage,shopName: shopName,lastMessage: lastMessage)
-                            }
+            let chatRoomName_photoUrl = (snapshot.value as! String).split(separator: "_")
+            var targetUIDs = chatRoomID.split(separator: "-")
+            var deleteIndex = 0
+            for i in 0 ... targetUIDs.count - 1{
+                if(targetUIDs[i] == UserSetting.UID){
+                    deleteIndex = i
+                }
+            }
+            targetUIDs.remove(at: deleteIndex)
+            if(targetUIDs.count > 1){ //多人模式
+                if(chatRoomName_photoUrl.count > 1){
+                    AF.request(String(chatRoomName_photoUrl[1])).response { (response) in
+                        var photo : UIImage?
+                        if let data = response.data, let photoImage = UIImage(data: data) {
+                            photo = photoImage
                         }else{
-                            self.packageMailData(targetUID:targetUID,personDetail: personDetail, headShotImage: nil,shopName: shopName,lastMessage: lastMessage)
+                            photo = nil
                         }
-                        
+                        //下載房間的最後一句話
+                        let chatRoomRef = Database.database().reference(withPath: "Message/" + chatRoomID)
+                        chatRoomRef.queryOrdered(byChild: "time").queryLimited(toLast: 1).observe(.childAdded, with: { (snapshot) in
+                            let lastMessage = ChatMessage(snapshot: snapshot)
+                            self.packageMailData(roomID: chatRoomID, personDetailInfos: nil, headShotImage: photo, shopName: "", lastMessage:lastMessage,roomName:"《" + chatRoomName_photoUrl[0] + "》團")})
+                    }
+                }
+            }else{ //兩人模式
+                let personDetailRef = Database.database().reference(withPath: "PersonDetail/" + targetUIDs[0])
+                
+                //下載PersonDetailInfo
+                personDetailRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    let personDetail = PersonDetailInfo(snapshot: snapshot)
+                    if let url = personDetail.headShot{
+                        //下載頭像
+                        AF.request(url).response { (response) in
+                            
+                            var headshot : UIImage?
+                            
+                            if let data = response.data, let headShotImage = UIImage(data: data) {
+                                headshot = headShotImage
+                            }else{
+                                headshot = nil
+                            }
+                            
+                            //下載房間的最後一句話
+                            let chatRoomRef = Database.database().reference(withPath: "Message/" + chatRoomID)
+                            chatRoomRef.queryOrdered(byChild: "time").queryLimited(toLast: 1).observe(.childAdded, with: { (snapshot) in
+                                let lastMessage = ChatMessage(snapshot: snapshot)
+                                self.packageMailData(roomID: chatRoomID, personDetailInfos: [personDetail], headShotImage: headshot, shopName: "", lastMessage:lastMessage)})
+                        }
                     }
                 })
-                
             }
-            )
-            
             
         })
     }
     
     
-    fileprivate func packageMailData(targetUID:String,personDetail:PersonDetailInfo,headShotImage:UIImage?,shopName:String,lastMessage:ChatMessage) {
+    fileprivate func packageMailData(roomID:String,personDetailInfos:[PersonDetailInfo]?,headShotImage:UIImage?,shopName:String,lastMessage:ChatMessage,roomName:String = "") {
         
         print("packageMailData")
-        
-        let headShot : UIImage!
+        var headShot = UIImage()
         if headShotImage == nil{
-            if personDetail.gender == 0{
-                headShot = UIImage(named: "girlIcon")?.withRenderingMode(.alwaysTemplate)
+            if personDetailInfos != nil{
+                if personDetailInfos![0].gender == 0{
+                    headShot = UIImage(named: "girlIcon")!.withRenderingMode(.alwaysTemplate)
+                }else{
+                    headShot = UIImage(named: "boyIcon")!.withRenderingMode(.alwaysTemplate)
+                }
             }else{
-                headShot = UIImage(named: "boyIcon")?.withRenderingMode(.alwaysTemplate)
+                if UserSetting.userGender == 0{
+                    headShot = UIImage(named: "boyIcon")!.withRenderingMode(.alwaysTemplate)
+                }else{
+                    headShot = UIImage(named: "girlIcon")!.withRenderingMode(.alwaysTemplate)
+                }
             }
-            let mailData = MailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,isDefaultHeadShot: true)
+            let mailData = MailData(roomID:roomID,personDetailInfos: personDetailInfos, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,isDefaultHeadShot: true,roomName:roomName)
             mailDatas.append(mailData)
-
+            
         }else{
-            headShot = headShotImage
-            let mailData = MailData(targetUID:targetUID,personDetail: personDetail, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage)
+            headShot = headShotImage!
+            let mailData = MailData(roomID:roomID,personDetailInfos: personDetailInfos, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,roomName: roomName)
             mailDatas.append(mailData)
         }
         mailDatas = Util.quicksort_MailData(mailDatas)
@@ -275,11 +257,9 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
         var unreadMsgCount = 0
         for mailData in self.mailDatas {
-            //確認是否有閱讀過
-            let sortedIDs = [mailData.targetUID,UserSetting.UID].sorted()
-            let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
-            if UserDefaults.standard.value(forKey: chatroomID) != nil{
-                let readTimeString = UserDefaults.standard.value(forKey: chatroomID) as! String
+            //確認是否有閱讀過 //TODO
+            if UserDefaults.standard.value(forKey: roomID) != nil{
+                let readTimeString = UserDefaults.standard.value(forKey: roomID) as! String
                 let readTimeInt = Int(readTimeString) ?? 0
                 let dateFormat : String = "YYYYMMddHHmmss"
                 let formatter = DateFormatter()
@@ -357,11 +337,18 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         cell.backgroundColor = .clear
         //大頭貼
         cell.headShot.image = mailDatas[indexPath.row].headShotImage
+        cell.headShot.contentMode = .scaleAspectFit
         if(mailDatas[indexPath.row].isDefaultHeadShot){
             cell.headShot.tintColor = .lightGray
         }
-        //人名
-        cell.name.text = mailDatas[indexPath.row].personDetail.name
+        
+        //標題
+        if(mailDatas[indexPath.row].personDetailInfos != nil && mailDatas[indexPath.row].personDetailInfos!.count != 0){
+            cell.name.text = mailDatas[indexPath.row].personDetailInfos![0].name//人名
+        }else{
+            cell.name.text = mailDatas[indexPath.row].roomName//多人房間名
+        }
+        
         cell.name.textColor = .on().withAlphaComponent(0.9)
         if mailDatas[indexPath.row].shopName != ""{
             cell.shopName.text = "《" + mailDatas[indexPath.row].shopName + "》"
@@ -390,10 +377,8 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
             }
             
             //確認是否有閱讀過
-            let sortedIDs = [mailDatas[indexPath.row].targetUID,UserSetting.UID].sorted()
-            let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
-            if UserDefaults.standard.value(forKey: chatroomID) != nil{
-                let readTimeString = UserDefaults.standard.value(forKey: chatroomID) as! String
+            if UserDefaults.standard.value(forKey: mailDatas[indexPath.row].roomID) != nil{
+                let readTimeString = UserDefaults.standard.value(forKey: mailDatas[indexPath.row].roomID) as! String
                 let readTimeInt = Int(readTimeString) ?? 0
                 let dateFormat : String = "YYYYMMddHHmmss"
                 let formatter = DateFormatter()
@@ -434,11 +419,9 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         // 取消 cell 的選取狀態
         tableView.deselectRow(at: indexPath, animated: false)
         
-        let sortedIDs = [mailDatas[indexPath.row].targetUID,UserSetting.UID].sorted()
-        let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
-        viewDelegate?.gotoOneToOneChatRoom(chatroomID: chatroomID, personInfo: mailDatas[indexPath.row].personDetail, animated: true)
+        //TODO 這是兩人模式，需要四人模式
+        viewDelegate?.gotoChatRoom(chatroomID: mailDatas[indexPath.row].roomID, personDetailInfos: mailDatas[indexPath.row].personDetailInfos!, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MailListTableViewCell
-
         //從未閱讀變成已閱讀過
         if(cell.lastMessage.tag == 0){
             cell.lastMessage.tag = 1
@@ -469,19 +452,21 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
 
 
 class MailData {
-    let targetUID : String
-    let personDetail : PersonDetailInfo!
+    let roomName : String
+    let roomID : String
+    let personDetailInfos : [PersonDetailInfo]?
     let headShotImage : UIImage!
     let shopName : String
     let lastMessage : ChatMessage!
     var isDefaultHeadShot : Bool = false
     
-    init(targetUID:String,personDetail:PersonDetailInfo,headShotImage:UIImage,shopName:String,lastMessage:ChatMessage,isDefaultHeadShot:Bool = false) {
-        self.targetUID = targetUID
-        self.personDetail = personDetail
+    init(roomID:String,personDetailInfos:[PersonDetailInfo]?,headShotImage:UIImage,shopName:String,lastMessage:ChatMessage,isDefaultHeadShot:Bool = false,roomName:String = "") {
+        self.roomID = roomID
+        self.personDetailInfos = personDetailInfos
         self.headShotImage = headShotImage
         self.shopName = shopName
         self.lastMessage = lastMessage
         self.isDefaultHeadShot = isDefaultHeadShot
+        self.roomName = roomName
     }
 }

@@ -551,32 +551,57 @@ class DrawCardViewController: UIViewController {
         let dateFormatter = DateFormatter()
         dateFormatter.dateFormat = "YYYYMMddHHmmss"
         let currentTimeString = dateFormatter.string(from: currentTime)
-        let tokenRef = Database.database().reference().child("PersonDetail/" +  self.drawedUID1[self.currentPage] + "/token")
-        tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
-            if snapshot.exists(){
-                let targetToken = snapshot.value as? String
-                
-                var targetGenderChinese : String
-                
-                if self.sharedSeatAnnotation.mode == 2{
-                    targetGenderChinese = "各位"
-                }else if UserSetting.userGender == 0{
-                    targetGenderChinese = "你"
-                }else{
-                    targetGenderChinese = "妳"
-                }
-                
-                let messageValue =
-                [
-                    "time": currentTimeString,
-                    "UID": UserSetting.UID,
-                    "name": UserSetting.userName,
-                    "text": "哈囉 我是" + UserSetting.userName + " 很榮幸能邀請" + targetGenderChinese + "去《" + self.sharedSeatAnnotation.title! + "》吃頓飯",
-                    "targetToken":targetToken,
-                ]
-                messageRef.setValue(messageValue)
+        
+        
+        var UIDs : [String] = [] //收集非本人的UID
+        if(sharedSeatAnnotation.mode == 1){
+            UIDs.append(drawedUID1[currentPage])
+        }else{
+            UIDs.append(drawedUID1[currentPage])
+            UIDs.append(drawedUID2[currentPage])
+            var IDs : [String:String]? = [:]
+            if(UserSetting.userGender == 0){
+                IDs = sharedSeatAnnotation.girlsID
+            }else if(UserSetting.userGender == 1){
+                IDs = sharedSeatAnnotation.boysID
             }
-        })
+            for(UID,InvitationCode) in IDs!{
+                if(UID != UserSetting.UID){
+                    UIDs.append(UID)
+                }
+            }
+        }
+        
+        var collectTokens : [String:String] = [:]
+        for id in UIDs{
+            let tokenRef = Database.database().reference().child("PersonDetail/" +  id + "/token")
+            tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
+                if snapshot.exists(){
+                    let targetToken = snapshot.value as! String
+                    collectTokens[id] = targetToken
+                    var targetGenderChinese : String
+                    if self.sharedSeatAnnotation.mode == 1{
+                        if UserSetting.userGender == 0{
+                            targetGenderChinese = "你"
+                        }else{
+                            targetGenderChinese = "妳"
+                        }
+                    }else{
+                        targetGenderChinese = "各位"
+                    }
+                    let messageValue =
+                    [
+                        "time": currentTimeString,
+                        "UID": UserSetting.UID,
+                        "name": UserSetting.userName,
+                        "text": "哈囉 很榮幸能在茫茫人海中邀請" + targetGenderChinese + "去《" + self.sharedSeatAnnotation.title! + "》吃頓飯",
+                        "targetToken":collectTokens,
+                    ] as [String : Any]
+                    messageRef.setValue(messageValue)
+                }
+            })
+        }
+        
     }
     
     //本地端資料修改
@@ -615,7 +640,7 @@ class DrawCardViewController: UIViewController {
             let chatroomID = sortedIDs[0] + "-" + sortedIDs[1] + "-" + sortedIDs[2] + "-" + sortedIDs[3]
             chatroomID.components(separatedBy: "-").forEach{
                 (uid) in
-                Database.database().reference(withPath: "MessageRoom/" + uid + "/" + chatroomID).setValue(self.sharedSeatAnnotation.title)
+                Database.database().reference(withPath: "MessageRoom/" + uid + "/" + chatroomID).setValue(self.sharedSeatAnnotation.title! + "_" + self.sharedSeatAnnotation.photosUrl![0])
             }
             self.autoSendFirstMessage(chatroomID)
         }

@@ -180,7 +180,7 @@
 		A787C2CB27C0F284009EC8A7 /* AppCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7110572243BBE4E008E680D /* AppCoordinator.swift */; };
 		A787C2CC27C0F284009EC8A7 /* SSPopoverAnimationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A71461832761EA1000872E4E /* SSPopoverAnimationController.swift */; };
 		A787C2CD27C0F284009EC8A7 /* LinkPreviewView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFD253C76D80071D346 /* LinkPreviewView.swift */; };
-		A787C2CE27C0F284009EC8A7 /* OneToOneChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB745248D12FB005BA294 /* OneToOneChatViewController.swift */; };
+		A787C2CE27C0F284009EC8A7 /* MessageRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB745248D12FB005BA294 /* MessageRoomViewController.swift */; };
 		A787C2CF27C0F284009EC8A7 /* AttachmentCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BAD37253C7D160071D346 /* AttachmentCell.swift */; };
 		A787C2D027C0F284009EC8A7 /* MessageInputBar.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABEF253C76B90071D346 /* MessageInputBar.swift */; };
 		A787C2D127C0F284009EC8A7 /* PaddingLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A747EE0D25C678D400766B66 /* PaddingLabel.swift */; };
@@ -450,7 +450,7 @@
 		A7FDB73B24827EE2005BA294 /* CustomTopBarKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB73A24827EE2005BA294 /* CustomTopBarKit.swift */; };
 		A7FDB742248CFDEB005BA294 /* CustomBGKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB741248CFDEB005BA294 /* CustomBGKit.swift */; };
 		A7FDB74A248D12FC005BA294 /* ChatMassage.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB744248D12FB005BA294 /* ChatMassage.swift */; };
-		A7FDB74B248D12FC005BA294 /* OneToOneChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB745248D12FB005BA294 /* OneToOneChatViewController.swift */; };
+		A7FDB74B248D12FC005BA294 /* MessageRoomViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB745248D12FB005BA294 /* MessageRoomViewController.swift */; };
 		A7FDB74D248D12FC005BA294 /* ChatViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB747248D12FB005BA294 /* ChatViewController.swift */; };
 		A7FDB74E248D12FC005BA294 /* ChatUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7FDB748248D12FB005BA294 /* ChatUser.swift */; };
 		B30E26C07F8DA09BD14B45C2 /* libPods-TabBarTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD92DB36E637D077B861A45E /* libPods-TabBarTest.a */; };
@@ -689,7 +689,7 @@
 		A7FDB73A24827EE2005BA294 /* CustomTopBarKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CustomTopBarKit.swift; sourceTree = "<group>"; };
 		A7FDB741248CFDEB005BA294 /* CustomBGKit.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomBGKit.swift; sourceTree = "<group>"; };
 		A7FDB744248D12FB005BA294 /* ChatMassage.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatMassage.swift; sourceTree = "<group>"; };
-		A7FDB745248D12FB005BA294 /* OneToOneChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = OneToOneChatViewController.swift; sourceTree = "<group>"; };
+		A7FDB745248D12FB005BA294 /* MessageRoomViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = MessageRoomViewController.swift; sourceTree = "<group>"; };
 		A7FDB747248D12FB005BA294 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		A7FDB748248D12FB005BA294 /* ChatUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
 		CD92DB36E637D077B861A45E /* libPods-TabBarTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TabBarTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -1158,7 +1158,7 @@
 				A7FDB744248D12FB005BA294 /* ChatMassage.swift */,
 				A7FDB748248D12FB005BA294 /* ChatUser.swift */,
 				A7FDB747248D12FB005BA294 /* ChatViewController.swift */,
-				A7FDB745248D12FB005BA294 /* OneToOneChatViewController.swift */,
+				A7FDB745248D12FB005BA294 /* MessageRoomViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1522,7 +1522,7 @@
 				A7110577243BBE4E008E680D /* AppCoordinator.swift in Sources */,
 				A714618A2761EA1000872E4E /* SSPopoverAnimationController.swift in Sources */,
 				A77BAC08253C76D80071D346 /* LinkPreviewView.swift in Sources */,
-				A7FDB74B248D12FC005BA294 /* OneToOneChatViewController.swift in Sources */,
+				A7FDB74B248D12FC005BA294 /* MessageRoomViewController.swift in Sources */,
 				A77BAD59253C7D190071D346 /* AttachmentCell.swift in Sources */,
 				A77BABF1253C76B90071D346 /* MessageInputBar.swift in Sources */,
 				A787C3A327C8FFFE009EC8A7 /* ChooseLocationViewController.swift in Sources */,
@@ -1728,7 +1728,7 @@
 				A787C2CB27C0F284009EC8A7 /* AppCoordinator.swift in Sources */,
 				A787C2CC27C0F284009EC8A7 /* SSPopoverAnimationController.swift in Sources */,
 				A787C2CD27C0F284009EC8A7 /* LinkPreviewView.swift in Sources */,
-				A787C2CE27C0F284009EC8A7 /* OneToOneChatViewController.swift in Sources */,
+				A787C2CE27C0F284009EC8A7 /* MessageRoomViewController.swift in Sources */,
 				A787C2CF27C0F284009EC8A7 /* AttachmentCell.swift in Sources */,
 				A787C2D027C0F284009EC8A7 /* MessageInputBar.swift in Sources */,
 				A787C2D127C0F284009EC8A7 /* PaddingLabel.swift in Sources */,

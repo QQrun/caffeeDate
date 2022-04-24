@@ -1018,15 +1018,6 @@ class MapViewController: UIViewController {
         
     }
     
-    fileprivate func changeSignUpBtnToGoMsgRoomBtn() {
-        
-        if(currentSharedSeatAnnotation!.mode == 1){
-            signUpBtn.setTitle("去聊天室", for: .normal)
-            signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
-        }else{
-            //TODO 去四人聊天室       
-        }
-    }
     
     fileprivate func setBulletinBoard_sharedSeat(sharedSeatAnnotation:SharedSeatAnnotation){
         
@@ -1217,7 +1208,8 @@ class MapViewController: UIViewController {
         if(sharedSeatAnnotation.holderUID == UserSetting.UID){
             
             if((UserSetting.userGender == 0 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0)||(UserSetting.userGender == 1 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0)){
-                changeSignUpBtnToGoMsgRoomBtn()
+                signUpBtn.setTitle("去聊天室", for: .normal)
+                signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
             }else{
                 signUpBtn.setTitle("抽出參加者", for: .normal)
                 signUpBtn.addTarget(self, action: #selector(signUpBtnAct), for: .touchUpInside)
@@ -1237,7 +1229,8 @@ class MapViewController: UIViewController {
                 signUpBtn.setTitle("已滿額", for: .normal)
                 signUpBtn.alpha = 0.6
                 if(sharedSeatAnnotation.girlsID![UserSetting.UID] != nil){
-                    changeSignUpBtnToGoMsgRoomBtn()
+                    signUpBtn.setTitle("去聊天室", for: .normal)
+                    signUpBtn.addTarget(self, action: #selector(goSharedSeatChatroomAct), for: .touchUpInside)
                 }
             }else if((sharedSeatAnnotation.signUpBoysID != nil && sharedSeatAnnotation.signUpBoysID![UserSetting.UID] != nil)||(sharedSeatAnnotation.signUpGirlsID != nil && sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] != nil)){
                 signUpBtn.setTitle("取消報名", for: .normal)
@@ -3114,13 +3107,23 @@ class MapViewController: UIViewController {
             ref.observeSingleEvent(of: .value, with: {(snapshot) in
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
                 let rootCoordinator = CoordinatorAndControllerInstanceHelper.rootCoordinator
-                rootCoordinator?.gotoOneToOneChatRoom(chatroomID: chatroomID, personInfo: personInfo, animated: false)
+                rootCoordinator?.gotoChatRoom(chatroomID: chatroomID, personDetailInfos: [personInfo], animated: false)
             })
             
             
         }else{
-            //TODO
+            var sortedIDs : [String] = []
+            for(UID,InvitationCode) in currentSharedSeatAnnotation!.boysID!{
+                sortedIDs.append(UID)
+            }
+            for(UID,InvitationCode) in currentSharedSeatAnnotation!.girlsID!{
+                sortedIDs.append(UID)
+            }
+            sortedIDs = sortedIDs.sorted()
+            let chatroomID = sortedIDs[0] + "-" + sortedIDs[1] + "-" + sortedIDs[2] + "-" + sortedIDs[3]
             
+//            
+//            CoordinatorAndControllerInstanceHelper.rootCoordinator.gotoOneToOneChatRoom(chatroomID: <#T##String#>, personInfo: <#T##PersonDetailInfo#>, animated: <#T##Bool#>)
         }
         
         

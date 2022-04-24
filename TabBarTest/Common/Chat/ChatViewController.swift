@@ -29,18 +29,22 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     let primaryColor = UIColor.primary()
     let user = ChatUser(senderId: UserSetting.UID, displayName: UserSetting.userName)
     var userAvatar =  Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: UserSetting.userName)
-    lazy var targetAvatar =  Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: targetPersonInfo.name)
-    var targetToken : String?
+    var targetAvatars : [Avatar]!
+    var targetTokens : [String] = []
     
     let customInputBoxKit = CustomInputBoxKit()
     
     let chatroomID : String!
-    let targetPersonInfo : PersonDetailInfo!
+    let targetPersonInfos : [PersonDetailInfo]!
     
     
-    init(chatroomID: String,personInfo:PersonDetailInfo) {
+    init(chatroomID: String,targetPersonInfos:[PersonDetailInfo]) {
         self.chatroomID = chatroomID
-        self.targetPersonInfo = personInfo
+        self.targetPersonInfos = targetPersonInfos
+        targetAvatars =  []
+        for personInfo in targetPersonInfos{
+            targetAvatars.append(Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: personInfo.name))
+        }
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -109,12 +113,16 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     }
     
     fileprivate func getTargetToken() {
-        let tokenRef = Database.database().reference().child("PersonDetail/" +  targetPersonInfo!.UID + "/token")
-        tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
-            if snapshot.exists(){
-                self.targetToken = snapshot.value as? String
-            }
-        })
+        
+        for info in targetPersonInfos {
+            let tokenRef = Database.database().reference().child("PersonDetail/" +  info.UID + "/token")
+            tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
+                if snapshot.exists(){
+                    self.targetTokens.append(snapshot.value as! String)
+                }
+            })
+        }
+        
     }
     
     //點擊空白處結束edit
@@ -130,21 +138,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     fileprivate func getAvatarHeadshot(){
         
         
-        //
-        //        if UserSetting.userGender == 0 {
-        //            userAvatar = Avatar(image: UIImage(named:"girlIcon"), initials: UserSetting.userName)
-        //        }else{
-        //            userAvatar = Avatar(image: UIImage(named:"boyIcon"), initials: UserSetting.userName)
-        //        }
-        //
-        //        if targetPersonInfo.gender == 0 {
-        //            targetAvatar = Avatar(image: UIImage(named:"girlIcon"), initials: targetPersonInfo.name)
-        //        }else{
-        //            targetAvatar = Avatar(image: UIImage(named:"boyIcon"), initials: targetPersonInfo.name)
-        //        }
-        
-        //userAvatar =  Avatar(image: #imageLiteral(resourceName: "tapbar_star_active"), initials: UserSetting.userName)
-        //targetAvatar
         if let url = UserSetting.userSmallHeadShotURL{
             AF.request(url).response { (response) in
                 guard let data = response.data, let image = UIImage(data: data)
@@ -153,12 +146,15 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
                 self.messagesCollectionView.reloadData()
             }
         }
-        if let url = targetPersonInfo.headShot{
-            AF.request(url).response { (response) in
-                guard let data = response.data, let image = UIImage(data: data)
-                else { return }
-                self.targetAvatar = Avatar(image: image, initials: UserSetting.userName)
-                self.messagesCollectionView.reloadData()
+        
+        for i in 0 ... targetPersonInfos.count - 1{
+            if let url = targetPersonInfos[i].headShot{
+                AF.request(url).response { (response) in
+                    guard let data = response.data, let image = UIImage(data: data)
+                    else { return }
+                    self.targetAvatars[i] = Avatar(image: image, initials: self.targetPersonInfos[i].name)
+                    self.messagesCollectionView.reloadData()
+                }
             }
         }
     }
@@ -277,14 +273,20 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         dateFormatter.dateFormat = "YYYYMMddHHmmss"
         let currentTimeString = dateFormatter.string(from: currentTime)
         
+        var tokenDictionary : [String:String] = [:]
+        for i in 0 ... targetPersonInfos.count - 1{
+            if(targetTokens.count > i){
+                tokenDictionary[targetPersonInfos[i].UID] = targetTokens[i]
+            }
+        }
         let messageValue =
             [
                 "time": currentTimeString,
                 "UID": UserSetting.UID,
                 "name": UserSetting.userName,
                 "text": text,
-                "targetToken":targetToken,
-            ]
+                "targetToken":tokenDictionary,
+            ] as [String : Any]
         messageRef.setValue(messageValue)
     }
     
@@ -538,7 +540,13 @@ extension ChatViewController: MessagesDisplayDelegate {
         if isFromCurrentSender(message: message) {
             avatarView.isHidden = true
         }else{
-            avatarView.set(avatar: targetAvatar)
+            var targetIndex = 0
+            for i in 0 ... targetPersonInfos.count - 1{
+                if(message.sender.senderId == targetPersonInfos[i].UID){
+                    targetIndex = i
+                }
+            }
+            avatarView.set(avatar: targetAvatars[targetIndex])
             avatarView.isHidden = isNextMessageSameSender(at: indexPath)
         }
     }

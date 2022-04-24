@@ -24,8 +24,8 @@ class NotifyHelper {
             if CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedIndex == 1 {
                 
                 let visibleViewController =  CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.visibleViewController
-                if visibleViewController is OneToOneChatViewController{
-                    if chatRoomID == (visibleViewController as! OneToOneChatViewController).chatroomID{
+                if visibleViewController is MessageRoomViewController{
+                    if chatRoomID == (visibleViewController as! MessageRoomViewController).chatroomID{
                         return //如果chatRoomID相同（也就是正在跟要推播的本人聊天），不顯示推播
                     }
                 }else{

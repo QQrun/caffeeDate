@@ -213,7 +213,7 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         Database.database().reference().child("PersonDetail/" + targetUID).observeSingleEvent(of: .value, with:{(snapshot) in
             if snapshot.exists(){
                 let personInfo = PersonDetailInfo(snapshot: snapshot)
-                let oneToOneChatViewController = OneToOneChatViewController(chatroomID: chatroomID,personInfo: personInfo)
+                let oneToOneChatViewController = MessageRoomViewController(chatroomID: chatroomID,targetPersonInfos: [personInfo])
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(oneToOneChatViewController, animated: true)
             }

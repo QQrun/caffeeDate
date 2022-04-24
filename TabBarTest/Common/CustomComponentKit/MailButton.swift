@@ -28,14 +28,11 @@ class MailButton : UIButton {
     }
     
     @objc func mailBtnAct(){
-        
-        print("mailBtnAct")
-        
         let sortedIDs = [personInfo.UID,UserSetting.UID].sorted()
         let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
         
         let rootCoordinator = CoordinatorAndControllerInstanceHelper.rootCoordinator
-        rootCoordinator?.gotoOneToOneChatRoom(chatroomID: chatroomID, personInfo: personInfo, animated: false)
+        rootCoordinator?.gotoChatRoom(chatroomID: chatroomID, personDetailInfos: [personInfo], animated: false)
         Analytics.logEvent("寄信按鈕", parameters:nil)
     }
 }

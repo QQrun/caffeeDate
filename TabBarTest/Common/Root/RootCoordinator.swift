@@ -309,11 +309,11 @@ extension RootCoordinator: SettingViewDelegate{
 
 extension RootCoordinator: MailListViewControllerDelegate{
     
-    func gotoOneToOneChatRoom(chatroomID: String, personInfo: PersonDetailInfo,animated:Bool) {
+    func gotoChatRoom(chatroomID: String, personDetailInfos: [PersonDetailInfo],animated:Bool) {
         
         Analytics.logEvent("訊息_前往一對一聊天室", parameters:nil)
         
-        let oneToOneChatViewController = OneToOneChatViewController(chatroomID: chatroomID,personInfo: personInfo)
+        let oneToOneChatViewController = MessageRoomViewController(chatroomID: chatroomID, targetPersonInfos: personDetailInfos)
         mailTab.pushViewController(oneToOneChatViewController, animated: animated)
         
         rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab

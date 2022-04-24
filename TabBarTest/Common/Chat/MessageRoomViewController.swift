@@ -25,16 +25,16 @@
 import UIKit
 import Firebase
 
-final class OneToOneChatViewController: UIViewController {
+final class MessageRoomViewController: UIViewController {
     
     let customTopBarKit = CustomTopBarKit()
     
     let chatroomID : String!
-    let targetPersonInfo : PersonDetailInfo!
+    let targetPersonInfos : [PersonDetailInfo]!
     
-    init(chatroomID: String,personInfo:PersonDetailInfo) {
+    init(chatroomID: String,targetPersonInfos:[PersonDetailInfo]) {
         self.chatroomID = chatroomID
-        self.targetPersonInfo = personInfo
+        self.targetPersonInfos = targetPersonInfos
         super.init(nibName: nil, bundle: nil)
         self.hidesBottomBarWhenPushed = true
     }
@@ -48,7 +48,7 @@ final class OneToOneChatViewController: UIViewController {
         return .lightContent
     }
     
-    lazy var conversationViewController = ChatViewController(chatroomID: chatroomID, personInfo: targetPersonInfo)
+    lazy var conversationViewController = ChatViewController(chatroomID: chatroomID,targetPersonInfos: targetPersonInfos)
     
     /// Required for the `MessageInputBar` to be visible
     override var canBecomeFirstResponder: Bool {
@@ -65,7 +65,7 @@ final class OneToOneChatViewController: UIViewController {
         super.viewDidLoad()
         
         view.backgroundColor = .surface()
-        UserSetting.currentChatTarget = targetPersonInfo.name
+        UserSetting.currentChatTarget = targetPersonInfos[0].name //TODO 不知道怎麼改
         addConversationView()
     }
     
@@ -86,7 +86,7 @@ final class OneToOneChatViewController: UIViewController {
         super.viewDidLayoutSubviews()
         let headerHeight: CGFloat = 45
         customTopBarKit.CreatTopBar(view: view,showSeparator: true)
-        customTopBarKit.CreatHeatShotAndName(personDetailInfo: targetPersonInfo, canGoProfileView: true)
+        customTopBarKit.CreatHeatShotAndName(personDetailInfo: targetPersonInfos[0], canGoProfileView: true) //TODO
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
         
