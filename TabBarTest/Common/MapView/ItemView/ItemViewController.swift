@@ -104,15 +104,11 @@ class ItemViewController: UIViewController,UITableViewDelegate,UITableViewDataSo
         customTopBarKit.CreatTopBar(view: view)
         
         if personInfo != nil{
-//            customTopBarKit.CreatHeatShotAndName(personDetailInfo: personInfo!, canGoProfileView: true)
-//            customTopBarKit.CreatMailBtn(personDetailInfo: personInfo!)
-//            customTopBarKit.getMailBtn()?.addTarget(self, action: #selector(mailBtnAct), for: .touchUpInside)
-            
+            self.customTopBarKit.CreatMailBtn(personDetailInfo: personInfo!)
         }else {
             let ref = Database.database().reference(withPath: "PersonDetail/" + "\(itemOwnerID)")
             ref.observeSingleEvent(of: .value,  with: {(snapshot) in
                 if snapshot.exists(){
-//                    self.customTopBarKit.CreatHeatShotAndName(personDetailInfo: PersonDetailInfo(snapshot: snapshot), canGoProfileView: true)
                     self.customTopBarKit.CreatMailBtn(personDetailInfo: PersonDetailInfo(snapshot: snapshot))
                 }
             })

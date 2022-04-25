@@ -49,8 +49,7 @@ class RootCoordinator: Coordinator {
         
         CoordinatorAndControllerInstanceHelper.rootCoordinator = self
         
-        
-        UserSetting.currentChatTarget = ""
+        UserSetting.currentChatTarget = []
         
         if Auth.auth().currentUser == nil {
             print("No user is signed in.")
@@ -309,7 +308,7 @@ extension RootCoordinator: SettingViewDelegate{
 
 extension RootCoordinator: MailListViewControllerDelegate{
     
-    func gotoChatRoom(chatroomID: String, personDetailInfos: [PersonDetailInfo],animated:Bool) {
+    func gotoChatRoom(chatroomID: String, personDetailInfos: [PersonDetailInfo]?,animated:Bool) {
         
         Analytics.logEvent("訊息_前往一對一聊天室", parameters:nil)
         

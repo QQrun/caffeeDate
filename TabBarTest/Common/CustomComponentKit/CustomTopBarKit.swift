@@ -148,7 +148,59 @@ class CustomTopBarKit {
         topBar.addSubview(titleLabel)
     }
     
-    func CreatHeatShotAndName(personDetailInfo: PersonDetailInfo,canGoProfileView:Bool = true){
+    func Creat4photo(UIDs:[String],completion: @escaping (([UIImage]) -> ())){
+        
+        
+        var headshots : [UIImageView] = []
+
+        
+        let headShot1 = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - 4 * 3 - 36 * 2, y: 45/2 - 36/2, width: 36, height: 36))
+        headshots.append(headShot1)
+        let headShot2 = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 - 4 - 36, y: 45/2 - 36/2, width: 36, height: 36))
+        headshots.append(headShot2)
+        let headShot3 = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 + 4, y: 45/2 - 36/2, width: 36, height: 36))
+        headshots.append(headShot3)
+        let headShot4 = UIImageView(frame: CGRect(x: UIScreen.main.bounds.size.width/2 + 4 * 3 + 36, y: 45/2 - 36/2, width: 36, height: 36))
+        headshots.append(headShot4)
+        for headshot in headshots{
+            headshot.layer.cornerRadius = 18
+            headshot.clipsToBounds = true
+            topBar.addSubview(headshot)
+            
+            
+        }
+        
+        var collectedImgs : [UIImage] = [UIImage(),UIImage(),UIImage(),UIImage()]
+        var collectedImgsCount = 0
+        for i in 0 ... UIDs.count - 1{
+            let headshotRef = Database.database().reference(withPath: "PersonDetail/" + UIDs[i] + "/headShot")
+            headshotRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                let headShotUrl = snapshot.value as? String ?? ""
+                AF.request(headShotUrl).response { (response) in
+                    if let data = response.data, let image = UIImage(data: data){
+                        headshots[i].image = image
+                        headshots[i].alpha = 0
+                        UIView.animate(withDuration: 0.3, animations: {
+                            headshots[i].alpha = 1
+                        })
+                        collectedImgs[i] = image
+                        collectedImgsCount += 1
+                        if(collectedImgsCount == 4){
+                            completion(collectedImgs)
+                        }
+                    }
+                }
+            })
+            
+            let profileBtn = ProfileButton(UID: UIDs[i])
+            profileBtn.frame = headshots[i].frame
+            topBar.addSubview(profileBtn)
+        }
+        
+        
+    }
+    
+    func CreatHeatShotAndName(personDetailInfo: PersonDetailInfo,canGoProfileView:Bool = true,completion: @escaping ((UIImage) -> ())){
         
         let nameLabel = { () -> UILabel in
             let label = UILabel()
@@ -205,6 +257,7 @@ class CustomTopBarKit {
                         genderIcon.alpha = 0
                         headShot.alpha = 1
                     })
+                    completion(image)
                 }
             }
         }

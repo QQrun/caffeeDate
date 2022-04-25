@@ -72,8 +72,7 @@ class SharedSeatAnnotationGetter{
         
         
         //確認那個地點是否有過期，如果有過期，不顯示
-        //TODO
-        
+
         sharedSeatAnnotation.coordinate = CLLocationCoordinate2D(latitude:  CLLocationDegrees((sharedSeatAnnotationData.latitude as NSString).floatValue), longitude: CLLocationDegrees((sharedSeatAnnotationData.longitude as NSString).floatValue))
 
         

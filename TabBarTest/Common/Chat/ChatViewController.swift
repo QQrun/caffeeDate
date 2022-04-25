@@ -35,15 +35,19 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     let customInputBoxKit = CustomInputBoxKit()
     
     let chatroomID : String!
-    let targetPersonInfos : [PersonDetailInfo]!
+    let targetPersonInfos : [PersonDetailInfo]?
+    var targetUIDs : [String] = []
     
-    
-    init(chatroomID: String,targetPersonInfos:[PersonDetailInfo]) {
+    init(chatroomID: String,targetPersonInfos:[PersonDetailInfo]?) {
         self.chatroomID = chatroomID
         self.targetPersonInfos = targetPersonInfos
         targetAvatars =  []
-        for personInfo in targetPersonInfos{
-            targetAvatars.append(Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: personInfo.name))
+        let splitUID = chatroomID.split(separator: "-")
+        for i in 0 ... splitUID.count - 1{
+            if(String(splitUID[i]) != UserSetting.UID){
+                targetUIDs.append(String(splitUID[i]))
+                targetAvatars.append(Avatar(image: #imageLiteral(resourceName: "cricleButton"), initials: ""))
+            }
         }
         super.init(nibName: nil, bundle: nil)
     }
@@ -58,15 +62,12 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        
         view.backgroundColor = .surface()
         
         getTargetToken()
         
         configureMessageCollectionView()
         loadFirstMessages()
-        
-        getAvatarHeadshot()
         
         configureViewTapGesture()
         
@@ -100,7 +101,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         messageObserverRef.removeObserver(withHandle: messageObserver)
         
         //更新已閱讀時間
-        //TODO 如果是團體room，不需要更新已閱讀時間
         if messageList.count > 0{
             let dateFormat : String = "YYYYMMddHHmmss"
             let formatter = DateFormatter()
@@ -113,16 +113,14 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     }
     
     fileprivate func getTargetToken() {
-        
-        for info in targetPersonInfos {
-            let tokenRef = Database.database().reference().child("PersonDetail/" +  info.UID + "/token")
+        for id in targetUIDs{
+            let tokenRef = Database.database().reference().child("PersonDetail/" +  id + "/token")
             tokenRef.observeSingleEvent(of: .value, with: {(snapshot) in
                 if snapshot.exists(){
                     self.targetTokens.append(snapshot.value as! String)
                 }
             })
         }
-        
     }
     
     //點擊空白處結束edit
@@ -133,30 +131,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
     
     @objc func viewTapped() {
         self.view.endEditing(true)
-    }
-    
-    fileprivate func getAvatarHeadshot(){
-        
-        
-        if let url = UserSetting.userSmallHeadShotURL{
-            AF.request(url).response { (response) in
-                guard let data = response.data, let image = UIImage(data: data)
-                else { return }
-                self.userAvatar =  Avatar(image: image, initials: UserSetting.userName)
-                self.messagesCollectionView.reloadData()
-            }
-        }
-        
-        for i in 0 ... targetPersonInfos.count - 1{
-            if let url = targetPersonInfos[i].headShot{
-                AF.request(url).response { (response) in
-                    guard let data = response.data, let image = UIImage(data: data)
-                    else { return }
-                    self.targetAvatars[i] = Avatar(image: image, initials: self.targetPersonInfos[i].name)
-                    self.messagesCollectionView.reloadData()
-                }
-            }
-        }
     }
     
     fileprivate func configCustomInputBox() {
@@ -274,9 +248,9 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         let currentTimeString = dateFormatter.string(from: currentTime)
         
         var tokenDictionary : [String:String] = [:]
-        for i in 0 ... targetPersonInfos.count - 1{
+        for i in 0 ... targetUIDs.count - 1{
             if(targetTokens.count > i){
-                tokenDictionary[targetPersonInfos[i].UID] = targetTokens[i]
+                tokenDictionary[targetUIDs[i]] = targetTokens[i]
             }
         }
         let messageValue =
@@ -541,8 +515,8 @@ extension ChatViewController: MessagesDisplayDelegate {
             avatarView.isHidden = true
         }else{
             var targetIndex = 0
-            for i in 0 ... targetPersonInfos.count - 1{
-                if(message.sender.senderId == targetPersonInfos[i].UID){
+            for i in 0 ... targetUIDs.count - 1{
+                if(message.sender.senderId == targetUIDs[i]){
                     targetIndex = i
                 }
             }

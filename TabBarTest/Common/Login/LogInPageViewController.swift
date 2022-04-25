@@ -142,7 +142,7 @@ class LogInPageViewController: UIPageViewController {
                            "isWantMakeFriend":false,
                            "sellItemsID":sellItemsID,
                            "buyItemsID":buyItemsID,
-                           "currentChatTarget":"",] as [String : Any]
+                           "currentChatTarget":[],] as [String : Any]
                 for data in dic {
                     UserDefaults.standard.set(data.value, forKey: data.key)
                 }

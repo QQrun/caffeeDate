@@ -12,7 +12,7 @@ import Firebase
 import UserNotifications
 
 protocol MailListViewControllerDelegate: class {
-    func gotoChatRoom(chatroomID:String,personDetailInfos: [PersonDetailInfo],animated:Bool)
+    func gotoChatRoom(chatroomID:String,personDetailInfos: [PersonDetailInfo]?,animated:Bool)
 }
 
 
@@ -226,6 +226,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         
         print("packageMailData")
         var headShot = UIImage()
+        let mailData : MailData
         if headShotImage == nil{
             if personDetailInfos != nil{
                 if personDetailInfos![0].gender == 0{
@@ -240,14 +241,25 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                     headShot = UIImage(named: "girlIcon")!.withRenderingMode(.alwaysTemplate)
                 }
             }
-            let mailData = MailData(roomID:roomID,personDetailInfos: personDetailInfos, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,isDefaultHeadShot: true,roomName:roomName)
-            mailDatas.append(mailData)
-            
+            mailData = MailData(roomID:roomID,personDetailInfos: personDetailInfos, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,isDefaultHeadShot: true,roomName:roomName)
         }else{
             headShot = headShotImage!
-            let mailData = MailData(roomID:roomID,personDetailInfos: personDetailInfos, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,roomName: roomName)
+            mailData = MailData(roomID:roomID,personDetailInfos: personDetailInfos, headShotImage: headShot,shopName: shopName,lastMessage: lastMessage,roomName: roomName)
+        }
+        
+        var isExist = false
+        if(mailDatas.count > 0){
+            for i in 0 ... mailDatas.count - 1{
+                if(mailDatas[i].roomID == roomID){
+                    mailDatas[i] = mailData
+                    isExist = true
+                }
+            }
+        }
+        if(!isExist){
             mailDatas.append(mailData)
         }
+        
         mailDatas = Util.quicksort_MailData(mailDatas)
         mailDatas.reverse()
         mailListTableView.reloadData()
@@ -257,7 +269,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
         var unreadMsgCount = 0
         for mailData in self.mailDatas {
-            //確認是否有閱讀過 //TODO
+            //確認是否有閱讀過
             if UserDefaults.standard.value(forKey: roomID) != nil{
                 let readTimeString = UserDefaults.standard.value(forKey: roomID) as! String
                 let readTimeInt = Int(readTimeString) ?? 0
@@ -276,6 +288,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
             }
         }
         if mapViewController != nil{
+            print("unreadMsgCount:" + "\(unreadMsgCount)") //TODO 似乎有bug
             mapViewController!.setUnreadMsgCount(unreadMsgCount)
         }
         
@@ -418,9 +431,8 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                           didSelectRowAt indexPath: IndexPath) {
         // 取消 cell 的選取狀態
         tableView.deselectRow(at: indexPath, animated: false)
-        
-        //TODO 這是兩人模式，需要四人模式
-        viewDelegate?.gotoChatRoom(chatroomID: mailDatas[indexPath.row].roomID, personDetailInfos: mailDatas[indexPath.row].personDetailInfos!, animated: true)
+    
+        viewDelegate?.gotoChatRoom(chatroomID: mailDatas[indexPath.row].roomID, personDetailInfos: mailDatas[indexPath.row].personDetailInfos, animated: true)
         let cell = tableView.cellForRow(at: indexPath) as! MailListTableViewCell
         //從未閱讀變成已閱讀過
         if(cell.lastMessage.tag == 0){

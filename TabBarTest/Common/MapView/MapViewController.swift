@@ -2912,7 +2912,6 @@ class MapViewController: UIViewController {
         alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
             alertVC.dismiss(animated: true)
             
-            //TODO
             let genderNode : String
             if UserSetting.userGender == 0{
                 if(inviterID == annotationID){
@@ -3121,9 +3120,8 @@ class MapViewController: UIViewController {
             }
             sortedIDs = sortedIDs.sorted()
             let chatroomID = sortedIDs[0] + "-" + sortedIDs[1] + "-" + sortedIDs[2] + "-" + sortedIDs[3]
-            
-//            
-//            CoordinatorAndControllerInstanceHelper.rootCoordinator.gotoOneToOneChatRoom(chatroomID: <#T##String#>, personInfo: <#T##PersonDetailInfo#>, animated: <#T##Bool#>)
+                        
+            CoordinatorAndControllerInstanceHelper.rootCoordinator.gotoChatRoom(chatroomID: chatroomID, personDetailInfos: nil, animated: false)
         }
         
         

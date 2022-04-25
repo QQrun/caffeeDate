@@ -181,14 +181,17 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         }
         //如果正處於mailList，不顯示通知
         if CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedIndex == 1{
-            if UserSetting.currentChatTarget == ""{
+            if UserSetting.currentChatTarget == []{
                 return
             }
         }
         //當前正在跟通知的主人聊天，忽視通知
-        if UserSetting.currentChatTarget == notification.request.content.title {
-            return
+        for target in UserSetting.currentChatTarget{
+            if target == notification.request.content.title {
+                return
+            }
         }
+        
         
         //傳送的對象是自己，忽視通知（可能兩個人共用同一個手機導致token一樣）
         if UserSetting.userName == notification.request.content.title {

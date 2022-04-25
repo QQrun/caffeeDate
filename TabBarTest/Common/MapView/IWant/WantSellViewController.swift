@@ -16,7 +16,6 @@ class WantSellViewController: UIViewController,UITableViewDelegate,UITableViewDa
     weak var mapViewController: MapViewController?
     weak var shopEditViewController : ShopEditViewController? //TODO 這個可以會刪除，不在這邊改了
     
-    
     let photoLimitAmount = 10 //照片最多十張
     var photos : [UIImage] = []
     var photoUrls : [String] = []
