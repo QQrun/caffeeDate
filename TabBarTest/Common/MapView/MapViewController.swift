@@ -3173,8 +3173,13 @@ class MapViewController: UIViewController {
         let latitude = String(currentSharedSeatAnnotation!.coordinate.latitude as! Double)
         let longitude = String(currentSharedSeatAnnotation!.coordinate.longitude as! Double)
         
-        let url = URL(string: "comgooglemaps://?saddr=&daddr=" + "\(latitude)" +  ","+"\(longitude)"+"&directionsmode=driving")
-        let appleMapUrl = URL(string: "maps://?saddr=&daddr=\(latitude),\(longitude)")
+        let restaurant_UTF8 = currentSharedSeatAnnotation!.title!.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) as! String
+        
+        let addresss_UTF8 = currentSharedSeatAnnotation!.address.addingPercentEncoding(withAllowedCharacters: .urlFragmentAllowed) as! String
+        
+        let url = URL(string: "comgooglemaps://?q=" + restaurant_UTF8 + "&center="+"\(latitude)" +  ","+"\(longitude)")
+//
+        let appleMapUrl = URL(string: "maps://?q=" + addresss_UTF8 + "&sll=" + "\(latitude)" + "," + "\(longitude)")
         
         if UIApplication.shared.canOpenURL(url!) {
             UIApplication.shared.open(url!, options: [:], completionHandler: nil)
