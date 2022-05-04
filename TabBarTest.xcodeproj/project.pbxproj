@@ -386,7 +386,6 @@
 		A787C3B027D62239009EC8A7 /* SharedSeatAnnotationGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3AE27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift */; };
 		A787C3B227DB845D009EC8A7 /* ProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */; };
 		A787C3B327DB845D009EC8A7 /* ProfilePhoto.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */; };
-		A787C3B827F0608C009EC8A7 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A787C3B727F0608C009EC8A7 /* GoogleService-Info.plist */; };
 		A787C3C327F217A7009EC8A7 /* ListLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3C227F217A7009EC8A7 /* ListLocationViewController.swift */; };
 		A787C3C427F217A7009EC8A7 /* ListLocationViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A787C3C227F217A7009EC8A7 /* ListLocationViewController.swift */; };
 		A787C3C627F725A5009EC8A7 /* InfoPopOverController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A787C3C527F725A5009EC8A7 /* InfoPopOverController.storyboard */; };
@@ -412,6 +411,7 @@
 		A78DF16C24664D9200617AAF /* Util.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF16B24664D9200617AAF /* Util.swift */; };
 		A78DF1742466B2C600617AAF /* ActionSheetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF1732466B2C600617AAF /* ActionSheetKit.swift */; };
 		A78DF17A246C312000617AAF /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF179246C312000617AAF /* FirebaseHelper.swift */; };
+		A797A70B2823054000C4EBC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */; };
 		A799BE5D27A5354900A6057A /* ScoreCoffeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */; };
 		A799BE5F27A5356E00A6057A /* ScoreCoffeeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */; };
 		A799BE6127A54A7E00A6057A /* CoffeeScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */; };
@@ -633,7 +633,6 @@
 		A787C3AB27D3A330009EC8A7 /* SharedSeatAnnotationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedSeatAnnotationData.swift; sourceTree = "<group>"; };
 		A787C3AE27D62239009EC8A7 /* SharedSeatAnnotationGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SharedSeatAnnotationGetter.swift; sourceTree = "<group>"; };
 		A787C3B127DB845D009EC8A7 /* ProfilePhoto.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhoto.swift; sourceTree = "<group>"; };
-		A787C3B727F0608C009EC8A7 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A787C3C227F217A7009EC8A7 /* ListLocationViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListLocationViewController.swift; sourceTree = "<group>"; };
 		A787C3C527F725A5009EC8A7 /* InfoPopOverController.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = InfoPopOverController.storyboard; sourceTree = "<group>"; };
 		A789E47D2449AF9D00730053 /* BigItemTableViewDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BigItemTableViewDelegate.swift; sourceTree = "<group>"; };
@@ -657,6 +656,7 @@
 		A78DF16B24664D9200617AAF /* Util.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Util.swift; sourceTree = "<group>"; };
 		A78DF1732466B2C600617AAF /* ActionSheetKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetKit.swift; sourceTree = "<group>"; };
 		A78DF179246C312000617AAF /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
+		A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCoffeeViewController.swift; sourceTree = "<group>"; };
 		A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ScoreCoffeeViewController.storyboard; sourceTree = "<group>"; };
 		A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeScoreData.swift; sourceTree = "<group>"; };
@@ -1102,7 +1102,7 @@
 		A787C3B627F06076009EC8A7 /* VeryIncorrect */ = {
 			isa = PBXGroup;
 			children = (
-				A787C3B727F0608C009EC8A7 /* GoogleService-Info.plist */,
+				A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */,
 			);
 			path = VeryIncorrect;
 			sourceTree = "<group>";
@@ -1366,6 +1366,7 @@
 				A787C38027C0F284009EC8A7 /* LaunchScreen.storyboard in Resources */,
 				A787C38127C0F284009EC8A7 /* SettingViewController.storyboard in Resources */,
 				A787C38227C0F284009EC8A7 /* MapViewController.storyboard in Resources */,
+				A797A70B2823054000C4EBC2 /* GoogleService-Info.plist in Resources */,
 				A787C38327C0F284009EC8A7 /* NotifyTableViewCell.xib in Resources */,
 				A787C38427C0F284009EC8A7 /* ProfilePopView.xib in Resources */,
 				A787C38527C0F284009EC8A7 /* OpenNotificationViewController.storyboard in Resources */,
@@ -1380,7 +1381,6 @@
 				A7CEE603280EF3FD00DFAE86 /* soul2.sks in Resources */,
 				A787C39927C0F35D009EC8A7 /* VeryIncorrectAssets.xcassets in Resources */,
 				A787C39027C0F284009EC8A7 /* ScoreCoffeeViewController.storyboard in Resources */,
-				A787C3B827F0608C009EC8A7 /* GoogleService-Info.plist in Resources */,
 				A7CEE601280EF3FD00DFAE86 /* soul.sks in Resources */,
 				A787C3C727F725A5009EC8A7 /* InfoPopOverController.storyboard in Resources */,
 				A787C39127C0F284009EC8A7 /* AppStoreRatingAlertView.xib in Resources */,

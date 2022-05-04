@@ -173,21 +173,25 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         
+        print("userNotificationCenter 1")
         //如果正在後台，直接顯示
         let state = UIApplication.shared.applicationState
         if state == .background || state == .inactive {
             completionHandler([[.alert]])
+            print("userNotificationCenter 2")
             return
         }
         //如果正處於mailList，不顯示通知
         if CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedIndex == 1{
             if UserSetting.currentChatTarget == []{
+                print("userNotificationCenter 3")
                 return
             }
         }
         //當前正在跟通知的主人聊天，忽視通知
         for target in UserSetting.currentChatTarget{
             if target == notification.request.content.title {
+                print("userNotificationCenter 4")
                 return
             }
         }
@@ -195,9 +199,11 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         //傳送的對象是自己，忽視通知（可能兩個人共用同一個手機導致token一樣）
         if UserSetting.userName == notification.request.content.title {
+            print("userNotificationCenter 5")
             return
         }
         
+        print("userNotificationCenter 6")
         completionHandler([[.alert]])
         
         
