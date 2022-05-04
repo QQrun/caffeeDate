@@ -99,7 +99,7 @@ class MapViewController: UIViewController {
     
     var hiddeningTapBar = false
     
-    private var storeRemainingTimeTimer = Timer()
+    private var storeRemainingUITimeTimer = Timer()
     
     private let iWantActionSheetKit = ActionSheetKit()
     
@@ -1019,6 +1019,30 @@ class MapViewController: UIViewController {
     }
     
     
+    fileprivate func removeLocalAndRemoteAnnotation(sharedSeatAnnotation:SharedSeatAnnotation) {
+        //local
+        
+        let visibleViewController =  CoordinatorAndControllerInstanceHelper.rootCoordinator.mapTab.visibleViewController
+        if !(visibleViewController is MapViewController){
+            return
+        }
+        
+        if let index = sharedSeatAnnotationGetter.sharedSeat2Annotation.firstIndex(of: currentSharedSeatAnnotation!) {
+            sharedSeatAnnotationGetter.sharedSeat2Annotation.remove(at: index)
+        }
+        if let index = sharedSeatAnnotationGetter.sharedSeat4Annotation.firstIndex(of: currentSharedSeatAnnotation!) {
+            sharedSeatAnnotationGetter.sharedSeat4Annotation.remove(at: index)
+        }
+        if let index = sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.firstIndex(of: currentSharedSeatAnnotation!) {
+            sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.remove(at: index)
+        }
+        mapView.deselectAnnotation(sharedSeatAnnotation, animated: true)
+        mapView.removeAnnotation(sharedSeatAnnotation)
+        //remote
+        FirebaseHelper.deleteSharedSeatAnnotation(annotation:sharedSeatAnnotation)
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.showToast(message: "您的聚會過了抽卡時間未抽卡，已自動下架",duration: 6)
+    }
+    
     fileprivate func setBulletinBoard_sharedSeat(sharedSeatAnnotation:SharedSeatAnnotation){
         
         currentSharedSeatAnnotation = sharedSeatAnnotation
@@ -1088,15 +1112,18 @@ class MapViewController: UIViewController {
         reviewTimeValueLabel.textColor = .on()
         bulletinBoard_SharedSeat.addSubview(reviewTimeValueLabel)
         
-        //如果是距離抽卡時間兩個鐘頭內，就改成倒數計時
+        var comingOffSoon = false//即將下架
         
-        if(UserSetting.UID == sharedSeatAnnotation.holderUID){
+        //如果是距離抽卡時間兩個鐘頭內，就改成倒數計時
+        let hasParticipant = ((UserSetting.userGender == 0 && sharedSeatAnnotation.boysID != nil && sharedSeatAnnotation.boysID!.count > 0)||(UserSetting.userGender == 1 && sharedSeatAnnotation.girlsID != nil && sharedSeatAnnotation.girlsID!.count > 0))
+        if(UserSetting.UID == sharedSeatAnnotation.holderUID && !hasParticipant){
             let now = Date()
             let drawCardTime = firebaseDateFormatter.date(from: sharedSeatAnnotation.reviewTime)!
             let remainingTime  = drawCardTime - now
             if(remainingTime < 7200 && remainingTime > 0){
                 reviewTimeValueLabel.textColor = .error
-                storeRemainingTimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
+                comingOffSoon = true
+                storeRemainingUITimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: { _ in
                     
                     let now = Date()
                     let drawCardTime = firebaseDateFormatter.date(from: sharedSeatAnnotation.reviewTime)!
@@ -1107,7 +1134,14 @@ class MapViewController: UIViewController {
                     let remainingSecond = (Int(remainingTime) % (60 * 60)) % 60
                     
                     reviewTimeValueLabel.text = "\(remainingHour)" + " : " + "\(remainingMin)" + " : " + "\(remainingSecond)"
+                    
+                    if(remainingHour == 0 && remainingMin == 0 && remainingSecond == 0){
+                        self.removeLocalAndRemoteAnnotation(sharedSeatAnnotation: sharedSeatAnnotation)
+                    }
+
                 })
+            }else if(remainingTime <= 0){
+                removeLocalAndRemoteAnnotation(sharedSeatAnnotation: sharedSeatAnnotation)
             }
         }
         
@@ -1243,14 +1277,22 @@ class MapViewController: UIViewController {
         signUpBtn.layer.cornerRadius = 8
         bulletinBoard_SharedSeat.addSubview(signUpBtn)
         
+        invitationCodeLabel = UILabel()
+        if(sharedSeatAnnotation.mode == 2){
+            invitationCodeLabel.frame = CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 10 + 7 + boyPhoto1.frame.height + 7 + 36, width: 120, height: 12)
+        }else{
+            invitationCodeLabel.frame = CGRect(x: boyPhoto1.frame.origin.x, y: boyPhoto1.frame.origin.y + boyPhoto1.frame.height + 10 + 7 + 36, width: 120, height: 12)
+        }
+        invitationCodeLabel.textColor = .error
+        invitationCodeLabel.textAlignment = .center
+        invitationCodeLabel.font = invitationCodeLabel.font.withSize(14)
+        if(comingOffSoon){
+            invitationCodeLabel.text = "即將下架，請盡快抽卡"
+            invitationCodeLabel.font = invitationCodeLabel.font.withSize(10)
+        }
+        bulletinBoard_SharedSeat.addSubview(invitationCodeLabel)
+        
         if (sharedSeatAnnotation.mode == 2){
-            
-            invitationCodeLabel = UILabel()
-            invitationCodeLabel.textColor = .error
-            invitationCodeLabel.textAlignment = .center
-            invitationCodeLabel.font = invitationCodeLabel.font.withSize(14)
-            bulletinBoard_SharedSeat.addSubview(invitationCodeLabel)
-            
             
             var boyPhoto2TintColor = UIColor.sksBlue().withAlphaComponent(0.2)
             var girlPhoto2TintColor = UIColor.sksPink().withAlphaComponent(0.2)
@@ -1328,9 +1370,6 @@ class MapViewController: UIViewController {
                     }
                 }
             }
-            
-            invitationCodeLabel.frame = CGRect(x: boyPhoto2.frame.origin.x, y: boyPhoto2.frame.origin.y + 7 + boyPhoto2.frame.height + 7 + 36, width: 120, height: 12)
-            
             
         }
         
@@ -1886,7 +1925,7 @@ class MapViewController: UIViewController {
         let formatter = DateFormatter()
         formatter.dateFormat = "YYYYMMddHHmmss"
         
-        storeRemainingTimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {_ in
+        storeRemainingUITimeTimer = Timer.scheduledTimer(withTimeInterval: 1, repeats: true, block: {_ in
             
             if formatter.date(from: storeOpenTimeString) != nil{
                 let seconds = Date().seconds(sinceDate: formatter.date(from: storeOpenTimeString)!)
@@ -3007,7 +3046,6 @@ class MapViewController: UIViewController {
         Analytics.logEvent("地圖_加號按鈕_發起相席", parameters:nil)
         mapView.deselectAnnotation(mapView.userLocation, animated: true)
         
-        
         if(UserSetting.lastCancelSharedSeatTime != ""){
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "YYYYMMddHHmmss"
@@ -3485,7 +3523,7 @@ extension MapViewController: MKMapViewDelegate {
         self.actionSheetExpansionState = .NotExpanded
         animateActionSheet(targetAlpha:0,targetPosition: self.view.frame.height){ (_) in }
         
-        storeRemainingTimeTimer.invalidate()
+        storeRemainingUITimeTimer.invalidate()
     }
     
     
@@ -3565,6 +3603,12 @@ extension MapViewController: MKMapViewDelegate {
             let ref = Database.database().reference().child("SharedSeatAnnotation/" + "\(holderUID)")
             let currentAnnotation = view.annotation
             ref.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                
+                if !snapshot.exists(){
+                    self.showToast(message: "此聚會已下架")
+                    return
+                }
                 
                 let sharedSeatAnnotationData = SharedSeatAnnotationData(snapshot: snapshot)
                 
