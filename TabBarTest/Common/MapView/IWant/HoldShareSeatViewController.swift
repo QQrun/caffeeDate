@@ -499,7 +499,7 @@ class HoldShareSeatViewController : UIViewController,UITableViewDelegate,UITable
             return
         }
         
-        if restaurantNameTextField.text!.rangeOfCharacter(from: CharacterSet(charactersIn: "-_=;:@")) != nil {
+        if restaurantNameTextField.text!.rangeOfCharacter(from: CharacterSet(charactersIn: "_")) != nil {
             self.showToast(message: "餐廳名稱不可包含特殊符號", font: .systemFont(ofSize: 14.0))
             return
         }

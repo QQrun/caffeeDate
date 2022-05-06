@@ -63,18 +63,8 @@ final class MessageRoomViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         view.backgroundColor = .surface()
-        
-        var chatTargetNames : [String] = []
-        if(targetPersonInfos != nil){
-            for info in targetPersonInfos!{
-                chatTargetNames.append(info.name)
-            }
-        }else{
-            //TODO 這個應該要改function? currentChatTarget不應該是name 應該是 UID
-        }
-        UserSetting.currentChatTarget = chatTargetNames
+        UserSetting.currentChatRoomID = chatroomID
         addConversationView()
     }
     
@@ -86,7 +76,7 @@ final class MessageRoomViewController: UIViewController {
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        UserSetting.currentChatTarget = []
+        UserSetting.currentChatRoomID = ""
         navigationController?.navigationBar.isTranslucent = false
     }
     
@@ -103,22 +93,42 @@ final class MessageRoomViewController: UIViewController {
             })
         }else{
             let splitUID = chatroomID.split(separator: "-")
-            var uids : [String] = []
-            uids.append(UserSetting.UID)
-            for id in splitUID{
-                if(String(id) != UserSetting.UID){
-                    uids.append(String(id))
+            if(splitUID.count == 2){
+                var targetUID = ""
+                for id in splitUID{
+                    if(String(id) != UserSetting.UID){
+                        targetUID = String(id)
+                    }
                 }
+                let ref = Database.database().reference()
+                ref.child("PersonDetail/" + targetUID).observeSingleEvent(of: .value, with:{(snapshot) in
+                    if snapshot.exists(){
+                        let personDetail = PersonDetailInfo(snapshot: snapshot)
+                        self.customTopBarKit.CreatHeatShotAndName(personDetailInfo: personDetail, canGoProfileView: true,completion: {
+                            img -> () in
+                            self.chatViewController.targetAvatars[0] = Avatar(image: img, initials: "")
+                            self.chatViewController.messagesCollectionView.reloadData()
+                        })
+                    }
+                })
+            }else if (splitUID.count == 4){
+                var uids : [String] = []
+                uids.append(UserSetting.UID)
+                for id in splitUID{
+                    if(String(id) != UserSetting.UID){
+                        uids.append(String(id))
+                    }
+                }
+                customTopBarKit.Creat4photo(UIDs: uids, completion: {
+                    imgs -> () in
+                    
+                    self.chatViewController.targetAvatars[0] = Avatar(image: imgs[1], initials: "")
+                    self.chatViewController.targetAvatars[1] = Avatar(image: imgs[2], initials: "")
+                    self.chatViewController.targetAvatars[2] = Avatar(image: imgs[3], initials: "")
+                    self.chatViewController.messagesCollectionView.reloadData()
+                    
+                })
             }
-            customTopBarKit.Creat4photo(UIDs: uids, completion: {
-                imgs -> () in
-                
-                self.chatViewController.targetAvatars[0] = Avatar(image: imgs[1], initials: "")
-                self.chatViewController.targetAvatars[1] = Avatar(image: imgs[2], initials: "")
-                self.chatViewController.targetAvatars[2] = Avatar(image: imgs[3], initials: "")
-                self.chatViewController.messagesCollectionView.reloadData()
-                
-            })
         }
 
         let gobackBtn = customTopBarKit.getGobackBtn()

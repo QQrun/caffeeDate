@@ -18,7 +18,11 @@ export const onMessageCreate = functions.database
     const senderName = snapshot.child('name').val()
     const text = snapshot.child('text').val()
     // const targetToken = snapshot.child('targetToken')
-    const targetUID = snapshot.child('UID').val()
+    // const targetUID = snapshot.child('UID').val()
+
+    const messageRoomID = context.params.messageRoomID as String
+
+    console.log("messageRoomID:",messageRoomID)
 
     const promises: Promise<void>[] = []
     snapshot.child('targetToken').forEach((targetTokenSnap) => {
@@ -28,7 +32,7 @@ export const onMessageCreate = functions.database
         {
           title: senderName,
           body: text,
-          targetUID : targetUID,
+          messageRoomID: messageRoomID
         },
       }
       promises.push(admin.messaging().sendToDevice(targetToken, payload))

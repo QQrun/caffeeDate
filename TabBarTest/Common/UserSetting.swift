@@ -300,12 +300,12 @@ class UserSetting{
         }
     }
     
-    static var currentChatTarget: [String] {
+    static var currentChatRoomID: String {
         set {
-            UserDefaults.standard.set(newValue, forKey: "currentChatTarget")
+            UserDefaults.standard.set(newValue, forKey: "currentChatRoomID")
         }
         get {
-            return (UserDefaults.standard.value(forKey: "currentChatTarget") as? [String] ?? [])
+            return UserDefaults.standard.string(forKey: "currentChatRoomID") ?? ""
         }
     }
     

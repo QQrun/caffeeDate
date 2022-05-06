@@ -181,19 +181,22 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             print("userNotificationCenter 2")
             return
         }
+        
+        let content: UNNotificationContent = notification.request.content
+        let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
+        let messageRoomID = userInfo["gcm.notification.messageRoomID"] as! String
+        
         //如果正處於mailList，不顯示通知
         if CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedIndex == 1{
-            if UserSetting.currentChatTarget == []{
-                print("userNotificationCenter 3")
+            if UserSetting.currentChatRoomID == ""{
                 return
             }
         }
+        
         //當前正在跟通知的主人聊天，忽視通知
-        for target in UserSetting.currentChatTarget{
-            if target == notification.request.content.title {
-                print("userNotificationCenter 4")
-                return
-            }
+        if UserSetting.currentChatRoomID == messageRoomID {
+            print("userNotificationCenter 4")
+            return
         }
         
         
@@ -213,20 +216,16 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
+        print("userNotificationCenter ==> 去聊天室")
+        
         let content: UNNotificationContent = response.notification.request.content
         let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
-        let targetUID = userInfo["gcm.notification.targetUID"] as! String
+        let messageRoomID = userInfo["gcm.notification.messageRoomID"] as! String
         
-        let sortedIDs = [targetUID,UserSetting.UID].sorted()
-        let chatroomID = sortedIDs[0] + "-" + sortedIDs[1]
-        Database.database().reference().child("PersonDetail/" + targetUID).observeSingleEvent(of: .value, with:{(snapshot) in
-            if snapshot.exists(){
-                let personInfo = PersonDetailInfo(snapshot: snapshot)
-                let oneToOneChatViewController = MessageRoomViewController(chatroomID: chatroomID,targetPersonInfos: [personInfo])
-                CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
-                CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(oneToOneChatViewController, animated: true)
-            }
-        })
+        let chatViewController = MessageRoomViewController(chatroomID: messageRoomID, targetPersonInfos: nil)
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(chatViewController, animated: true)
+        
         completionHandler()
     }
 }
@@ -234,6 +233,8 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
 extension AppDelegate : MessagingDelegate {
     // [START refresh_token]
     func messaging(_ messaging: Messaging, didReceiveRegistrationToken fcmToken: String?) {
+        
+        print("firebase fcmToken:" + "\(fcmToken)")
         
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)

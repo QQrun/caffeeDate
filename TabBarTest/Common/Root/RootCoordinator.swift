@@ -49,7 +49,7 @@ class RootCoordinator: Coordinator {
         
         CoordinatorAndControllerInstanceHelper.rootCoordinator = self
         
-        UserSetting.currentChatTarget = []
+        UserSetting.currentChatRoomID = ""
         
         if Auth.auth().currentUser == nil {
             print("No user is signed in.")
