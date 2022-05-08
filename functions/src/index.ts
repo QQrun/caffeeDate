@@ -17,14 +17,10 @@ export const onMessageCreate = functions.database
   .onCreate((snapshot, context) => {
     const senderName = snapshot.child('name').val()
     const text = snapshot.child('text').val()
-    // const targetToken = snapshot.child('targetToken')
-    // const targetUID = snapshot.child('UID').val()
-
     const messageRoomID = context.params.messageRoomID as String
-
     console.log("messageRoomID:",messageRoomID)
 
-    const promises: Promise<void>[] = []
+    const promises: Promise<void>[] = []    
     snapshot.child('targetToken').forEach((targetTokenSnap) => {
       const targetToken = targetTokenSnap.val()
       const payload = {
@@ -43,6 +39,28 @@ export const onMessageCreate = functions.database
     }).catch((error: any) => {
       console.log('Error sending message:', error);
     })
+
+    // 測試用
+    // var targetToken = ""
+    // snapshot.child('targetToken').forEach((targetTokenSnap) => {
+    //   targetToken = targetTokenSnap.val()
+    // })
+
+    // const payload = {
+    //   notification: 
+    //   {
+    //     title: senderName,
+    //     body: text,
+    //     messageRoomID: messageRoomID
+    //   },
+    // }
+    // return admin.messaging().sendToDevice(targetToken, payload).then((response: any) => {
+    //   console.log('Successfully sent message:', response);
+    // }).catch((error: any) => {
+    //   console.log('Error sending message:', error);
+    // })
+
+
     
   })
 

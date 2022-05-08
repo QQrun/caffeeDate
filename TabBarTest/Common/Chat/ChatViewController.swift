@@ -94,21 +94,23 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         //        }
     }
     
+    fileprivate func updateReadedTime() {
+         
+        let dateFormat : String = "YYYYMMddHHmmss"
+        let formatter = DateFormatter()
+        formatter.dateFormat = dateFormat
+        let timeString = Date().getCurrentTimeString()
+        UserDefaults.standard.set(timeString, forKey: chatroomID)
+        UserDefaults.standard.synchronize()
+        
+        print("chatroomID:" + "\(chatroomID)" + "updateReadedTime timeString:" + "\(timeString)")
+    }
+    
     override func viewDidDisappear(_ animated: Bool) {
         super.viewDidDisappear(animated)
         customInputBoxKit.removeKeyBoardObserver()
         
         messageObserverRef.removeObserver(withHandle: messageObserver)
-        
-        //更新已閱讀時間
-        if messageList.count > 0{
-            let dateFormat : String = "YYYYMMddHHmmss"
-            let formatter = DateFormatter()
-            formatter.dateFormat = dateFormat
-            let timeString = Date().getCurrentTimeString()
-            UserDefaults.standard.set(timeString, forKey: chatroomID)
-            UserDefaults.standard.synchronize()
-        }
         
     }
     
@@ -193,6 +195,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
             for snap in snapshots{
                 self.messageList.append(ChatMessage(snapshot: snap))
             }
+            self.updateReadedTime()
             
             if(self.messageList.count > 6){
                 self.maintainPositionOnKeyboardFrameChanged = true
@@ -219,6 +222,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
                 }
                 let message = ChatMessage(snapshot: snapshot)
                 self.messageList.append(message)
+                self.updateReadedTime()
                 self.messagesCollectionView.reloadData()
                 self.messagesCollectionView.scrollToBottom(animated: true)
                 
@@ -271,6 +275,7 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         
     
         messageList.append(message)
+        updateReadedTime()
         // Reload last section to update header/footer labels and insert a new one
         messagesCollectionView.performBatchUpdates({
             messagesCollectionView.insertSections([messageList.count - 1])

@@ -30,6 +30,14 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     var requestBtn = UIButton()
     
+    var unreadMsgCount = 0 {
+        didSet{
+            let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
+            
+            mapViewController!.setUnreadMsgCount(unreadMsgCount)
+        }
+    }
+    
     //一起動App需要先監聽
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -40,8 +48,6 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        print("MailListViewController viewDidLoad")
         
         view.backgroundColor = .surface()
         configTopBar()
@@ -224,7 +230,6 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
     
     fileprivate func packageMailData(roomID:String,personDetailInfos:[PersonDetailInfo]?,headShotImage:UIImage?,shopName:String,lastMessage:ChatMessage,roomName:String = "") {
         
-        print("packageMailData")
         var headShot = UIImage()
         let mailData : MailData
         if headShotImage == nil{
@@ -266,31 +271,39 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         
         
         //更新mapView的未讀訊息數量
-        let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
-        var unreadMsgCount = 0
+        
+        var tempUnreadMsgCount = 0
         for mailData in self.mailDatas {
+            
+            switch mailData.lastMessage.kind {
+            case .text(let text):
+                print(text)
+            default:
+                break
+            }
+
             //確認是否有閱讀過
             if UserDefaults.standard.value(forKey: roomID) != nil{
                 let readTimeString = UserDefaults.standard.value(forKey: roomID) as! String
-                let readTimeInt = Int(readTimeString) ?? 0
                 let dateFormat : String = "YYYYMMddHHmmss"
                 let formatter = DateFormatter()
                 formatter.dateFormat = dateFormat
-                let lastMessagetimeString = formatter.string(from: mailData.lastMessage.sentDate)
-                let lastMessagetimeInt = Int(lastMessagetimeString) ?? 0
-                if lastMessagetimeInt > readTimeInt{
+                let readTimeDate = formatter.date(from: readTimeString)!
+                let diffTime  = readTimeDate - mailData.lastMessage.sentDate
+                if diffTime >= 0{
                     if UserSetting.UID != mailData.lastMessage.user.senderId{
-                        unreadMsgCount += 1
+                        tempUnreadMsgCount += 1
                     }
                 }
             }else{
-                unreadMsgCount += 1
+                tempUnreadMsgCount += 1
             }
         }
-        if mapViewController != nil{
-            print("unreadMsgCount:" + "\(unreadMsgCount)") //TODO 似乎有bug
-            mapViewController!.setUnreadMsgCount(unreadMsgCount)
-        }
+        unreadMsgCount = tempUnreadMsgCount
+//        if mapViewController != nil{
+//            print("unreadMsgCount:" + "\(unreadMsgCount)") //TODO 似乎有bug
+//            mapViewController!.setUnreadMsgCount(unreadMsgCount)
+//        }
         
     }
     
@@ -389,20 +402,21 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                 cell.arrowIcon.alpha = 0
             }
             
+            
+            
             //確認是否有閱讀過
             if UserDefaults.standard.value(forKey: mailDatas[indexPath.row].roomID) != nil{
                 let readTimeString = UserDefaults.standard.value(forKey: mailDatas[indexPath.row].roomID) as! String
-                let readTimeInt = Int(readTimeString) ?? 0
                 let dateFormat : String = "YYYYMMddHHmmss"
                 let formatter = DateFormatter()
                 formatter.dateFormat = dateFormat
-                let lastMessagetimeString = formatter.string(from: mailDatas[indexPath.row].lastMessage.sentDate)
-                let lastMessagetimeInt = Int(lastMessagetimeString) ?? 0
-                
-                if lastMessagetimeInt > readTimeInt{
+                let readTimeDate = formatter.date(from: readTimeString)!
+                let diffTime  = readTimeDate - mailDatas[indexPath.row].lastMessage.sentDate
+               
+                if diffTime >= 0{
                     if UserSetting.UID != mailDatas[indexPath.row].lastMessage.user.senderId{
-                        cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
-                        cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+                        cell.lastMessage.textColor = .on().withAlphaComponent(1)
+                        cell.lastMessage.font = UIFont(name: "HelveticaNeue-Italic", size: 14)
                         cell.lastMessage.tag = 0
                     }else{
                         cell.lastMessage.textColor = .on().withAlphaComponent(0.5)
@@ -415,10 +429,12 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                     cell.lastMessage.tag = 1
                 }
             }else{
-                cell.lastMessage.textColor = .on().withAlphaComponent(0.7)
-                cell.lastMessage.font = UIFont(name: "HelveticaNeue-Medium", size: 14)
+                cell.lastMessage.textColor = .on().withAlphaComponent(1)
+                cell.lastMessage.font = UIFont(name: "HelveticaNeue-Italic", size: 14)
                 cell.lastMessage.tag = 0
             }
+            
+            
             
             
         default:
@@ -437,9 +453,8 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         //從未閱讀變成已閱讀過
         if(cell.lastMessage.tag == 0){
             cell.lastMessage.tag = 1
-            let mapViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController
-            if mapViewController != nil{
-                mapViewController!.setUnreadMsgCount(mapViewController!.unreadMsgCount - 1)
+            if(unreadMsgCount != 0){
+                unreadMsgCount -= 1
             }
         }
         

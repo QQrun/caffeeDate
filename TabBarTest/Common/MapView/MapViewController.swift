@@ -132,7 +132,7 @@ class MapViewController: UIViewController {
     var unreadNotiCountCircle = UIButton()
     
     //未讀訊息數量
-    var unreadMsgCount = 0
+//    var unreadMsgCount = 0
     var unreadMsgCountCircle = UIButton()
     
     
@@ -2388,18 +2388,17 @@ class MapViewController: UIViewController {
     }
     
     func setUnreadMsgCount(_ count:Int){
-        unreadMsgCount = count
-        print("unreadMsgCount:" + "\(unreadMsgCount)")
         
-        if(unreadMsgCount > 0){
+        
+        if(count > 0){
             unreadMsgCountCircle.isHidden = false
             unreadMsgCountCircle.titleLabel?.font = unreadMsgCountCircle.titleLabel?.font.withSize(12)
-            unreadMsgCountCircle.setTitle("\(unreadMsgCount)", for: .normal)
-            if(unreadMsgCount > 9){
+            unreadMsgCountCircle.setTitle("\(count)", for: .normal)
+            if(count > 9){
                 unreadMsgCountCircle.titleLabel?.font = unreadMsgCountCircle.titleLabel?.font.withSize(8)
-                unreadMsgCountCircle.setTitle("\(unreadMsgCount)", for: .normal)
+                unreadMsgCountCircle.setTitle("\(count)", for: .normal)
             }
-            if(unreadMsgCount > 99){
+            if(count > 99){
                 unreadMsgCountCircle.titleLabel?.font = unreadMsgCountCircle.titleLabel?.font.withSize(8)
                 unreadMsgCountCircle.setTitle("99", for: .normal)
             }
