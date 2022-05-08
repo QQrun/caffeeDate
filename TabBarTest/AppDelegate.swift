@@ -216,15 +216,18 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
         
-        print("userNotificationCenter ==> 去聊天室")
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
+           // Code you want to be delayed
+            let content: UNNotificationContent = response.notification.request.content
+            let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
+            let messageRoomID = userInfo["gcm.notification.messageRoomID"] as! String
+
+            let chatViewController = MessageRoomViewController(chatroomID: messageRoomID, targetPersonInfos: nil)
+            CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
+            CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(chatViewController, animated: true)
+        }
+
         
-        let content: UNNotificationContent = response.notification.request.content
-        let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
-        let messageRoomID = userInfo["gcm.notification.messageRoomID"] as! String
-        
-        let chatViewController = MessageRoomViewController(chatroomID: messageRoomID, targetPersonInfos: nil)
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
-        CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(chatViewController, animated: true)
         
         completionHandler()
     }

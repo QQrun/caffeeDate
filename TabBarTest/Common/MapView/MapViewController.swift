@@ -2263,6 +2263,7 @@ class MapViewController: UIViewController {
         view.addSubview(circleButton_reposition)
         circleButton_reposition.addTarget(self, action: #selector(repositionBtnAct), for: .touchUpInside)
         
+#if FACETRADER
         let circleButton_notification = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 64 + 32, width: 32, height: 32))
         circleButton_notification.backgroundColor = .sksWhite()
         let notificationImage = UIImage(named: "icons24NotificationFilledGrey24")
@@ -2283,6 +2284,7 @@ class MapViewController: UIViewController {
         unreadNotiCountCircle.isHidden = true
         unreadNotiCountCircle.isEnabled = false
         view.addSubview(unreadNotiCountCircle)
+#endif
         
         circleButton_mySharedSeat = UIButton(frame:CGRect(x: view.frame.width - 16 - 32, y: statusHeight + 90 + 96 + 48, width: 32, height: 32))
         circleButton_mySharedSeat.backgroundColor = .primary()
