@@ -412,8 +412,8 @@
 		A78DF1742466B2C600617AAF /* ActionSheetKit.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF1732466B2C600617AAF /* ActionSheetKit.swift */; };
 		A78DF17A246C312000617AAF /* FirebaseHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A78DF179246C312000617AAF /* FirebaseHelper.swift */; };
 		A797A70B2823054000C4EBC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */; };
-		A797A70D282BF79100C4EBC2 /* GiveScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* GiveScoreViewController.swift */; };
-		A797A70E282BF79100C4EBC2 /* GiveScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* GiveScoreViewController.swift */; };
+		A797A70D282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */; };
+		A797A70E282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */; };
 		A799BE5D27A5354900A6057A /* ScoreCoffeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */; };
 		A799BE5F27A5356E00A6057A /* ScoreCoffeeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */; };
 		A799BE6127A54A7E00A6057A /* CoffeeScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */; };
@@ -659,7 +659,7 @@
 		A78DF1732466B2C600617AAF /* ActionSheetKit.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ActionSheetKit.swift; sourceTree = "<group>"; };
 		A78DF179246C312000617AAF /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
-		A797A70C282BF79100C4EBC2 /* GiveScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GiveScoreViewController.swift; sourceTree = "<group>"; };
+		A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorePersonViewController.swift; sourceTree = "<group>"; };
 		A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCoffeeViewController.swift; sourceTree = "<group>"; };
 		A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ScoreCoffeeViewController.storyboard; sourceTree = "<group>"; };
 		A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeScoreData.swift; sourceTree = "<group>"; };
@@ -1162,7 +1162,7 @@
 				A7FDB748248D12FB005BA294 /* ChatUser.swift */,
 				A7FDB747248D12FB005BA294 /* ChatViewController.swift */,
 				A7FDB745248D12FB005BA294 /* MessageRoomViewController.swift */,
-				A797A70C282BF79100C4EBC2 /* GiveScoreViewController.swift */,
+				A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */,
 			);
 			path = Chat;
 			sourceTree = "<group>";
@@ -1621,7 +1621,7 @@
 				A77BAD4F253C7D190071D346 /* AttachmentManagerDataSource.swift in Sources */,
 				A75A3E022445DE4C00E43D46 /* CustomPointAnnotation.swift in Sources */,
 				A77BAD47253C7D190071D346 /* AutocompleteCompletion.swift in Sources */,
-				A797A70D282BF79100C4EBC2 /* GiveScoreViewController.swift in Sources */,
+				A797A70D282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */,
 				A77BABCB253C76680071D346 /* LocationMessageSnapshotOptions.swift in Sources */,
 				A789E49C244DD39800730053 /* LogInPageViewController.swift in Sources */,
 				A71461842761EA1000872E4E /* SSAlertController.swift in Sources */,
@@ -1828,7 +1828,7 @@
 				A787C32327C0F284009EC8A7 /* CustomPointAnnotation.swift in Sources */,
 				A787C32427C0F284009EC8A7 /* AutocompleteCompletion.swift in Sources */,
 				A787C32527C0F284009EC8A7 /* LocationMessageSnapshotOptions.swift in Sources */,
-				A797A70E282BF79100C4EBC2 /* GiveScoreViewController.swift in Sources */,
+				A797A70E282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */,
 				A787C32627C0F284009EC8A7 /* LogInPageViewController.swift in Sources */,
 				A787C32727C0F284009EC8A7 /* SSAlertController.swift in Sources */,
 				A787C32827C0F284009EC8A7 /* Bundle+Extensions.swift in Sources */,

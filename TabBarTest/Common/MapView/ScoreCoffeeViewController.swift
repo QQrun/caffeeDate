@@ -25,7 +25,6 @@ class ScoreCoffeeViewController : UIViewController{
     var musicScore : Int = 0
     
     let commentTextViewDelegate = WordLimitUITextFieldDelegate()
-    
     var commentPlaceholder = "您可以在這寫下您對這間店的評價、建議或是鼓勵。"
     
     init(annotation:CoffeeAnnotation) {
@@ -39,6 +38,8 @@ class ScoreCoffeeViewController : UIViewController{
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        
+        
         setBackground()
         setScoreBoard()
         setCommentTextView()
@@ -101,6 +102,7 @@ class ScoreCoffeeViewController : UIViewController{
     }
     
     fileprivate func setScoreBoard(){
+        
         
         
         let wifiLabel = UILabel()

@@ -124,18 +124,14 @@ class ActionSheetKit{
     }
     
     func allBtnSlideIn(){
-        print("allBtnSlideIn")
         bgBtn.isHidden = false
         for btn in btns{
-            print("slideInAnimation")
             slideInAnimation(btn: btn, containerHeight: containerView.frame.height)
         }
     }
     func allBtnSlideOut(){
-        print("allBtnSlideOut")
         bgBtn.isHidden = true
         for btn in btns{
-            print("slideOutAnimation")
             slideOutAnimation(btn: btn, containerHeight: containerView.frame.height)
         }
     }

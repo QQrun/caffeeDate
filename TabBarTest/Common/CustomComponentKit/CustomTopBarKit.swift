@@ -40,7 +40,6 @@ class CustomTopBarKit {
         
         
         let window = UIApplication.shared.keyWindow
-        
         topPadding = window?.safeAreaInsets.top ?? 0
         
         if(considerSafeAreaInsets == false){
@@ -206,6 +205,8 @@ class CustomTopBarKit {
     }
     
     func CreatHeatShotAndName(personDetailInfo: PersonDetailInfo,canGoProfileView:Bool = true,completion: @escaping ((UIImage) -> ())){
+        
+        print("CreatHeatShotAndName")
         
         let nameLabel = { () -> UILabel in
             let label = UILabel()

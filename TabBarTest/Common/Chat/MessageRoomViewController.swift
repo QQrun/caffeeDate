@@ -72,7 +72,6 @@ final class MessageRoomViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .surface()
         UserSetting.currentChatRoomID = chatroomID
-        configTopBar()
         addConversationView()
     }
     
@@ -126,6 +125,8 @@ final class MessageRoomViewController: UIViewController {
     }
     
     fileprivate func configTopBar() {
+        
+        print("configTopBar")
         customTopBarKit.CreatTopBar(view: view,showSeparator: true)
         customTopBarKit.CreatMoreBtn()
         customTopBarKit.getMoreBtn().addTarget(self, action: #selector(moreBtnAct), for: .touchUpInside)
@@ -186,8 +187,6 @@ final class MessageRoomViewController: UIViewController {
     
     fileprivate func configMultiScoreActionSheet() {
         
-        print("configMultiScoreActionSheet")
-        
         var actionSheetText = ["取消"]
         actionSheetText.append(names![1])
         actionSheetText.append(names![2])
@@ -230,7 +229,7 @@ final class MessageRoomViewController: UIViewController {
     }
     
     private func goGiveScorePage(UID:String,name:String){
-        let giveScoreViewController = GiveScoreViewController(UID: UID,name: name)
+        let giveScoreViewController = ScorePersonViewController(UID: UID,name: name)
         giveScoreViewController.modalPresentationStyle = .overCurrentContext
         if let viewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController{
             (viewController as! UINavigationController).pushViewController(giveScoreViewController, animated: true)
