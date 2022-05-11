@@ -414,6 +414,8 @@
 		A797A70B2823054000C4EBC2 /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */; };
 		A797A70D282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */; };
 		A797A70E282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */; };
+		A797A710282C2B7500C4EBC2 /* ProfileScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */; };
+		A797A711282C2B7500C4EBC2 /* ProfileScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */; };
 		A799BE5D27A5354900A6057A /* ScoreCoffeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */; };
 		A799BE5F27A5356E00A6057A /* ScoreCoffeeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */; };
 		A799BE6127A54A7E00A6057A /* CoffeeScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */; };
@@ -660,6 +662,7 @@
 		A78DF179246C312000617AAF /* FirebaseHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseHelper.swift; sourceTree = "<group>"; };
 		A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorePersonViewController.swift; sourceTree = "<group>"; };
+		A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScoreViewController.swift; sourceTree = "<group>"; };
 		A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCoffeeViewController.swift; sourceTree = "<group>"; };
 		A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ScoreCoffeeViewController.storyboard; sourceTree = "<group>"; };
 		A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeScoreData.swift; sourceTree = "<group>"; };
@@ -1190,6 +1193,7 @@
 				A7AE91AD2474511D003AE85F /* ProfileEditViewController.swift */,
 				A78DF167246648EA00617AAF /* ShopEditViewController.swift */,
 				A7A474FA252CA5810038D75B /* ShopModel.swift */,
+				A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */,
 			);
 			path = ProfileAndSetting;
 			sourceTree = "<group>";
@@ -1580,6 +1584,7 @@
 				A77BABC8253C76680071D346 /* MessageKitError.swift in Sources */,
 				A77BABF6253C76CC0071D346 /* AvatarView.swift in Sources */,
 				A75A3E062445E26700E43D46 /* Item.swift in Sources */,
+				A797A710282C2B7500C4EBC2 /* ProfileScoreViewController.swift in Sources */,
 				A789E47E2449AF9D00730053 /* BigItemTableViewDelegate.swift in Sources */,
 				A77BAB70253C75D50071D346 /* MessagesViewController+Menu.swift in Sources */,
 				A789E4A4244DDCBF00730053 /* OpenNotificationViewController.swift in Sources */,
@@ -1787,6 +1792,7 @@
 				A787C2FC27C0F284009EC8A7 /* AvatarView.swift in Sources */,
 				A787C2FD27C0F284009EC8A7 /* Item.swift in Sources */,
 				A787C2FE27C0F284009EC8A7 /* BigItemTableViewDelegate.swift in Sources */,
+				A797A711282C2B7500C4EBC2 /* ProfileScoreViewController.swift in Sources */,
 				A787C2FF27C0F284009EC8A7 /* MessagesViewController+Menu.swift in Sources */,
 				A787C30027C0F284009EC8A7 /* OpenNotificationViewController.swift in Sources */,
 				A787C30127C0F284009EC8A7 /* CustomBGKit.swift in Sources */,

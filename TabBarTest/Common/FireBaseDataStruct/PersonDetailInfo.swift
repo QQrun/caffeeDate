@@ -26,6 +26,9 @@ class PersonDetailInfo {
     
     var perferIconStyleToShowInMap : String = ""
     
+    var sharedSeatScore : [String:Int] = [:]
+    var sharedSeatComment : [String:Comment] = [:]
+    
     init(UID:String,name: String, gender: Int,birthday:String, lastSignInTime: String,  selfIntroduction: String,photos:[String]?,headShot:String?,perferIconStyleToShowInMap:String) {
         self.UID = UID
         self.name = name
@@ -69,6 +72,23 @@ class PersonDetailInfo {
         }
         buyItems = Util.quicksort_Item(buyItems)
         buyItems.reverse()
+        
+        if let childSnapshots = snapshot.childSnapshot(forPath: "sharedSeatScore").children.allObjects as? [DataSnapshot] {
+            for childSnapshot in childSnapshots{
+                sharedSeatScore[childSnapshot.key] = childSnapshot.value as? Int
+            }
+        }
+        
+        if let childSnapshots = snapshot.childSnapshot(forPath: "sharedSeatComment").children.allObjects as? [DataSnapshot] {
+            for childSnapshot in childSnapshots{
+                var comment = Comment(snapshot: childSnapshot as! DataSnapshot)
+                if(comment.UID == "錯誤"){
+                    continue
+                }
+                comment.commentID = comment.UID
+                sharedSeatComment[comment.UID] = comment
+            }
+        }
     }
     
     func toAnyObject() -> Any {

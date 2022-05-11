@@ -225,6 +225,49 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
         ageLabel.frame = CGRect(x: 16 + nameLabel.intrinsicContentSize.width + 8, y: currentScrollHeignt + 16, width: nameLabel.intrinsicContentSize.width, height: nameLabel.intrinsicContentSize.height)
         scrollView.addSubview(ageLabel)
         
+        var scoreCount = 0
+        var scoreTotalAmount = 0
+        for (key,value) in personDetail!.sharedSeatScore{
+            let score = value
+            if(score != 0){
+                scoreTotalAmount += score
+                scoreCount += 1
+            }
+        }
+        print("scoreTotalAmount:")
+        print(scoreTotalAmount)
+        var averageScore : Float = 0
+        if(scoreCount != 0){
+            averageScore = Float(scoreTotalAmount)/Float(scoreCount)
+        }
+        let scoreLabel = UILabel()
+        scoreLabel.font = UIFont(name: "HelveticaNeue", size: 18)
+        scoreLabel.textColor = .on().withAlphaComponent(0.7)
+        scoreLabel.text = String(format: "%.1f", averageScore) + " (" + "\(scoreCount)" + "人)"
+        scoreLabel.frame = CGRect(x: view.frame.width - 16 - scoreLabel.intrinsicContentSize.width, y: nameLabel.frame.origin.y + 3.5, width: scoreLabel.intrinsicContentSize.width, height: scoreLabel.intrinsicContentSize.height)
+        scrollView.addSubview(scoreLabel)
+        
+        let starImageView : UIImageView = {
+            let imageView = UIImageView()
+            imageView.frame = CGRect(x: view.frame.width - 20 - 16 - scoreLabel.intrinsicContentSize.width - 4, y: nameLabel.frame.origin.y + 3.5, width: 20, height: 20)
+            imageView.contentMode = .scaleAspectFill
+            imageView.backgroundColor = .clear
+            imageView.tintColor = UIColor.hexStringToUIColor(hex: "#FBBC05")
+            imageView.clipsToBounds = true
+            imageView.image = UIImage(named: "FullStar")?.withRenderingMode(.alwaysTemplate)
+            return imageView
+        }()
+        scrollView.addSubview(starImageView)
+        
+        let scoreBtn : UIButton = {
+            let btn = UIButton()
+            btn.frame = CGRect(x: starImageView.frame.origin.x, y: starImageView.frame.origin.y, width: 20 + scoreLabel.intrinsicContentSize.width + 4, height: scoreLabel.intrinsicContentSize.height)
+            btn.addTarget(self, action: #selector(goScorePageBtnAct), for: .valueChanged)
+            return btn
+        }()
+        scrollView.addSubview(scoreBtn)
+        
+        
         currentScrollHeignt += 16
         currentScrollHeignt += nameLabel.frame.height
         
@@ -360,6 +403,18 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
     @objc private func gobackBtnAct(){
         dismiss(animated: true, completion: nil)
         self.navigationController?.popViewController(animated: true)
+    }
+    
+    @objc private func goScorePageBtnAct(){
+        if(personDetail == nil){
+            showToast(message: "資料讀取中，請幾秒後再點擊。")
+            return
+        }
+        let profileScoreViewController = ProfileScoreViewController(personDetail: personDetail!)
+        profileScoreViewController.modalPresentationStyle = .overCurrentContext
+        if let viewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController{
+            (viewController as! UINavigationController).pushViewController(profileScoreViewController, animated: true)
+        }
     }
     
     @objc private func bookMarkAct_OpenStore(){
