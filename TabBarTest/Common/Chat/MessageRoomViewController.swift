@@ -186,6 +186,8 @@ final class MessageRoomViewController: UIViewController {
     
     fileprivate func configMultiScoreActionSheet() {
         
+        print("configMultiScoreActionSheet")
+        
         var actionSheetText = ["取消"]
         actionSheetText.append(names![1])
         actionSheetText.append(names![2])

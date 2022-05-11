@@ -47,6 +47,8 @@ class ActionSheetKit{
         iWantConcealBtn.addSubview(iWantConcealLabel)
         containerView.addSubview(iWantConcealBtn)
         btns.append(iWantConcealBtn)
+        
+        
         iWantConcealBtn.addTarget(self, action: #selector(btnAct), for: .touchUpInside)
         iWantConcealBtn.isHidden = true
         iWantConcealBtn.frame = CGRect(x: iWantConcealBtn.frame.origin.x, y: iWantConcealBtn.frame.origin.y + containerView.frame.height, width: iWantConcealBtn.frame.width, height: iWantConcealBtn.frame.height)
@@ -104,15 +106,17 @@ class ActionSheetKit{
         
         btn.isHidden = false
         UIView.animate(withDuration: 0.15, animations: {
-            btn.frame = CGRect(x: btn.frame.origin.x, y: btn.frame.origin.y - containerHeight, width: btn.frame.width, height: btn.frame.height)
+            var targetY = btn.frame.origin.y
+            targetY = targetY.truncatingRemainder(dividingBy: containerHeight)
+            btn.frame = CGRect(x: btn.frame.origin.x, y: targetY, width: btn.frame.width, height: btn.frame.height)
         })
         
     }
     
-    private func slideOutAnimation(btn : UIButton,containerHight : CGFloat){
+    private func slideOutAnimation(btn : UIButton,containerHeight : CGFloat){
         
         UIView.animate(withDuration: 0.3, animations: {
-            btn.frame = CGRect(x: btn.frame.origin.x, y: btn.frame.origin.y + containerHight, width: btn.frame.width, height: btn.frame.height)
+            btn.frame = CGRect(x: btn.frame.origin.x, y: btn.frame.origin.y + containerHeight, width: btn.frame.width, height: btn.frame.height)
         },completion: { _ in
             btn.isHidden = true
         })
@@ -120,15 +124,19 @@ class ActionSheetKit{
     }
     
     func allBtnSlideIn(){
+        print("allBtnSlideIn")
         bgBtn.isHidden = false
         for btn in btns{
+            print("slideInAnimation")
             slideInAnimation(btn: btn, containerHeight: containerView.frame.height)
         }
     }
     func allBtnSlideOut(){
+        print("allBtnSlideOut")
         bgBtn.isHidden = true
         for btn in btns{
-            slideOutAnimation(btn: btn, containerHight: containerView.frame.height)
+            print("slideOutAnimation")
+            slideOutAnimation(btn: btn, containerHeight: containerView.frame.height)
         }
     }
     
