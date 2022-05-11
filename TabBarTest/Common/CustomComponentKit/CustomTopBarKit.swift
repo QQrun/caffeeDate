@@ -148,7 +148,7 @@ class CustomTopBarKit {
         topBar.addSubview(titleLabel)
     }
     
-    func Creat4photo(UIDs:[String],completion: @escaping (([UIImage]) -> ())){
+    func Creat4photo(UIDs:[String],completion: @escaping (([UIImage],[String]) -> ())){
         
         
         var headshots : [UIImageView] = []
@@ -171,22 +171,27 @@ class CustomTopBarKit {
         }
         
         var collectedImgs : [UIImage] = [UIImage(),UIImage(),UIImage(),UIImage()]
+        var collectedNames : [String] = ["","","",""]
         var collectedImgsCount = 0
         for i in 0 ... UIDs.count - 1{
-            let headshotRef = Database.database().reference(withPath: "PersonDetail/" + UIDs[i] + "/headShot")
-            headshotRef.observeSingleEvent(of: .value, with: { (snapshot) in
-                let headShotUrl = snapshot.value as? String ?? ""
-                AF.request(headShotUrl).response { (response) in
-                    if let data = response.data, let image = UIImage(data: data){
-                        headshots[i].image = image
-                        headshots[i].alpha = 0
-                        UIView.animate(withDuration: 0.3, animations: {
-                            headshots[i].alpha = 1
-                        })
-                        collectedImgs[i] = image
-                        collectedImgsCount += 1
-                        if(collectedImgsCount == 4){
-                            completion(collectedImgs)
+            let profileRef = Database.database().reference(withPath: "PersonDetail/" + UIDs[i])
+            profileRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                if snapshot.exists(){
+                    let userDetail = PersonDetailInfo(snapshot: snapshot)
+                    let headShotUrl = userDetail.headShot!
+                    AF.request(headShotUrl).response { (response) in
+                        if let data = response.data, let image = UIImage(data: data){
+                            headshots[i].image = image
+                            headshots[i].alpha = 0
+                            UIView.animate(withDuration: 0.3, animations: {
+                                headshots[i].alpha = 1
+                            })
+                            collectedImgs[i] = image
+                            collectedNames[i] = userDetail.name
+                            collectedImgsCount += 1
+                            if(collectedImgsCount == 4){
+                                completion(collectedImgs, collectedNames)
+                            }
                         }
                     }
                 }

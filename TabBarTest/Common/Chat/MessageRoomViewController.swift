@@ -28,9 +28,14 @@ import Firebase
 final class MessageRoomViewController: UIViewController {
     
     let customTopBarKit = CustomTopBarKit()
-    
     let chatroomID : String!
     let targetPersonInfos : [PersonDetailInfo]?
+    let moreActionSheetKit = ActionSheetKit()
+    
+    //評分用
+    let scoreWhoActionSheetKit = ActionSheetKit()
+    var names : [String]?
+    var uids : [String]?
     
     init(chatroomID: String,targetPersonInfos:[PersonDetailInfo]?) {
         self.chatroomID = chatroomID
@@ -61,10 +66,13 @@ final class MessageRoomViewController: UIViewController {
     }
     
     
+    
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .surface()
         UserSetting.currentChatRoomID = chatroomID
+        configTopBar()
         addConversationView()
     }
     
@@ -80,10 +88,48 @@ final class MessageRoomViewController: UIViewController {
         navigationController?.navigationBar.isTranslucent = false
     }
     
+    
+    var alreadyCreateTopBar = false
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         let headerHeight: CGFloat = 45
+        let window = UIApplication.shared.keyWindow
+        let topPadding = window?.safeAreaInsets.top ?? 0
+        chatViewController.view.frame = CGRect(x: 0, y: headerHeight + topPadding, width: view.bounds.width, height: view.bounds.height - headerHeight - topPadding)
+        if(!alreadyCreateTopBar){
+            alreadyCreateTopBar = true
+            configTopBar()
+        }
+    }
+    
+    
+    fileprivate func addConversationView() {
+        chatViewController.willMove(toParent: self)
+        addChild(chatViewController)
+        view.addSubview(chatViewController.view)
+        chatViewController.didMove(toParent: self)
+    }
+    
+    fileprivate func creatMoreBtnActionSheet() {
+        let actionSheetText = ["取消","給予聚會夥伴評分"]
+        moreActionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        moreActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(scoreAct), for: .touchUpInside)
+    }
+    
+    @objc private func gobackBtnAct(){
+        self.navigationController?.popViewController(animated: true)
+        
+    }
+    
+    @objc private func moreBtnAct(){
+        moreActionSheetKit.allBtnSlideIn()
+    }
+    
+    fileprivate func configTopBar() {
         customTopBarKit.CreatTopBar(view: view,showSeparator: true)
+        customTopBarKit.CreatMoreBtn()
+        customTopBarKit.getMoreBtn().addTarget(self, action: #selector(moreBtnAct), for: .touchUpInside)
+        creatMoreBtnActionSheet()
         
         if(targetPersonInfos != nil && targetPersonInfos!.count == 1){
             customTopBarKit.CreatHeatShotAndName(personDetailInfo: targetPersonInfos![0], canGoProfileView: true,completion: {
@@ -112,15 +158,18 @@ final class MessageRoomViewController: UIViewController {
                     }
                 })
             }else if (splitUID.count == 4){
-                var uids : [String] = []
-                uids.append(UserSetting.UID)
+                uids = []
+                uids!.append(UserSetting.UID)
                 for id in splitUID{
                     if(String(id) != UserSetting.UID){
-                        uids.append(String(id))
+                        uids!.append(String(id))
                     }
                 }
-                customTopBarKit.Creat4photo(UIDs: uids, completion: {
-                    imgs -> () in
+                customTopBarKit.Creat4photo(UIDs: uids!, completion: {
+                    imgs,names -> () in
+                    
+                    self.names = names
+                    self.configMultiScoreActionSheet()
                     
                     self.chatViewController.targetAvatars[0] = Avatar(image: imgs[1], initials: "")
                     self.chatViewController.targetAvatars[1] = Avatar(image: imgs[2], initials: "")
@@ -130,27 +179,59 @@ final class MessageRoomViewController: UIViewController {
                 })
             }
         }
-
+        
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
+    }
+    
+    fileprivate func configMultiScoreActionSheet() {
         
-        let window = UIApplication.shared.keyWindow
-        let topPadding = window?.safeAreaInsets.top ?? 0
-        chatViewController.view.frame = CGRect(x: 0, y: headerHeight + topPadding, width: view.bounds.width, height: view.bounds.height - headerHeight - topPadding)
-    }
-    
-    
-    fileprivate func addConversationView() {
-        chatViewController.willMove(toParent: self)
-        addChild(chatViewController)
-        view.addSubview(chatViewController.view)
-        chatViewController.didMove(toParent: self)
-    }
-    
-    @objc private func gobackBtnAct(){
-        self.navigationController?.popViewController(animated: true)
+        var actionSheetText = ["取消"]
+        actionSheetText.append(names![1])
+        actionSheetText.append(names![2])
+        actionSheetText.append(names![3])
+        scoreWhoActionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
+        scoreWhoActionSheetKit.getActionSheetBtn(i: 0)?.addTarget(self, action: #selector(cancelAct), for: .touchUpInside)
+        scoreWhoActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(scorefirstAct), for: .touchUpInside)
+        scoreWhoActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(scoreSecondAct), for: .touchUpInside)
+        scoreWhoActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(scoreThirdAct), for: .touchUpInside)
         
     }
     
+    @objc private func scoreAct(){
+        
+        moreActionSheetKit.allBtnSlideOut()
+        
+        if(targetPersonInfos != nil && targetPersonInfos!.count == 1){
+            goGiveScorePage(UID:targetPersonInfos![0].UID,name: targetPersonInfos![0].name)
+        }else{
+            if(names == nil || names!.count < 4){
+                showToast(message: "讀取中，請數秒後再試")
+                return
+            }
+            scoreWhoActionSheetKit.allBtnSlideIn()
+        }
+    }
     
+    @objc private func scorefirstAct(){
+        goGiveScorePage(UID:uids![1],name: names![1])
+    }
+    @objc private func scoreSecondAct(){
+        goGiveScorePage(UID:uids![2],name: names![2])
+    }
+    @objc private func scoreThirdAct(){
+        goGiveScorePage(UID:uids![3],name: names![3])
+    }
+    
+    @objc private func cancelAct(){
+        scoreWhoActionSheetKit.allBtnSlideOut()
+    }
+    
+    private func goGiveScorePage(UID:String,name:String){
+        let giveScoreViewController = GiveScoreViewController(UID: UID,name: name)
+        giveScoreViewController.modalPresentationStyle = .overCurrentContext
+        if let viewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController{
+            (viewController as! UINavigationController).pushViewController(giveScoreViewController, animated: true)
+        }
+    }
 }
