@@ -206,8 +206,6 @@ class CustomTopBarKit {
     
     func CreatHeatShotAndName(personDetailInfo: PersonDetailInfo,canGoProfileView:Bool = true,completion: @escaping ((UIImage) -> ())){
         
-        print("CreatHeatShotAndName")
-        
         let nameLabel = { () -> UILabel in
             let label = UILabel()
             label.text = personDetailInfo.name

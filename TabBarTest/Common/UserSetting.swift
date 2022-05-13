@@ -380,4 +380,16 @@ class UserSetting{
     }
     
     
+    
+    //用來通知使用者去評分其餘夥伴
+    static var scoreNotifyTimes: [String] {
+        set {
+            UserDefaults.standard.set(newValue, forKey: "scoreNotifyTimes")
+        }
+        get {
+            return (UserDefaults.standard.value(forKey: "scoreNotifyTimes") as? [String] ?? [])
+        }
+    }
+    
+    
 }

@@ -102,8 +102,6 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         let timeString = Date().getCurrentTimeString()
         UserDefaults.standard.set(timeString, forKey: chatroomID)
         UserDefaults.standard.synchronize()
-        
-        print("chatroomID:" + "\(chatroomID)" + "updateReadedTime timeString:" + "\(timeString)")
     }
     
     override func viewDidDisappear(_ animated: Bool) {

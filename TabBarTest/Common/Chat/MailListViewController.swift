@@ -277,14 +277,7 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
             let formatter = DateFormatter()
             formatter.dateFormat = dateFormat
             let readTimeDate = formatter.date(from: readTimeString)!
-            
-            print("roomID:" + roomID)
-            
-            print("readTimeDate:" + "\(readTimeString)")
-            print("lastMessageDate:" + "\(formatter.string(from: mailData.lastMessage.sentDate))")
-            
             let diffTime = readTimeDate - mailData.lastMessage.sentDate
-            print("diffTime:" + "\(diffTime)")
             if diffTime < 0{
                 if UserSetting.UID != mailData.lastMessage.user.senderId{
                     unreadMsgs[roomID] = true

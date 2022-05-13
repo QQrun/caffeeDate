@@ -126,7 +126,6 @@ final class MessageRoomViewController: UIViewController {
     
     fileprivate func configTopBar() {
         
-        print("configTopBar")
         customTopBarKit.CreatTopBar(view: view,showSeparator: true)
         customTopBarKit.CreatMoreBtn()
         customTopBarKit.getMoreBtn().addTarget(self, action: #selector(moreBtnAct), for: .touchUpInside)

@@ -168,17 +168,23 @@ class AppDelegate: UIResponder, UIApplicationDelegate,GIDSignInDelegate {
 extension AppDelegate : UNUserNotificationCenterDelegate {
     
     // Receive displayed notifications for iOS 10 devices.
+    
+    
+    
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 willPresent notification: UNNotification,
                                 withCompletionHandler completionHandler: @escaping (UNNotificationPresentationOptions) -> Void) {
         
         
-        print("userNotificationCenter 1")
+        //傳送的對象是自己，忽視通知（可能兩個人共用同一個手機導致token一樣）
+        if UserSetting.userName == notification.request.content.title {
+            return
+        }
+        
+        
         //如果正在後台，直接顯示
         let state = UIApplication.shared.applicationState
         if state == .background || state == .inactive {
-            completionHandler([[.alert]])
-            print("userNotificationCenter 2")
             return
         }
         
@@ -195,26 +201,22 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
         
         //當前正在跟通知的主人聊天，忽視通知
         if UserSetting.currentChatRoomID == messageRoomID {
-            print("userNotificationCenter 4")
             return
         }
         
         
         //傳送的對象是自己，忽視通知（可能兩個人共用同一個手機導致token一樣）
         if UserSetting.userName == notification.request.content.title {
-            print("userNotificationCenter 5")
             return
         }
-        
-        print("userNotificationCenter 6")
         completionHandler([[.alert]])
-        
-        
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
+        
+        print("didReceive")
         
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
            // Code you want to be delayed
@@ -240,6 +242,7 @@ extension AppDelegate : MessagingDelegate {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         
+        print("messaging")
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }

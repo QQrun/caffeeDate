@@ -23,12 +23,12 @@ class SharedSeatAnnotationGetter{
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.circleButton_mySharedSeat.isHidden = true
             }else{
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.circleButton_mySharedSeat.isHidden = false
+                prepareScoreNotifyTime(annotations:sharedSeatMyJoinedAnnotation)
             }
         }
     }
     
     
-//    circleButton_mySharedSeat
     
     
     init(mapView:MKMapView) {
@@ -204,5 +204,58 @@ class SharedSeatAnnotationGetter{
         }
         
         return false
+    }
+    
+    func prepareScoreNotifyTime(annotations:[SharedSeatAnnotation]){
+        var scoreNotifyTimes = UserSetting.scoreNotifyTimes
+        for annotation in annotations {
+            if annotation.mode == 1 {
+                if(annotation.girlsID == nil || annotation.boysID == nil){
+                    return
+                }
+                //如果已經湊齊人，代表聚會成立了，就設定通知評分的時間
+                if (annotation.boysID!.count == 1 && annotation.girlsID!.count == 1){
+                    var ids : [String] = []
+                    for (key,value) in annotation.boysID!{
+                        ids.append(key)
+                    }
+                    for (key,value) in annotation.girlsID!{
+                        ids.append(key)
+                    }
+                    
+                    let timeToSave = ids[0] + "-" + ids[1] + "_" + annotation.dateTime
+                    
+                    if let index = scoreNotifyTimes.firstIndex(of: timeToSave){
+                        //已經存在了，不儲存
+                    }else{
+                        scoreNotifyTimes.append(timeToSave)
+                    }
+                    
+                }
+            }else{
+                if(annotation.girlsID == nil || annotation.boysID == nil){
+                    return
+                }
+                //如果已經湊齊人，代表聚會成立了，就設定通知評分的時間
+                if (annotation.boysID!.count == 2 && annotation.girlsID!.count == 2){
+                    var ids : [String] = []
+                    for (key,value) in annotation.boysID!{
+                        ids.append(key)
+                    }
+                    for (key,value) in annotation.girlsID!{
+                        ids.append(key)
+                    }
+                    let timeToSave = ids[0] + "-" + ids[1] + "-" + ids[2] + "-" + ids[3] + "_" + annotation.dateTime
+                    if let index = scoreNotifyTimes.firstIndex(of: timeToSave){
+                        //已經存在了，不儲存
+                    }else{
+                        scoreNotifyTimes.append(timeToSave)
+                    }
+                }
+            }
+        }
+        UserSetting.scoreNotifyTimes = scoreNotifyTimes
+        print("!!!!!!!!!scoreNotifyTimes!!!!!!!!!!!!!!!!!")
+        print(scoreNotifyTimes)
     }
 }
