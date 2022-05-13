@@ -17,18 +17,17 @@ class Comment {
     var UID : String
     var name : String
     var gender : Int
-    var smallHeadshotURL : String?
+//    var smallHeadshotURL : String?
     var content : String
     var likeUIDs : [String]?
     var commentID : String?
     var smallHeadshot : UIImage?
-    init(time:String,UID:String,name:String,gender:Int,smallHeadshotURL:String?,content:String,likeUIDs:[String]?) {
+    init(time:String,UID:String,name:String,gender:Int,content:String,likeUIDs:[String]?) {
         
         self.time = time
         self.UID = UID
         self.name = name
         self.gender = gender
-        self.smallHeadshotURL = smallHeadshotURL
         self.content = content
         self.likeUIDs = likeUIDs
         
@@ -40,7 +39,6 @@ class Comment {
         UID = snapshotValue["UID"] as! String ?? "錯誤"
         name = snapshotValue["name"] as? String ?? "錯誤"
         gender = snapshotValue["gender"] as? Int ?? 0
-        smallHeadshotURL = snapshotValue["smallHeadshotURL"] as? String
         content = snapshotValue["content"] as? String ?? "錯誤"
         likeUIDs = snapshotValue["likeUIDs"] as? [String]
     }
@@ -51,7 +49,6 @@ class Comment {
             "UID": UID,
             "name": name,
             "gender": gender,
-            "smallHeadshotURL": smallHeadshotURL,
             "content": content,
             "likeUIDs": likeUIDs,
         ]

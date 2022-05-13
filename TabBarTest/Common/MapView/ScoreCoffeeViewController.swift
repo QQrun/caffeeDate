@@ -260,7 +260,7 @@ class ScoreCoffeeViewController : UIViewController{
         let commentRef = Database.database().reference(withPath: "CoffeeComment/" + annotation.address + "/" + commentID)
         let currentTimeString = Date().getCurrentTimeString()
         let comment = Comment(time: currentTimeString, UID: UserSetting.UID, name: UserSetting.userName,
-                              gender: UserSetting.userGender,smallHeadshotURL: UserSetting.userSmallHeadShotURL, content: commentContent!, likeUIDs: nil)
+                              gender: UserSetting.userGender, content: commentContent!, likeUIDs: nil)
         commentRef.setValue(comment.toAnyObject())
         
         

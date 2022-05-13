@@ -222,7 +222,6 @@ class MapViewController: UIViewController {
         iWantActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantRequestBtnAct), for: .touchUpInside)
         iWantActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantOpenStoreBtnAct), for: .touchUpInside)
         iWantActionSheetKit.getActionSheetBtn(i: 4)?.addTarget(self, action: #selector(iWantSayHiBtnAct), for: .touchUpInside)
-        print("if FACETRADER if FACETRADER")
 #elseif VERYINCORRECT
         let actionSheetText = ["取消","新增咖啡店","使用邀請碼參加聚會或一同報名","發起相席"]
         iWantActionSheetKit.creatActionSheet(containerView: view, actionSheetText: actionSheetText)
@@ -230,7 +229,6 @@ class MapViewController: UIViewController {
         iWantActionSheetKit.getActionSheetBtn(i: 1)?.addTarget(self, action: #selector(addCoffeeBtnAct), for: .touchUpInside)
         iWantActionSheetKit.getActionSheetBtn(i: 2)?.addTarget(self, action: #selector(iWantUseInvitationCode), for: .touchUpInside)
         iWantActionSheetKit.getActionSheetBtn(i: 3)?.addTarget(self, action: #selector(iWantSharedSeatBtnAct), for: .touchUpInside)
-        print("elseif VERYINCORRECTelseif VERYINCORRECT")
 #endif
         
         iWantActionSheetKit.getbgBtn().addTarget(self, action: #selector(iWantActionSheetBGBtnAct), for: .touchUpInside)
@@ -376,7 +374,6 @@ class MapViewController: UIViewController {
                 }
             }
             if bulletinBoardExpansionState == .PartiallyExpanded {
-                print("bulletinBoardExpansionState == .PartiallyExpanded")
                 bigItemTableView.reloadData()
                 animateBulletinBoard(targetPosition: 40) { (_) in
                     self.bulletinBoardExpansionState = .FullyExpanded
@@ -432,11 +429,9 @@ class MapViewController: UIViewController {
             }
         } else {
             
-            print("sender.direction == .down")
             bulletinBoard_ProfilePart_plzSlideUp.alpha = 1
             
             if bulletinBoardExpansionState == .FullyExpanded {
-                print("半縮小")
                 //                animateBulletinBoard(targetPosition: view.frame.height - 274) { (_) in
                 //                    self.bulletinBoardExpansionState = .PartiallyExpanded
                 //                }
@@ -962,8 +957,6 @@ class MapViewController: UIViewController {
                 }
                 let indexPath = IndexPath(row: index, section: 0)
                 commentTableView.insertRows(at: [indexPath], with: .automatic)
-                print("coffeeComments:" + "\(self.coffeeComments.count)")
-                print("index:" + "\(index)")
                 commentTableView.endUpdates()
                 
                 for i in 0 ... self.coffeeComments.count - 1 {
@@ -981,15 +974,16 @@ class MapViewController: UIViewController {
                 if commenterHeadShotDict[self.coffeeComments[index].UID] == nil{
                     commenterHeadShotDict[self.coffeeComments[index].UID] = UIImage(named: "Thumbnail") //這只是隨便一張圖，來確認是否下載過了
                     //去storage那邊找到URL
-                    let smallHeadshotRef = Storage.storage().reference().child("userSmallHeadShot/" + self.coffeeComments[index].UID)
+                    let smallHeadshotRef = Storage.storage().reference().child("userSmallHeadShot/" + self.coffeeComments[index].UID + ".png")
                     smallHeadshotRef.downloadURL(completion: { (url, error) in
                         guard let downloadURL = url else {
+                            print(error)
                             return
                         }
                         //下載URL的圖
                         AF.request(downloadURL).response { (response) in
                             guard let data = response.data, let image = UIImage(data: data)
-                            else { return }
+                            else {return }
                             //裝進commenterHeadShotDict
                             
                             if(index > self.coffeeComments.count - 1) { return }
@@ -2411,9 +2405,6 @@ class MapViewController: UIViewController {
     
     func setUnreadNotifcationCount(_ count:Int){
         unreadNotifcationCount = count
-        print("unreadNotifcationCount:" + "\(unreadNotifcationCount)")
-        
-        
         if(unreadNotifcationCount > 0){
             unreadNotiCountCircle.isHidden = false
             unreadNotiCountCircle.titleLabel?.font = unreadNotiCountCircle.titleLabel?.font.withSize(12)
@@ -2595,7 +2586,6 @@ class MapViewController: UIViewController {
     
     
     @objc private func showSharedSeat4BtnAct(){
-        print("showSharedSeat4BtnAct")
         if UserSetting.isMapShowSharedSeat4{
             UserSetting.isMapShowSharedSeat4 = false
             showSharedSeat4Button.tintColor = smallIconUnactiveColor
@@ -3126,7 +3116,6 @@ class MapViewController: UIViewController {
     @objc func goSharedSeatChatroomAct(){
         
         Analytics.logEvent("相席_前往相席聊天室", parameters:nil)
-        print("相席_前往相席聊天室")
         if(currentSharedSeatAnnotation!.mode == 1){
             var joinedID = ""
             if(UserSetting.userGender == 0){
@@ -3453,8 +3442,6 @@ class MapViewController: UIViewController {
 extension MapViewController{
     
     func centerMapOnUserLocation(shouldLoadAnnotations: Bool) {
-        
-        print("centerMapOnUserLocation")
         
         guard let coordinates = locationManager.location?.coordinate else { return }
         

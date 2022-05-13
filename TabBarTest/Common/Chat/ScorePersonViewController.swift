@@ -18,7 +18,7 @@ class ScorePersonViewController: UIViewController {
     var score : Int = 0
     
     let commentTextViewDelegate = WordLimitUITextFieldDelegate()
-    var commentPlaceholder = "您可以在這寫下您對這人的鼓勵或是建議。"
+    var commentPlaceholder = "您可以在這寫下您的鼓勵或是建議。"
     
     let UID : String!
     let name : String!
@@ -187,7 +187,7 @@ class ScorePersonViewController: UIViewController {
                 CoordinatorAndControllerInstanceHelper.rootCoordinator.mapViewController.showToast(message: "上傳評分失敗", font: .systemFont(ofSize: 14.0))
                 self.navigationController?.popViewController(animated: true)
             }
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.showToast(message: "已完成對" + self.name + "的評分")
+            CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.showToast(message: "已完成對" + self.name + "的評分",duration: 5)
             self.navigationController?.popViewController(animated: true)
         }
         
@@ -203,7 +203,7 @@ class ScorePersonViewController: UIViewController {
         let commentRef = Database.database().reference().child("PersonDetail/" + UID + "/sharedSeatComment/" + UserSetting.UID)
         let currentTimeString = Date().getCurrentTimeString()
         let comment = Comment(time: currentTimeString, UID: UserSetting.UID, name: UserSetting.userName,
-                              gender: UserSetting.userGender,smallHeadshotURL: UserSetting.userSmallHeadShotURL, content: commentContent!, likeUIDs: nil)
+                              gender: UserSetting.userGender, content: commentContent!, likeUIDs: nil)
         commentRef.setValue(comment.toAnyObject())
         
     }

@@ -234,8 +234,6 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
                 scoreCount += 1
             }
         }
-        print("scoreTotalAmount:")
-        print(scoreTotalAmount)
         var averageScore : Float = 0
         if(scoreCount != 0){
             averageScore = Float(scoreTotalAmount)/Float(scoreCount)
@@ -262,7 +260,7 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
         let scoreBtn : UIButton = {
             let btn = UIButton()
             btn.frame = CGRect(x: starImageView.frame.origin.x, y: starImageView.frame.origin.y, width: 20 + scoreLabel.intrinsicContentSize.width + 4, height: scoreLabel.intrinsicContentSize.height)
-            btn.addTarget(self, action: #selector(goScorePageBtnAct), for: .valueChanged)
+            btn.addTarget(self, action: #selector(goScorePageBtnAct), for: .touchUpInside)
             return btn
         }()
         scrollView.addSubview(scoreBtn)
