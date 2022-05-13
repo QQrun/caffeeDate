@@ -104,11 +104,10 @@ class ProfileScoreViewController: UIViewController,UITableViewDelegate,UITableVi
         commentTableView.estimatedRowHeight = 54.0
         
         view.addSubview(commentTableView)
-        
     }
     
     @objc private func gobackBtnAct(){
-        self.navigationController?.popViewController(animated: true)
+        dismiss(animated: true, completion: nil)
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {

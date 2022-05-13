@@ -3282,8 +3282,10 @@ class MapViewController: UIViewController {
                     }
                     self.currentSharedSeatAnnotation!.signUpBoysID![UserSetting.UID] = invitationCode
                 }
-                
-                self.invitationCodeLabel.text = "邀請碼：" + invitationCode
+
+                if(invitationCode != "-"){
+                    self.invitationCodeLabel.text = "邀請碼：" + invitationCode
+                }
             }
         }
         

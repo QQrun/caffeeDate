@@ -416,10 +416,6 @@
 		A797A70E282BF79100C4EBC2 /* ScorePersonViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */; };
 		A797A710282C2B7500C4EBC2 /* ProfileScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */; };
 		A797A711282C2B7500C4EBC2 /* ProfileScoreViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */; };
-		A797A714282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A712282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift */; };
-		A797A715282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = A797A712282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift */; };
-		A797A716282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A797A713282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib */; };
-		A797A717282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A797A713282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib */; };
 		A799BE5D27A5354900A6057A /* ScoreCoffeeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */; };
 		A799BE5F27A5356E00A6057A /* ScoreCoffeeViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */; };
 		A799BE6127A54A7E00A6057A /* CoffeeScoreData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */; };
@@ -667,8 +663,6 @@
 		A797A70A2823054000C4EBC2 /* GoogleService-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		A797A70C282BF79100C4EBC2 /* ScorePersonViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScorePersonViewController.swift; sourceTree = "<group>"; };
 		A797A70F282C2B7500C4EBC2 /* ProfileScoreViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileScoreViewController.swift; sourceTree = "<group>"; };
-		A797A712282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CommentPersonTableViewCell.swift; sourceTree = "<group>"; };
-		A797A713282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = CommentPersonTableViewCell.xib; sourceTree = "<group>"; };
 		A799BE5C27A5354900A6057A /* ScoreCoffeeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCoffeeViewController.swift; sourceTree = "<group>"; };
 		A799BE5E27A5356E00A6057A /* ScoreCoffeeViewController.storyboard */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; path = ScoreCoffeeViewController.storyboard; sourceTree = "<group>"; };
 		A799BE6027A54A7E00A6057A /* CoffeeScoreData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CoffeeScoreData.swift; sourceTree = "<group>"; };
@@ -1139,8 +1133,6 @@
 				A789E483244B093D00730053 /* ItemViewController.swift */,
 				A789E494244C851200730053 /* CommentTableViewCell.swift */,
 				A789E491244C80BF00730053 /* CommentTableViewCell.xib */,
-				A797A712282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift */,
-				A797A713282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib */,
 			);
 			path = ItemView;
 			sourceTree = "<group>";
@@ -1358,7 +1350,6 @@
 				A789E493244C80BF00730053 /* CommentTableViewCell.xib in Resources */,
 				A77BADEE253DC1720071D346 /* GoogleService-Info.plist in Resources */,
 				A789E5C9244E301400730053 /* CheckLocationAccessViewController.storyboard in Resources */,
-				A797A716282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib in Resources */,
 				A7CB15A724A8C01B00FDBC12 /* MailListViewController.storyboard in Resources */,
 				A7CEE602280EF3FD00DFAE86 /* soul2.sks in Resources */,
 				A75A3DED243E3E6F00E43D46 /* NotifyCenterViewController.storyboard in Resources */,
@@ -1401,7 +1392,6 @@
 				A7CEE601280EF3FD00DFAE86 /* soul.sks in Resources */,
 				A787C3C727F725A5009EC8A7 /* InfoPopOverController.storyboard in Resources */,
 				A787C39127C0F284009EC8A7 /* AppStoreRatingAlertView.xib in Resources */,
-				A797A717282EDD7C00C4EBC2 /* CommentPersonTableViewCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -1655,7 +1645,6 @@
 				A714616B27574B5A00872E4E /* Colors.swift in Sources */,
 				A789E5D724517F7A00730053 /* WantSellViewController.swift in Sources */,
 				A78DF1742466B2C600617AAF /* ActionSheetKit.swift in Sources */,
-				A797A714282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift in Sources */,
 				A711058F243E32C1008E680D /* MapViewController.swift in Sources */,
 				A77BAD55253C7D190071D346 /* AutocompleteManager.swift in Sources */,
 				A77BABD0253C76680071D346 /* MessageStyle.swift in Sources */,
@@ -1864,7 +1853,6 @@
 				A787C33427C0F284009EC8A7 /* WantSellViewController.swift in Sources */,
 				A787C33527C0F284009EC8A7 /* ActionSheetKit.swift in Sources */,
 				A787C33627C0F284009EC8A7 /* MapViewController.swift in Sources */,
-				A797A715282EDD7C00C4EBC2 /* CommentPersonTableViewCell.swift in Sources */,
 				A787C33727C0F284009EC8A7 /* AutocompleteManager.swift in Sources */,
 				A787C33827C0F284009EC8A7 /* MessageStyle.swift in Sources */,
 				A787C33927C0F284009EC8A7 /* PostNotifcation.swift in Sources */,

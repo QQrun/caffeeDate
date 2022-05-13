@@ -409,10 +409,8 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
             return
         }
         let profileScoreViewController = ProfileScoreViewController(personDetail: personDetail!)
-        profileScoreViewController.modalPresentationStyle = .overCurrentContext
-        if let viewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController{
-            (viewController as! UINavigationController).pushViewController(profileScoreViewController, animated: true)
-        }
+        profileScoreViewController.modalPresentationStyle = .overFullScreen
+        present(profileScoreViewController, animated: true,completion: nil)
     }
     
     @objc private func bookMarkAct_OpenStore(){
