@@ -160,6 +160,7 @@ class MapViewController: UIViewController {
         presonAnnotationGetter.fetchPersonData()
 #elseif VERYINCORRECT
         sharedSeatAnnotationGetter.fetchSharedSeatData()
+        sharedSeatAnnotationGetter.checkScoreNotifyTime()
         if(!UserSetting.isShowedExplain){
             explainBtnAct()
         }

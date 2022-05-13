@@ -56,7 +56,22 @@ class NotifyHelper {
         if state == .background || state == .inactive {
             request = UNNotificationRequest(identifier: "longExist", content: content, trigger: .none)
         }
-        
+        UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
+    }
+    
+    static func pushNewNoti(title:String,subTitle:String,roomID:String){
+        print("pushNewNoti!!!!!!!!!!!!")
+        let content = UNMutableNotificationContent()
+        content.title = title
+        content.subtitle = subTitle
+        var userInfo : [String: String] = [:]
+        userInfo["gcm.notification.messageRoomID"] = roomID
+        content.userInfo = userInfo
+        var request = UNNotificationRequest(identifier: "tempExist", content: content, trigger: .none)
+        let state = UIApplication.shared.applicationState
+        if state == .background || state == .inactive {
+            request = UNNotificationRequest(identifier: "longExist", content: content, trigger: .none)
+        }
         UNUserNotificationCenter.current().add(request, withCompletionHandler: nil)
     }
     

@@ -28,9 +28,6 @@ class SharedSeatAnnotationGetter{
         }
     }
     
-    
-    
-    
     init(mapView:MKMapView) {
         self.mapView = mapView
     }
@@ -255,7 +252,34 @@ class SharedSeatAnnotationGetter{
             }
         }
         UserSetting.scoreNotifyTimes = scoreNotifyTimes
-        print("!!!!!!!!!scoreNotifyTimes!!!!!!!!!!!!!!!!!")
-        print(scoreNotifyTimes)
+        
+    }
+    
+    func checkScoreNotifyTime(){
+        var scoreNotifyTimes = UserSetting.scoreNotifyTimes
+        var indexsNeedToReMove : [Int] = []
+        
+        if (scoreNotifyTimes.count == 0){ return }
+        
+        for i in 0 ... scoreNotifyTimes.count - 1{
+            let parts = scoreNotifyTimes[i].components(separatedBy: "_")
+            if(parts.count == 2){
+                let roomID = parts[0]
+                let dateTime = parts[1]
+                
+                let now = Date()
+                let firebaseDateFormatter = DateFormatter()
+                firebaseDateFormatter.dateFormat = "YYYYMMddHHmmss"
+                if let dateTime = firebaseDateFormatter.date(from: dateTime){
+                    let remainingTime  = dateTime - now
+                    if(remainingTime < -3600){
+                        indexsNeedToReMove.append(i)
+                        NotifyHelper.pushNewNoti(title: "可以給小夥伴評分了！", subTitle: "點擊前往聊天室右上角評分",roomID: roomID)
+                    }
+                }
+            }
+        }
+        scoreNotifyTimes.removeSpecifiedIndices(indexsNeedToReMove)
+        UserSetting.scoreNotifyTimes = scoreNotifyTimes
     }
 }

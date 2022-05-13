@@ -188,49 +188,40 @@ extension AppDelegate : UNUserNotificationCenterDelegate {
             return
         }
         
-        let content: UNNotificationContent = notification.request.content
-        let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
-        let messageRoomID = userInfo["gcm.notification.messageRoomID"] as! String
         
-        //如果正處於mailList，不顯示通知
-        if CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedIndex == 1{
-            if UserSetting.currentChatRoomID == ""{
+        let content: UNNotificationContent = notification.request.content
+        
+        let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
+        if let messageRoomID = userInfo["gcm.notification.messageRoomID"] as? String {
+            //如果正處於mailList，不顯示通知
+            if CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedIndex == 1{
+                if UserSetting.currentChatRoomID == ""{
+                    return
+                }
+            }
+            //當前正在跟通知的主人聊天，忽視通知
+            if UserSetting.currentChatRoomID == messageRoomID {
                 return
             }
         }
         
-        //當前正在跟通知的主人聊天，忽視通知
-        if UserSetting.currentChatRoomID == messageRoomID {
-            return
-        }
-        
-        
-        //傳送的對象是自己，忽視通知（可能兩個人共用同一個手機導致token一樣）
-        if UserSetting.userName == notification.request.content.title {
-            return
-        }
         completionHandler([[.alert]])
+
     }
     
     func userNotificationCenter(_ center: UNUserNotificationCenter,
                                 didReceive response: UNNotificationResponse,
                                 withCompletionHandler completionHandler: @escaping () -> Void) {
-        
-        print("didReceive")
-        
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) { // Change `2.0` to the desired number of seconds.
            // Code you want to be delayed
             let content: UNNotificationContent = response.notification.request.content
             let userInfo = content.userInfo as NSDictionary as! [String: AnyObject]
-            let messageRoomID = userInfo["gcm.notification.messageRoomID"] as! String
-
-            let chatViewController = MessageRoomViewController(chatroomID: messageRoomID, targetPersonInfos: nil)
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
-            CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(chatViewController, animated: true)
+            if let messageRoomID = userInfo["gcm.notification.messageRoomID"] as? String{
+                let chatViewController = MessageRoomViewController(chatroomID: messageRoomID, targetPersonInfos: nil)
+                CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab
+                CoordinatorAndControllerInstanceHelper.rootCoordinator.mailTab.pushViewController(chatViewController, animated: true)
+            }
         }
-
-        
-        
         completionHandler()
     }
 }
@@ -242,7 +233,6 @@ extension AppDelegate : MessagingDelegate {
         let dataDict: [String: String] = ["token": fcmToken ?? ""]
         NotificationCenter.default.post(name: Notification.Name("FCMToken"), object: nil, userInfo: dataDict)
         
-        print("messaging")
         // TODO: If necessary send token to application server.
         // Note: This callback is fired at each app startup and whenever a new token is generated.
     }

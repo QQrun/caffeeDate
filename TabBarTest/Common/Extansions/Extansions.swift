@@ -422,3 +422,14 @@ extension UITableView {
     }
     
 }
+
+
+extension Array {
+    mutating func removeSpecifiedIndices(_ indices: [Int]) {
+        let sortedIndices = indices.sorted().reversed()
+        for i in sortedIndices {
+            guard i < count else { return }
+            remove(at: i)
+        }
+    }
+}
