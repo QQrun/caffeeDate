@@ -27,5 +27,6 @@ class ProfilePopView: UIView {
     
     @IBOutlet weak var logoutBtn: UIButton!
     
+    @IBOutlet weak var goProfilePageBtn: UIButton!
     
 }

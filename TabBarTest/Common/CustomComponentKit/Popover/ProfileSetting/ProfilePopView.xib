@@ -74,7 +74,7 @@
                                     <fragment content="建議與回報">
                                         <attributes>
                                             <color key="NSColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="custom" customColorSpace="displayP3"/>
-                                            <font key="NSFont" size="11" name=".PingFangTC-Regular"/>
+                                            <font key="NSFont" metaFont="smallSystem"/>
                                             <font key="NSOriginalFont" metaFont="smallSystem"/>
                                             <paragraphStyle key="NSParagraphStyle" alignment="center" lineBreakMode="wordWrapping" baseWritingDirection="natural" lineSpacing="2" lineHeightMultiple="1" tighteningFactorForTruncation="0.0"/>
                                         </attributes>
@@ -106,31 +106,41 @@
                         <constraint firstAttribute="height" constant="34" id="oM4-Ql-0wi"/>
                     </constraints>
                 </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etu-hn-RRZ">
+                    <rect key="frame" x="0.0" y="0.0" width="300" height="142"/>
+                    <state key="normal" title="Button"/>
+                    <buttonConfiguration key="configuration" style="plain"/>
+                </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
             <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
             <constraints>
                 <constraint firstItem="v0V-Z7-g9L" firstAttribute="top" secondItem="02r-C1-3Io" secondAttribute="bottom" constant="12" id="1iM-FL-zhQ"/>
                 <constraint firstItem="5Iw-jC-spn" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="8bQ-LU-9q8"/>
+                <constraint firstItem="etu-hn-RRZ" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="Ae2-Hv-x94"/>
                 <constraint firstItem="esk-Hy-ika" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="C5Y-Pv-Qbd"/>
                 <constraint firstAttribute="trailing" secondItem="5Iw-jC-spn" secondAttribute="trailing" constant="16" id="CE2-mh-h2o"/>
                 <constraint firstItem="5Iw-jC-spn" firstAttribute="top" secondItem="esk-Hy-ika" secondAttribute="bottom" constant="16" id="Cwr-tL-ItC"/>
+                <constraint firstItem="02r-C1-3Io" firstAttribute="top" secondItem="etu-hn-RRZ" secondAttribute="bottom" constant="14" id="Jkf-vq-uU7"/>
                 <constraint firstItem="v0V-Z7-g9L" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="Njv-SC-kwc"/>
                 <constraint firstItem="ixa-Ns-GIL" firstAttribute="leading" secondItem="esk-Hy-ika" secondAttribute="trailing" constant="16" id="P9T-fe-qiw"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="v0V-Z7-g9L" secondAttribute="bottom" constant="13" id="QLC-3b-e8m"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="v0V-Z7-g9L" secondAttribute="trailing" constant="16" id="RLD-xR-PRc"/>
+                <constraint firstItem="etu-hn-RRZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ZOu-sn-pId"/>
                 <constraint firstItem="Diy-GU-R31" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="br9-u8-Xvd"/>
                 <constraint firstItem="02r-C1-3Io" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="dka-hL-yo1"/>
                 <constraint firstItem="Diy-GU-R31" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="eJF-UP-tHw"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="02r-C1-3Io" secondAttribute="trailing" constant="16" id="ge1-XA-x2W"/>
                 <constraint firstItem="02r-C1-3Io" firstAttribute="top" secondItem="5Iw-jC-spn" secondAttribute="bottom" constant="17" id="irf-U8-O2c"/>
                 <constraint firstItem="esk-Hy-ika" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="j4N-F7-2gV"/>
+                <constraint firstItem="etu-hn-RRZ" firstAttribute="trailing" secondItem="vUN-kp-3ea" secondAttribute="trailing" id="q7n-1M-ums"/>
                 <constraint firstItem="ixa-Ns-GIL" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="22" id="qx4-DL-lcR"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>
                 <outlet property="editProfileBtn" destination="02r-C1-3Io" id="9fV-S2-Eox"/>
                 <outlet property="editShopBtn" destination="zYh-LS-SDe" id="YQy-c8-mRZ"/>
+                <outlet property="goProfilePageBtn" destination="etu-hn-RRZ" id="osP-j3-aYQ"/>
                 <outlet property="introduction" destination="5Iw-jC-spn" id="zZs-6E-Po3"/>
                 <outlet property="loadingView" destination="esk-Hy-ika" id="l4t-PY-Z5L"/>
                 <outlet property="logoutBtn" destination="mAK-tT-4v9" id="w3b-dh-dDE"/>
@@ -138,7 +148,7 @@
                 <outlet property="photoView" destination="Diy-GU-R31" id="6Yy-nl-0og"/>
                 <outlet property="reportBtn" destination="gaw-e9-bNS" id="4Li-9e-aII"/>
             </connections>
-            <point key="canvasLocation" x="99.275362318840592" y="143.63839285714286"/>
+            <point key="canvasLocation" x="98.550724637681171" y="143.63839285714286"/>
         </view>
     </objects>
     <resources>

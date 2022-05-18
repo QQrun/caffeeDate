@@ -89,6 +89,9 @@ class ProfilePop {
             "\(UserSetting.userSelfIntroduction)"
             
             
+            (profilePopView as! ProfilePopView).goProfilePageBtn.addTarget(self, action: #selector(goProfilePageBtnAct), for: .touchUpInside)
+            (profilePopView as! ProfilePopView).goProfilePageBtn.setTitle("", for: .normal)
+            
             (profilePopView as! ProfilePopView).editProfileBtn.layer.cornerRadius = 2.5
             (profilePopView as! ProfilePopView).editProfileBtn.addTarget(self, action: #selector(editProfileBtnAct), for: .touchUpInside)
             
@@ -181,6 +184,18 @@ class ProfilePop {
         Analytics.logEvent("我_登出", parameters:nil)
         ProfilePop.actionSheetKit_LogOut.allBtnSlideIn()
         ProfilePop.popoverVC.dismiss(animated: true, completion: nil)
+    }
+    
+    
+    @objc fileprivate func goProfilePageBtnAct(){
+        Analytics.logEvent("我_我的頁面", parameters:nil)
+        let profileViewController = ProfileViewController(UID: UserSetting.UID)
+        profileViewController.modalPresentationStyle = .overCurrentContext
+        ProfilePop.popoverVC.dismiss(animated: true, completion: nil)
+        if let viewController = CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.selectedViewController{
+            viewController.present(profileViewController, animated: true,completion: nil)
+        }
+        
     }
     
 }

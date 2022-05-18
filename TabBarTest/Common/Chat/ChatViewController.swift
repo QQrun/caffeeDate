@@ -316,12 +316,30 @@ class ChatViewController: MessagesViewController, MessagesDataSource{
         if !isNextMessageSameSender(at: indexPath) {
             let dateFormatter = DateFormatter()
             dateFormatter.dateFormat = "MM/dd HH:mm"
-            let dateString = dateFormatter.string(from: messageList[indexPath.section].sentDate)
+            let dateString : String
+            
+            if(targetAvatars.count == 1 || isFromCurrentSender(message: message)){ //單人聊天室
+                dateString = dateFormatter.string(from: messageList[indexPath.section].sentDate)
+            }else{ //多人聊天室
+                dateString = message.sender.displayName + "  "  + dateFormatter.string(from: messageList[indexPath.section].sentDate)
+            }
+            
+            
+            
             return NSAttributedString(string: dateString, attributes: [NSAttributedString.Key.font: UIFont.preferredFont(forTextStyle: .caption1),NSAttributedString.Key.foregroundColor:UIColor.darkGray])
         }
         return nil
     }
-    
+    func cellTopLabelAttributedText(for message: MessageType, at indexPath: IndexPath) -> NSAttributedString? {
+        let name = message.sender.displayName
+        return NSAttributedString(
+          string: name,
+          attributes: [
+            .font: UIFont.preferredFont(forTextStyle: .caption1),
+            .foregroundColor: UIColor(white: 0.3, alpha: 1)
+          ]
+        )
+      }
     
     
     //MARK: - Act
@@ -513,6 +531,9 @@ extension ChatViewController: MessagesDisplayDelegate {
         return messageList[indexPath.section].user == messageList[indexPath.section + 1].user
     }
     
+    
+    
+    
     func configureAvatarView(_ avatarView: AvatarView, for message: MessageType, at indexPath: IndexPath, in messagesCollectionView: MessagesCollectionView) {
         if isFromCurrentSender(message: message) {
             avatarView.isHidden = true
@@ -525,8 +546,11 @@ extension ChatViewController: MessagesDisplayDelegate {
             }
             avatarView.set(avatar: targetAvatars[targetIndex])
             avatarView.isHidden = isNextMessageSameSender(at: indexPath)
+            
         }
     }
+    
+  
     
     // MARK: - Location Messages
     
@@ -561,6 +585,8 @@ extension ChatViewController: MessagesDisplayDelegate {
     func configureAudioCell(_ cell: AudioMessageCell, message: MessageType) {
         //        audioController.configureAudioCell(cell, message: message) // this is needed especily when the cell is reconfigure while is playing sound
     }
+    
+    
     
 }
 
