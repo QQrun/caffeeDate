@@ -272,6 +272,26 @@ class DrawCardViewController: UIViewController {
         drawCardBtn.addTarget(self, action: #selector(drawCardBtnAct), for: .touchUpInside)
         view.addSubview(drawCardBtn)
         
+        //Coin的圖案
+        let coin = { () -> UIImageView in
+            let imageView = UIImageView(frame: CGRect(x:drawCardBtn.frame.origin.x + 9,y:drawCardBtn.frame.origin.y + drawCardBtn.frame.height,width:20,height:20))
+            let coinImage = UIImage(named: "icons_24_coin_fill_24")
+            imageView.image = coinImage
+            return imageView
+        }()
+        view.addSubview(coin)
+        
+        let oneDrawNeedToPay = {() -> UILabel in
+            let label = UILabel()
+            label.text = "30"
+            label.textColor = UIColor.hexStringToUIColor(hex: "#e1b808")
+            label.font = UIFont(name: "HelveticaNeue", size: 14)
+            label.frame = CGRect(x:coin.frame.origin.x + coin.frame.width + 5, y:coin.frame.origin.y + 2.2, width: label.intrinsicContentSize.width, height: label.intrinsicContentSize.height)
+            return label
+        }()
+        view.addSubview(oneDrawNeedToPay)
+        
+        
         loveCardBtn = UIButton()
         loveCardBtn.frame = CGRect(x: (view.frame.width/8) * 5 - 30, y: view.frame.height - 125 - 55, width: 60, height: 60)
         loveCardBtn.setImage(UIImage(named: "love_card_36dp"), for: .normal)
