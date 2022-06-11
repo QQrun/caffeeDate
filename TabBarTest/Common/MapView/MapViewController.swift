@@ -114,9 +114,13 @@ class MapViewController: UIViewController {
     var coffeeComments : [Comment] = []
     var coffeeCommentObserverRef : DatabaseReference!
     
+    //以下是儲值用
+    var coinCountLabel = UILabel()
+    
     //以下是關注咖啡店用的
     var loveShopLabel = UILabel()
     var currentCoffeeAnnotation : CoffeeAnnotation? = nil
+    
     
     //以下是相席用的
     var currentSharedSeatAnnotation : SharedSeatAnnotation? = nil
@@ -2229,6 +2233,51 @@ class MapViewController: UIViewController {
         circleButton_explain.isEnabled = true
         view.addSubview(circleButton_explain)
         circleButton_explain.addTarget(self, action: #selector(explainBtnAct), for: .touchUpInside)
+        
+        
+        //儲值按鈕
+        let circleButton_storedValueImageView = UIButton(frame:CGRect(x: 16, y: statusHeight + 50 + 32 + 16, width: 32, height: 32))
+        circleButton_storedValueImageView.backgroundColor = .sksWhite()
+        let coinImage = UIImage(named: "icons_24_coin_fill_24")
+        circleButton_storedValueImageView.layer.cornerRadius = 16
+        circleButton_storedValueImageView.layer.shadowRadius = 2
+        circleButton_storedValueImageView.layer.shadowOffset = CGSize(width: 2, height: 2)
+        circleButton_storedValueImageView.layer.shadowOpacity = 0.3
+        circleButton_storedValueImageView.setImage(coinImage, for: [])
+        circleButton_storedValueImageView.isEnabled = true
+        view.addSubview(circleButton_storedValueImageView)
+        
+        //儲值按鈕右上的加號
+        let addCoinImageView = UIImageView(frame:CGRect(x: 16 + 22, y: statusHeight + 50 + 32 + 13, width: 14, height: 14))
+        addCoinImageView.backgroundColor = .clear
+        let addCoinImage = UIImage(named: "icons_16_add_outline_16")
+        addCoinImageView.image = addCoinImage
+        view.addSubview(addCoinImageView)
+        
+        //儲值數字
+        coinCountLabel  = { () -> UILabel in
+            let label = UILabel()
+            label.text = "999"
+            label.textColor = UIColor.hexStringToUIColor(hex: "#e1b808")
+            label.font = UIFont(name: "HelveticaNeue", size: 12)
+            label.textAlignment = .center
+            label.layer.borderColor = UIColor.hexStringToUIColor(hex: "#e1b808").cgColor
+            label.layer.borderWidth = 1
+            label.layer.cornerRadius = label.intrinsicContentSize.height/2
+            label.layer.backgroundColor = UIColor.sksWhite().cgColor
+            label.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+            label.frame = CGRect(x:27 - label.intrinsicContentSize.width/2, y:statusHeight + 127, width: label.intrinsicContentSize.width + 10, height: label.intrinsicContentSize.height)
+            return label
+        }()
+        view.addSubview(coinCountLabel)
+        
+        
+        let circleButton_storedValueBtn = UIButton(frame:CGRect(x: 16, y: statusHeight + 50 + 32 + 14, width: 32, height: 50))
+        circleButton_storedValueBtn.backgroundColor = .clear
+        circleButton_storedValueBtn.isEnabled = true
+        view.addSubview(circleButton_storedValueBtn)
+        circleButton_storedValueBtn.addTarget(self, action: #selector(storedValueBtnAct), for: .touchUpInside)
+        
 #endif
         
         
@@ -2470,6 +2519,19 @@ class MapViewController: UIViewController {
                 mapView.selectAnnotation(sharedSeatAnnotationGetter!.sharedSeatMyJoinedAnnotation[0], animated: true)
             }
         }
+    }
+    
+    @objc private func storedValueBtnAct(){
+        coinCountLabel.text = "9"
+        coinCountLabel.textColor = UIColor.hexStringToUIColor(hex: "#e1b808")
+        coinCountLabel.font = UIFont(name: "HelveticaNeue", size: 12)
+        coinCountLabel.textAlignment = .center
+        coinCountLabel.layer.borderColor = UIColor.hexStringToUIColor(hex: "#e1b808").cgColor
+        coinCountLabel.layer.borderWidth = 1
+        coinCountLabel.layer.cornerRadius = coinCountLabel.intrinsicContentSize.height/2
+        coinCountLabel.layer.backgroundColor = UIColor.sksWhite().cgColor
+        coinCountLabel.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        coinCountLabel.frame = CGRect(x:27 - coinCountLabel.intrinsicContentSize.width/2, y:statusHeight + 127, width: coinCountLabel.intrinsicContentSize.width + 10, height: coinCountLabel.intrinsicContentSize.height)
     }
     
     @objc private func explainBtnAct(){

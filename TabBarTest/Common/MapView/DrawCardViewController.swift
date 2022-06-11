@@ -16,6 +16,7 @@ import SpriteKit
 class DrawCardViewController: UIViewController {
     
     var customTopBarKit = CustomTopBarKit()
+    var topBar = UIView()
     
     let sharedSeatAnnotation:SharedSeatAnnotation
     
@@ -38,6 +39,11 @@ class DrawCardViewController: UIViewController {
     var drawedUID2 : [String] = []
     
     var currentPage = 0
+    
+    //儲值用
+    var coinCountLabel = UILabel()
+    var coinImageView = UIImageView()
+
     
     init(sharedSeatAnnotation:SharedSeatAnnotation){
         self.sharedSeatAnnotation = sharedSeatAnnotation
@@ -126,6 +132,44 @@ class DrawCardViewController: UIViewController {
         customTopBarKit.CreatCenterTitle(text: "隨機抽卡")
         let gobackBtn = customTopBarKit.getGobackBtn()
         gobackBtn.addTarget(self, action: #selector(gobackBtnAct), for: .touchUpInside)
+        
+        topBar = customTopBarKit.getTopBar()
+        
+        coinCountLabel  = { () -> UILabel in
+            let label = UILabel()
+            label.text = "    999"
+            label.textColor = UIColor.hexStringToUIColor(hex: "#e1b808")
+            label.font = UIFont(name: "HelveticaNeue", size: 16)
+            label.textAlignment = .center
+            label.layer.borderColor = UIColor.hexStringToUIColor(hex: "#e1b808").cgColor
+            label.layer.borderWidth = 1
+            label.layer.cornerRadius = label.intrinsicContentSize.height/2 + 3
+            label.layer.backgroundColor = UIColor.sksWhite().cgColor
+            label.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+            label.frame = CGRect(x:topBar.frame.width - 16 - (label.intrinsicContentSize.width + 10), y:topBar.frame.height/2 - label.intrinsicContentSize.height/2 - 3, width: label.intrinsicContentSize.width + 10, height: label.intrinsicContentSize.height + 6)
+            return label
+        }()
+        topBar.addSubview(coinCountLabel)
+        
+        //Coin的圖案
+        coinImageView = { () -> UIImageView in
+            let imageView = UIImageView(frame: CGRect(x:coinCountLabel.frame.origin.x + 1.5,y:coinCountLabel.frame.origin.y + 2,width:coinCountLabel.frame.height - 4,height:coinCountLabel.frame.height - 4))
+            let coinImage = UIImage(named: "icons_24_coin_fill_24")
+            imageView.image = coinImage
+            return imageView
+        }()
+        topBar.addSubview(coinImageView)
+        
+        //儲值按鈕右上的加號
+        let addCoinImageView = UIImageView(frame:CGRect(x: coinCountLabel.frame.origin.x + coinCountLabel.frame.width - 9, y: coinCountLabel.frame.origin.y - 5, width: 14, height: 14))
+        addCoinImageView.backgroundColor = .clear
+        let addCoinImage = UIImage(named: "icons_16_add_outline_16")
+        addCoinImageView.image = addCoinImage
+        topBar.addSubview(addCoinImageView)
+        
+        let addCoinBtn = UIButton(frame: CGRect(x: coinCountLabel.frame.origin.x, y: 0, width: topBar.frame.width - coinCountLabel.frame.origin.x, height: topBar.frame.height))
+        addCoinBtn.addTarget(self, action: #selector(addCoinBtnAct), for: .touchUpInside)
+        topBar.addSubview(addCoinBtn)
     }
     
     fileprivate func configScrollView() {
@@ -716,6 +760,20 @@ class DrawCardViewController: UIViewController {
     @objc private func drawCardBtnAct(){
         drawCardBtn.isEnabled = false
         drawCard()
+    }
+    
+    @objc private func addCoinBtnAct(){
+        
+        coinCountLabel.text = "    9"
+        coinCountLabel.layer.borderColor = UIColor.hexStringToUIColor(hex: "#e1b808").cgColor
+        coinCountLabel.layer.borderWidth = 1
+        coinCountLabel.layer.cornerRadius = coinCountLabel.intrinsicContentSize.height/2 + 3
+        coinCountLabel.layer.backgroundColor = UIColor.sksWhite().cgColor
+        coinCountLabel.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
+        coinCountLabel.frame = CGRect(x:topBar.frame.width - 16 - (coinCountLabel.intrinsicContentSize.width + 10), y:topBar.frame.height/2 - coinCountLabel.intrinsicContentSize.height/2 - 3, width: coinCountLabel.intrinsicContentSize.width + 10, height: coinCountLabel.intrinsicContentSize.height + 6)
+        
+        coinImageView.frame = CGRect(x:coinCountLabel.frame.origin.x + 1.5,y:coinCountLabel.frame.origin.y + 2,width:coinCountLabel.frame.height - 4,height:coinCountLabel.frame.height - 4)
+        
     }
     
     @objc private func drawBackBtnAct(){
