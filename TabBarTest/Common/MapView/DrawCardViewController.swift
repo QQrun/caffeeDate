@@ -153,7 +153,7 @@ class DrawCardViewController: UIViewController {
         
         //Coin的圖案
         coinImageView = { () -> UIImageView in
-            let imageView = UIImageView(frame: CGRect(x:coinCountLabel.frame.origin.x + 1.5,y:coinCountLabel.frame.origin.y + 2,width:coinCountLabel.frame.height - 4,height:coinCountLabel.frame.height - 4))
+            let imageView = UIImageView(frame: CGRect(x:coinCountLabel.frame.origin.x + 1.5,y:coinCountLabel.frame.origin.y + 3,width:coinCountLabel.frame.height - 6,height:coinCountLabel.frame.height - 6))
             let coinImage = UIImage(named: "icons_24_coin_fill_24")
             imageView.image = coinImage
             return imageView
@@ -792,7 +792,7 @@ class DrawCardViewController: UIViewController {
         coinCountLabel.padding = UIEdgeInsets(top: 3, left: 3, bottom: 3, right: 3)
         coinCountLabel.frame = CGRect(x:topBar.frame.width - 16 - (coinCountLabel.intrinsicContentSize.width + 10), y:topBar.frame.height/2 - coinCountLabel.intrinsicContentSize.height/2 - 3, width: coinCountLabel.intrinsicContentSize.width + 10, height: coinCountLabel.intrinsicContentSize.height + 6)
         
-        coinImageView.frame = CGRect(x:coinCountLabel.frame.origin.x + 1.5,y:coinCountLabel.frame.origin.y + 2,width:coinCountLabel.frame.height - 4,height:coinCountLabel.frame.height - 4)
+        coinImageView.frame = CGRect(x:coinCountLabel.frame.origin.x + 1.5,y:coinCountLabel.frame.origin.y + 3,width:coinCountLabel.frame.height - 6,height:coinCountLabel.frame.height - 6)
         
     }
     
