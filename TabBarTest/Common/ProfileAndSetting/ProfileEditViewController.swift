@@ -229,6 +229,20 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         }()
         scrollView.addSubview(space)
         
+        
+        let deleteAccountBtn = { () -> UIButton in
+            let btn = UIButton()
+            let btn_y = separator3_1.frame.origin.y + (view.frame.height - separator3_1.frame.origin.y)/3 - 20
+            btn.frame = CGRect(x: view.frame.width/2 - 120/2, y: btn_y, width: 120, height: 40)
+            btn.layer.cornerRadius = 3.5
+            btn.backgroundColor = UIColor.hexStringToUIColor(hex: "#EBEBEB")
+            btn.setTitle("刪除帳號", for: .normal)
+            btn.setTitleColor(UIColor.error, for: .normal)
+            btn.titleLabel?.font = UIFont(name: "HelveticaNeue", size: 16)
+            btn.addTarget(self, action: #selector(deleteAccountBtnAct), for: .touchUpInside)
+            return btn
+        }()
+        scrollView.addSubview(deleteAccountBtn)
 
     }
     
@@ -513,6 +527,119 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         
     }
     
+    @objc fileprivate func deleteAccountBtnAct(){
+        
+        
+        let alertVC = SSAlertController(title: "確定要刪除帳號嗎?", message:
+        "此動作將永久刪除帳號，無法還原！")
+        alertVC.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
+            alertVC.dismiss(animated: true)
+        }))
+        alertVC.addAction(SSPopoverAction(title: "確定", style: .default, handler: { [weak self] _ in
+            alertVC.dismiss(animated: true)
+            
+            let alertVC2 = SSAlertController(title: "真的確定要刪除嗎?", message:
+            "真的真的將無法還原！")
+            alertVC2.addAction(SSPopoverAction(title: "再想想", style: .cancel, handler: { _ in
+                alertVC2.dismiss(animated: true)
+            }))
+            alertVC2.addAction(SSPopoverAction(title: "我要刪除", style: .default, handler: { [weak self] _ in
+                alertVC2.dismiss(animated: true)
+                self!.deleteAccount()
+            }))
+            self!.present(alertVC2, animated: true)
+            
+        }))
+        self.present(alertVC, animated: true)
+    }
+    
+    private func deleteAccount(){
+
+        
+        //刪除遠端SharedSeatAnnotation
+        
+        let ref0 = Database.database().reference().child("SharedSeatAnnotation/" +  Auth.auth().currentUser!.uid)
+        ref0.removeValue(){
+            (error, ref) -> Void in
+            if(error != nil){
+                print(error)
+            }
+            print("刪除遠端SharedSeatAnnotation")
+        }
+        
+        //Notification 刪除
+        let ref1 = Database.database().reference().child("Notification/" +  Auth.auth().currentUser!.uid)
+        ref1.removeValue(){
+            (error, ref) -> Void in
+            if(error != nil){
+                print(error)
+            }
+            print("刪除遠端Notification")
+        }
+        
+        //PersonAnnotation 刪除
+        let ref2 = Database.database().reference().child("PersonAnnotation/" +  Auth.auth().currentUser!.uid)
+        ref2.removeValue(){
+            (error, ref) -> Void in
+            if(error != nil){
+                print(error)
+            }
+            print("刪除遠端PersonAnnotation")
+        }
+        
+        //headShot 刪除
+        if let userSmallHeadShotURL = UserSetting.userSmallHeadShotURL{
+            let headShotStorageRef = Storage.storage().reference(forURL: userSmallHeadShotURL)
+            headShotStorageRef.delete(completion: { (error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    // success
+                    print("刪除userSmallHeadShotURL")
+                }
+            })
+        }
+       
+        //photos 刪除
+        for photoURL in UserSetting.userPhotosUrl{
+            let photoURLStorageRef = Storage.storage().reference(forURL: photoURL)
+            photoURLStorageRef.delete(completion: { (error) in
+                if let error = error {
+                    print(error)
+                } else {
+                    print("刪除photoURL")
+                }
+            })
+        }
+        
+        //PersonDetail 刪除
+        let ref3 = Database.database().reference().child("PersonDetail/" +  Auth.auth().currentUser!.uid)
+        ref3.removeValue(){
+            (error, ref) -> Void in
+            if(error != nil){
+                print(error)
+            }
+            print("刪除遠端PersonDetail")
+        }
+        
+        Analytics.logEvent("刪除帳號", parameters:nil)
+        logOut()
+        
+    }
+    
+    func logOut(){
+        let dic = CoordinatorAndControllerInstanceHelper.rootCoordinator.dic
+        for data in dic {
+            UserDefaults.standard.set(data.value, forKey: data.key)
+        }
+        CoordinatorAndControllerInstanceHelper.rootCoordinator.rootTabBarController.children.forEach({vc in
+            vc.dismiss(animated: false, completion: nil)
+        })
+        let window = UIApplication.shared.keyWindow
+        window?.rootViewController = RootTabBarController.initFromStoryboard()
+        window?.makeKeyAndVisible()
+        AppCoordinator(window: window).start()
+    }
     
     
     

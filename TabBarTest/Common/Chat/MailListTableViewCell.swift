@@ -14,7 +14,6 @@ class MailListTableViewCell: UITableViewCell {
     @IBOutlet weak var name: UILabel!
     @IBOutlet weak var shopName: UILabel!
     @IBOutlet weak var lastMessage: UILabel!
-    @IBOutlet weak var age: UILabel!
     @IBOutlet weak var time: UILabel!
     @IBOutlet weak var arrowIcon: UIImageView!
     @IBOutlet weak var bottom_separator: UIView!

@@ -25,39 +25,33 @@
                         </constraints>
                     </imageView>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘟嘟" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="U0k-oi-Ukb">
-                        <rect key="frame" x="80" y="8" width="33" height="19.5"/>
+                        <rect key="frame" x="80" y="8" width="324" height="20"/>
                         <fontDescription key="fontDescription" type="system" weight="medium" pointSize="16"/>
                         <color key="textColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="《超級二手書專賣店》" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="c6k-r6-USg">
-                        <rect key="frame" x="80" y="29.5" width="143" height="17"/>
+                        <rect key="frame" x="80" y="30" width="324" height="17"/>
                         <fontDescription key="fontDescription" type="system" weight="light" pointSize="14"/>
                         <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" lineBreakMode="tailTruncation" numberOfLines="2" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="QVS-pB-UQQ">
-                        <rect key="frame" x="78" y="48.5" width="327" height="33.5"/>
+                        <rect key="frame" x="78" y="49" width="327" height="33.5"/>
                         <string key="text">嗨～我想請教一個商品喔
 關於熊寶貝衣物洗軟精到底是怎樣怎樣怎樣⋯</string>
                         <fontDescription key="fontDescription" type="system" pointSize="14"/>
                         <color key="textColor" red="0.84705882349999995" green="0.84705882349999995" blue="0.84705882349999995" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="  " textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="7A2-sD-1Vz">
-                        <rect key="frame" x="115" y="9" width="6.5" height="14"/>
-                        <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                        <color key="textColor" red="0.69803921568627447" green="0.69019607843137254" blue="0.66666666666666663" alpha="1" colorSpace="calibratedRGB"/>
-                        <nil key="highlightedColor"/>
-                    </label>
-                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3/20 04:27" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MBZ-u9-4fL">
-                        <rect key="frame" x="329" y="10" width="67" height="16"/>
+                    <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="3/20 04:27" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="MBZ-u9-4fL">
+                        <rect key="frame" x="18" y="10" width="378" height="16"/>
                         <fontDescription key="fontDescription" type="system" pointSize="13"/>
                         <color key="textColor" red="0.70980392156862748" green="0.70980392156862748" blue="0.70980392156862748" alpha="1" colorSpace="calibratedRGB"/>
                         <nil key="highlightedColor"/>
                     </label>
                     <imageView clipsSubviews="YES" userInteractionEnabled="NO" contentMode="scaleAspectFit" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="arrow.turn.up.left" catalog="system" translatesAutoresizingMaskIntoConstraints="NO" id="jh6-2J-S7M">
-                        <rect key="frame" x="74" y="50.5" width="34" height="15"/>
+                        <rect key="frame" x="74" y="51" width="34" height="15"/>
                         <color key="tintColor" red="0.84705882352941175" green="0.84705882352941175" blue="0.84705882352941175" alpha="1" colorSpace="calibratedRGB"/>
                         <constraints>
                             <constraint firstAttribute="width" constant="34" id="Tza-mv-43I"/>
@@ -74,8 +68,9 @@
                 </subviews>
                 <constraints>
                     <constraint firstItem="c6k-r6-USg" firstAttribute="top" secondItem="U0k-oi-Ukb" secondAttribute="bottom" priority="2" constant="2" id="3f2-Ni-qPT"/>
+                    <constraint firstAttribute="trailing" secondItem="c6k-r6-USg" secondAttribute="trailing" constant="10" id="DyF-Pf-S4x"/>
                     <constraint firstItem="7JY-94-1f1" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="10" id="Dyi-RP-VY8"/>
-                    <constraint firstItem="7A2-sD-1Vz" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="9" id="Jfy-uR-cIn"/>
+                    <constraint firstItem="MBZ-u9-4fL" firstAttribute="leading" secondItem="G7P-NE-bbq" secondAttribute="leading" constant="18" id="FZI-JJ-TGT"/>
                     <constraint firstItem="U0k-oi-Ukb" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="8" id="OGp-g6-6XY"/>
                     <constraint firstAttribute="trailing" secondItem="Jog-mB-p74" secondAttribute="trailing" constant="15" id="OPP-bI-ByY"/>
                     <constraint firstItem="7JY-94-1f1" firstAttribute="leading" secondItem="G7P-NE-bbq" secondAttribute="leading" constant="10" id="PS1-C6-WbE"/>
@@ -84,8 +79,8 @@
                     <constraint firstItem="c6k-r6-USg" firstAttribute="leading" secondItem="7JY-94-1f1" secondAttribute="trailing" constant="10" id="aRW-vE-JYl"/>
                     <constraint firstAttribute="bottom" secondItem="Jog-mB-p74" secondAttribute="bottom" id="ckX-Z3-cLo"/>
                     <constraint firstAttribute="trailing" secondItem="QVS-pB-UQQ" secondAttribute="trailing" constant="9" id="n3l-Lk-gpM"/>
-                    <constraint firstItem="7A2-sD-1Vz" firstAttribute="leading" secondItem="U0k-oi-Ukb" secondAttribute="trailing" constant="2" id="ool-Rh-Ibt"/>
-                    <constraint firstItem="MBZ-u9-4fL" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="10" id="p70-NI-4Xt"/>
+                    <constraint firstAttribute="trailing" secondItem="U0k-oi-Ukb" secondAttribute="trailing" constant="10" id="pcw-8N-fZt"/>
+                    <constraint firstItem="MBZ-u9-4fL" firstAttribute="top" secondItem="G7P-NE-bbq" secondAttribute="top" constant="10" id="qZj-Cb-UtE"/>
                     <constraint firstItem="QVS-pB-UQQ" firstAttribute="leading" secondItem="7JY-94-1f1" secondAttribute="trailing" constant="8" id="r0J-Ar-6qn"/>
                     <constraint firstAttribute="trailing" secondItem="MBZ-u9-4fL" secondAttribute="trailing" constant="18" id="r7Q-5v-gSG"/>
                     <constraint firstItem="jh6-2J-S7M" firstAttribute="top" secondItem="c6k-r6-USg" secondAttribute="bottom" constant="2" id="xIo-td-9Sc"/>
@@ -94,7 +89,6 @@
                 </constraints>
             </tableViewCellContentView>
             <connections>
-                <outlet property="age" destination="7A2-sD-1Vz" id="aCN-Zq-FuH"/>
                 <outlet property="arrowIcon" destination="jh6-2J-S7M" id="4Ig-9Y-7XC"/>
                 <outlet property="bottom_separator" destination="Jog-mB-p74" id="HYX-dv-6BY"/>
                 <outlet property="headShot" destination="7JY-94-1f1" id="Z7G-8k-NgT"/>

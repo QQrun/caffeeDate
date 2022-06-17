@@ -21,8 +21,8 @@
                         <constraint firstAttribute="height" constant="34" id="nyw-cg-WgY"/>
                     </constraints>
                 </imageView>
-                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘟嘟  23" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixa-Ns-GIL">
-                    <rect key="frame" x="66" y="22" width="68" height="21.5"/>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="嘟嘟  23" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="ixa-Ns-GIL">
+                    <rect key="frame" x="66" y="22" width="218" height="21.5"/>
                     <fontDescription key="fontDescription" type="boldSystem" pointSize="18"/>
                     <color key="textColor" red="0.066666666666666666" green="0.078431372549019607" blue="0.086274509803921567" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     <nil key="highlightedColor"/>
@@ -109,7 +109,7 @@
                 <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="system" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="etu-hn-RRZ">
                     <rect key="frame" x="0.0" y="0.0" width="300" height="142"/>
                     <state key="normal" title="Button"/>
-                    <buttonConfiguration key="configuration" style="plain"/>
+                    <buttonConfiguration key="configuration" style="plain" title=""/>
                 </button>
             </subviews>
             <viewLayoutGuide key="safeArea" id="vUN-kp-3ea"/>
@@ -127,6 +127,7 @@
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="bottom" secondItem="v0V-Z7-g9L" secondAttribute="bottom" constant="13" id="QLC-3b-e8m"/>
                 <constraint firstItem="vUN-kp-3ea" firstAttribute="trailing" secondItem="v0V-Z7-g9L" secondAttribute="trailing" constant="16" id="RLD-xR-PRc"/>
                 <constraint firstItem="etu-hn-RRZ" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" id="ZOu-sn-pId"/>
+                <constraint firstAttribute="trailing" secondItem="ixa-Ns-GIL" secondAttribute="trailing" constant="16" id="aXy-BR-YXV"/>
                 <constraint firstItem="Diy-GU-R31" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="16" id="br9-u8-Xvd"/>
                 <constraint firstItem="02r-C1-3Io" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="dka-hL-yo1"/>
                 <constraint firstItem="Diy-GU-R31" firstAttribute="leading" secondItem="vUN-kp-3ea" secondAttribute="leading" constant="16" id="eJF-UP-tHw"/>

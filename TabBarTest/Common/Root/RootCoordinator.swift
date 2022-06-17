@@ -12,6 +12,30 @@ import MessageUI
 
 class RootCoordinator: Coordinator {
     
+    
+    
+    let dic = ["alreadyUpdatePersonDetail":false,
+               "UID":"",
+               "userName":"",
+               "userBirthDay":"",
+               "userGender":1,
+               "isShowedExplain":UserSetting.isShowedExplain,
+               "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
+               "isMapShowRequest":UserSetting.isMapShowRequest,
+               "isMapShowTeamUp":UserSetting.isMapShowTeamUp,
+               "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
+               "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
+               "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
+               "perferIconStyleToShowInMap":UserSetting.perferIconStyleToShowInMap,
+               "isWantSellSomething":false,
+               "isWantBuySomething":false,
+               "isWantTeamUp":false,
+               "isWantMakeFriend":false,
+               "sellItemsID":[],
+               "buyItemsID":[],
+               "userPhotosUrl":[] ] as [String : Any]
+    
+    
     unowned let rootTabBarController: RootTabBarController
     
     

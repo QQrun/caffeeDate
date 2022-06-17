@@ -141,29 +141,8 @@ class ProfilePop {
     @objc fileprivate func actionSheetConfirmLogOutBtnAct(){
         
         
-        print("actionSheetConfirmLogOutBtnAct")
         Analytics.logEvent("我_登出_確定登出", parameters:nil)
-        print("Dic 2")
-        let dic = ["alreadyUpdatePersonDetail":false,
-                   "UID":"",
-                   "userName":"",
-                   "userBirthDay":"",
-                   "userGender":1,
-                   "isShowedExplain":UserSetting.isShowedExplain,
-                   "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
-                   "isMapShowRequest":UserSetting.isMapShowRequest,
-                   "isMapShowTeamUp":UserSetting.isMapShowTeamUp,
-                   "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
-                   "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
-                   "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
-                   "perferIconStyleToShowInMap":UserSetting.perferIconStyleToShowInMap,
-                   "isWantSellSomething":false,
-                   "isWantBuySomething":false,
-                   "isWantTeamUp":false,
-                   "isWantMakeFriend":false,
-                   "sellItemsID":[],
-                   "buyItemsID":[],
-                   "userPhotosUrl":[] ] as [String : Any]
+        let dic = CoordinatorAndControllerInstanceHelper.rootCoordinator.dic
         for data in dic {
             UserDefaults.standard.set(data.value, forKey: data.key)
         }

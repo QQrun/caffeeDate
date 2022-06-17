@@ -477,32 +477,7 @@ class SettingViewController: UIViewController {
         
         Analytics.logEvent("我_登出_確定登出", parameters:nil)
         
-//        CoordinatorAndControllerInstanceHelper.rootCoordinator.showTabBar()
-        
-        print("Dic 1")
-        
-        let dic = ["alreadyUpdatePersonDetail":false,
-                   "UID":"",
-                   "userName":"",
-                   "userBirthDay":"",
-                   "userGender":1,
-                   "isShowedExplain":UserSetting.isShowedExplain,
-                   "isMapShowOpenStore": UserSetting.isMapShowTeamUp,
-                   "isMapShowRequest":UserSetting.isMapShowRequest,
-                   "isMapShowTeamUp":UserSetting.isMapShowTeamUp,
-                   "isMapShowCoffeeShop":UserSetting.isMapShowCoffeeShop,
-                   "isMapShowMakeFriend_Boy":UserSetting.isMapShowMakeFriend_Boy,
-                   "isMapShowMakeFriend_Girl":UserSetting.isMapShowMakeFriend_Girl,
-                   "isMapShowSharedSeat2":UserSetting.isMapShowSharedSeat2,
-                   "isMapShowSharedSeat4":UserSetting.isMapShowSharedSeat4,
-                   "perferIconStyleToShowInMap":UserSetting.perferIconStyleToShowInMap,
-                   "isWantSellSomething":false,
-                   "isWantBuySomething":false,
-                   "isWantTeamUp":false,
-                   "isWantMakeFriend":false,
-                   "sellItemsID":[],
-                   "buyItemsID":[],
-                   "userPhotosUrl":[] ] as [String : Any]
+        let dic = CoordinatorAndControllerInstanceHelper.rootCoordinator.dic
         for data in dic {
             UserDefaults.standard.set(data.value, forKey: data.key)
         }

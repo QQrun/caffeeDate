@@ -56,6 +56,8 @@
 		A75A3E042445DFF100E43D46 /* PresonAnnotationGetter.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E032445DFF100E43D46 /* PresonAnnotationGetter.swift */; };
 		A75A3E062445E26700E43D46 /* Item.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E052445E26700E43D46 /* Item.swift */; };
 		A75A3E0A2447588B00E43D46 /* PersonDetailInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75A3E092447588B00E43D46 /* PersonDetailInfo.swift */; };
+		A75C5151285CA76A0084C884 /* InAppPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75C5150285CA76A0084C884 /* InAppPurchaseViewController.swift */; };
+		A75C5152285CA76A0084C884 /* InAppPurchaseViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A75C5150285CA76A0084C884 /* InAppPurchaseViewController.swift */; };
 		A766F1562554342000C9455C /* InfoPopOverController.swift in Sources */ = {isa = PBXBuildFile; fileRef = A766F1542554342000C9455C /* InfoPopOverController.swift */; };
 		A76E245A2492432F0079881D /* MailButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A76E24592492432F0079881D /* MailButton.swift */; };
 		A7707FAD24FB7E5E001B94C4 /* NotifyHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7707FAC24FB7E5E001B94C4 /* NotifyHelper.swift */; };
@@ -513,6 +515,7 @@
 		A75A3E032445DFF100E43D46 /* PresonAnnotationGetter.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PresonAnnotationGetter.swift; sourceTree = "<group>"; };
 		A75A3E052445E26700E43D46 /* Item.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Item.swift; sourceTree = "<group>"; };
 		A75A3E092447588B00E43D46 /* PersonDetailInfo.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PersonDetailInfo.swift; sourceTree = "<group>"; };
+		A75C5150285CA76A0084C884 /* InAppPurchaseViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InAppPurchaseViewController.swift; sourceTree = "<group>"; };
 		A766F1542554342000C9455C /* InfoPopOverController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoPopOverController.swift; sourceTree = "<group>"; };
 		A76E24592492432F0079881D /* MailButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MailButton.swift; sourceTree = "<group>"; };
 		A7707FAC24FB7E5E001B94C4 /* NotifyHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotifyHelper.swift; sourceTree = "<group>"; };
@@ -871,6 +874,7 @@
 				A7FDB73E24829009005BA294 /* CustomComponentKit */,
 				A77BAC46253C78520071D346 /* InputBarAccessoryView */,
 				A77BAB5E253C757E0071D346 /* MessageKit */,
+				A75C5150285CA76A0084C884 /* InAppPurchaseViewController.swift */,
 			);
 			path = Common;
 			sourceTree = "<group>";
@@ -1613,6 +1617,7 @@
 				A77BAD45253C7D190071D346 /* InputStackView.swift in Sources */,
 				A77BAD63253C7D190071D346 /* InputPlugin.swift in Sources */,
 				A77BAC0D253C76F80071D346 /* MessageReusableView.swift in Sources */,
+				A75C5151285CA76A0084C884 /* InAppPurchaseViewController.swift in Sources */,
 				A77BAC01253C76D80071D346 /* MessagesCollectionView.swift in Sources */,
 				A77BABCC253C76680071D346 /* MessageKind.swift in Sources */,
 				A77BABC5253C76680071D346 /* DetectorType.swift in Sources */,
@@ -1821,6 +1826,7 @@
 				A787C31727C0F284009EC8A7 /* InputPlugin.swift in Sources */,
 				A787C31827C0F284009EC8A7 /* MessageReusableView.swift in Sources */,
 				A787C31927C0F284009EC8A7 /* MessagesCollectionView.swift in Sources */,
+				A75C5152285CA76A0084C884 /* InAppPurchaseViewController.swift in Sources */,
 				A787C31A27C0F284009EC8A7 /* MessageKind.swift in Sources */,
 				A787C31B27C0F284009EC8A7 /* DetectorType.swift in Sources */,
 				A787C31C27C0F284009EC8A7 /* Avatar.swift in Sources */,

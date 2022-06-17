@@ -397,12 +397,16 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
         }
         
         cell.name.textColor = .on().withAlphaComponent(0.9)
+        
+        
+        
         if mailDatas[indexPath.row].shopName != ""{
             cell.shopName.text = "《" + mailDatas[indexPath.row].shopName + "》"
             cell.shopName.textColor = .on().withAlphaComponent(0.9)
         }else{
             cell.shopName.text = ""
         }
+        
         
         
         
