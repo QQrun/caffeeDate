@@ -200,6 +200,20 @@ class MailListViewController: UIViewController ,UITableViewDelegate,UITableViewD
                 
                 //下載PersonDetailInfo
                 personDetailRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                    
+                    if(!snapshot.exists()){
+                        //chatRoomID
+                        let chatRoomIDref = Database.database().reference().child("Message/" +  chatRoomID)
+                        chatRoomIDref.removeValue(){
+                            (error, ref) -> Void in
+                            if(error != nil){
+                                print(error)
+                            }
+                            print("刪除遠端Message：" + chatRoomID)
+                        }
+                        return
+                    }
+                    
                     let personDetail = PersonDetailInfo(snapshot: snapshot)
                     if let url = personDetail.headShot{
                         //下載頭像

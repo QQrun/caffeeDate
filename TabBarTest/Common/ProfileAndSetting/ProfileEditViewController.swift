@@ -587,6 +587,16 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
             print("刪除遠端PersonAnnotation")
         }
         
+        //聊天室 刪除
+        let ref3 = Database.database().reference().child("MessageRoom/" +  Auth.auth().currentUser!.uid)
+        ref3.removeValue(){
+            (error, ref) -> Void in
+            if(error != nil){
+                print(error)
+            }
+            print("刪除遠端MessageRoom")
+        }
+        
         //headShot 刪除
         if let userSmallHeadShotURL = UserSetting.userSmallHeadShotURL{
             let headShotStorageRef = Storage.storage().reference(forURL: userSmallHeadShotURL)
@@ -613,8 +623,8 @@ class ProfileEditViewController: UIViewController,UITableViewDelegate,UITableVie
         }
         
         //PersonDetail 刪除
-        let ref3 = Database.database().reference().child("PersonDetail/" +  Auth.auth().currentUser!.uid)
-        ref3.removeValue(){
+        let ref4 = Database.database().reference().child("PersonDetail/" +  Auth.auth().currentUser!.uid)
+        ref4.removeValue(){
             (error, ref) -> Void in
             if(error != nil){
                 print(error)

@@ -79,8 +79,8 @@ class ProfileViewController: UIViewController , ShopModelDelegate{
                         self.personDetail = PersonDetailInfo(snapshot: snapshot)
                         self.configScrollContent()
                         self.configProfileTopBar()
-                        
-                        
+                    }else{
+                        self.showToast(message: "查無此帳號，帳號已刪除。", duration: 5)
                     }
                 })
             }

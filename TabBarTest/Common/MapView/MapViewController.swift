@@ -3020,61 +3020,72 @@ class MapViewController: UIViewController {
                 }
             }
             
-            let ref = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + UserSetting.UID)
             
-            ref.setValue(invitationCode + "#"){ (error, ref) -> Void in
-                if error != nil{
-                    print(error ?? "")
-                    self!.showToast(message: "使用邀請碼失敗", font: .systemFont(ofSize: 14.0))
+            let sharedSeatAnnotationRef = Database.database().reference().child("SharedSeatAnnotation/" + annotationID)
+            sharedSeatAnnotationRef.observeSingleEvent(of: .value, with: { (snapshot) in
+                
+                if(!snapshot.exists()){
+                    self!.showToast(message: "使用邀請碼失敗，查無此聚會", font: .systemFont(ofSize: 14.0))
                 }else{
-                    self!.showToast(message: toastText, font: .systemFont(ofSize: 14.0))
-                    let invitationCodeRef = Database.database().reference().child("InvitationCode/" + invitationCode)
-                    invitationCodeRef.removeValue()
                     
+                    let ref = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + UserSetting.UID)
                     
-                    //調整邀請人那邊的資料，value加上#，代表有使用過邀請碼
-                    let inviterIDRef = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + inviterID)
-                    inviterIDRef.setValue(invitationCode + "#")
-                    
-                    
-                    //處理本地端資料
-                    for annotation in self!.mapView.annotations {
-                        if(annotation is SharedSeatAnnotation){
-                            let sharedSeatAnnotation = (annotation as! SharedSeatAnnotation)
-                            if(sharedSeatAnnotation.holderUID == annotationID){
-                                if(UserSetting.userGender == 0){
-                                    if(inviterID == annotationID){
-                                        if(sharedSeatAnnotation.girlsID == nil){
-                                            sharedSeatAnnotation.girlsID = [:]
+                    ref.setValue(invitationCode + "#"){ (error, ref) -> Void in
+                        if error != nil{
+                            print(error ?? "")
+                            self!.showToast(message: "使用邀請碼失敗", font: .systemFont(ofSize: 14.0))
+                        }else{
+                            self!.showToast(message: toastText, font: .systemFont(ofSize: 14.0))
+                            let invitationCodeRef = Database.database().reference().child("InvitationCode/" + invitationCode)
+                            invitationCodeRef.removeValue()
+                            
+                            
+                            //調整邀請人那邊的資料，value加上#，代表有使用過邀請碼
+                            let inviterIDRef = Database.database().reference().child("SharedSeatAnnotation/" + annotationID + "/" +  genderNode + "/" + inviterID)
+                            inviterIDRef.setValue(invitationCode + "#")
+                            
+                            
+                            //處理本地端資料
+                            for annotation in self!.mapView.annotations {
+                                if(annotation is SharedSeatAnnotation){
+                                    let sharedSeatAnnotation = (annotation as! SharedSeatAnnotation)
+                                    if(sharedSeatAnnotation.holderUID == annotationID){
+                                        if(UserSetting.userGender == 0){
+                                            if(inviterID == annotationID){
+                                                if(sharedSeatAnnotation.girlsID == nil){
+                                                    sharedSeatAnnotation.girlsID = [:]
+                                                }
+                                                sharedSeatAnnotation.girlsID![UserSetting.UID] = invitationCode
+                                            }else{
+                                                if(sharedSeatAnnotation.signUpGirlsID == nil){
+                                                    sharedSeatAnnotation.signUpGirlsID = [:]
+                                                }
+                                                sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] = invitationCode + "#"
+                                                sharedSeatAnnotation.signUpGirlsID![inviterID] = invitationCode + "#"
+                                            }
+                                        }else{
+                                            if(inviterID == annotationID){
+                                                if(sharedSeatAnnotation.boysID == nil){
+                                                    sharedSeatAnnotation.boysID = [:]
+                                                }
+                                                sharedSeatAnnotation.boysID![UserSetting.UID] = invitationCode
+                                            }else{
+                                                if(sharedSeatAnnotation.signUpBoysID == nil){
+                                                    sharedSeatAnnotation.signUpBoysID = [:]
+                                                }
+                                                sharedSeatAnnotation.signUpBoysID![UserSetting.UID] = invitationCode + "#"
+                                                sharedSeatAnnotation.signUpBoysID![inviterID] = invitationCode + "#"
+                                            }
                                         }
-                                        sharedSeatAnnotation.girlsID![UserSetting.UID] = invitationCode
-                                    }else{
-                                        if(sharedSeatAnnotation.signUpGirlsID == nil){
-                                            sharedSeatAnnotation.signUpGirlsID = [:]
-                                        }
-                                        sharedSeatAnnotation.signUpGirlsID![UserSetting.UID] = invitationCode + "#"
-                                        sharedSeatAnnotation.signUpGirlsID![inviterID] = invitationCode + "#"
-                                    }
-                                }else{
-                                    if(inviterID == annotationID){
-                                        if(sharedSeatAnnotation.boysID == nil){
-                                            sharedSeatAnnotation.boysID = [:]
-                                        }
-                                        sharedSeatAnnotation.boysID![UserSetting.UID] = invitationCode
-                                    }else{
-                                        if(sharedSeatAnnotation.signUpBoysID == nil){
-                                            sharedSeatAnnotation.signUpBoysID = [:]
-                                        }
-                                        sharedSeatAnnotation.signUpBoysID![UserSetting.UID] = invitationCode + "#"
-                                        sharedSeatAnnotation.signUpBoysID![inviterID] = invitationCode + "#"
+                                        self!.sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.append(sharedSeatAnnotation)
                                     }
                                 }
-                                self!.sharedSeatAnnotationGetter.sharedSeatMyJoinedAnnotation.append(sharedSeatAnnotation)
                             }
                         }
                     }
+                    
                 }
-            }
+            })
         }))
         self.present(alertVC, animated: true)
         
