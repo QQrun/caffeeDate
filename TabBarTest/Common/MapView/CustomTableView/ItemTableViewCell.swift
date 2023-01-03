@@ -65,7 +65,7 @@ class ItemTableViewCell: UITableViewCell {
         contentView.addSubview(commitNumber)
         
         
-        let chatIconImage = { () -> UIImageView in
+        let chatIconImage = {  () -> UIImageView in
             let imageView = UIImageView()
             imageView.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = .on().withAlphaComponent(0.5)
@@ -84,7 +84,8 @@ class ItemTableViewCell: UITableViewCell {
         }()
         contentView.addSubview(heartNumberLabel)
         
-        heartImage = { () -> UIImageView in
+        
+        heartImage = {  () -> UIImageView in
             let imageView = UIImageView()
             imageView.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = .primary()
@@ -92,12 +93,12 @@ class ItemTableViewCell: UITableViewCell {
             return imageView
         }()
         contentView.addSubview(heartImage)
-        
+
         heartBtn = { () -> UIButton in
             let btn = UIButton()
             btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y: 0, width: 50, height: contentView.frame.height)
             btn.addTarget(self, action: #selector(heartBtnAct), for: .touchUpInside)
-            
+
             btn.isEnabled = true
             return btn
         }()

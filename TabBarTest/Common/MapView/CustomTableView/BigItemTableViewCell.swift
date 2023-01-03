@@ -118,6 +118,7 @@ class BigItemTableViewCell: UITableViewCell{
         }()
         contentView.addSubview(commitNumber)
         
+        
         let chatIconImage = { () -> UIImageView in
             let imageView = UIImageView()
             imageView.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
@@ -126,7 +127,7 @@ class BigItemTableViewCell: UITableViewCell{
             return imageView
         }()
         contentView.addSubview(chatIconImage)
-        
+
         heartNumberLabel = {
             let label = UILabel()
             label.text = "99+"
@@ -136,8 +137,8 @@ class BigItemTableViewCell: UITableViewCell{
             return label
         }()
         contentView.addSubview(heartNumberLabel)
-        
-        heartImage = { () -> UIImageView in
+
+        heartImage = {  () -> UIImageView in
             let imageView = UIImageView()
             imageView.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
             imageView.tintColor = .primary()
@@ -145,12 +146,12 @@ class BigItemTableViewCell: UITableViewCell{
             return imageView
         }()
         contentView.addSubview(heartImage)
-        
-        heartBtn = { () -> UIButton in
+
+        heartBtn = {  () -> UIButton in
             let btn = UIButton()
             btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y: 110 - 8 - 20 + 2 - 15, width: 50, height: 50)
             btn.addTarget(self, action: #selector(heartBtnAct), for: .touchUpInside)
-            
+
             btn.isEnabled = true
             return btn
         }()

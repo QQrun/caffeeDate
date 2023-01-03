@@ -1302,7 +1302,7 @@ static void reachabilityCallback(SCNetworkReachabilityRef ref,
 }
 
 - (void)sendAppCheckToken:(NSString *)token {
-    NSDictionary *requestData = @{kFWPRequestAppCheckToken : token};
+    NSDictionary *requestData = @{kFWPRequestAppCheckToken : self.authToken};
     [self sendAction:kFWPRequestActionAppCheck
                 body:requestData
            sensitive:YES
