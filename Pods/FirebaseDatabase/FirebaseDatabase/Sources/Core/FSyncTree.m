@@ -731,7 +731,7 @@ static const NSUInteger kFSizeThresholdForCompoundHash = 1024;
     if (cacheNode == nil || cacheNode.node.isEmpty) {
         return nil;
     }
-    return cacheNode.indexedNode;
+    return cacheNode.node;
 }
 
 - (id<FNode>)getServerValue:(FQuerySpec *)query {

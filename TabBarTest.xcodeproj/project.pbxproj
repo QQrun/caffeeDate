@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		1F31E9066AEC660F746D62B7 /* libPods-TabBarTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD92DB36E637D077B861A45E /* libPods-TabBarTest.a */; };
 		A711055B243BBD9A008E680D /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055A243BBD9A008E680D /* AppDelegate.swift */; };
 		A711055D243BBD9A008E680D /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A711055C243BBD9A008E680D /* SceneDelegate.swift */; };
 		A7110567243BBD9B008E680D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110565243BBD9B008E680D /* LaunchScreen.storyboard */; };
@@ -354,7 +355,6 @@
 		A787C37727C0F284009EC8A7 /* ProfileButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7A474D92524C0AA0038D75B /* ProfileButton.swift */; };
 		A787C37827C0F284009EC8A7 /* InsetLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABFC253C76D80071D346 /* InsetLabel.swift */; };
 		A787C37927C0F284009EC8A7 /* MessagesDisplayDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = A77BABDE253C76A00071D346 /* MessagesDisplayDelegate.swift */; };
-		A787C37B27C0F284009EC8A7 /* libPods-TabBarTest.a in Frameworks */ = {isa = PBXBuildFile; fileRef = CD92DB36E637D077B861A45E /* libPods-TabBarTest.a */; };
 		A787C37E27C0F284009EC8A7 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A77BA7EF253B5E8B0071D346 /* Assets.xcassets */; };
 		A787C37F27C0F284009EC8A7 /* FirstLogInViewController.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A789E499244DCCB500730053 /* FirstLogInViewController.storyboard */; };
 		A787C38027C0F284009EC8A7 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = A7110565243BBD9B008E680D /* LaunchScreen.storyboard */; };
@@ -463,7 +463,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.release.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.release.xcconfig"; sourceTree = "<group>"; };
 		A7110557243BBD9A008E680D /* 面交人.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "面交人.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A711055A243BBD9A008E680D /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		A711055C243BBD9A008E680D /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -702,7 +701,8 @@
 		A7FDB747248D12FB005BA294 /* ChatViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatViewController.swift; sourceTree = "<group>"; };
 		A7FDB748248D12FB005BA294 /* ChatUser.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ChatUser.swift; sourceTree = "<group>"; };
 		CD92DB36E637D077B861A45E /* libPods-TabBarTest.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-TabBarTest.a"; sourceTree = BUILT_PRODUCTS_DIR; };
-		DFBB386BD2C25EFB8C67DA12 /* Pods-TabBarTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.debug.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.debug.xcconfig"; sourceTree = "<group>"; };
+		D9D0BB1E066D3673E754B4E4 /* Pods-TabBarTest.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.debug.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.debug.xcconfig"; sourceTree = "<group>"; };
+		E16AD29D4D6B686EF7B38734 /* Pods-TabBarTest.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-TabBarTest.release.xcconfig"; path = "Target Support Files/Pods-TabBarTest/Pods-TabBarTest.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -711,6 +711,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				B30E26C07F8DA09BD14B45C2 /* libPods-TabBarTest.a in Frameworks */,
+				1F31E9066AEC660F746D62B7 /* libPods-TabBarTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -718,7 +719,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				A787C37B27C0F284009EC8A7 /* libPods-TabBarTest.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -728,8 +728,8 @@
 		381C4B7B805FDA8EDDC3495C /* Pods */ = {
 			isa = PBXGroup;
 			children = (
-				DFBB386BD2C25EFB8C67DA12 /* Pods-TabBarTest.debug.xcconfig */,
-				5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */,
+				D9D0BB1E066D3673E754B4E4 /* Pods-TabBarTest.debug.xcconfig */,
+				E16AD29D4D6B686EF7B38734 /* Pods-TabBarTest.release.xcconfig */,
 			);
 			path = Pods;
 			sourceTree = "<group>";
@@ -1287,10 +1287,8 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = A787C39327C0F284009EC8A7 /* Build configuration list for PBXNativeTarget "VeryIncorrect" */;
 			buildPhases = (
-				A787C2BD27C0F284009EC8A7 /* [CP] Check Pods Manifest.lock */,
 				A787C2BE27C0F284009EC8A7 /* Sources */,
 				A787C37A27C0F284009EC8A7 /* Frameworks */,
-				A787C37C27C0F284009EC8A7 /* [CP] Copy Pods Resources */,
 				A787C37D27C0F284009EC8A7 /* Resources */,
 				A787C39227C0F284009EC8A7 /* ShellScript */,
 			);
@@ -1441,43 +1439,6 @@
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
 			shellScript = "\"${PODS_ROOT}/FirebaseCrashlytics/run\"\n";
-		};
-		A787C2BD27C0F284009EC8A7 /* [CP] Check Pods Manifest.lock */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			inputPaths = (
-				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
-				"${PODS_ROOT}/Manifest.lock",
-			);
-			name = "[CP] Check Pods Manifest.lock";
-			outputFileListPaths = (
-			);
-			outputPaths = (
-				"$(DERIVED_FILE_DIR)/Pods-TabBarTest-checkManifestLockResult.txt",
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
-			showEnvVarsInLog = 0;
-		};
-		A787C37C27C0F284009EC8A7 /* [CP] Copy Pods Resources */ = {
-			isa = PBXShellScriptBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			inputFileListPaths = (
-			);
-			name = "[CP] Copy Pods Resources";
-			outputFileListPaths = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-			shellPath = /bin/sh;
-			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-TabBarTest/Pods-TabBarTest-resources.sh\"\n";
-			showEnvVarsInLog = 0;
 		};
 		A787C39227C0F284009EC8A7 /* ShellScript */ = {
 			isa = PBXShellScriptBuildPhase;
@@ -1984,6 +1945,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -1998,7 +1960,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2045,6 +2007,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				"EXCLUDED_ARCHS[sdk=iphonesimulator*]" = arm64;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -2053,7 +2016,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.2;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
@@ -2066,7 +2029,7 @@
 		};
 		A711056C243BBD9B008E680D /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DFBB386BD2C25EFB8C67DA12 /* Pods-TabBarTest.debug.xcconfig */;
+			baseConfigurationReference = D9D0BB1E066D3673E754B4E4 /* Pods-TabBarTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
@@ -2075,7 +2038,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3Q933PK69P;
 				INFOPLIST_FILE = TabBarTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2093,7 +2056,7 @@
 		};
 		A711056D243BBD9B008E680D /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */;
+			baseConfigurationReference = E16AD29D4D6B686EF7B38734 /* Pods-TabBarTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
@@ -2102,7 +2065,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3Q933PK69P;
 				INFOPLIST_FILE = TabBarTest/Info.plist;
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2120,7 +2083,6 @@
 		};
 		A787C39427C0F284009EC8A7 /* Debug */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = DFBB386BD2C25EFB8C67DA12 /* Pods-TabBarTest.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = VeryIncorrectAppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
@@ -2129,7 +2091,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3Q933PK69P;
 				INFOPLIST_FILE = "$(SRCROOT)/VeryIncorrectInfo.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -2147,7 +2109,6 @@
 		};
 		A787C39527C0F284009EC8A7 /* Release */ = {
 			isa = XCBuildConfiguration;
-			baseConfigurationReference = 5448A2469FD8E38659AD1C1C /* Pods-TabBarTest.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = VeryIncorrectAppIcon;
 				CODE_SIGN_ENTITLEMENTS = TabBarTest/MapWe.entitlements;
@@ -2156,7 +2117,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				DEVELOPMENT_TEAM = 3Q933PK69P;
 				INFOPLIST_FILE = "$(SRCROOT)/VeryIncorrectInfo.plist";
-				IPHONEOS_DEPLOYMENT_TARGET = 13.0;
+				IPHONEOS_DEPLOYMENT_TARGET = 14.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

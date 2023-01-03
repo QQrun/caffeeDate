@@ -525,13 +525,11 @@
     FQuerySpec *querySpec = [query querySpec];
     id<FNode> node = [self.serverSyncTree getServerValue:[query querySpec]];
     if (node != nil) {
-        [self.eventRaiser raiseCallback:^{
-          block(nil, [[FIRDataSnapshot alloc]
-                         initWithRef:query.ref
-                         indexedNode:[FIndexedNode
-                                         indexedNodeWithNode:node
-                                                       index:querySpec.index]]);
-        }];
+        block(nil, [[FIRDataSnapshot alloc]
+                       initWithRef:query.ref
+                       indexedNode:[FIndexedNode
+                                       indexedNodeWithNode:node
+                                                     index:querySpec.index]]);
         return;
     }
     [self.persistenceManager setQueryActive:querySpec];
@@ -556,33 +554,26 @@
                                @"and no matching disk cache entries",
                                querySpec]
                    };
-                   [self.eventRaiser raiseCallback:^{
-                     block([NSError errorWithDomain:kFirebaseCoreErrorDomain
-                                               code:1
-                                           userInfo:errorDict],
-                           nil);
-                   }];
+                   block([NSError errorWithDomain:kFirebaseCoreErrorDomain
+                                             code:1
+                                         userInfo:errorDict],
+                         nil);
                    return;
                }
-               [self.eventRaiser raiseCallback:^{
-                 block(nil, [[FIRDataSnapshot alloc] initWithRef:query.ref
-                                                     indexedNode:node]);
-               }];
+               block(nil, [[FIRDataSnapshot alloc] initWithRef:query.ref
+                                                   indexedNode:node]);
            } else {
                node = [FSnapshotUtilities nodeFrom:data];
                [self.eventRaiser
                    raiseEvents:[self.serverSyncTree
                                    applyServerOverwriteAtPath:[query path]
                                                       newData:node]];
-               [self.eventRaiser raiseCallback:^{
-                 block(
-                     nil,
+               block(nil,
                      [[FIRDataSnapshot alloc]
                          initWithRef:query.ref
                          indexedNode:[FIndexedNode
                                          indexedNodeWithNode:node
                                                        index:querySpec.index]]);
-               }];
            }
            [self.persistenceManager setQueryInactive:querySpec];
          }];

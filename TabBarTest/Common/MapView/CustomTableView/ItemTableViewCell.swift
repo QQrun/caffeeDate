@@ -65,13 +65,10 @@ class ItemTableViewCell: UITableViewCell {
         contentView.addSubview(commitNumber)
         
         
-        let chatIconImage = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
-            imageView.tintColor = .on().withAlphaComponent(0.5)
-            imageView.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4, y:44/2 - 20/2, width: 20, height: 20)
-            return imageView
-        }()
+        let chatIconImage = UIImageView()
+        chatIconImage.image = UIImage(named: "ChatIcon")?.withRenderingMode(.alwaysTemplate)
+        chatIconImage.tintColor = .on().withAlphaComponent(0.5)
+        chatIconImage.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4, y:44/2 - 20/2, width: 20, height: 20)
         contentView.addSubview(chatIconImage)
         
         heartNumberLabel = {
@@ -84,23 +81,17 @@ class ItemTableViewCell: UITableViewCell {
         }()
         contentView.addSubview(heartNumberLabel)
         
-        heartImage = { () -> UIImageView in
-            let imageView = UIImageView()
-            imageView.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
-            imageView.tintColor = .primary()
-            imageView.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y:44/2 - 20/2, width: 22, height: 20)
-            return imageView
-        }()
+        heartImage = UIImageView()
+        heartImage.image = UIImage(named: "空愛心")?.withRenderingMode(.alwaysTemplate)
+        heartImage.tintColor = .primary()
+        heartImage.frame = CGRect(x:UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y:44/2 - 20/2, width: 22, height: 20)
         contentView.addSubview(heartImage)
         
-        heartBtn = { () -> UIButton in
-            let btn = UIButton()
-            btn.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y: 0, width: 50, height: contentView.frame.height)
-            btn.addTarget(self, action: #selector(heartBtnAct), for: .touchUpInside)
-            
-            btn.isEnabled = true
-            return btn
-        }()
+        heartBtn = UIButton()
+        heartBtn.frame = CGRect(x: UIScreen.main.bounds.size.width - 6.3 - 6 - 4 - commitNumber.intrinsicContentSize.width - 20 - 4 - heartNumberLabel.intrinsicContentSize.width - 8 - 22 - 4, y: 0, width: 50, height: contentView.frame.height)
+        heartBtn.addTarget(self, action: #selector(heartBtnAct), for: .touchUpInside)
+        
+        heartBtn.isEnabled = true
         contentView.addSubview(heartBtn)
         
         separator = { () -> UIView in
